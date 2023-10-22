@@ -1,4 +1,4 @@
-# Semaver Libraries
+# Semaver Libraries (Core Stack)
 
 ### Packages
 
