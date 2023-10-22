@@ -1,0 +1,54 @@
+{
+  "name": "split-ts-core-stack",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "repository": "https://github.com/semaver/core-stack.git",
+  "author": "semaver",
+  "contributors": [
+    "Eugen Reyzenkind <eugen.reyzenkind@web.de>",
+    "Ismail Simsek <ismailsimsek09@gmail.com>",
+    "Kateryna Sergieieva <sergeeva.kathy@gmail.com>"
+  ],
+  "workspaces": [
+    "packages/*"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "lerna run build",
+    "test": "lerna run test",
+    "test:all": "jest",
+    "docs": "typedoc",
+    "index": "lerna run index",
+    "lint": "lerna run lint",
+    "file": "lerna run file",
+    "publish:local": "lerna publish --no-git-tag-version --no-push --registry=\"http://localhost:4873/\""
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-decorators": "7.23.0",
+    "@babel/plugin-transform-runtime": "7.22.15",
+    "@babel/preset-env": "7.22.20",
+    "@babel/preset-typescript": "7.23.0",
+    "@rollup/plugin-babel": "6.0.4",
+    "@rollup/plugin-commonjs": "25.0.5",
+    "@rollup/plugin-node-resolve": "15.2.3",
+    "@rollup/plugin-terser": "0.4.4",
+    "@rollup/plugin-typescript": "11.1.5",
+    "@types/jest": "29.5.5",
+    "@types/node": "20.8.3",
+    "@typescript-eslint/eslint-plugin": "6.7.4",
+    "@typescript-eslint/parser": "6.7.4",
+    "babel-jest": "^29.7.0",
+    "create-ts-index": "^1.14.0",
+    "eslint": "8.51.0",
+    "jest": "29.7.0",
+    "lerna": "7.3.0",
+    "rollup": "4.0.2",
+    "rollup-plugin-delete": "^2.0.0",
+    "rollup-plugin-exclude-dependencies-from-bundle": "1.1.23",
+    "source-map-loader": "4.0.1",
+    "typedoc": "0.25.2",
+    "typescript": "5.2.2",
+    "ts-jest": "29.1.1"
+  }
+}

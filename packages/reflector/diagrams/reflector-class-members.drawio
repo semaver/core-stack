@@ -1,0 +1,84 @@
+<mxfile host="www.draw.io" modified="2020-03-04T14:57:42.564Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36" etag="veYXIJieAKlhBmpr7WAX" version="12.7.9" type="github">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel dx="1391" dy="649" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-15" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;IDecoratedElement&amp;lt;T&amp;gt;&lt;/b&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ hasDecorators(...decoratorClasses: Array&amp;lt;IClass&amp;lt;Decorator&amp;gt;&amp;gt;): boolean;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ hasOwnDecorators(...decoratorClasses: Array&amp;lt;IClass&amp;lt;Decorator&amp;gt;&amp;gt;): boolean;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ getDecorators(...decoratorClasses: Array&amp;lt;IClass&amp;lt;Decorator&amp;gt;&amp;gt;): ReadonlyArray&amp;lt;Decorator&amp;gt;;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ getOwnDecorators(...decoratorClasses: Array&amp;lt;IClass&amp;lt;Decorator&amp;gt;&amp;gt;): ReadonlyArray&amp;lt;Decorator&amp;gt;;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ addDecorator&amp;lt;TDecorator extends Decorator&amp;gt;(decoratorOrFn: TDecorator | DecoratorFn): this;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ removeDecorator&amp;lt;TDecorator extends Decorator&amp;gt;(decoratorOrClass: IClass&amp;lt;TDecorator&amp;gt; | TDecorator): this;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="100" y="30" width="610" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-52" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.49;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="t--4MWU0QdBoSOx9DWKq-20" target="t--4MWU0QdBoSOx9DWKq-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-20" value="«abstarct class»&lt;br&gt;&lt;b&gt;DecoratedElement&amp;lt;T&amp;gt;&lt;/b&gt;" style="html=1;strokeColor=#000000;fillColor=#ffffff;align=center;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="320" y="200" width="170" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="t--4MWU0QdBoSOx9DWKq-25" target="t--4MWU0QdBoSOx9DWKq-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-25" value="&lt;p style=&quot;margin: 4px 0px 0px&quot;&gt;&lt;/p&gt;&lt;div style=&quot;text-align: center&quot;&gt;&lt;span&gt;«abstarct class»&lt;/span&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center&quot;&gt;&lt;span&gt;&lt;b&gt;ClassMember&lt;/b&gt;&lt;/span&gt;&lt;b&gt;&amp;lt;T&amp;gt;&lt;/b&gt;&lt;/div&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ getType(): ClassMemberType&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ getClass(): IMetadataClass&amp;lt;T&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ getName(): string&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ isStatic(): boolean&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ isOwn(): boolean&lt;/p&gt;" style="verticalAlign=middle;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="90" y="290" width="190" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="t--4MWU0QdBoSOx9DWKq-29" target="t--4MWU0QdBoSOx9DWKq-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-29" value="&lt;p style=&quot;margin: 4px 0px 0px&quot;&gt;&lt;/p&gt;&lt;div style=&quot;text-align: center&quot;&gt;&lt;span&gt;«abstarct class»&lt;/span&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center&quot;&gt;&lt;span&gt;&lt;b&gt;Parameter&lt;/b&gt;&lt;/span&gt;&lt;b&gt;&amp;lt;T&amp;gt;&lt;/b&gt;&lt;/div&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ getIndex(): number&lt;br&gt;&lt;/p&gt;" style="verticalAlign=middle;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="540" y="280" width="190" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="t--4MWU0QdBoSOx9DWKq-30" target="t--4MWU0QdBoSOx9DWKq-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-30" value="&lt;p style=&quot;margin: 4px 0px 0px&quot;&gt;&lt;/p&gt;&lt;div style=&quot;text-align: center&quot;&gt;&lt;span&gt;«abstarct class»&lt;/span&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center&quot;&gt;&lt;span&gt;&lt;b&gt;ExecutableMember&amp;lt;T, TReturnType&amp;gt;&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ getKnownParameterCount(): number&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ getOwnParameterCount(): number&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ getParameters(): ReadonlyArray&amp;lt;Parameter&amp;lt;T&amp;gt;&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ getParameterAt(index: number): Parameter&amp;lt;T&amp;gt; | undefined&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ hasOwnParameterDecorators(...decoratorClasses: Array&amp;lt;IClass&amp;lt;Decorator&amp;gt;&amp;gt;): boolean&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ hasParameterDecorators(...decoratorClasses: Array&amp;lt;IClass&amp;lt;Decorator&amp;gt;&amp;gt;): boolean&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ getParameterDecorators(...decoratorClasses: Array&amp;lt;IClass&amp;lt;Decorator&amp;gt;&amp;gt;): ReadonlyArray&amp;lt;ReadonlyArray&amp;lt;Decorator&amp;gt;&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ getOwnParameterDecorators(...decoratorClasses: Array&amp;lt;IClass&amp;lt;Decorator&amp;gt;&amp;gt;): ReadonlyArray&amp;lt;ReadonlyArray&amp;lt;Decorator&amp;gt;&amp;gt;&lt;/p&gt;" style="verticalAlign=middle;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="20" y="710" width="690" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.471;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="t--4MWU0QdBoSOx9DWKq-31" target="t--4MWU0QdBoSOx9DWKq-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-31" value="&lt;p style=&quot;margin: 4px 0px 0px&quot;&gt;&lt;/p&gt;&lt;div style=&quot;text-align: center&quot;&gt;&lt;span&gt;«class»&lt;/span&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center&quot;&gt;&lt;span&gt;&lt;b&gt;Constructor&lt;/b&gt;&lt;/span&gt;&lt;b&gt;&amp;lt;T&amp;gt;&lt;/b&gt;&lt;/div&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+&amp;nbsp;newInstance(...parameters: any[]): T&lt;/p&gt;" style="verticalAlign=middle;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="20" y="930" width="220" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.491;entryY=0.994;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="t--4MWU0QdBoSOx9DWKq-32" target="t--4MWU0QdBoSOx9DWKq-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-32" value="&lt;p style=&quot;margin: 4px 0px 0px&quot;&gt;&lt;/p&gt;&lt;div style=&quot;text-align: center&quot;&gt;&lt;span&gt;«class»&lt;/span&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center&quot;&gt;&lt;b&gt;Method&amp;lt;T, TReturnType&amp;gt;&lt;/b&gt;&lt;br&gt;&lt;/div&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ invoke(target: T | IClass&amp;lt;T&amp;gt;, ...parameters: any[]): TReturnType&lt;/p&gt;" style="verticalAlign=middle;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="350" y="930" width="360" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="t--4MWU0QdBoSOx9DWKq-33" target="t--4MWU0QdBoSOx9DWKq-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-33" value="&lt;p style=&quot;margin: 4px 0px 0px&quot;&gt;&lt;/p&gt;&lt;div style=&quot;text-align: center&quot;&gt;&lt;span&gt;«abstract class»&lt;/span&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center&quot;&gt;&lt;span&gt;&lt;b&gt;Field&lt;/b&gt;&lt;/span&gt;&lt;b&gt;&amp;lt;T, TReturnType&amp;gt;&lt;/b&gt;&lt;/div&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ isGettable(): boolean&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ isSettable(): boolean&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ getValue(target: T | IClass&amp;lt;T&amp;gt;): TValue&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;+ setValue(target: IClass&amp;lt;T&amp;gt; | T, value: TValue): void&lt;/p&gt;" style="verticalAlign=middle;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;strokeColor=#000000;fillColor=#ffffff;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="440" y="480" width="360" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.583;entryY=1.027;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="t--4MWU0QdBoSOx9DWKq-34" target="t--4MWU0QdBoSOx9DWKq-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-34" value="«class»&lt;br&gt;&lt;b&gt;Accessor&lt;/b&gt;&lt;b&gt;&amp;lt;T, TReturnType&amp;gt;&lt;/b&gt;" style="html=1;strokeColor=#000000;fillColor=#ffffff;align=center;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="630" y="630" width="170" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.383;entryY=1.018;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="t--4MWU0QdBoSOx9DWKq-35" target="t--4MWU0QdBoSOx9DWKq-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-35" value="«class»&lt;br&gt;&lt;b&gt;Property&amp;lt;T, TReturnType&amp;gt;&lt;/b&gt;" style="html=1;strokeColor=#000000;fillColor=#ffffff;align=center;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="440" y="630" width="170" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.437;entryY=0.986;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="t--4MWU0QdBoSOx9DWKq-36" target="t--4MWU0QdBoSOx9DWKq-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-36" value="«class»&lt;br&gt;&lt;b&gt;ConstructorParameter&amp;lt;T&amp;gt;&lt;/b&gt;" style="html=1;strokeColor=#000000;fillColor=#ffffff;align=center;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="440" y="390" width="170" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="t--4MWU0QdBoSOx9DWKq-37" target="t--4MWU0QdBoSOx9DWKq-29">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="715" y="370" />
+              <mxPoint x="648" y="370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t--4MWU0QdBoSOx9DWKq-37" value="«class»&lt;br&gt;&lt;b&gt;MethodParameter&amp;lt;T&amp;gt;&lt;/b&gt;" style="html=1;strokeColor=#000000;fillColor=#ffffff;align=center;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="630" y="390" width="170" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

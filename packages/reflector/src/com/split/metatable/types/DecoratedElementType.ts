@@ -1,0 +1,22 @@
+/**
+ * @public
+ * @enum
+ * @description - enum represent decorated element types
+ */
+export enum DecoratedElementType {
+    CONSTRUCTOR = 1,
+    METHOD = 2,
+    EXECUTABLE_ELEMENT = CONSTRUCTOR | METHOD,
+
+    PROPERTY = 4,
+    ACCESSOR = 8,
+    FIELD = PROPERTY | ACCESSOR,
+
+    CLASS_MEMBER = EXECUTABLE_ELEMENT | FIELD,
+
+    CONSTRUCTOR_PARAMETER = 16,
+    METHODS_PARAMETER = 32,
+    PARAMETER = CONSTRUCTOR_PARAMETER | METHODS_PARAMETER,
+
+    DECORATED_ELEMENT = CLASS_MEMBER | PARAMETER,
+}

@@ -1,0 +1,47 @@
+{
+  "name": "@semaver/reflector",
+  "type": "module",
+  "rawName": "reflector",
+  "version": "1.0.0",
+  "description": "split reflector",
+  "author": "semaver",
+  "contributors": [
+    "Eugen Reyzenkind <eugen.reyzenkind@web.de>",
+    "Ismail Simsek <ismailsimsek09@gmail.com>",
+    "Kateryna Sergieieva <sergeeva.kathy@gmail.com>"
+  ],
+  "license": "MIT",
+  "main": "lib/library.cjs.js",
+  "types": "lib/index.d.ts",
+  "module": "lib/library.esm.js",
+  "umd": "lib/library.umd.js",
+  "keywords": [
+    "reflection",
+    "typescript",
+    "ioc"
+  ],
+  "files": [
+    "lib",
+    "docs",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "jest --collectCoverage",
+    "build": "rollup -c ../../rollup.config.js",
+    "index": "cti entrypoint src -o index.ts",
+    "lint": "eslint ./src ./tests --ext .ts",
+    "file": "npm pack --pack-destination packs"
+  },
+  "devDependencies": {
+    "@semaver/core": "^1.0.0"
+  },
+  "peerDependencies": {
+    "@semaver/core": "^1.0.0"
+  },
+  "dependencies": {
+    "@types/uuid": "^8.3.0",
+    "uuid": "^8.3.1"
+  }
+}

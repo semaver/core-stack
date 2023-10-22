@@ -1,0 +1,91 @@
+import {SuperAccumulatedDecoratedClass} from "./SuperAccumulatedDecoratedClass";
+import {accumulated} from "../../common/metadata/AccumulatedDecorator";
+
+@accumulated("class", 0)
+export class ChildAccumulatedDecoratedClass extends SuperAccumulatedDecoratedClass {
+
+    // @multi("accessor isStatic full get")
+    public static get accessorStaticFull(): string {
+        return "aaaaa";
+    }
+
+    @accumulated("accessor isStatic full set", 4)
+    public static set accessorStaticFull(value: string) {
+        void (0);
+    }
+
+    @accumulated("accessor isStatic only get", 5)
+    public static get accessorStaticGet(): string {
+        return "aaaaa";
+    }
+
+    @accumulated("accessor isStatic only set", 6)
+    public static set accessorStaticSet(value: string) {
+        void (0);
+    }
+
+    // @multi("accessor normal full get")
+    public get accessorNormalFull(): string {
+        return "aaaaa";
+    }
+
+    @accumulated("accessor normal full set", 1)
+    public set accessorNormalFull(value: string) {
+        void (0);
+    }
+
+    @accumulated("accessor normal only get", 2)
+    public get accessorNormalGet(): string {
+        return "aaaaa";
+    }
+
+    @accumulated("accessor normal only set", 3)
+    public set accessorNormalSet(value: string) {
+        void (0);
+    }
+
+    // ----------------------------
+
+    @accumulated("prop isStatic undefined", 7)
+    public static propertyUndefStatic: number;
+    @accumulated("prop isStatic defined", 7)
+    public static propertyDefStatic: number = 0;
+
+    // ----------------------------
+
+    @accumulated("method isStatic", 8)
+    public static runStatic(@accumulated("param in isStatic method") param: string): number {
+        void (param);
+        return 0;
+    }
+
+    // ----------------------------
+    @accumulated("prop normal defined", 9)
+    public propertyDefNormal: number = 9;
+    @accumulated("prop normal undefined", 9)
+    public propertyUndefNormal?: number;
+    @accumulated("prop normal null", 9)
+    public propertyNullNormal: unknown = null;
+
+    // ----------------------------
+
+    public constructor(@accumulated("param in constructor", 10) param: string = "") {
+        super(param);
+    }
+
+    @accumulated("method normal", 11)
+    public runNormal(@accumulated("param in normal method", 12)  param: string): number {
+        void (param);
+        return 0;
+    }
+
+    @accumulated("method normal with 1 default param", 13)
+    public runNormalWith1DefaultParam(@accumulated("param 1 in normal method", 14) param: string, defaultParam: number = 10): number {
+        return defaultParam;
+    }
+
+    @accumulated("method normal with 2 param", 15)
+    public runNormalWith2Param(@accumulated("param 1 in normal method", 16) param: string, @accumulated("param 2 in normal method", 17) notDefaultParam: number): number {
+        return notDefaultParam;
+    }
+}

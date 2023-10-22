@@ -1,0 +1,6 @@
+{
+  "verbose": true,
+  "withoutBackupFile": true,
+  "quote": "\"",
+  "withoutComment": true
+}

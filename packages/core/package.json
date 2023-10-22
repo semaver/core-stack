@@ -1,0 +1,37 @@
+{
+  "name": "@semaver/core",
+  "type": "module",
+  "rawName": "core",
+  "version": "1.0.0",
+  "description": "split core",
+  "author": "semaver",
+  "contributors": [
+    "Eugen Reyzenkind <eugen.reyzenkind@web.de>",
+    "Ismail Simsek <ismailsimsek09@gmail.com>",
+    "Kateryna Sergieieva <sergeeva.kathy@gmail.com>"
+  ],
+  "license": "MIT",
+  "main": "lib/library.cjs.js",
+  "types": "lib/index.d.ts",
+  "module": "lib/library.esm.js",
+  "umd": "lib/library.umd.js",
+  "keywords": [
+    "class-constructor",
+    "typescript",
+    "ioc"
+  ],
+  "files": [
+    "lib",
+    "docs",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "jest --collectCoverage",
+    "build": "rollup -c ../../rollup.config.js",
+    "index": "cti entrypoint src -o index.ts",
+    "lint": "eslint ./src ./tests --ext .ts",
+    "file": "npm pack --pack-destination packs"
+  }
+}
