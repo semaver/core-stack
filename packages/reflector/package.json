@@ -41,7 +41,7 @@
     "file": "npm pack --pack-destination packs"
   },
   "devDependencies": {
-    "@semaver/core": "^1.0.0"
+    "@semaver/core": "^1.0.1"
   },
   "peerDependencies": {
     "@semaver/core": "^1.0.0"
