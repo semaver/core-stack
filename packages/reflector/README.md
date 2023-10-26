@@ -1170,7 +1170,7 @@ export enum MetadataAppearancePolicy {
 ###  Reflected Types Architecture
 The diagram shows supported reflected types of class members & parameters with supported API for these types.
 
-![](../../packages/reflector/diagrams/reflector-class-members.svg)
+![](https://raw.githubusercontent.com/semaver/core-stack/main/packages/reflector/diagrams/reflector-class-members.svg)
 
 [back](#reflector-documentation)
 
