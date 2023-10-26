@@ -2,7 +2,7 @@
   "name": "@semaver/reflector",
   "type": "module",
   "rawName": "reflector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "split reflector",
   "homepage": "https://github.com/semaver/core-stack/tree/main/packages/reflector",
   "bugs": "https://github.com/semaver/core-stack/issues",
