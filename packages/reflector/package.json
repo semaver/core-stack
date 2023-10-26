@@ -4,6 +4,12 @@
   "rawName": "reflector",
   "version": "1.0.0",
   "description": "split reflector",
+  "homepage": "https://github.com/semaver/core-stack/tree/main/packages/reflector",
+  "bugs": "https://github.com/semaver/core-stack/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/semaver/core-stack.git"
+  },
   "author": "semaver",
   "contributors": [
     "Eugen Reyzenkind <eugen.reyzenkind@web.de>",

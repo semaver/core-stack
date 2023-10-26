@@ -3,7 +3,12 @@
   "private": true,
   "type": "module",
   "version": "1.0.0",
-  "repository": "https://github.com/semaver/core-stack.git",
+  "homepage": "https://github.com/semaver/core-stack",
+  "bugs": "https://github.com/semaver/core-stack/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/semaver/core-stack.git"
+  },
   "author": "semaver",
   "contributors": [
     "Eugen Reyzenkind <eugen.reyzenkind@web.de>",
