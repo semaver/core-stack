@@ -9,7 +9,26 @@ An extensive way to deal with classes.
 * Static and dynamic annotation (static: via @decorators; dynamic: on runtime, e.g. for third-party libs)
 * Handling inheritance of annotated class members and parameters with the help of the [Decoration Policies](#decoration-policies).
 
+## Requirements
+
+To be able to use `@decorator()` syntaxis in **Typescript** its required to configure `tsconfig.json` file, however it is possible to avoid this by using [dynamic decoration](#decorate-class-members-and-parameters-dynamically) (also works for **Javascript** projects)
+
+```json
+{
+  "compilerOptions": {
+  ...
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true           
+  }
+}
+```
+
+> :warning: **Important!** Support of Typescript 5.x decorators will be avalble after release of "decorated parameters"
+>
+>  [Link](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/) &rarr; "Differences with Experimental Legacy Decorators"
+
 ## Installation
+
 ```
 $ yarn add @semaver/reflector --peer
 $ npm install @semaver/reflector  

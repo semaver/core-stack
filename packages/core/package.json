@@ -22,9 +22,17 @@
   "module": "lib/library.esm.js",
   "umd": "lib/library.umd.js",
   "keywords": [
-    "class-constructor",
     "typescript",
-    "ioc"
+    "javascript",
+    "frontend",
+    "backend",
+    "api",
+    "utils",
+    "helpers",
+    "classes",
+    "interfaces",
+    "reflect",
+    "reflection"
   ],
   "files": [
     "lib",
