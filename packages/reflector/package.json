@@ -23,8 +23,18 @@
   "umd": "lib/library.umd.js",
   "keywords": [
     "reflection",
+    "reflect",
     "typescript",
-    "ioc"
+    "javascript",
+    "decorators",
+    "annotations",
+    "metadata",
+    "inheritance",
+    "ioc",
+    "frontend",
+    "backend",
+    "api",
+    "no reflect-metadata"
   ],
   "files": [
     "lib",
