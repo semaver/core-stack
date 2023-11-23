@@ -3,13 +3,13 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "module": "esnext",
-    "moduleResolution": "node",
+    "module": "commonjs",
+    "moduleResolution": "Node",
     "resolveJsonModule": true,
     "target": "es5",
     "lib": [
       "dom",
-      "es2020"
+      "esnext"
     ],
     "skipLibCheck": true,
     "sourceMap": true,
