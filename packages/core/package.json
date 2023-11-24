@@ -2,7 +2,7 @@
   "name": "@semaver/core",
   "type": "module",
   "rawName": "core",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "split core",
   "homepage": "https://github.com/semaver/core-stack/tree/main/packages/core",
   "bugs": "https://github.com/semaver/core-stack/issues",
