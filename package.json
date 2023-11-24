@@ -2,7 +2,7 @@
   "name": "split-ts-core-stack",
   "private": true,
   "type": "module",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "homepage": "https://github.com/semaver/core-stack",
   "bugs": "https://github.com/semaver/core-stack/issues",
   "repository": {
