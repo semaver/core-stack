@@ -17,10 +17,9 @@
     "Kateryna Sergieieva <sergeeva.kathy@gmail.com>"
   ],
   "license": "MIT",
-  "main": "lib/library.cjs.js",
+  "main": "lib/library.umd.js",
   "types": "lib/index.d.ts",
-  "module": "lib/library.esm.js",
-  "umd": "lib/library.umd.js",
+  "module": "lib/library.es.js",
   "keywords": [
     "reflection",
     "reflect",

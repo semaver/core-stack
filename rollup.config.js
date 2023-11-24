@@ -37,18 +37,35 @@ export default {
     external: [...Object.keys(pkg.peerDependencies ?? {})],
     output: [
         {
-            file: pkg.main,
-            format: 'cjs'
-        },
-        {
-            file: pkg.module,
+            file: "lib/library.es.js",
             format: 'es'
         },
         {
-            file: pkg.umd,
+            file: "lib/library.es.min.js",
+            format: 'es',
+            plugins: [terser()]
+        },
+        {
+            file: "lib/library.umd.js",
             format: 'umd',
             name: `@semaver/${pkg.rawName}`
-        }
+        },
+        {
+            file: "lib/library.umd.min.js",
+            format: 'umd',
+            name: `@semaver/${pkg.rawName}`,
+            plugins: [terser()]
+        },
+        {
+            file: "lib/library.system.js",
+            format: 'system'
+        },
+        {
+            file: "lib/library.system.min.js",
+            format: 'system',
+            plugins: [terser()]
+        },
+
     ],
     plugins: [
         // del({targets: `${PACKAGE_NAME}/lib/*`}),
@@ -56,7 +73,6 @@ export default {
         typescript(typescriptOptions),
         excludeDependenciesFromBundle({peerDependencies: true}),
         babel(babelOptions),
-        commonjs(commonjsOptions),
-        terser(),
+        commonjs(commonjsOptions)
     ]
 }
