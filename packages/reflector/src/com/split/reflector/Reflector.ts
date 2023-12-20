@@ -151,7 +151,7 @@ export class Reflector<T extends object = object> {
      * @public
      * @method to retrieve constructor class member from provided target class
      * @return constructor class member of provided target class or undefined
-     * @description constructor class member or it parameters should contain at least one decorator (or else return undefined)
+     * @description constructor class member or its parameters should contain at least one decorator (or else return undefined)
      */
     public getDecoratedConstructor(): Nullable<Constructor<T>> {
         this.updateOnAutoSync();

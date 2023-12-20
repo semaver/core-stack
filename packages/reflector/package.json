@@ -17,9 +17,11 @@
     "Kateryna Sergieieva <sergeeva.kathy@gmail.com>"
   ],
   "license": "MIT",
-  "main": "lib/library.umd.js",
   "types": "lib/index.d.ts",
-  "module": "lib/library.es.js",
+  "exports": {
+    "import": "./lib/library.esm.js",
+    "require": "./lib/library.cjs.cjs"
+  },
   "keywords": [
     "reflection",
     "reflect",
@@ -47,7 +49,7 @@
     "build": "rollup -c ../../rollup.config.js",
     "index": "cti entrypoint src -o index.ts",
     "lint": "eslint ./src ./tests --ext .ts",
-    "file": "npm pack --pack-destination packs"
+    "file": "yarn pack --pack-destination packs"
   },
   "devDependencies": {
     "@semaver/core": "^1.0.5"
