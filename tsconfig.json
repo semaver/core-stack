@@ -3,10 +3,10 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "module": "commonjs",
+    "module": "ES6",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "target": "es5",
+    "target": "ES5",
     "lib": [
       "dom",
       "esnext"

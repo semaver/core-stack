@@ -1,11 +1,12 @@
-import excludeDependenciesFromBundle from "rollup-plugin-exclude-dependencies-from-bundle";
+import path from "path";
+import * as fs from "fs";
 import {nodeResolve} from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
-import terser from '@rollup/plugin-terser';
 import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
-import * as fs from "fs";
-import path from "path";
+import excludeDependenciesFromBundle from "rollup-plugin-exclude-dependencies-from-bundle";
+import {cleandir} from "rollup-plugin-cleandir";
+import terser from "@rollup/plugin-terser";
 
 const PACKAGE_NAME = process.cwd();
 const pkg = JSON.parse(fs.readFileSync(path.join(PACKAGE_NAME, 'package.json'), 'utf-8'));
@@ -37,12 +38,12 @@ export default {
     external: [...Object.keys(pkg.peerDependencies ?? {})],
     output: [
         {
-            file: "lib/library.es.js",
-            format: 'es'
+            file: "lib/library.esm.js",
+            format: 'esm'
         },
         {
-            file: "lib/library.es.min.js",
-            format: 'es',
+            file: "lib/library.esm.min.js",
+            format: 'esm',
             plugins: [terser()]
         },
         {
@@ -57,18 +58,18 @@ export default {
             plugins: [terser()]
         },
         {
-            file: "lib/library.system.js",
-            format: 'system'
+            file: "lib/library.cjs.cjs",
+            format: 'cjs'
         },
         {
-            file: "lib/library.system.min.js",
-            format: 'system',
+            file: "lib/library.cjs.min.cjs",
+            format: 'cjs',
             plugins: [terser()]
-        },
+        }
 
     ],
     plugins: [
-        // del({targets: `${PACKAGE_NAME}/lib/*`}),
+        cleandir(`${PACKAGE_NAME}/lib`),
         nodeResolve(nodeOptions),
         typescript(typescriptOptions),
         excludeDependenciesFromBundle({peerDependencies: true}),
