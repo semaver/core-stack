@@ -2,7 +2,7 @@
   "name": "@semaver/reflector",
   "type": "module",
   "rawName": "reflector",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "split reflector",
   "homepage": "https://github.com/semaver/core-stack/tree/main/packages/reflector",
   "bugs": "https://github.com/semaver/core-stack/issues",
@@ -52,7 +52,7 @@
     "file": "yarn pack --pack-destination packs"
   },
   "devDependencies": {
-    "@semaver/core": "^1.0.5"
+    "@semaver/core": "^1.0.6"
   },
   "peerDependencies": {
     "@semaver/core": "^1.0.0"
