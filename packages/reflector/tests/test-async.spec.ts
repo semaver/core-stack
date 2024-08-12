@@ -1,4 +1,4 @@
-import {DecoratedElementType, Method, ReflectDecorator, Reflector} from "../src";
+import {DecoratedElementEnum, Method, ReflectDecorator, Reflector} from "../src";
 import {AsyncSuperClass} from "./reflector/asyncs/AsyncSuperClass";
 import {Nullable} from "@semaver/core";
 
@@ -17,7 +17,7 @@ describe("Reflector Async tests", () => {
 
         expect(method?.getName()).toBe("asyncMethod");
         expect(method?.getClass()).toBe(AsyncSuperClass);
-        expect(method?.getType()).toBe(DecoratedElementType.METHOD);
+        expect(method?.getType()).toBe(DecoratedElementEnum.METHOD);
 
         const instance: AsyncSuperClass = new AsyncSuperClass();
         const input: number = 1;

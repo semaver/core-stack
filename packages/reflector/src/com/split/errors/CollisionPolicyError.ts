@@ -2,16 +2,15 @@ import {ExtendedError} from "@semaver/core";
 import {MetadataTableProvider} from "../metatable/MetadataTableProvider";
 
 /**
+ * custom error for child class thrown if decorator collision policy === MetadataCollisionPolicy.THROW_ERROR and collision in action
+ *
  * @public
- * @class
- * @extends [[ExtendedError]]
- * @description - custom error for child class thrown if decorator collision policy === MetadataCollisionPolicy.THROW_ERROR and collision in action
  */
 export class CollisionPolicyError extends ExtendedError {
 
     /**
      * @public
-     * @param target - metadata table provider [[MetadataTableProvider]] where error is thrown
+     * @param target - metadata table provider where error is thrown
      * @param childClassName - child class name
      * @param childDecoratorClassName - child decorator class name
      */

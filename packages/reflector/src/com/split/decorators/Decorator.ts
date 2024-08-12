@@ -22,32 +22,34 @@ import {getMetadata} from "../metatable/MetadataFactory";
 
 
 /**
+ * type for decorator that contains also metadata information about class member
+ *
  * @public
  * @interface type
- * @description - type for decorator [[Decorator]] that contains also metadata information [[IMemberMetadata]]
  */
 export type IMetatableDecorator = Decorator & { __metadata__: IMemberMetadata };
 
 /**
+ * type for decorator function (@myDecorator) used to decorate class members and parameters
+ *
  * @public
  * @interface type
- * @description - type for decorator function (@myDecorator) used to decorate class members and parameters
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type DecoratorFn = (target: object, key?: string, descriptorOrIndex?: TypedPropertyDescriptor<any> | number) => void;
 
 /**
+ * base class used to create custom decorators and perform decoration of class members
+ *
  * @public
- * @abstract
- * @class
- * @description - base class used to create custom decorators and perform decoration of class members
  */
 export abstract class Decorator {
 
     /**
+     * method to build class member and parameter metadata from provided decorator
+     *
      * @public
-     * @method to build class member and parameter metadata from provided decorator [[Decorator]]
-     * @return decorator function [[DecoratorFn]]
+     * @returns decorator function
      */
     public static build(decorator: Decorator): DecoratorFn {
         return (target: object, key?: string, descriptorOrIndex?: TypedPropertyDescriptor<object> | number): void => {
@@ -59,25 +61,25 @@ export abstract class Decorator {
     }
 
     /**
+     * method to get class with metadata table from descriptor arguments
+     *
      * @private
-     * @static
-     * @method to get class with metadata table from descriptor arguments
      * @param target - target object
-     * @return class with metadata table [[IMetadataClass]]
+     * @returns class with metadata table
      */
     private static buildClass<T extends object>(target: T): IMetadataClass<T> {
         return metadataClassOfObject(target);
     }
 
     /**
+     * method to build class metadata from provided data
+     *
      * @private
-     * @static
-     * @method to build class metadata from provided data
-     * @param decorator - decorator [[Decorator]] itself with metadata information
+     * @param decorator - decorator  itself with metadata information
      * @param target - target object
      * @param key - key of class member from typed property descriptor
      * @param descriptorOrIndex - descriptor or index of class member from typed property descriptor
-     * @return class member metadata [[IMetatableDecorator]]
+     * @returns class member metadata
      */
     private static buildMetadataDecorator<T extends object>(decorator: Decorator, target: T, key?: string, descriptorOrIndex?: TypedPropertyDescriptor<T> | number): IMetatableDecorator {
         // TODO handle error if not created
@@ -92,28 +94,31 @@ export abstract class Decorator {
     }
 
     /**
+     * method to get decorator parameters
+     *
      * @public
-     * @method to get decorator parameters
-     * @return readonly collection of parameters
+     * @returns readonly collection of parameters
      */
     public getParameters(): readonly unknown[] {
         return [];
     }
 
     /**
+     * method to get access policy of decorator
+     *
      * @public
-     * @method to get access policy [[MetadataAccessPolicyValues]] of decorator
-     * @return  access policy value [[MetadataAccessPolicyValues]]
+     * @returns  access policy value
      */
     public getAccessPolicy(): MetadataAccessPolicyValues {
         return MetadataAccessPolicy.ALL;
     }
 
     /**
+     * method to get collision policy of decorator by access
+     *
      * @public
-     * @method to get collision policy [[MetadataCollisionPolicyValues]] of decorator by access
-     * @param access - primitive access policy [[PrimitiveMetadataAccessPolicyValues]]
-     * @return collision policy value [[MetadataCollisionPolicyValues]]
+     * @param access - primitive access policy
+     * @returns collision policy value
      */
     public getCollisionPolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataCollisionPolicyValues {
         void (access);
@@ -121,10 +126,11 @@ export abstract class Decorator {
     }
 
     /**
+     * method to get not existence policy of decorator by access
+     *
      * @public
-     * @method to get not existence policy [[MetadataNotExistencePolicyValues]] of decorator by access
-     * @param access - primitive access policy [[PrimitiveMetadataAccessPolicyValues]]
-     * @return  not existence policy value [[MetadataNotExistencePolicyValues]]
+     * @param access - primitive access policy
+     * @returns  not existence policy value
      */
     public getNotExistencePolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataNotExistencePolicyValues {
         void (access);
@@ -132,10 +138,11 @@ export abstract class Decorator {
     }
 
     /**
+     * method to get appearance policy of decorator by access
+     *
      * @public
-     * @method to get appearance policy [[MetadataAppearancePolicyValues]] of decorator by access
-     * @param access - primitive access policy [[PrimitiveMetadataAccessPolicyValues]]
-     * @return appearance policy value [[MetadataAppearancePolicyValues]]
+     * @param access - primitive access policy
+     * @returns appearance policy value
      */
     public getAppearancePolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataAppearancePolicyValues {
         void (access);
@@ -143,10 +150,11 @@ export abstract class Decorator {
     }
 
     /**
+     * method to get same target usage policy [[MetadataSameTargetMultiUsagePolicyValues]] of decorator by access
+     *
      * @public
-     * @method to get same target usage policy [[MetadataSameTargetMultiUsagePolicyValues]] of decorator by access
-     * @param access - primitive access policy [[PrimitiveMetadataAccessPolicyValues]]
-     * @return same target usage policy value [[MetadataSameTargetMultiUsagePolicyValues]]
+     * @param access - primitive access policy
+     * @returns same target usage policy value
      */
     public getSameTargetMultiUsagePolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataSameTargetMultiUsagePolicyValues {
         void (access);

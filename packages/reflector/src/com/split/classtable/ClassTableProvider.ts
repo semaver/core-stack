@@ -5,21 +5,20 @@ import {IClassTableRef} from "./IClassTableRef";
 import {IClassTableSubscriber} from "./IClassTableSubscriber";
 
 /**
+ *  main responsibility is to provide access to class table as well as create storage for it
+ *
  * @public
- * @class
- * @description - main responsibility is to provide access to class table as well as create storage for it
  */
 export class ClassTableProvider {
     /**
      * @private
      * @readonly
-     * @property classTable - class table instance [[ClassTable]], wrapper for class table reference
+     * @property classTable - class table instance, wrapper for class table reference
      */
     private readonly classTable: ClassTable;
 
     /**
      * @public
-     * @constructor
      */
     public constructor() {
         let classTableRef: IClassTableRef;
@@ -44,9 +43,10 @@ export class ClassTableProvider {
     }
 
     /**
+     * method to get class table
+     *
      * @public
-     * @method to get class table
-     * @return instance of class table [[ClassTable]]
+     * @returns instance of class table
      */
     public getClassTable(): ClassTable {
         return this.classTable;

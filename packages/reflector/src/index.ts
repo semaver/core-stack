@@ -32,7 +32,7 @@ export * from "./com/split/metatable/policies/MetadataCollisionPolicy";
 export * from "./com/split/metatable/policies/MetadataNotExistencePolicy";
 export * from "./com/split/metatable/policies/MetadataSameTargetMultiUsagePolicy";
 export * from "./com/split/metatable/policies/PolicyProvider";
-export * from "./com/split/metatable/types/DecoratedElementType";
+export * from "./com/split/metatable/types/DecoratedElementEnum";
 export * from "./com/split/reflector/Reflector";
 export * from "./com/split/reflector/members/Accessor";
 export * from "./com/split/reflector/members/ClassMember";

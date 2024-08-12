@@ -2,14 +2,12 @@ import {classOfObject, getPropertyDescriptor, IClass, IFunction, isObjectClass, 
 import {Decorator, DecoratorFn, IMetatableDecorator} from "../../decorators/Decorator";
 import {metadataClassOfObject} from "../../extentions/MetadataObjectExtention";
 import {IMemberMetadataTableRef, IMetadataTableRef} from "../../metatable/metadata/IMetadataTableRef";
-import {DecoratedElementType, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementEnum";
 import {Parameter} from "./Parameter";
 
 /**
+ * class that implement method parameter
  * @public
- * @class
- * @extends [[Parameter]]
- * @description - class that implement method [[Method]] parameter
  */
 export class MethodParameter<T extends object = object> extends Parameter<T> {
 
@@ -17,7 +15,7 @@ export class MethodParameter<T extends object = object> extends Parameter<T> {
      * @inheritDoc
      */
     public getType(): DecoratedElementTypeValues {
-        return DecoratedElementType.METHODS_PARAMETER;
+        return DecoratedElementEnum.METHODS_PARAMETER;
     }
 
     /**

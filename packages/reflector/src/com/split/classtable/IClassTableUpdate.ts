@@ -1,25 +1,26 @@
 import {Decorator} from "../decorators/Decorator";
 import {ClassTableUpdateTypes} from "./ClassTableUpdateTypes";
 import {IClass} from "@semaver/core";
-import {DecoratedElementTypeValues} from "../metatable/types/DecoratedElementType";
+import {DecoratedElementTypeValues} from "../metatable/types/DecoratedElementEnum";
 
 /**
+ * generic data provided by class table updates to subscribers
+ *
  * @public
  * @interface
- * @description - generic data provided by class table updates to subscribers
  */
 export interface IClassTableUpdate<TDecorator extends Decorator = Decorator, T = unknown> {
     /**
      * @public
      * @readonly
-     * @property type - type of class table update [[ClassTableUpdateTypes]]
+     * @property type - type of class table update
      */
     readonly type: ClassTableUpdateTypes;
 
     /**
      * @public
      * @readonly
-     * @property decorator - decorator [[Decorator]] applied to provided class
+     * @property decorator - decorator applied to provided class
      */
     readonly decorator: TDecorator;
 
@@ -39,7 +40,7 @@ export interface IClassTableUpdate<TDecorator extends Decorator = Decorator, T =
         /**
          * @public
          * @readonly
-         * @property type - type of decorated element [[DecoratedElementType]]
+         * @property type - type of decorated element
          */
         readonly type: DecoratedElementTypeValues;
 

@@ -2,14 +2,13 @@ import {classOfObject, IClass, isObjectClass, Nullable} from "@semaver/core";
 import {Decorator, DecoratorFn, IMetatableDecorator} from "../../decorators/Decorator";
 import {getKnownConstructorParameterLength, metadataClassOfObject} from "../../extentions/MetadataObjectExtention";
 import {IMemberMetadataTableRef, IMetadataTableRef} from "../../metatable/metadata/IMetadataTableRef";
-import {DecoratedElementType, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementEnum";
 import {Parameter} from "./Parameter";
 
 /**
+ * class that implement constructor parameter
+ *
  * @public
- * @class
- * @extends [[Parameter]]
- * @description - class that implement constructor [[Constructor]] parameter
  */
 export class ConstructorParameter<T extends object = object> extends Parameter<T> {
 
@@ -17,7 +16,7 @@ export class ConstructorParameter<T extends object = object> extends Parameter<T
      * @inheritDoc
      */
     public getType(): DecoratedElementTypeValues {
-        return DecoratedElementType.CONSTRUCTOR_PARAMETER;
+        return DecoratedElementEnum.CONSTRUCTOR_PARAMETER;
     }
 
     /**

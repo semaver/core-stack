@@ -2,7 +2,7 @@ import {IClass} from "@semaver/core";
 import {
     ClassTableNames,
     ClassTableUpdateTypes,
-    DecoratedElementType,
+    DecoratedElementEnum,
     Decorator,
     IClassTable,
     IClassTableRef,
@@ -70,7 +70,7 @@ describe("Reflector Class Table Test", () => {
                 isStatic: false,
                 name: "ctor",
                 parameterIndex: -1,
-                type: DecoratedElementType.CONSTRUCTOR,
+                type: DecoratedElementEnum.CONSTRUCTOR,
             },
         }));
 
@@ -84,7 +84,7 @@ describe("Reflector Class Table Test", () => {
                 isStatic: false,
                 name: "unknownProperty",
                 parameterIndex: -1,
-                type: DecoratedElementType.PROPERTY,
+                type: DecoratedElementEnum.PROPERTY,
             },
         }));
         expect(Reflector.from(MetaSuperClass).getConstructor().removeDecorator(MetaclassDecorator)).toBeTruthy();
@@ -99,7 +99,7 @@ describe("Reflector Class Table Test", () => {
                 isStatic: false,
                 name: "ctor",
                 parameterIndex: -1,
-                type: DecoratedElementType.CONSTRUCTOR,
+                type: DecoratedElementEnum.CONSTRUCTOR,
             },
         }));
 
@@ -113,7 +113,7 @@ describe("Reflector Class Table Test", () => {
                 isStatic: false,
                 name: "ctor",
                 parameterIndex: -1,
-                type: DecoratedElementType.CONSTRUCTOR,
+                type: DecoratedElementEnum.CONSTRUCTOR,
             },
         }));
         expect(Reflector.getClassTable().getClasses().size).toBe(2);
@@ -127,7 +127,7 @@ describe("Reflector Class Table Test", () => {
                 isStatic: false,
                 name: "unknownProperty",
                 parameterIndex: -1,
-                type: DecoratedElementType.PROPERTY,
+                type: DecoratedElementEnum.PROPERTY,
             },
         }));
         expect(Reflector.getClassTable().getClasses().size).toBe(1);
@@ -141,7 +141,7 @@ describe("Reflector Class Table Test", () => {
                 isStatic: false,
                 name: "ctor",
                 parameterIndex: -1,
-                type: DecoratedElementType.CONSTRUCTOR,
+                type: DecoratedElementEnum.CONSTRUCTOR,
             },
         }));
         expect(Reflector.getClassTable().getClasses().size).toBe(2);

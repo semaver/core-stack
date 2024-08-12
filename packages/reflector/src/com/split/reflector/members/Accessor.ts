@@ -4,15 +4,14 @@ import {AccessType, ClassMemberAccessError} from "../../errors/ClassMemberAccess
 import {metadataClassOfObject} from "../../extentions/MetadataObjectExtention";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
 import {IMemberMetadataTableRef, IMetadataTableRef} from "../../metatable/metadata/IMetadataTableRef";
-import {DecoratedElementType, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementEnum";
 import {Field} from "./Field";
 import getOwnPropertyDescriptor = Reflect.getOwnPropertyDescriptor;
 
 /**
+ * class that implement Accessor class member
+ *
  * @public
- * @class
- * @extends [[Field]]
- * @description - class that implement Accessor class member
  */
 export class Accessor<T extends object = object, TValue = unknown> extends Field<T, TValue> {
 
@@ -20,12 +19,11 @@ export class Accessor<T extends object = object, TValue = unknown> extends Field
      * @inheritDoc
      */
     public getType(): DecoratedElementTypeValues {
-        return DecoratedElementType.ACCESSOR;
+        return DecoratedElementEnum.ACCESSOR;
     }
 
     /**
      * @public
-     * @constructor
      * @param metadataClass - class that contains current accessor
      * @param name - accessor name
      * @param isStatic - flag that indicates if accessor is static

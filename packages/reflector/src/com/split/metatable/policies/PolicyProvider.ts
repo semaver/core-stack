@@ -13,48 +13,46 @@ import {
 } from "./MetadataSameTargetMultiUsagePolicy";
 
 /**
+ * implementation of policy provider that can be used for advanced policy configuration
+ *
  * @public
- * @class
- * @implements [[IPolicyProvider]]
- * @description - implementation of policy provider
  */
 export class PolicyProvider implements IPolicyProvider {
     /**
      * @protected
      * @readonly
-     * @property access - access policy [[MetadataAccessPolicyValues]]
+     * @property access - access policy
      */
     protected readonly access: MetadataAccessPolicyValues;
 
     /**
      * @protected
      * @readonly
-     * @property appearance - map of metadata appearance policy [[MetadataAppearancePolicyValues]] by primitive metadata access policy [[PrimitiveMetadataAccessPolicyValues]]
+     * @property appearance - map of metadata appearance policy by primitive metadata access policy
      */
-    protected readonly appearance = new Map<PrimitiveMetadataAccessPolicyValues, MetadataAppearancePolicyValues>();
+    protected readonly appearance: Map<PrimitiveMetadataAccessPolicyValues, MetadataAppearancePolicyValues> = new Map<PrimitiveMetadataAccessPolicyValues, MetadataAppearancePolicyValues>();
     /**
      * @protected
      * @readonly
-     * @property collision - map of metadata collision policy [[MetadataCollisionPolicyValues]] by primitive metadata access policy [[PrimitiveMetadataAccessPolicyValues]]
+     * @property collision - map of metadata collision policy by primitive metadata access policy
      */
-    protected collision = new Map<PrimitiveMetadataAccessPolicyValues, MetadataCollisionPolicyValues>();
+    protected collision: Map<PrimitiveMetadataAccessPolicyValues, MetadataCollisionPolicyValues> = new Map<PrimitiveMetadataAccessPolicyValues, MetadataCollisionPolicyValues>();
     /**
      * @protected
      * @readonly
-     * @property notExistence - map of metadata not existence policy [[MetadataNotExistencePolicyValues]] by primitive metadata access policy [[PrimitiveMetadataAccessPolicyValues]]
+     * @property notExistence - map of metadata not existence policy by primitive metadata access policy
      */
-    protected notExistence = new Map<PrimitiveMetadataAccessPolicyValues, MetadataNotExistencePolicyValues>();
+    protected notExistence: Map<PrimitiveMetadataAccessPolicyValues, MetadataNotExistencePolicyValues> = new Map<PrimitiveMetadataAccessPolicyValues, MetadataNotExistencePolicyValues>();
     /**
      * @protected
      * @readonly
-     * @property notExistence - map of metadata same target multi usage policy [[MetadataSameTargetMultiUsagePolicyValues]] by primitive metadata access policy [[PrimitiveMetadataAccessPolicyValues]]
+     * @property notExistence - map of metadata same target multi usage policy by primitive metadata access policy
      */
-    protected sameTargetMultiUsage = new Map<PrimitiveMetadataAccessPolicyValues, MetadataSameTargetMultiUsagePolicyValues>();
+    protected sameTargetMultiUsage: Map<PrimitiveMetadataAccessPolicyValues, MetadataSameTargetMultiUsagePolicyValues> = new Map<PrimitiveMetadataAccessPolicyValues, MetadataSameTargetMultiUsagePolicyValues>();
 
     /**
      * @public
-     * @constructor
-     * @param access - metadata access policy [[MetadataAccessPolicyValues]] default value - ALL
+     * @param access - metadata access policy default value - ALL
      */
     public constructor(access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL) {
         this.access = access;
@@ -62,9 +60,10 @@ export class PolicyProvider implements IPolicyProvider {
     }
 
     /**
+     * method to set default values for all policies based on access provided in constructor
+     *
      * @public
-     * @method to set default values for all policies based on access provided in constructor
-     * @return current instance of policy provider
+     * @returns current instance of policy provider
      */
     public setDefault(): this {
         return this
@@ -76,11 +75,12 @@ export class PolicyProvider implements IPolicyProvider {
     }
 
     /**
+     * method to set appearance policy based on access provided in constructor, all values will be deleted and new values set
+     *
      * @public
-     * @method to set appearance policy based on access provided in constructor, all values will be deleted and new values set
-     * @param value - value [[MetadataAppearancePolicyValues]] to apply to metadata appearance policy
-     * @param access - metadata access policy [[MetadataAccessPolicyValues]], default value - ALL
-     * @return current instance of policy provider
+     * @param value - value to apply to metadata appearance policy
+     * @param access - metadata access policy, default value - ALL
+     * @returns current instance of policy provider
      */
     public setAppearancePolicy(value: MetadataAppearancePolicyValues, access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL): this {
         this.appearance.clear();
@@ -88,11 +88,12 @@ export class PolicyProvider implements IPolicyProvider {
     }
 
     /**
+     * method to set collision policy based on access provided in constructor, old values will be deleted and new values set
+     *
      * @public
-     * @method to set collision policy based on access provided in constructor, old values will be deleted and new values set
-     * @param value - value [[MetadataCollisionPolicyValues]] to apply to metadata collision policy
-     * @param access - metadata access policy [[MetadataAccessPolicyValues]], default value - ALL
-     * @return current instance of policy provider
+     * @param value - value to apply to metadata collision policy
+     * @param access - metadata access policy, default value - ALL
+     * @returns current instance of policy provider
      */
     public setCollisionPolicy(value: MetadataCollisionPolicyValues, access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL): this {
         this.collision.clear();
@@ -100,11 +101,12 @@ export class PolicyProvider implements IPolicyProvider {
     }
 
     /**
+     * method to set not existence policy based on access provided in constructor, old values will be deleted and new values set
+     *
      * @public
-     * @method to set not existence policy based on access provided in constructor, old values will be deleted and new values set
-     * @param value - value [[MetadataNotExistencePolicyValues]] to apply to metadata not existence policy
-     * @param access - metadata access policy [[MetadataAccessPolicyValues]], default value - ALL
-     * @return current instance of policy provider
+     * @param value - value to apply to metadata not existence policy
+     * @param access - metadata access policy, default value - ALL
+     * @returns current instance of policy provider
      */
     public setNotExistencePolicy(value: MetadataNotExistencePolicyValues, access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL): this {
         this.notExistence.clear();
@@ -112,11 +114,12 @@ export class PolicyProvider implements IPolicyProvider {
     }
 
     /**
+     * method to set same target multi usage policy based on access provided in constructor, old values will be deleted and new values set
+     *
      * @public
-     * @method to set same target multi usage policy based on access provided in constructor, old values will be deleted and new values set
-     * @param value - value [[MetadataSameTargetMultiUsagePolicyValues]] to apply to metadata same target multi usage policy
-     * @param access - metadata access policy [[MetadataAccessPolicyValues]], default value - ALL
-     * @return current instance of policy provider
+     * @param value - value to apply to metadata same target multi usage policy
+     * @param access - metadata access policy, default value - ALL
+     * @returns current instance of policy provider
      */
     public setSameTargetMultiUsagePolicy(value: MetadataSameTargetMultiUsagePolicyValues, access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL): this {
         this.sameTargetMultiUsage.clear();
@@ -124,44 +127,48 @@ export class PolicyProvider implements IPolicyProvider {
     }
 
     /**
+     * method to add appearance policy based on access provided in constructor, old values will be updated
+     *
      * @public
-     * @method to add appearance policy based on access provided in constructor, old values will be updated
-     * @param value - value [[MetadataAppearancePolicyValues]] to apply to metadata appearance policy
-     * @param access - metadata access policy [[MetadataAccessPolicyValues]], default value - ALL
-     * @return current instance of policy provider
+     * @param value - value to apply to metadata appearance policy
+     * @param access - metadata access policy, default value - ALL
+     * @returns current instance of policy provider
      */
     public addAppearancePolicy(value: MetadataAppearancePolicyValues, access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL): this {
         return this.addPolicy(this.appearance, value, access);
     }
 
     /**
+     * method to add collision policy based on access provided in constructor, old values will be updated
+     *
      * @public
-     * @method to add collision policy based on access provided in constructor, old values will be updated
-     * @param value - value [[MetadataCollisionPolicyValues]] to apply to metadata collision policy
-     * @param access - metadata access policy [[MetadataAccessPolicyValues]], default value - ALL
-     * @return current instance of policy provider
+     * @param value - value to apply to metadata collision policy
+     * @param access - metadata access policy, default value - ALL
+     * @returns current instance of policy provider
      */
     public addCollisionPolicy(value: MetadataCollisionPolicyValues, access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL): this {
         return this.addPolicy(this.collision, value, access);
     }
 
     /**
+     * method to add not existence policy based on access provided in constructor, old values will be updated
+     *
      * @public
-     * @method to add not existence policy based on access provided in constructor, old values will be updated
-     * @param value - value [[MetadataNotExistencePolicyValues]] to apply to metadata not existence policy
-     * @param access - metadata access policy [[MetadataAccessPolicyValues]], default value - ALL
-     * @return current instance of policy provider
+     * @param value - value to apply to metadata not existence policy
+     * @param access - metadata access policy, default value - ALL
+     * @returns current instance of policy provider
      */
     public addNotExistencePolicy(value: MetadataNotExistencePolicyValues, access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL): this {
         return this.addPolicy(this.notExistence, value, access);
     }
 
     /**
+     * method to add same target multi usage policy based on access provided in constructor, old values will be updated
+     *
      * @public
-     * @method to add same target multi usage policy based on access provided in constructor, old values will be updated
-     * @param value - value [[MetadataSameTargetMultiUsagePolicyValues]] to apply to metadata same target multi usage policy
-     * @param access - metadata access policy [[MetadataAccessPolicyValues]], default value - ALL
-     * @return current instance of policy provider
+     * @param value - value to apply to metadata same target multi usage policy
+     * @param access - metadata access policy, default value - ALL
+     * @returns current instance of policy provider
      */
     public addSameTargetMultiUsagePolicy(value: MetadataSameTargetMultiUsagePolicyValues, access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL): this {
         return this.addPolicy(this.sameTargetMultiUsage, value, access);
@@ -210,12 +217,13 @@ export class PolicyProvider implements IPolicyProvider {
     }
 
     /**
+     * method to add generic policy based on access provided in constructor
+     *
      * @protected
-     * @method to add generic policy
      * @param map - map of metadata policy
      * @param value - value to apply to metadata policy
-     * @param access - metadata access policy [[MetadataAccessPolicyValues]]
-     * @return current instance of policy provider
+     * @param access - metadata access policy
+     * @returns current instance of policy provider
      */
     protected addPolicy(map: Map<PrimitiveMetadataAccessPolicyValues, unknown>, value: unknown, access: MetadataAccessPolicyValues): this {
         let currentAccess: MetadataAccessPolicyValues = this.access & access;

@@ -7,24 +7,21 @@ import {MethodNotFoundError} from "../../errors/MethodNotFoundError";
 import {metadataClassOfObject} from "../../extentions/MetadataObjectExtention";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
 import {IMemberMetadataTableRef, IMetadataTableRef} from "../../metatable/metadata/IMetadataTableRef";
-import {DecoratedElementType, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementEnum";
 import {ExecutableMember} from "./ExecutableMember";
 import {Parameter} from "./Parameter";
 
 /**
+ * class that implement Method class member
  * @public
- * @class
- * @extends [[ExecutableMember]]
- * @description - class that implement Method class member
  */
 export class Method<T extends object = object, TReturnType = unknown> extends ExecutableMember<T> {
     /**
      * @public
-     * @method
      * @param metadataClass - class that contains current method
      * @param name - method name
      * @param isStatic - flag that indicates if method is static
-     * @param parameters - collection of method parameters [[Parameter]]
+     * @param parameters - collection of method parameters
      */
     public constructor(
         metadataClass: IMetadataClass<T>,
@@ -43,7 +40,7 @@ export class Method<T extends object = object, TReturnType = unknown> extends Ex
      * @inheritDoc
      */
     public getType(): DecoratedElementTypeValues {
-        return DecoratedElementType.METHOD;
+        return DecoratedElementEnum.METHOD;
     }
 
     /**
@@ -61,10 +58,12 @@ export class Method<T extends object = object, TReturnType = unknown> extends Ex
     }
 
     /**
+     * method to call a method of static or instance method
+     *
      * @public
-     * @method to call a method of static or instance method
      * @param target - class or instance that contains method
      * @param parameters - parameters used in method
+     * @returns method invocation result
      */
     public invoke(target: IClass<T> | T, ...parameters: any[]): TReturnType {
         this.validate(target);
@@ -119,8 +118,9 @@ export class Method<T extends object = object, TReturnType = unknown> extends Ex
     }
 
     /**
+     * method to validate target before method invocation;
+     *
      * @protected
-     * @method to validate target before method invoke;
      * @param target - instance for instance methods or class for static methods
      */
     protected validate(target: Nullable<IClass<T> | T>): void {

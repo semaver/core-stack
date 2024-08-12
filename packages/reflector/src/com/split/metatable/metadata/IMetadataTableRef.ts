@@ -1,10 +1,11 @@
-/**
- * @public
- * @interface
- * @description  - a part of [[IMetadataTable]] that contains information about static and instance class members by name
- */
 import {IMetatableDecorator} from "../../decorators/Decorator";
 
+/**
+ * a part of metadata table that contains information about static and instance class members by name
+ *
+ * @public
+ * @interface
+ */
 export interface IStructureMetadataTableRef {
     /**
      * @public
@@ -20,9 +21,10 @@ export interface IStructureMetadataTableRef {
 }
 
 /**
+ * a part of metadata table that contains information about decorators and parameters if provided for current class member
+ *
  * @public
  * @interface
- * @description - a part of [[IStructureMetadataTableRef]] that contains information about decorators and parameters if provided for current class member
  */
 export interface IMemberMetadataTableRef {
     /**
@@ -39,9 +41,9 @@ export interface IMemberMetadataTableRef {
 }
 
 /**
+ * metatable reference that contains information about all class members
  * @public
  * @interface
- * @description - metatable reference that contains information about all class members
  */
 export interface IMetadataTableRef {
     /**
@@ -64,7 +66,7 @@ export interface IMetadataTableRef {
 
     /**
      * @public
-     * @property _properties -  - contains metadata information about properties
+     * @property _properties -  contains metadata information about properties
      */
     _properties: IStructureMetadataTableRef;
 }

@@ -6,21 +6,20 @@ import {
 } from "../metatable/policies/MetadataNotExistencePolicy";
 
 /**
+ * decorator function to create/build metaclass decorator
+ *
  * @public
- * @function
- * @return decorator function [[DecoratorFn]]
- * @description - decorator function [[DecoratorFn]] to create/build metaclass decorator [[MetaclassDecorator]]
+ * @returns decorator function
  */
 export function metaclass(): DecoratorFn {
     return Decorator.build(new MetaclassDecorator());
 }
 
 /**
+ * class to create a class decorator to mark this class to be registered in global metatable,\
+ * the target decorated class will be visible in class table without this decorator if it contains other own decorators.
+ *
  * @public
- * @class
- * @extends [[Decorator]]
- * @description - class to create a class decorator to mark this class to be registered in global metatable,
- * the class will be visible in class table without this decorator if it contains other own decorators.
  */
 export class MetaclassDecorator extends Decorator {
 

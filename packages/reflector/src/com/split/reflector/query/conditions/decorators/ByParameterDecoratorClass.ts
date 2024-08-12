@@ -5,17 +5,15 @@ import {IQueryCondition} from "../../IQueryCondition";
 import {QueryInfo} from "../../QueryInfo";
 
 /**
- * @public
- * @class
- * @implements [[IQueryCondition]]
- * @description - implementation of query condition api to filter class members by provided decorator classes
+ * implementation of query condition api to filter class members by provided decorator classes
  * used only for parameters in constructor and methods
+ *
+ * @public
  */
 export class ByParameterDecoratorClass<T extends object = object> implements IQueryCondition<T> {
 
     /**
      * @private
-     * @static
      * @property _cache - cache that contains instance of current query/filter condition
      * to prevent creation of instance every time this condition required (reusing of instance)
      */
@@ -28,7 +26,6 @@ export class ByParameterDecoratorClass<T extends object = object> implements IQu
 
     /**
      * @public
-     * @constructor
      * @param decoratorClasses - collection of decorator classes used in query/filter condition
      */
     public constructor(...decoratorClasses: IClass<Decorator>[]) {
@@ -36,21 +33,22 @@ export class ByParameterDecoratorClass<T extends object = object> implements IQu
     }
 
     /**
+     * method to create query/filter condition (instance) from a collection of decorator classes
+     *
      * @public
-     * @static
-     * @method to create query/filter condition (instance) from collection of decorator classes
      * @param decoratorClasses - collection of decorator classes
-     * @return instance of [[ByParameterDecoratorClass]] query condition
+     * @returns instance of query condition
      */
     public static from<T extends object>(...decoratorClasses: IClass<Decorator>[]): ByParameterDecoratorClass<T> {
         return ByParameterDecoratorClass._cache.setDecoratorClass(...decoratorClasses);
     }
 
     /**
+     * method to set a collection of decorator classes used in query/filter condition
+     *
      * @public
-     * @method to set collection of decorator classes used in query/filter condition
      * @param decoratorClasses - collection of decorator classes used in query/filter condition
-     * @return current instance of query/filter condition
+     * @returns current instance of query/filter condition
      */
     public setDecoratorClass(...decoratorClasses: IClass<Decorator>[]): this {
         this._decoratorClasses = decoratorClasses;
@@ -58,9 +56,7 @@ export class ByParameterDecoratorClass<T extends object = object> implements IQu
     }
 
     /**
-     * @public
-     * @method to perform filtering of class members provided in query info [[QueryInfo]]
-     * @param queryInfo - query info [[QueryInfo]] that contains information about class members
+     * @inheritDoc
      */
     public filter(queryInfo: QueryInfo<T>): void {
         queryInfo

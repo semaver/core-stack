@@ -1,4 +1,4 @@
-import {ByMemberType, DecoratedElementType, reflect, ReflectDecorator, Reflector} from "../src";
+import {ByMemberType, DecoratedElementEnum, reflect, ReflectDecorator, Reflector} from "../src";
 import {SuperReflectedClass} from "./reflector/classes/SuperReflectedClass";
 import {ChildEmptyReflectedClass} from "./reflector/classes/ChildEmptyReflectedClass";
 import {IClass} from "@semaver/core";
@@ -15,23 +15,23 @@ describe("Reflector API Runtime decoration Test", () => {
 
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getDecorators().length).toBe(1);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getOwnDecorators().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().all().length).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().all().length).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofMembers().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(2);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().all().length).toBe(2);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofMembers().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
 
         reflector.getDecoratedConstructor()?.getParameterAt(0)?.addDecorator(reflect());
 
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getDecorators().length).toBe(2);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getOwnDecorators().length).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().all().length).toBe(3);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().all().length).toBe(3);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofMembers().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofParameters().length).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(2);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(3);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().all().length).toBe(3);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofMembers().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofParameters().length).toBe(2);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(2);
 
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getDecorators(ReflectDecorator).length).toBe(1);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getOwnDecorators(ReflectDecorator).length).toBe(1);
@@ -40,12 +40,12 @@ describe("Reflector API Runtime decoration Test", () => {
 
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getDecorators().length).toBe(1);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getOwnDecorators().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().all().length).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().all().length).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofMembers().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(2);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().all().length).toBe(2);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofMembers().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
 
     });
 
@@ -56,23 +56,23 @@ describe("Reflector API Runtime decoration Test", () => {
 
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getDecorators().length).toBe(1);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getOwnDecorators().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().all().length).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().all().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofMembers().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(2);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().all().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofMembers().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(0);
 
         reflector.getDecoratedConstructor()?.getParameterAt(0)?.addDecorator(reflect());
 
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getDecorators().length).toBe(2);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getOwnDecorators().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().all().length).toBe(3);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().all().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofMembers().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofParameters().length).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(3);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().all().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofMembers().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofParameters().length).toBe(2);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
 
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getDecorators(ReflectDecorator).length).toBe(1);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getOwnDecorators(ReflectDecorator).length).toBe(1);
@@ -81,12 +81,12 @@ describe("Reflector API Runtime decoration Test", () => {
 
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getDecorators().length).toBe(1);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getOwnDecorators().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().all().length).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().all().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofMembers().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(2);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().all().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofMembers().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(0);
     });
 
     it("test constructor runtime decoration in empty super", () => {
@@ -95,22 +95,22 @@ describe("Reflector API Runtime decoration Test", () => {
         const reflector: Reflector = Reflector.from(reflectedClass);
 
         expect(reflector.getDecoratedConstructor()).toBeUndefined();
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().all().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().all().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofParameters().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().all().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofParameters().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(0);
 
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.addDecorator(reflect())).toBeUndefined();
 
         expect(reflector.getDecoratedConstructor()).toBeUndefined();
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().all().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().all().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofParameters().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().all().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofParameters().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(0);
     });
 
     it("test constructor runtime decoration in mini super", () => {
@@ -119,22 +119,22 @@ describe("Reflector API Runtime decoration Test", () => {
         const reflector: Reflector = Reflector.from(reflectedClass);
 
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getDecorators().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().all().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().all().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().all().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
 
         reflector.getDecoratedConstructor()?.getParameterAt(0)?.addDecorator(reflect());
 
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getDecorators().length).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().all().length).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().all().length).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofParameters().length).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(2);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(2);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().all().length).toBe(2);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofParameters().length).toBe(2);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(2);
 
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getDecorators(ReflectDecorator).length).toBe(1);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getOwnDecorators(ReflectDecorator).length).toBe(1);
@@ -143,12 +143,12 @@ describe("Reflector API Runtime decoration Test", () => {
 
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getDecorators().length).toBe(1);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getOwnDecorators().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().all().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().all().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().all().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
     });
 
     it("test constructor runtime decoration in mini2 super", () => {
@@ -160,12 +160,12 @@ describe("Reflector API Runtime decoration Test", () => {
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getOwnDecorators().length).toBe(1);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(1)?.getDecorators().length).toBe(0);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(1)?.getOwnDecorators().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().all().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().all().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().all().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
 
         reflector.getDecoratedConstructor()?.getParameterAt(1)?.addDecorator(reflect());
 
@@ -173,12 +173,12 @@ describe("Reflector API Runtime decoration Test", () => {
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getOwnDecorators().length).toBe(1);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(1)?.getDecorators().length).toBe(1);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(1)?.getOwnDecorators().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().all().length).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().all().length).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofParameters().length).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(2);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(2);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().all().length).toBe(2);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofParameters().length).toBe(2);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(2);
 
         expect(reflector.getDecoratedConstructor()?.getParameterAt(1)?.getDecorators(ReflectDecorator).length).toBe(1);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(1)?.getOwnDecorators(ReflectDecorator).length).toBe(1);
@@ -187,12 +187,12 @@ describe("Reflector API Runtime decoration Test", () => {
 
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getDecorators().length).toBe(1);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(1)?.getDecorators().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().all().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().all().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().all().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
     });
 
     test("test constructor runtime decoration in mini2 super none existing arg", () => {
@@ -206,12 +206,12 @@ describe("Reflector API Runtime decoration Test", () => {
         expect(reflector.getDecoratedConstructor()?.getParameterAt(1)?.getOwnDecorators().length).toBe(0);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(2)).toBeUndefined();
         expect(reflector.getDecoratedConstructor()?.getKnownParameterCount()).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().all().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().all().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().all().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
 
         expect(reflector.getDecoratedConstructor()?.getParameterAt(2)?.removeDecorator(ReflectDecorator)).toBeUndefined();
 
@@ -221,11 +221,11 @@ describe("Reflector API Runtime decoration Test", () => {
         expect(reflector.getDecoratedConstructor()?.getParameterAt(1)?.getOwnDecorators().length).toBe(0);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(2)).toBeUndefined();
         expect(reflector.getDecoratedConstructor()?.getKnownParameterCount()).toBe(2);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().all().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().all().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
-        expect(reflector.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().all().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofMembers().length).toBe(0);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofParameters().length).toBe(1);
+        expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).ownDecorators().ofParameters().length).toBe(1);
     });
 });

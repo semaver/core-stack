@@ -3,15 +3,13 @@ import {IMetatableDecorator} from "../../decorators/Decorator";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
 import {IMemberMetadata} from "../../metatable/metadata/IMemberMetadata";
 import {IMemberMetadataTableRef} from "../../metatable/metadata/IMetadataTableRef";
-import {DecoratedElementType, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementEnum";
 import {DecoratedElement} from "./DecoratedElement";
 
 /**
+ * class that implement Parameter for executable class members
+ *
  * @public
- * @abstract
- * @class
- * @extends [[DecoratedElement]]
- * @description - class that implement Parameter for executable class members
  */
 export abstract class Parameter<T extends object = object> extends DecoratedElement<T> {
 
@@ -38,7 +36,6 @@ export abstract class Parameter<T extends object = object> extends DecoratedElem
 
     /**
      * @public
-     * @constructor
      * @param metadataClass - class that contains method with current parameter
      * @param name - method name
      * @param isStatic - flag that indicates if method is static
@@ -58,13 +55,14 @@ export abstract class Parameter<T extends object = object> extends DecoratedElem
      * @inheritDoc
      */
     public getType(): DecoratedElementTypeValues {
-        return DecoratedElementType.PARAMETER;
+        return DecoratedElementEnum.PARAMETER;
     }
 
     /**
+     * method to get current index (position) of parameter
+     *
      * @public
-     * @method to get current index (position) of parameter
-     * @return _index of argument
+     * @returns _index of argument
      */
     public getIndex(): number {
         return this._index;

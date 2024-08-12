@@ -1,7 +1,8 @@
 import {
     getPropertyDescriptor,
     hasProperty,
-    IClass, isObjectEmpty,
+    IClass,
+    isObjectEmpty,
     isObjectPrimitive,
     JsFunction,
     Nullable,
@@ -27,40 +28,39 @@ import {QueryExecutor} from "./query/QueryExecutor";
 
 
 /**
- * @public
- * @class
- * @description - main class to retrieve info about class members and decorators from provided class or instance,
+ *  main class to retrieve info about class members and decorators from provided class or instance,
  * contains functionality to retrieve all decorated classes from class table,
  * contains functionality to perform dynamic decoration of class members or remove decorators from class members for provided class or instance,
  * contains functionality to perform filtering and selection of class members and class member decorators based on provided conditions,
+ *
+ * @public
  */
 export class Reflector<T extends object = object> {
 
     /**
      * @private
-     * @static
      * @readonly
-     * @property classTableProvider - class table provide [[ClassTableProvider]] used to retrieve class table with all decorated classes
+     * @property classTableProvider - class table provider used to retrieve class table with all decorated classes
      */
     private static readonly classTableProvider: ClassTableProvider = new ClassTableProvider();
 
     /**
+     * method to get class table with all classes that contains all decorator
+     *
      * @public
-     * @static
-     * @method to get class table [[IClassTable]] with all classes that contains all decorator
-     * @return class table
+     * @returns class table
      */
     public static getClassTable(): IClassTable {
         return this.classTableProvider.getClassTable();
     }
 
     /**
+     * method to get class info from provided class or instance
+     *
      * @public
-     * @static
-     * @method to get class info from provided class or instance
      * @param obj - provided class or instance
      * @param autoSync - allow recalculation of metatable on each api call (default is false)
-     * @return class info about provided class itself or class of provided instance
+     * @returns class info about provided class itself or class of provided instance
      */
     public static from<T extends object = object>(obj: IClass<T> | T, autoSync: boolean = false): Throwable<Reflector<T>> {
         if (isObjectEmpty(obj)) {
@@ -87,43 +87,43 @@ export class Reflector<T extends object = object> {
     /**
      * @protected
      * @readonly
-     * @property _constructors - collection of constructors [[Constructor]] of provided class
+     * @property _constructors - collection of constructors for provided class
      */
     protected readonly _constructors: Constructor<T>[] = [];
     /**
      * @protected
      * @readonly
-     * @property _methods - collection of methods [[Method]] of provided class
+     * @property _methods - collection of methods for provided class
      */
     protected readonly _methods: Method<T>[] = [];
     /**
      * @protected
      * @readonly
-     * @property _properties - collection of properties [[Property]] of provided class
+     * @property _properties - collection of properties for provided class
      */
     protected readonly _properties: Property<T>[] = [];
     /**
      * @protected
      * @readonly
-     * @property _accessors - collection of accessors [[Accessor]] of provided class
+     * @property _accessors - collection of accessors for provided class
      */
     protected readonly _accessors: Accessor<T>[] = [];
     /**
      * @protected
      * @readonly
-     * @property _fields - collection of fields [[Field]] of provided class
+     * @property _fields - collection of fields for provided class
      */
     protected _fields: Field<T>[] = [];
     /**
      * @protected
      * @readonly
-     * @property _members - collection of all class members [[ClassMember]] of provided class
+     * @property _members - collection of all class members for provided class
      */
     protected _members: ClassMember<T>[] = [];
     /**
      * @protected
      * @readonly
-     * @property _metadataTable - metatable provider [[MetadataTableProvider]] for decorated class
+     * @property _metadataTable - metatable provider for decorated class
      */
     protected readonly _metadataTableProvider: MetadataTableProvider<T>;
     /**
@@ -134,8 +134,7 @@ export class Reflector<T extends object = object> {
 
     /**
      * @protected
-     * @constructor
-     * @param targetClass - class, that will be analysed to retrieve class info
+     * @param targetClass - class, that will be analyzed to retrieve class info
      * @param autoSync - allow recalculation of metatable on each api call (default is false)
      */
     protected constructor(targetClass: IMetadataClass<T>, autoSync: boolean = false) {
@@ -146,9 +145,11 @@ export class Reflector<T extends object = object> {
     }
 
     /**
+     * method to get actual hash of target class, recalculation of cache performed before return of the value (for example,
+     * to cache any data outside class info)
+     *
      * @public
-     * @method to get actual hash of target class, recalculation of cache performed before return of the value (for example to cache any data outside of class info)
-     * @return string representing hash of target class
+     * @returns string representing hash of target class
      */
     public getHash(): string {
         this.refresh();
@@ -156,10 +157,11 @@ export class Reflector<T extends object = object> {
     }
 
     /**
+     * method to retrieve constructor class member from provided target class
+     * constructor class member or its parameters should contain at least one decorator (or else return undefined)
+     *
      * @public
-     * @method to retrieve constructor class member from provided target class
-     * @return constructor class member of provided target class or undefined
-     * @description constructor class member or its parameters should contain at least one decorator (or else return undefined)
+     * @returns constructor class member of provided target class or undefined
      */
     public getDecoratedConstructor(): Nullable<Constructor<T>> {
         this.updateOnAutoSync();
@@ -167,9 +169,10 @@ export class Reflector<T extends object = object> {
     }
 
     /**
+     * method to retrieve constructor of class with known parameters
+     *
      * @public
-     * @method to retrieve constructor of class with known parameters
-     * @return constructor of class with known parameters
+     * @returns constructor of class with known parameters
      */
     public getConstructor(): Constructor<T> {
         this.updateOnAutoSync();
@@ -177,11 +180,12 @@ export class Reflector<T extends object = object> {
     }
 
     /**
+     * method to retrieve method class member from provided target class
+     *
      * @public
-     * @method to retrieve method class member from provided target class
      * @param name - name of method (beware of obfuscation/minification level)
      * @param isStatic - flag used to find instance or static method with provided name
-     * @return method class members of provided target class (decorated or not decorated if exists, or else return undefined)
+     * @returns method class members of provided target class (decorated or not decorated if exists, or else return undefined)
      */
     public getMethod<TReturnType = unknown>(name: string, isStatic: boolean = false): Nullable<Method<T, TReturnType>> {
         this.updateOnAutoSync();
@@ -191,12 +195,13 @@ export class Reflector<T extends object = object> {
     }
 
     /**
+     * method to retrieve field class member (accessor or property) from provided target class
+     *
      * @public
-     * @method to retrieve field class member (accessor or property) from provided target class
      * @param name - name of field (beware of obfuscation/minification level)
      * @param isStatic - flag used to find instance or static field with provided name
-     * @return field class members of provided target class (decorated or not decorated if exists,
-     * or else return autogenerated property [[Property]] with requested name and statics)
+     * @returns field class members of provided target class (decorated or not decorated if exists,
+     * or else return autogenerated property with requested name and statics)
      */
     public getField<TValue = unknown>(name: string, isStatic: boolean = false): Field<T, TValue> {
         this.updateOnAutoSync();
@@ -207,11 +212,12 @@ export class Reflector<T extends object = object> {
     }
 
     /**
+     * method to retrieve accessor class member from provided target class
+     *
      * @public
-     * @method to retrieve accessor class member from provided target class
      * @param name - name of accessor (beware of obfuscation/minification level)
      * @param isStatic - flag used to find instance or static accessor with provided name
-     * @return accessor class members of provided target class (decorated or not decorated if exists, or else return undefined)
+     * @returns accessor class members of provided target class (decorated or not decorated if exists, or else return undefined)
      */
     public getAccessor<TValue = unknown>(name: string, isStatic: boolean = false): Nullable<Accessor<T, TValue>> {
         this.updateOnAutoSync();
@@ -220,12 +226,13 @@ export class Reflector<T extends object = object> {
     }
 
     /**
+     * method to retrieve property class member from provided target class
+     *
      * @public
-     * @method to retrieve property class member from provided target class
      * @param name - name of property (beware of obfuscation/minification level)
      * @param isStatic - flag used to find instance or static property with provided name
-     * @return property class members of provided target class (decorated or not decorated if exists,
-     * or else return autogenerated property [[Property]] with requested name and statics)
+     * @returns property class members of provided target class (decorated or not decorated if exists,
+     * or else return autogenerated property with requested name and statics)
      */
     public getProperty<TValue = unknown>(name: string, isStatic: boolean = false): Property<T, TValue> {
         this.updateOnAutoSync();
@@ -234,10 +241,11 @@ export class Reflector<T extends object = object> {
     }
 
     /**
+     * method to retrieve methods class members from provided target class
+     * method class member or its parameters should contain at least one decorator to appear in the collection
+     *
      * @public
-     * @method to retrieve methods class members from provided target class
-     * @return collection of methods class members of provided target class
-     * @description method class member or its parameters should contain at least one decorator to appear in collection
+     * @returns collection of methods class members of provided target class
      */
     public getDecoratedMethods(): readonly Method<T>[] {
         this.updateOnAutoSync();
@@ -245,10 +253,11 @@ export class Reflector<T extends object = object> {
     }
 
     /**
+     * method to retrieve fields class members (accessors and properties) from provided target class
+     * field class member should contain at least one decorator to appear in the collection
+     *
      * @public
-     * @method to retrieve fields class members (accessors and properties) from provided target class
-     * @return collection of fields class members of provided target class
-     * @description field class member should contain at least one decorator to appear in collection
+     * @returns collection of fields class members of provided target class
      */
     public getDecoratedFields(): readonly Field<T>[] {
         this.updateOnAutoSync();
@@ -256,10 +265,11 @@ export class Reflector<T extends object = object> {
     }
 
     /**
+     * method to retrieve accessors class members from provided target class
+     * accessor class member should contain at least one decorator to appear in the collection
+     *
      * @public
-     * @method to retrieve accessors class members from provided target class
-     * @return collection of accessors class members of provided target class
-     * @description accessor class member should contain at least one decorator to appear in collection
+     * @returns collection of accessors class members of provided target class
      */
     public getDecoratedAccessors(): readonly Accessor<T>[] {
         this.updateOnAutoSync();
@@ -267,10 +277,11 @@ export class Reflector<T extends object = object> {
     }
 
     /**
+     * method to retrieve properties' class members from provided target class
+     * property class member should contain at least one decorator to appear in the collection
+     *
      * @public
-     * @method to retrieve properties class members from provided target class
-     * @return collection of properties class members of provided target class
-     * @description property class member should contain at least one decorator to appear in collection
+     * @returns collection of properties class members of provided target class
      */
     public getDecoratedProperties(): readonly Property<T>[] {
         this.updateOnAutoSync();
@@ -278,10 +289,11 @@ export class Reflector<T extends object = object> {
     }
 
     /**
+     * method to retrieve all decorated class members from provided target class
+     * decorated class member should contain at least one decorator to appear in the collection
+     *
      * @public
-     * @method to retrieve properties class members from provided target class
-     * @return collection of properties class members of provided target class
-     * @description property class member should contain at least one decorator to appear in collection
+     * @returns collection of decorated class members of provided target class
      */
     public getDecoratedMembers(): readonly ClassMember<T>[] {
         this.updateOnAutoSync();
@@ -289,10 +301,11 @@ export class Reflector<T extends object = object> {
     }
 
     /**
+     * method to get query executor [[QueryExecutor]] for the class members of provided class
+     * query executor is used to filter and select class members and decorators based on provided options
+     *
      * @public
-     * @method to get query executor [[QueryExecutor]] for the class members of provided class
-     * @return instance of query executor
-     * @description query executor is used to filter and select class members and decorators based on provided options
+     * @returns instance of query executor
      */
     public query(): QueryExecutor<T> {
         this.updateOnAutoSync();
@@ -300,9 +313,10 @@ export class Reflector<T extends object = object> {
     }
 
     /**
+     * method to get/refresh all class information about all decorated members
+     *
      * @public
-     * @method to get all class information about all decorated members
-     * @return current instance of reflector
+     * @returns current instance of reflector
      */
     public refresh(): this {
         if (this._syncHash !== this._class.__own_hash__ || this._metadataTableProvider.isMetatableChanged()) {
@@ -434,9 +448,10 @@ export class Reflector<T extends object = object> {
     }
 
     /**
+     * method to update metatable if autoSync is enabled
+     *
      * @protected
-     * @method to update metatable if autoSync is enabled
-     * @return void
+     * @returns void
      */
     protected updateOnAutoSync(): void {
         if (this._autoSync) {
@@ -445,11 +460,12 @@ export class Reflector<T extends object = object> {
     }
 
     /**
+     * method to get none decorated method based on provided parameters
+     *
      * @private
-     * @method to get none decorated method based on provided parameters
      * @param name - name of method
      * @param isStatic - whether the method is static or not
-     * @return method [[Method]] or if not found undefined
+     * @returns method or if not found undefined
      */
     private getNonDecoratedMethod(name: string, isStatic: boolean): Nullable<Method<T>> {
         const target: object = isStatic ? this._class : this._class.prototype as object;
@@ -479,11 +495,12 @@ export class Reflector<T extends object = object> {
 
 
     /**
+     * method to get none decorated property based on provided parameters
+     *
      * @private
-     * @method to get none decorated property based on provided parameters
      * @param name - name of property
      * @param isStatic - whether the property is static or not
-     * @return property [[Property]], provided always, but can have undefined value due JS
+     * @returns property [[Property]], provided always, but can have undefined value due JS
      */
     private getNonDecoratedProperty(name: string, isStatic: boolean): Property<T> {
         return new Property(
@@ -495,11 +512,12 @@ export class Reflector<T extends object = object> {
 
 
     /**
+     * method to get none decorated accessor based on provided parameters
+     *
      * @private
-     * @method to get none decorated accessor based on provided parameters
      * @param name - name of accessor
      * @param isStatic - whether the accessor is static or not
-     * @return accessor [[Accessor]]
+     * @returns accessor
      */
     private getNonDecoratedAccessor(name: string, isStatic: boolean): Nullable<Accessor<T>> {
         const target: object = isStatic ? this._class : this._class.prototype as object;
@@ -514,9 +532,9 @@ export class Reflector<T extends object = object> {
     }
 
     /**
+     * method to get none decorated constructor
      * @private
-     * @method to get none decorated constructor
-     * @return constructor [[Constructor]], exist always
+     * @returns constructor, exist always
      */
     private getNonDecoratedConstructor(): Constructor<T> {
         const parameterLength: number = getKnownConstructorParameterLength(this._class);

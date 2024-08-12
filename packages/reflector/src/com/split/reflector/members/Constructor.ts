@@ -3,15 +3,14 @@ import {Decorator, DecoratorFn, IMetatableDecorator} from "../../decorators/Deco
 import {metadataClassOfObject} from "../../extentions/MetadataObjectExtention";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
 import {IMemberMetadataTableRef, IMetadataTableRef} from "../../metatable/metadata/IMetadataTableRef";
-import {DecoratedElementType, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementEnum";
 import {ExecutableMember} from "./ExecutableMember";
 import {Parameter} from "./Parameter";
 
 /**
+ * class that implement Constructor class member
+ *
  * @public
- * @class
- * @extends [[ExecutableMember]]
- * @description - class that implement Constructor class member
  */
 export class Constructor<T extends object = object> extends ExecutableMember<T> {
 
@@ -19,7 +18,6 @@ export class Constructor<T extends object = object> extends ExecutableMember<T> 
 
     /**
      * @public
-     * @constructor
      * @param metadataClass - class that contains current constructor
      * @param name
      * @param parameters - collection of constructor arguments [[Parameter]]
@@ -47,7 +45,7 @@ export class Constructor<T extends object = object> extends ExecutableMember<T> 
      * @inheritDoc
      */
     public getType(): DecoratedElementTypeValues {
-        return DecoratedElementType.CONSTRUCTOR;
+        return DecoratedElementEnum.CONSTRUCTOR;
     }
 
     /**
@@ -58,9 +56,11 @@ export class Constructor<T extends object = object> extends ExecutableMember<T> 
     }
 
     /**
+     * method to create new instance from constructor/class
+     *
      * @public
-     * @method to create new instance from constructor/class
      * @param parameters - parameters used in constructor
+     * @returns newly created instance applying parameters
      */
     public newInstance(...parameters: any[]): T {
         return Reflect.construct(this._class, parameters);

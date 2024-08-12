@@ -1,17 +1,19 @@
-import {isObjectClass, Nullable} from "@semaver/core";
+import {isObjectClass, Nullable, Throwable, throwDefault} from "@semaver/core";
 import {Constructor} from "../reflector/members/Constructor";
 import {IMetadataClass} from "./classes/IMetadataClass";
 import {IMemberMetadata} from "./metadata/IMemberMetadata";
 import {MetadataAccessPolicy} from "./policies/MetadataAccessPolicy";
-import {DecoratedElementType} from "./types/DecoratedElementType";
+import {DecoratedElementEnum} from "./types/DecoratedElementEnum";
 import {metadataClassOfObject} from "../extentions/MetadataObjectExtention";
 
 /**
+ * function to generate parameter metadata
+ *
  * @public
- * @function to generate parameter metadata
  * @param target - metadata class or instance that contains class member with provided parameter in constructor or method
  * @param name - class name for constructor or method name for methods
  * @param index - index(position) of parameter in constructor or method
+ * @returns class member metadata
  */
 export function getParameterMetadata<T extends object>(target: T, name: Nullable<string>, index: number): IMemberMetadata<T> {
 
@@ -21,7 +23,7 @@ export function getParameterMetadata<T extends object>(target: T, name: Nullable
     const isConstructor: boolean = !name && isStatic;
 
     return {
-        type: isConstructor ? DecoratedElementType.CONSTRUCTOR_PARAMETER : DecoratedElementType.METHODS_PARAMETER,
+        type: isConstructor ? DecoratedElementEnum.CONSTRUCTOR_PARAMETER : DecoratedElementEnum.METHODS_PARAMETER,
         name: name ?? Constructor.defaultName,
         owner: targetClass,
         isStatic: !!name && isStatic,
@@ -37,10 +39,12 @@ export function getParameterMetadata<T extends object>(target: T, name: Nullable
 }
 
 /**
+ * function to generate method metadata
+ *
  * @public
- * @function to generate method metadata
  * @param target - metadata class or instance that contains method
  * @param name - method name
+ * @returns class member metadata
  */
 export function getMethodMetadata<T extends object>(target: T, name: string): IMemberMetadata<T> {
 
@@ -48,7 +52,7 @@ export function getMethodMetadata<T extends object>(target: T, name: string): IM
     const isStatic: boolean = isObjectClass(target);
 
     return {
-        type: DecoratedElementType.METHOD,
+        type: DecoratedElementEnum.METHOD,
         name,
         owner: targetClass,
         isStatic,
@@ -58,10 +62,12 @@ export function getMethodMetadata<T extends object>(target: T, name: string): IM
 }
 
 /**
+ * function to generate accessor metadata
+ *
  * @public
- * @function to generate accessor metadata
  * @param target - metadata class or instance that contains accessor
  * @param name - accessor name
+ * @returns class member metadata
  */
 export function getAccessorMetadata<T extends object>(target: T, name: string): IMemberMetadata<T> {
 
@@ -69,7 +75,7 @@ export function getAccessorMetadata<T extends object>(target: T, name: string): 
     const isStatic: boolean = isObjectClass(target);
 
     return {
-        type: DecoratedElementType.ACCESSOR,
+        type: DecoratedElementEnum.ACCESSOR,
         name,
         owner: targetClass,
         isStatic,
@@ -79,10 +85,12 @@ export function getAccessorMetadata<T extends object>(target: T, name: string): 
 }
 
 /**
+ * function to generate property metadata
+ *
  * @public
- * @function to generate property metadata
  * @param target - metadata class or instance that contains property
  * @param name - property name
+ * @returns class member metadata
  */
 export function getPropertyMetadata<T extends object>(target: T, name: string): IMemberMetadata<T> {
 
@@ -90,7 +98,7 @@ export function getPropertyMetadata<T extends object>(target: T, name: string): 
     const isStatic: boolean = isObjectClass(target);
 
     return {
-        type: DecoratedElementType.PROPERTY,
+        type: DecoratedElementEnum.PROPERTY,
         name,
         owner: targetClass,
         isStatic,
@@ -101,15 +109,17 @@ export function getPropertyMetadata<T extends object>(target: T, name: string): 
 }
 
 /**
+ * function to generate constructor metadata
+ *
  * @public
- * @function to generate constructor metadata
  * @param target - metadata class or instance that contains constructor
+ * @returns class member metadata
  */
 export function getConstructorMetadata<T extends object>(target: T): IMemberMetadata<T> {
     const targetClass: IMetadataClass<T> = metadataClassOfObject(target);
 
     return {
-        type: DecoratedElementType.CONSTRUCTOR,
+        type: DecoratedElementEnum.CONSTRUCTOR,
         name: Constructor.defaultName,
         owner: targetClass,
         isStatic: false,
@@ -119,13 +129,15 @@ export function getConstructorMetadata<T extends object>(target: T): IMemberMeta
 }
 
 /**
+ * function to generate class member metadata from JS TypedPropertyDescriptor
+ *
  * @public
- * @function to generate class member metadata from JS TypedPropertyDescriptor
  * @param target - metadata class or instance that contains class member
  * @param classMemberName  - class member name
  * @param propertyDescriptorOrIndex - JS TypedPropertyDescriptor of class member
+ * @returns class member metadata or throws error if class member not found
  */
-export function getMetadata<T extends object>(target: T, classMemberName?: string, propertyDescriptorOrIndex?: TypedPropertyDescriptor<T> | number): Nullable<IMemberMetadata<T>> {
+export function getMetadata<T extends object>(target: T, classMemberName?: string, propertyDescriptorOrIndex?: TypedPropertyDescriptor<T> | number): Throwable<IMemberMetadata<T>> {
     let propertyDescriptor: Nullable<TypedPropertyDescriptor<T>>;
     let index: number = NaN;
 
@@ -157,5 +169,5 @@ export function getMetadata<T extends object>(target: T, classMemberName?: strin
         return getConstructorMetadata(target);
     }
 
-    return undefined;
+    throwDefault(target, "Metadata not found");
 }

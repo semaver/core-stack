@@ -1,7 +1,6 @@
 /**
+ * class to select class members from query info
  * @public
- * @class
- * @description - class to select class members from query info [[QueryInfo]]
  */
 import {Nullable} from "@semaver/core";
 import {ClassMember} from "../members/ClassMember";
@@ -11,31 +10,32 @@ export class QueryMembersSelector<T extends object> {
     /**
      * @protected
      * @readonly
-     * @property queryInfo - query info, that contains information about selected class members
+     * @property queryInfo - query info that contains information about selected class members
      */
     protected readonly queryInfo: QueryInfo<T>;
 
     /**
      * @public
-     * @constructor
-     * @param queryInfo - query info, that contains information about selected class members
+     * @param queryInfo - query info that contains information about selected class members
      */
     public constructor(queryInfo: QueryInfo<T>) {
         this.queryInfo = queryInfo;
     }
 
     /**
+     * method to get all filtered class members from query info
+     *
      * @public
-     * @method to get all filtered class members from query info
-     * @return collection of filtered class members
+     * @returns collection of filtered class members
      */
     public all<K extends ClassMember<T> = ClassMember<T>>(): K[] {
         return this.queryInfo.getMembers<K>();
     }
 
     /**
+     * method to get a first accrued class member from the filtered collection of class members
      * @public
-     * @method to get first class member from filtered collection of class members
+     * @returns first class member
      */
     public first<K extends ClassMember<T> = ClassMember<T>>(): Nullable<K> {
         return this.queryInfo.getMemberAt(0);

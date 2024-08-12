@@ -2,9 +2,10 @@ import {IClass, Nullable} from "@semaver/core";
 import {IMetadataTableRef} from "../metadata/IMetadataTableRef";
 
 /**
+ * metadata class names used to define metadata properties
+ *
  * @public
  * @enum
- * @description - metadata class names used to define metadata properties
  */
 export enum MetadataClassNames {
     OWN_HASH = "__own_hash__",
@@ -14,10 +15,10 @@ export enum MetadataClassNames {
 }
 
 /**
+ * interface that represent class with metadata
+ *
  * @public
  * @interface
- * @extends [[IClass]]
- * @description - interface that represent class with metadata
  */
 export interface IMetadataClass<T> extends IClass<T> {
 

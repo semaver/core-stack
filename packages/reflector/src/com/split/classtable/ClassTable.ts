@@ -5,10 +5,8 @@ import {IClassTableSubscriber} from "./IClassTableSubscriber";
 import {IClassTableUpdate} from "./IClassTableUpdate";
 
 /**
+ * class wrapper for class table reference
  * @public
- * @class
- * @implements [[IClassTable]]
- * @description class wrapper for class table reference
  */
 export class ClassTable implements IClassTable {
 
@@ -16,14 +14,13 @@ export class ClassTable implements IClassTable {
      *
      * @private
      * @readonly
-     * @property classTableRef - reference to class table [[IClassTableRef]]
+     * @property classTableRef - reference to class table
      */
     private readonly classTableRef: IClassTableRef;
 
     /**
      * @public
-     * @constructor
-     * @param classTableRef - reference to class table [[IClassTableRef]]
+     * @param classTableRef - reference to class table
      */
     public constructor(classTableRef: IClassTableRef) {
         this.classTableRef = classTableRef;
@@ -37,9 +34,10 @@ export class ClassTable implements IClassTable {
     }
 
     /**
+     * method to get collection of classes containing own metadata
+     *
      * @public
-     * @method to get collection of classes containing own metadata
-     * @return modifiable set of classes
+     * @returns modifiable set of classes
      */
     public getWriteableClasses(): Set<IMetadataClass<unknown>> {
         return this.classTableRef._classes;
@@ -53,8 +51,9 @@ export class ClassTable implements IClassTable {
     }
 
     /**
+     * method to set synchronisation hash
+     *
      * @public
-     * @method to set synchronisation hash
      * @param hash - string of synchronisation hash
      */
     public setSyncHash(hash: string): void {
@@ -63,7 +62,6 @@ export class ClassTable implements IClassTable {
 
     /**
      * @inheritDoc
-     * @param subscribers
      */
     public subscribe(...subscribers: IClassTableSubscriber[]): this {
         subscribers.forEach(subscriber => this.classTableRef._subscribers.add(subscriber));
@@ -79,10 +77,11 @@ export class ClassTable implements IClassTable {
     }
 
     /**
+     * method to notify subscribers about class table updates
+     *
      * @public
-     * @method to notify subscribers about class table updates
-     * @param update - update object containing information about updates [[IClassTableUpdate]]
-     * @return instance of current class table
+     * @param update - update object containing information about updates
+     * @returns instance of current class table
      */
     public notify(update: IClassTableUpdate): this {
         this.classTableRef._subscribers.forEach(subscriber => {

@@ -3,33 +3,36 @@ import {Nullable} from "../types/utility/Nullable";
 import {classOfObject, isObjectClass, superClassOfObject} from "./CoreObject";
 
 /**
+ * function to check whether an object has an own property with the specified name
+ *
  * @public
- * @function to check whether an object has an own property with the specified name.
  * @param obj - object that contains the property.
- * @param property - a property name.
- * @return true if property found
+ * @param property - a property key
+ * @returns true if property found
  */
 export function hasOwnProperty(obj: Nullable<object>, property: PropertyKey): boolean {
     return !!obj && !!Reflect.getOwnPropertyDescriptor(obj, property);
 }
 
 /**
+ * function to check whether an object has own or inherited property with the specified name.
+ *
  * @public
- * @function to check whether an object has own or inherited property with the specified name.
- * @param obj - object that contains the property.
- * @param property - a property name.
- * @return true if property found
+ * @param obj - object that contains the property
+ * @param property - a property key
+ * @returns true if property found
  */
 export function hasProperty(obj: Nullable<object>, property: PropertyKey): boolean {
     return !!getPropertyDescriptor(obj, property);
 }
 
 /**
+ * function to get the owner of the property
+ *
  * @public
- * @function to get the owner of the property
  * @param obj - object that contains the property
- * @param property  - a property name
- * @return owner of the property or undefined
+ * @param property  - a property key
+ * @returns owner of the property or undefined
  */
 export function getPropertyOwner<S extends object, C extends S>(obj: Nullable<C>, property: PropertyKey): Nullable<S> {
     if (obj) {
@@ -53,11 +56,12 @@ export function getPropertyOwner<S extends object, C extends S>(obj: Nullable<C>
 }
 
 /**
+ * function to get own or inherited property descriptor of the specified object
+ *
  * @public
- * @function to get own or inherited property descriptor of the specified object.
  * @param obj - object that contains the property
- * @param property  - a property name
- * @return property descriptor Js PropertyDescriptor or undefined
+ * @param property  - a property key
+ * @returns property descriptor Js {@link PropertyDescriptor} or undefined
  */
 export function getPropertyDescriptor(obj: Nullable<object>, property: PropertyKey): Nullable<PropertyDescriptor> {
     const target: Nullable<object> = getPropertyOwner(obj, property);

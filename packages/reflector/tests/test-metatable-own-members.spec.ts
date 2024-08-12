@@ -3,7 +3,7 @@ import {testAllDescriptors, testOwnDecorators} from "./helpers/test-regular-deco
 import {testQueries} from "./helpers/test-regular-queries-helper";
 import {OwnSuperClass} from "./reflector/own/OwnSuperClass";
 import {OwnChildClass} from "./reflector/own/OwnChildClass";
-import {Accessor, ByMemberName, ByMemberType, ClassMember, DecoratedElementType, Reflector} from "../src";
+import {Accessor, ByMemberName, ByMemberType, ClassMember, DecoratedElementEnum, Reflector} from "../src";
 import {Nullable} from "@semaver/core";
 
 describe("Reflector API Basic Members Test", () => {
@@ -28,13 +28,13 @@ describe("Reflector API Basic Members Test", () => {
 
         const superMember: Nullable<ClassMember<OwnSuperClass>> = superInfo
             .query()
-            .filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR))
+            .filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR))
             .members()
             .first();
 
         const childMember: Nullable<ClassMember<OwnSuperClass>> = childInfo
             .query()
-            .filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR))
+            .filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR))
             .members()
             .first();
 

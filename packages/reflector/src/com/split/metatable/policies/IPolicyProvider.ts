@@ -6,55 +6,62 @@ import {MetadataSameTargetMultiUsagePolicyValues} from "./MetadataSameTargetMult
 
 
 /**
+ * definition of policy provider interface
+ *
  * @public
  * @interface
- * @description - definition of policy provider interface
  */
 export interface IPolicyProvider {
     /**
+     * method to get current access policy
+     *
      * @public
-     * @method to get current access policy
-     * @return metadata access policy [[MetadataAccessPolicyValues]]
+     * @returns metadata access policy
      */
     getAccessPolicy(): MetadataAccessPolicyValues;
 
     /**
+     * method to get current appearance policy by providing access
+     *
      * @public
-     * @method to get current appearance policy by providing access
-     * @param access - primitive metadata access policy [[PrimitiveMetadataAccessPolicyValues]]
-     * @return metadata appearance policy [[MetadataAppearancePolicyValues]]
+     * @param access - primitive metadata access policy
+     * @returns metadata appearance policy
      */
     getAppearancePolicy(access: PrimitiveMetadataAccessPolicyValues): MetadataAppearancePolicyValues;
 
     /**
+     * method to get current collision policy by providing access
+     *
      * @public
-     * @method to get current collision policy by providing access
-     * @param access - primitive metadata access policy [[PrimitiveMetadataAccessPolicyValues]]
-     * @return metadata collision policy [[MetadataCollisionPolicyValues]]
+     * @param access - primitive metadata access policy
+     * @returns metadata collision policy
      */
     getCollisionPolicy(access: PrimitiveMetadataAccessPolicyValues): MetadataCollisionPolicyValues;
 
     /**
+     * method to get current not existence policy by providing access
+     *
      * @public
-     * @method to get current not existence policy by providing access
-     * @param access - primitive metadata access policy [[PrimitiveMetadataAccessPolicyValues]]
-     * @return metadata collision policy [[MetadataNotExistencePolicyValues]]
+     * @param access - primitive metadata access policy
+     * @returns metadata collision policy
      */
     getNotExistencePolicy(access: PrimitiveMetadataAccessPolicyValues): MetadataNotExistencePolicyValues;
 
     /**
+     * method to get current same target multi usage policy by providing access
+     *
      * @public
-     * @method to get current same target multi usage policy by providing access
-     * @param access - primitive metadata access policy [[PrimitiveMetadataAccessPolicyValues]]
-     * @return metadata same target multi usage policy [[MetadataSameTargetMultiUsagePolicyValues]]
+     * @param access - primitive metadata access policy
+     * @returns metadata same target multi usage policy
      */
     getSameTargetMultiUsagePolicy(access: PrimitiveMetadataAccessPolicyValues): MetadataSameTargetMultiUsagePolicyValues;
 
     /**
+     * method to check if access policy provided
+     *
      * @public
-     * @method to check if access policy provided
-     * @param access - primitive metadata access policy [[PrimitiveMetadataAccessPolicyValues]]
-     * @return if access policy provided
+     * @param access - primitive metadata access policy
+     * @returns if access policy provided
      */
     hasAccessPolicy(access: PrimitiveMetadataAccessPolicyValues): boolean;
 }

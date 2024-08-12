@@ -1,20 +1,18 @@
 import {ExtendedError} from "@semaver/core";
-import {DecoratedElementTypeValues} from "../metatable/types/DecoratedElementType";
+import {DecoratedElementTypeValues} from "../metatable/types/DecoratedElementEnum";
 import {ClassMember} from "../reflector/members/ClassMember";
 
 /**
+ * custom error for class member target thrown if class member does not exist in target
+ *
  * @public
- * @class
- * @extends [[ExtendedError]]
- * @description - custom error for class member target thrown if class member does not exist in target
  */
 export class ClassMemberNotExistenceError extends ExtendedError {
 
     /**
      * @public
-     * @constructor
-     * @param target - class member [[ClassMember]] where error is thrown
-     * @param classMemberType - class member type [[DecoratedElementTypeValues]]
+     * @param target - class member where error is thrown
+     * @param classMemberType - class member type
      * @param classMemberName - class member name
      * @param classMemberTarget - class member object (object containing class member)
      */

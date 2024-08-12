@@ -2,19 +2,18 @@ import {IInterface} from "../types/base/IInterface";
 import {isObjectEmpty} from "./CoreObject";
 
 /**
+ * implementation of generic Interface Symbol to "materialize" interface and avoid "only refers to a type, but is being used as a value" Error
+ *
  * @public
- * @class
- * @implements [[IInterface]]
- * @description - implementation of generic Interface Symbol to "materialize" interface and avoid "only refers to a type, but is being used as a value" Error
  */
 export class InterfaceSymbol<T> implements IInterface<T> {
 
     /**
+     * method to create or get interface symbol by unique identifier
+     *
      * @public
-     * @static
-     * @method to create or get interface symbol [[InterfaceSymbol]]
      * @param uid - unique identifier
-     * @return interface symbol if found
+     * @returns interface symbol if found
      */
     public static for<T>(uid: string | symbol): IInterface<T> {
         if (isObjectEmpty(uid)) {
@@ -35,7 +34,6 @@ export class InterfaceSymbol<T> implements IInterface<T> {
 
     /**
      * @private
-     * @static
      * @property pool of all interface symbols
      */
     private static pool: Map<symbol, InterfaceSymbol<unknown>> = new Map<symbol, InterfaceSymbol<unknown>>();
@@ -48,8 +46,7 @@ export class InterfaceSymbol<T> implements IInterface<T> {
 
     /**
      * @private
-     * @constructor
-     * @param uid - unique identifier of type [[symbol]]
+     * @param uid - unique identifier of type symbol
      */
     private constructor(uid: symbol) {
         this.uid = uid;

@@ -1,21 +1,19 @@
 import {Decorator, DecoratorFn} from "./Decorator";
 
 /**
- * @global
+ * decorator function to create/build reflect decorator
+ *
  * @public
- * @function
- * @return decorator function [[DecoratorFn]]
- * @description - decorator function [[DecoratorFn]] to create/build reflect decorator [[ReflectDecorator]]
+ * @returns decorator function
  */
 export function reflect(): DecoratorFn {
     return Decorator.build(new ReflectDecorator());
 }
 
 /**
+ * class to create empty decorator with all default policies to mark a class member to be registered in metatable
+ *
  * @public
- * @class
- * @extends [[Decorator]]
- * @description - class to create empty decorator with all default policies to mark a class member to be registered in metatable
  */
 export class ReflectDecorator extends Decorator {
 }

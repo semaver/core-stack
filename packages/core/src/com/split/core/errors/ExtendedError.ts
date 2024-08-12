@@ -1,13 +1,11 @@
 /**
+ * default error with object where error is thrown
+ *
  * @public
- * @class
- * @extends [[Error]]
- * @description - default error with object where error is thrown
  */
 export class ExtendedError extends Error {
     /**
      * @public
-     * @constructor
      * @param target - object where error is thrown
      * @param error - description of error
      */
@@ -17,21 +15,23 @@ export class ExtendedError extends Error {
 }
 
 /**
+ * function to throw a default error
+ *
  * @public
- * @function to throw a default error
  * @param target - object where error is thrown
  * @param error - description of error
- * @return never
+ * @returns never
  */
 export function throwDefault(target: object, error: string = "Error"): never {
     throw new ExtendedError(target, error);
 }
 
 /**
+ * function to throw an error
+ *
  * @public
- * @function to throw an error
- * @param error - instance of [[Error]]
- * @return never
+ * @param error - instance of {@link Error}
+ * @returns never
  */
 export function throwError(error: Error): never {
     throw error;

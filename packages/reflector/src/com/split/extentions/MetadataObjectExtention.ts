@@ -2,31 +2,34 @@ import {classOfObject, getObjectSuperClassChain, IClass, Nullable, superClassOfO
 import {IMetadataClass} from "../metatable/classes/IMetadataClass";
 
 /**
+ * function to get the metadata class of given object
+ *
  * @public
- * @function to get the metadata class of given object
  * @param obj - object of generic type
- * @return class [[IClass]] of the given object
+ * @returns class of the given object
  */
 export function metadataClassOfObject<T extends object>(obj: IClass<T> | T): IMetadataClass<T> {
     return classOfObject(obj) as IMetadataClass<T>;
 }
 
 /**
+ * function to get metadata super class of the given class
+ *
  * @public
- * @function to get metadata super class of the given class
- * @param childClass - target class [[IClass]]
+ * @param childClass - target class
  * @param ignoreNativeObjectClass - flag if set to true, native object class will be ignored and function return undefined if superclass is native object class (default value - false)
- * @return metadta super class [[IMetadataClass]] of the given class or undefined
+ * @returns metadata super class of the given class or undefined
  */
 export function metadataSuperClassOfObject<S extends object, C extends S>(childClass: Nullable<IClass<C>>, ignoreNativeObjectClass: boolean = false): Nullable<IMetadataClass<S>> {
     return superClassOfObject(childClass, ignoreNativeObjectClass) as Nullable<IMetadataClass<S>>;
 }
 
 /**
+ * function to get known constructor parameter length of the target class
+ *
  * @public
- * @function to get known constructor parameter length of the target class
- * @param targetClass - target class [[IMetadataClass]]
- * @return number of known constructor parameters of the target class
+ * @param targetClass - target class
+ * @returns number of known constructor parameters of the target class
  */
 export function getKnownConstructorParameterLength(targetClass: IMetadataClass<object>): number {
     let target: Nullable<IMetadataClass<object>> = targetClass;
@@ -37,12 +40,13 @@ export function getKnownConstructorParameterLength(targetClass: IMetadataClass<o
 }
 
 /**
+ * function to get metadata super class chain of the object (collection, first element is source class of the object)
+ *
  * @public
- * @function to get metadata super class chain of the object (collection, first element is source class of the object)
  * @param obj - object (class or instance) as source for super class chain
  * @param reversed - flag if true source class will appear at the end of array (default value - false)
- * @param excludeNativeObjectClass - flag to exclude native object [[Object]] class from chain (default value - true)
- * @return readonly array of metadata super classes
+ * @param excludeNativeObjectClass - flag to exclude native object class from chain (default value - true)
+ * @returns readonly array of metadata super classes
  */
 export function getMetadataObjectSuperClassChain(obj: Nullable<object>, reversed: boolean = false, excludeNativeObjectClass: boolean = true): readonly IMetadataClass<object>[] {
     return getObjectSuperClassChain(obj, reversed, excludeNativeObjectClass) as readonly IMetadataClass<object>[];

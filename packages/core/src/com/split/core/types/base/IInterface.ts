@@ -1,10 +1,11 @@
 import {EmptyGeneric} from "../utility/EmptyGeneric";
 
 /**
+ * definition of generic interface
+ *
  * @public
  * @interface
- * @description - definition of generic interface
- * @extends [[EmptyGeneric]]
+ * @see {@link InterfaceSymbol}
  */
 export interface IInterface<T> extends EmptyGeneric<T> {
     /**

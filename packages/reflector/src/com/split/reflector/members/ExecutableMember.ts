@@ -1,32 +1,28 @@
 import {IClass, Nullable} from "@semaver/core";
 import {Decorator} from "../../decorators/Decorator";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
-import {DecoratedElementType, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementEnum";
 import {ClassMember} from "./ClassMember";
 import {Parameter} from "./Parameter";
 
 /**
+ * abstract class that implement Executable api and contains core functionality for executable class members
  * @public
- * @abstract
- * @class
- * @extends [[ClassMember]]
- * @description - abstract class that implement Executable api and contains core functionality for executable class members
  */
 export abstract class ExecutableMember<T extends object = object> extends ClassMember<T> {
     /**
      * @protected
      * @readonly
-     * @property _parameters - collection of parameters [[Parameter]]
+     * @property _parameters - collection of parameters
      */
     protected readonly _parameters: Parameter<T>[] = [];
 
     /**
      * @protected
-     * @constructor
      * @param metadataClass - class that contains current class member
      * @param name - class member name
      * @param isStatic - flag that indicates if class member is static
-     * @param parameters - collection of parameters [[Parameter]]
+     * @param parameters - collection of parameters
      */
     protected constructor(
         metadataClass: IMetadataClass<T>,
@@ -42,72 +38,83 @@ export abstract class ExecutableMember<T extends object = object> extends ClassM
      * @inheritDoc
      */
     public getType(): DecoratedElementTypeValues {
-        return DecoratedElementType.EXECUTABLE_ELEMENT;
+        return DecoratedElementEnum.EXECUTABLE_ELEMENT;
     }
 
     /**
+     * method to get known parameter count from <b>reflection api<b>
+     * myMethodA(...args) return argument length == 0,
+     * myMethodA(someArg1, someArg2, ...args) return argument length == 2
+     * myMethodA(someArg1, someArg2 = 1, ...args) return argument length == 1
+     * the result is based on investigation of superclasses
+     *
      * @public
-     * @method to get known parameter count from reflection api
-     * @description - myMethodA(...args) return argument length == 0, myMethodA(someArg1, someArg2, ...args) return argument length == 2
-     * @return known parameter count
+     * @returns known parameter count
      */
     public getKnownParameterCount(): number {
         return this._parameters.length;
     }
 
     /**
+     * method to get own parameter count from <b>descriptor api<b>
+     * myMethodA(...args) return argument length == 0,
+     * myMethodA(someArg1, someArg2, ...args) return argument length == 2
+     * myMethodA(someArg1, someArg2 = 1, ...args) return argument length == 1
+     *
      * @public
-     * @abstract
-     * @method to get own parameter count from descriptor api
-     * @description - myMethodA(...args) return argument length == 0, myMethodA(someArg1, someArg2, ...args) return argument length == 2
-     * @return own parameter count
+     * @returns own parameter count
      */
     public abstract getOwnParameterCount(): number;
 
     /**
+     * method to get parameters from provided executable class
+     *
      * @public
-     * @method to get parameters from provided executable class
-     * @return copy of parameters collection [[Parameter]]
+     * @returns copy of parameters' collection
      */
     public getParameters(): readonly Parameter<T>[] {
         return this._parameters;
     }
 
     /**
+     * method to get parameter at specific index (position)
+     *
      * @public
-     * @method to get parameter at specific index (position)
      * @param index - index (position) of parameter
-     * @return parameter if found or undefined
+     * @returns parameter if found or undefined
      */
     public getParameterAt(index: number): Nullable<Parameter<T>> {
         return 0 <= index && index < this._parameters.length ? this._parameters[index] : undefined;
     }
 
     /**
+     * method to check if executable class member has own parameter decorators
+     *
      * @public
-     * @method to check if executable class member has own parameter decorators
      * @param decoratorClasses - collection of decorator classes to check (can be omitted)
-     * @return true if decorators found
+     * @returns true if decorators found
      */
     public hasOwnParameterDecorators(...decoratorClasses: IClass<Decorator>[]): boolean {
         return this._parameters.some((parameter) => parameter.hasOwnDecorators(...decoratorClasses));
     }
 
     /**
+     * method to check if executable class member has full proceeded parameter decorators
+     *
      * @public
-     * @method to check if executable class member has full proceeded parameter decorators
      * @param decoratorClasses - collection of decorator classes to check (can be omitted)
-     * @return true if decorators found
+     * @returns true if decorators found
      */
     public hasParameterDecorators(...decoratorClasses: IClass<Decorator>[]): boolean {
         return this._parameters.some((parameter) => parameter.hasDecorators(...decoratorClasses));
     }
 
     /**
+     * method to get full proceeded parameter decorators from provided executable class
+     *
      * @public
-     * @method to get full proceeded parameter decorators from provided executable class
      * @param decoratorClasses - collection of decorator classes to get (can be omitted)
-     * @return readonly collection of parameters decorators by index (position)
+     * @returns readonly collection of parameters' decorators by index (position)
      */
     public getParameterDecorators(...decoratorClasses: IClass<Decorator>[]): readonly (readonly Decorator[])[] {
         const decorators: (readonly Decorator[])[] = [];
@@ -118,10 +125,11 @@ export abstract class ExecutableMember<T extends object = object> extends ClassM
     }
 
     /**
+     * method to get own parameter decorators from provided executable class
+     *
      * @public
-     * @method to get own parameter decorators from provided executable class
      * @param decoratorClasses - collection of decorator classes to get (can be omitted)
-     * @return readonly collection of parameters decorators by index (position)
+     * @returns readonly collection of parameters' decorators by index (position)
      */
     public getOwnParameterDecorators(...decoratorClasses: IClass<Decorator>[]): readonly (readonly Decorator[])[] {
         const decorators: (readonly Decorator[])[] = [];

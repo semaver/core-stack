@@ -3,20 +3,18 @@ import {Decorator, DecoratorFn, IMetatableDecorator} from "../../decorators/Deco
 import {metadataClassOfObject} from "../../extentions/MetadataObjectExtention";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
 import {IMemberMetadataTableRef, IMetadataTableRef} from "../../metatable/metadata/IMetadataTableRef";
-import {DecoratedElementType, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementEnum";
 import {Field} from "./Field";
 
 /**
+ * class that implement Property class member
+ *
  * @public
- * @class
- * @extends [[Field]]
- * @description - class that implement Property class member
  */
 export class Property<T extends object = object, TValue = unknown> extends Field<T, TValue> {
 
     /**
      * @public
-     * @constructor
      * @param metadataClass - class that contains current property
      * @param name - property name
      * @param isStatic - flag that indicates if property is static
@@ -35,7 +33,7 @@ export class Property<T extends object = object, TValue = unknown> extends Field
      * @inheritDoc
      */
     public getType(): DecoratedElementTypeValues {
-        return DecoratedElementType.PROPERTY;
+        return DecoratedElementEnum.PROPERTY;
     }
 
     /**

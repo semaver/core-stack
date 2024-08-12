@@ -4,7 +4,7 @@ import {
     ByMemberType,
     ByParameterDecoratorClass,
     ClassMember,
-    DecoratedElementType,
+    DecoratedElementEnum,
     Reflector,
 } from "../src";
 import {SuperReflectedClass} from "./reflector/classes/SuperReflectedClass";
@@ -30,13 +30,13 @@ describe("Reflector API Queries Arguments", () => {
 
         classMembers = reflector
             .query()
-            .filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR))
+            .filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR))
             .filter(ByMemberDecoratorClass.from(StandardDecorator))
             .members().all();
 
         const classMemberOne: Nullable<ClassMember<SuperReflectedClass>> = reflector
             .query()
-            .filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR))
+            .filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR))
             .filter(ByMemberDecoratorClass.from(StandardDecorator))
             .members().first();
 
@@ -56,13 +56,13 @@ describe("Reflector API Queries Arguments", () => {
 
         classMembers = reflector
             .query()
-            .filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR))
+            .filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR))
             .filter(ByMemberDecoratorClass.from(StandardDecorator))
             .members().all();
 
         classMemberOne = reflector
             .query()
-            .filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR))
+            .filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR))
             .filter(ByMemberDecoratorClass.from(StandardDecorator))
             .members().first();
 
@@ -71,13 +71,13 @@ describe("Reflector API Queries Arguments", () => {
 
         classMembers = reflector
             .query()
-            .filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR))
+            .filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR))
             .filter(ByDecoratorClass.from(StandardDecorator))
             .members().all();
 
         classMemberOne = reflector
             .query()
-            .filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR))
+            .filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR))
             .filter(ByDecoratorClass.from(StandardDecorator))
             .members().first();
 
@@ -86,13 +86,13 @@ describe("Reflector API Queries Arguments", () => {
 
         classMembers = reflector
             .query()
-            .filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR))
+            .filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR))
             .filter(ByParameterDecoratorClass.from(StandardDecorator))
             .members().all();
 
         classMemberOne = reflector
             .query()
-            .filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR))
+            .filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR))
             .filter(ByParameterDecoratorClass.from(StandardDecorator))
             .members().first();
 

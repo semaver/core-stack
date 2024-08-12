@@ -2,39 +2,44 @@ import {IMetadataClass} from "../metatable/classes/IMetadataClass";
 import {IClassTableSubscriber} from "./IClassTableSubscriber";
 
 /**
+ * interface for class wrapper
+ *
  * @public
  * @interface
- * @description interface for class wrapper
  */
 export interface IClassTable {
 
     /**
+     * method to get collection of classes containing own metadata
+     *
      * @public
-     * @method to get collection of classes containing own metadata
-     * @return readonly set of classes
+     * @returns readonly set of classes
      */
     getClasses(): ReadonlySet<IMetadataClass<unknown>>;
 
     /**
+     * method to get synchronisation hash
+     *
      * @public
-     * @method to get synchronisation hash
-     * @return string of synchronisation hash
+     * @returns string of synchronisation hash
      */
     getSyncHash(): string;
 
     /**
+     * method to add subscribers to metadata class table
+     *
      * @public
-     * @method to add subscribers to metadata class table
-     * @param subscribers - args collection of subscribers [[IClassTableSubscriber]]
-     * @return instance of current class table
+     * @param subscribers - args collection of subscribers
+     * @returns instance of current class table
      */
     subscribe(...subscribers: IClassTableSubscriber[]): this
 
     /**
+     * method to remove subscribers from metadata class table
+     *
      * @public
-     * @method to remove subscribers from metadata class table
-     * @param subscribers - args collection of subscribers [[IClassTableSubscriber]]
-     * @return instance of current class table
+     * @param subscribers - args collection of subscribers
+     * @returns instance of current class table
      */
     unsubscribe(...subscribers: IClassTableSubscriber[]): this
 }
