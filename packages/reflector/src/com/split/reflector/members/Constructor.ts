@@ -20,7 +20,7 @@ export class Constructor<T extends object = object> extends ExecutableMember<T> 
      * @public
      * @param metadataClass - class that contains current constructor
      * @param name
-     * @param parameters - collection of constructor arguments [[Parameter]]
+     * @param parameters - collection of constructor arguments
      */
     public constructor(
         metadataClass: IMetadataClass<T>,

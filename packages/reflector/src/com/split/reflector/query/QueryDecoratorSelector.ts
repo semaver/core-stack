@@ -1,5 +1,5 @@
 /**
- * class to select metadata from class members defined in query info [[QueryInfo]]
+ * class to select metadata from class members defined in query info
  *
  * @public
  */

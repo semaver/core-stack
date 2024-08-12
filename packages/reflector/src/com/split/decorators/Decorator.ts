@@ -150,7 +150,7 @@ export abstract class Decorator {
     }
 
     /**
-     * method to get same target usage policy [[MetadataSameTargetMultiUsagePolicyValues]] of decorator by access
+     * method to get same target usage policy of decorator by access
      *
      * @public
      * @param access - primitive access policy

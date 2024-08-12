@@ -24,7 +24,7 @@ export abstract class DecoratedElement<T extends object = object> implements IDe
     /**
      * @protected
      * @readonly
-     * @property _metadataTable - metatable provider [[MetadataTableProvider]] for decorated element
+     * @property _metadataTable - metatable provider for decorated element
      */
     protected readonly _metadataTableProvider: MetadataTableProvider<T>;
 

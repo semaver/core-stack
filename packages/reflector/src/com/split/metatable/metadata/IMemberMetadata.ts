@@ -12,7 +12,7 @@ import {MetadataAccessPolicyValues} from "../policies/MetadataAccessPolicy";
 export interface IMemberMetadata<T = unknown> {
     /**
      * @public
-     * @property type - type of decorated element [[DecoratedElementTypeValues]]
+     * @property type - type of decorated element
      */
     type: DecoratedElementTypeValues;
 

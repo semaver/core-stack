@@ -21,43 +21,35 @@ $ npm install @semaver/core
     - [JS Types](#js-types)
         - [JsFunction](#jsfunction)
         - [JsObject](#jsobject)
-
     - [Utility Types](#utility-types)
         - [EmptyGeneric](#emptygeneric)
         - [Nullable](#nullable)
         - [Throwable](#throwable)
-
     - [Base Types](#base-types)
         - [IClass](#iclass)
         - [IFunction](#ifunction)
         - [IInterface](#iinterface)
         - [IType](#itype)
-
-    - [Dictionaries](#dictionaries)
-        - [IStringKeyDictionary](#istringkeydictionary)
-        - [INumberKeyDictionary](#inumberkeydictionary)
-        - [IDictionary](#idictionary)
-
 - [Extensions](#extensions)
     - [InterfaceSymbol](#interfacesymbol)
         - [for](#for)
     - [CoreObject](#coreobject)
-        - [isEmpty](#isempty)
-        - [isPrimitive](#isprimitive)
-        - [isClass](#isclass)
-        - [classOf](#classof)
+        - [isObjectEmpty](#isobjectempty)
+        - [isObjectPrimitive](#isobjectprimitive)
+        - [isObjectClass](#isobjectclass)
+        - [classOfObject](#classofobject)
         - [haveSameClass](#havesameclass)
-        - [superClassOf](#superclassof)
+        - [superClassOfObject](#superclassofObject)
         - [isNativeObjectClass](#isnativeobjectclass)
-        - [getSuperClassChain](#getsuperclasschain)
+        - [getObjectSuperClassChain](#getobjectsuperclasschain)
     - [CoreReflect](#corereflect)
-        - [hasOwn](#hasown)
-        - [has](#has)
-        - [getOwner](#getowner)
-        - [getDescriptor](#getdescriptor)
+        - [hasOwnProperty](#hasownproperty)
+        - [hasProperty](#hasProperty)
+        - [getProperetyOwner](#getpropertyowner)
+        - [getPropertyDescriptor](#getpropertydescriptor)
         -
 - [Errors](#errors)
-    - [CoreError](#coreerror)
+    - [ExtendedError](#extendederror)
         - [throwDefault](#throwdefault)
         - [throwError](#throwerror)
 
@@ -78,7 +70,7 @@ Type for default javascript function.
 #### JsObject
 
 ```ts
-JsObject = Object
+type JsObject = Object
 ```
 
 Type for default javascript object.
@@ -90,7 +82,7 @@ Type for default javascript object.
 #### EmptyGeneric
 
 ```ts
-type EmptyGeneric<T> = {};
+interface EmptyGeneric<T>{};
 ```
 
 Type for empty generic object.
@@ -121,7 +113,7 @@ Type for generic throwable object.
 
 Contains interfaces and mixed type to make objects strongly typed.
 
-#### IClass<T>
+#### IClass
 
 ```ts
 interface IClass<T> extends JsFunction, EmptyGeneric<T>
@@ -131,7 +123,7 @@ Generic class type with prototype property of type `IPrototype<T>`.
 
 [back](#table-of-contents)
 
-#### IFunction<T>
+#### IFunction
 
 ```ts
 type IFunction<TReturnType> = (...args: any[]) => TReturnType
@@ -141,60 +133,25 @@ Generic function type with any number of arguments and a returning type.
 
 [back](#table-of-contents)
 
-#### IInterface<T>
+#### IInterface
 
 ```ts
-interface IInterface<T>
+interface IInterface<T> extends EmptyGeneric<T>{
+  readonly uid: symbol;
+}
 ```
 
 Generic interface type with read only property `uid` of type `symbol`.
 
 [back](#table-of-contents)
 
-#### IType<T>
+#### IType
 
 ```ts
 type IType<T> = IClass<T> | IInterface<T>
 ```
 
 [Union type](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#union-types) to mix `IClass<T>` and `IInterface<T>`. 
-
-[back](#table-of-contents)
-
-### Dictionaries
-
-Key-value objects with understandable names.
-
-#### IStringKeyDictionary
-
-```ts
-interface IStringKeyDictionary<TValueType>
-```
-
-Dictionary with string keys.
-
-[back](#table-of-contents)
-
-#### INumberKeyDictionary
-
-```ts
-interface INumberKeyDictionary<TValueType>
-```
-
-Dictionary with number keys.
-
-[back](#table-of-contents)
-
-#### IDictionary
-
-```ts
-type IDictionary<TValueType> = 
-	IStringKeyDictionary<TValueType> | 
-	INumberKeyDictionary<TValueType>
-```
-
-[Union type](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#union-types) for dictionary with string keys or
-number keys.
 
 [back](#table-of-contents)
 
@@ -211,8 +168,7 @@ Helper to "materialize" interfaces. JS interfaces are just syntactic sugar, so c
 ##### For
 
 ```ts
-static for
-<T>(uid: string | symbol): IInterface<T>
+static for<T>(uid: string | symbol): IInterface<T>
 ```
 
 Static method to create a symbol for a given interface, that is used to "materialize" an interface.
@@ -220,6 +176,7 @@ Static method to create a symbol for a given interface, that is used to "materia
 Example:
 
 ```ts
+// to avoid Ts Error - "refers to a type, but is being used as a value here."
 export const ISomeInterface: IInterface<ISomeInterface> =
     InterfaceSymbol.for("ISomeInterface");
 
@@ -240,47 +197,44 @@ container.bind(ISomeInterface).toClass(SomeInterfaceImpl);
 
 ### CoreObject
 
-```ts
-class CoreObject 
-```
-Helper class for working with objects.
+Collection of helpers to work with objects.
 
 [back](#table-of-contents)
 
-#### isEmpty
+#### isObjectEmpty
 
 ```ts
-static isEmpty<T>(obj: T): boolean
+function isObjectEmpty(obj: unknown): boolean
 ```
 
 Checks if given object is null or undefined.
 
 [back](#table-of-contents)
 
-#### isPrimitive
+#### isObjectPrimitive
 
 ```ts
-static isPrimitive<T>(obj: T): boolean
+function isObjectPrimitive(obj: unknown): boolean
 ```
 
 Checks if given object is primitive.
 
 [back](#table-of-contents)
 
-#### isClass
+#### isObjectClass
 
 ```ts
-static isClass<T extends object>(obj: T): boolean
+function isObjectClass(obj: Nullable<object & { call?: JsFunction, apply?: JsFunction }>): boolean
 ```
 
 Checks if given object is class.
 
 [back](#table-of-contents)
 
-#### classOf
+#### classOfObject
 
 ```ts
-static classOf<T extends object >(obj: IClass<T> | T): IClass<T>
+function classOfObject<T extends object >(obj: IClass<T> | T): IClass<T>
 ```
 
 Returns class from the given instance or from class itself.
@@ -290,18 +244,20 @@ Returns class from the given instance or from class itself.
 #### haveSameClass
 
 ```ts
-static haveSameClass<A extends object, B extends object>(instanceA: A, instanceB: B): boolean
+function haveObjectsSameClass<A extends object, B extends object>(
+	instanceA: Nullable<A>, 
+	instanceB: Nullable<B>): boolean
 ```
 
 Returns true if two instances are of the same class.
 
 [back](#table-of-contents)
 
-#### superClassOf
+#### superClassOfObject
 
 ```ts
-static superClassOf<S extends object, C extends S>(
-  childClass: IClass<C>, 
+function superClassOfObject<S extends object, C extends S>(
+  childClass: Nullable<IClass<C>>, 
   ignoreNativeObjectClass: boolean = false
 ): Nullable<IClass<S>>
 ```
@@ -314,21 +270,21 @@ JavaScript `Object`, then returns `undefined`.
 #### isNativeObjectClass
 
 ```ts
-static isNativeObjectClass<T extends object>(targetClass: IClass<T>): boolean
+function isNativeObjectClass<T extends object>(targetClass: Nullable<IClass<T>>): boolean
 ```
 
 Returns true if class is the native JavaScript `Object` class.
 
 [back](#table-of-contents)
 
-#### getSuperClassChain
+#### getObjectSuperClassChain
 
 ```ts
-static getSuperClassChain<S extends object, C extends S>(
-    obj: C, 
+function getObjectSuperClassChain(
+    obj: Nullable<object>, 
     reversed: boolean = false, 
     excludeNativeObjectClass: boolean = true
-): ReadonlyArray<IClass<S>>
+): readonly IClass<object>[]
 ```
 
 Returns superclass chain of the object.
@@ -347,47 +303,46 @@ If `excludeNativeObjectClass` === `true`, then **`Object`** class is excluded fr
 
 ### CoreReflect
 
-```ts
-class CoreReflect 
-```
-Helper class for object reflection.
+Collection of helpers to work with  object reflection.
 
 [back](#table-of-contents)
 
-#### hasOwn
+#### hasOwnProperty
 
 ```ts
-static hasOwn<T extends object>(obj: T, property: PropertyKey): boolean
+function hasOwnProperty(obj: Nullable<object>, property: PropertyKey): boolean
 ```
 
 Checks if object (class or instance) has **own** property.
 
 [back](#table-of-contents)
 
-#### has
+#### hasProperty
 
 ```ts
-static has<T extends object>(obj: T, property: PropertyKey): boolean
+function hasProperty(obj: Nullable<object>, property: PropertyKey): boolean
 ```
 
 Checks if object (class or instance) has **own or inherited** property.
 
 [back](#table-of-contents)
 
-#### getOwner
+#### getPropertyOwner
 
 ```ts
-static getOwner<S extends object, C extends S>(obj: C, property: PropertyKey): Nullable<S>
+function getPropertyOwner<S extends object, C extends S>(
+  obj: Nullable<C>, 
+  property: PropertyKey): Nullable<S>
 ```
 
 Returns object (class or instance), that is the **owner** of the property.
 
 [back](#table-of-contents)
 
-#### getDescriptor
+#### getPropertyDescriptor
 
 ```ts
-static getDescriptor<T extends object>(obj: T, property: PropertyKey): Nullable<PropertyDescriptor>
+function getPropertyDescripto(obj: Nullable<object>, property: PropertyKey): Nullable<PropertyDescriptor>
 ```
 
 Returns a descriptor of the property. The property can be **own or inherited**.
@@ -396,10 +351,10 @@ Returns a descriptor of the property. The property can be **own or inherited**.
 
 ## Errors
 
-### CoreError
+### ExtendedError
 
 ```ts
-class CoreError extends Error
+class ExtendedError extends Error
 ```
 
 Base class for error handling.
@@ -409,7 +364,7 @@ Base class for error handling.
 #### throwDefault
 
 ```ts
-static throwDefault<T>(target: T, error: string = "Error"): never
+function throwDefault(target: object, error: string = "Error"): never
 ```
 
 Throws default error, with minimal information.
@@ -419,7 +374,7 @@ Throws default error, with minimal information.
 #### throwError
 
 ```ts
-static throwError<T extends Error>(error: T): never
+function throwError(error: Error): never
 ```
 
 Throws custom error.

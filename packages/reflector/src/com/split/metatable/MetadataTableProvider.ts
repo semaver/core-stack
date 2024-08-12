@@ -934,7 +934,7 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
-     * method to check if provided child member decorator exist in any metadata table of super classes (constructor parameters and static member metadata are ignored)
+     * method to check if provided child member decorator exist in any metadata table of superclasses (constructor parameters and static member metadata are ignored)
      *
      * @private
      * @param childClass - child class to check

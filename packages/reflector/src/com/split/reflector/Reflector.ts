@@ -301,7 +301,7 @@ export class Reflector<T extends object = object> {
     }
 
     /**
-     * method to get query executor [[QueryExecutor]] for the class members of provided class
+     * method to get query executor for the class members of provided class
      * query executor is used to filter and select class members and decorators based on provided options
      *
      * @public
@@ -500,7 +500,7 @@ export class Reflector<T extends object = object> {
      * @private
      * @param name - name of property
      * @param isStatic - whether the property is static or not
-     * @returns property [[Property]], provided always, but can have undefined value due JS
+     * @returns property, provided always, but can have undefined value due JS
      */
     private getNonDecoratedProperty(name: string, isStatic: boolean): Property<T> {
         return new Property(

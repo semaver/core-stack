@@ -1,5 +1,5 @@
 /**
- * definition for generic type that can throw an error
+ * definition for a generic type that can throw an error
  *
  * @public
  * @interface type

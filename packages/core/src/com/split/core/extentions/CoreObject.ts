@@ -7,7 +7,7 @@ import {Nullable} from "../types/utility/Nullable";
  *
  * @public
  * @param obj - object of unknown type
- * @returns true if object is null or undefined, if value 0 (number) return false
+ * @returns true if an object is null or undefined, if value 0 (number) return false
  */
 export function isObjectEmpty(obj: unknown): boolean {
     return obj === null || obj === undefined;
@@ -18,7 +18,7 @@ export function isObjectEmpty(obj: unknown): boolean {
  *
  * @public
  * @param obj - object of type
- * @returns true if object is primitive
+ * @returns true if an object is primitive
  */
 export function isObjectPrimitive(obj: unknown): boolean {
     return obj !== Object(obj);
@@ -60,7 +60,7 @@ export function haveObjectsSameClass<A extends object, B extends object>(instanc
 
 
 /**
- * function to get super class of the given class
+ * function to get superclass of the given class
  *
  * @public
  * @param childClass - target class to get super class
@@ -74,7 +74,7 @@ export function superClassOfObject<S extends object, C extends S>(childClass: Nu
 }
 
 /**
- * function to check if class [[IClass]] is native object class
+ * function to check if a class is a native object class
  *
  * @public
  * @param targetClass - class to check
@@ -85,13 +85,13 @@ export function isNativeObjectClass<T extends object>(targetClass: Nullable<ICla
 }
 
 /**
- * function to get super class chain of the object (collection, first element is source class of the object)
+ * function to get a superclass chain of the object (collection, the first element is source class of the object)
  *
  * @public
- * @param obj - object (class or instance) as source for super class chain
+ * @param obj - object (class or instance) as a source for superclass chain
  * @param reversed - flag if true source class will appear at the end of array (default value - false)
- * @param excludeNativeObjectClass - flag to exclude native object class from chain (default value - true)
- * @returns readonly array of super classes
+ * @param excludeNativeObjectClass - flag to exclude native object class from a chain (default value - true)
+ * @returns readonly array of superclasses
  */
 export function getObjectSuperClassChain(obj: Nullable<object>, reversed: boolean = false, excludeNativeObjectClass: boolean = true): readonly IClass<object>[] {
     const result: IClass<object>[] = [];

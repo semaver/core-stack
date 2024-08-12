@@ -1,5 +1,5 @@
 /**
- * default error with object where error is thrown
+ * default error with an object where error is thrown
  *
  * @public
  */
