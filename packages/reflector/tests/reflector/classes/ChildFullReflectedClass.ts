@@ -2,10 +2,11 @@ import {SuperReflectedClass} from "./SuperReflectedClass";
 import {standard} from "../../common/metadata/StandardDecorator";
 
 export class ChildFullReflectedClass extends SuperReflectedClass {
+    protected static _accessorStaticGet: string = "accessorStaticGet";
 
     // @standard("accessor isStatic full get")
     public static get accessorStaticFull(): string {
-        return "accessorStaticFull";
+        return this._accessorStaticGet;
     }
 
     @standard("accessor isStatic full set", 4)
@@ -15,7 +16,7 @@ export class ChildFullReflectedClass extends SuperReflectedClass {
 
     @standard("accessor isStatic only get", 5)
     public static get accessorStaticGet(): string {
-        return "accessorStaticGet";
+        return this._accessorStaticGet;
     }
 
     @standard("accessor isStatic only set", 6)
@@ -24,7 +25,7 @@ export class ChildFullReflectedClass extends SuperReflectedClass {
     }
 
     public get accessorNormalFull(): string {
-        return "accessorNormalFull";
+        return this._accessorNormalGet;
     }
 
     @standard("accessor normal full set", 1)
@@ -34,7 +35,7 @@ export class ChildFullReflectedClass extends SuperReflectedClass {
 
     @standard("accessor normal only get", 2)
     public get accessorNormalGet(): string {
-        return "accessorNormalGet";
+        return this._accessorNormalGet;
     }
 
     @standard("accessor normal only set", 3)
@@ -80,12 +81,12 @@ export class ChildFullReflectedClass extends SuperReflectedClass {
     }
 
     @standard("method normal with 1 default param", 13)
-    public runNormalWith1DefaultParam(@standard("param 1 in normal method", 14) param: string, defaultParam: number = 10): number {
+    public runNormalWith1DefaultParam(@standard("param 1 in normal method", 14) _param: string, defaultParam: number = 10): number {
         return defaultParam;
     }
 
     @standard("method normal with 2 param", 15)
-    public runNormalWith2Param(@standard("param 1 in normal method", 16) param: string, @standard("param 2 in normal method", 17) notDefaultParam: number): number {
+    public runNormalWith2Param(@standard("param 1 in normal method", 16) _param: string, @standard("param 2 in normal method", 17) notDefaultParam: number): number {
         return notDefaultParam;
     }
 }

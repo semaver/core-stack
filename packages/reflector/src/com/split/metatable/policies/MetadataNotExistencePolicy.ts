@@ -1,3 +1,11 @@
+export interface MetadataNotExistencePolicyType {
+    APPLY: number;
+    SKIP: number;
+    DEFAULT: number
+}
+
+export type MetadataNotExistencePolicyValues = MetadataNotExistencePolicyType[keyof MetadataNotExistencePolicyType];
+
 /**
  * @public
  * @enum
@@ -8,8 +16,8 @@
  *  - APPLY - decorator from super class is used for child class
  *  - DEFAULT - APPLY definition used
  */
-export enum MetadataNotExistencePolicy {
-    SKIP,
-    APPLY,
-    DEFAULT = APPLY,
-}
+export const MetadataNotExistencePolicy: Readonly<MetadataNotExistencePolicyType> = Object.freeze({
+    SKIP: 0,
+    APPLY: 1,
+    DEFAULT: 1,
+});

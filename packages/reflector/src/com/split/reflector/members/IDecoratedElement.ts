@@ -1,6 +1,6 @@
 import {IClass} from "@semaver/core";
 import {Decorator, DecoratorFn} from "../../decorators/Decorator";
-import {DecoratedElementType} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementType";
 
 /**
  * @public
@@ -11,10 +11,10 @@ export interface IDecoratedElement<T extends object = object> {
 
     /**
      * @public
-     * @method to get current class member type from [[DecoratedElementType]] (can be constructor, method, accessor, property)
+     * @method to get current class member type from [[DecoratedElementTypeValues]] (can be constructor, method, accessor, property)
      * @return current class member type
      */
-    getType(): DecoratedElementType;
+    getType(): DecoratedElementTypeValues;
 
     /**
      * @public
@@ -59,7 +59,7 @@ export interface IDecoratedElement<T extends object = object> {
      * @param decoratorClasses - collection of decorator classes to get (can be omitted)
      * @return readonly collection of decorators
      */
-    getDecorators(...decoratorClasses: IClass<Decorator>[]): ReadonlyArray<Decorator>;
+    getDecorators(...decoratorClasses: IClass<Decorator>[]): readonly Decorator[];
 
     /**
      * @public
@@ -67,7 +67,7 @@ export interface IDecoratedElement<T extends object = object> {
      * @param decoratorClasses - collection of decorator classes to get (can be omitted)
      * @return readonly collection of decorators
      */
-    getOwnDecorators(...decoratorClasses: IClass<Decorator>[]): ReadonlyArray<Decorator>;
+    getOwnDecorators(...decoratorClasses: IClass<Decorator>[]): readonly Decorator[];
 
     /**
      * @public

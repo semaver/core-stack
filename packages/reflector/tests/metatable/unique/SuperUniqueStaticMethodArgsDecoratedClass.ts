@@ -6,4 +6,8 @@ export class SuperUniqueStaticMethodArgsDecoratedClass {
         void (param);
         return 0;
     }
+
+    public run(param: string): string {
+        return param;
+    }
 }

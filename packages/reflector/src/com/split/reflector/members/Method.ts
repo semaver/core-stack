@@ -1,13 +1,13 @@
-import {CoreObject, CoreReflect, IClass, IFunction, Nullable} from "@semaver/core";
+import {classOfObject, getPropertyDescriptor, IClass, IFunction, isObjectClass, Nullable} from "@semaver/core";
 import {Decorator, DecoratorFn, IMetatableDecorator} from "../../decorators/Decorator";
 import {ClassMemberNotExistenceError} from "../../errors/ClassMemberNotExistenceError";
 import {ClassMemberTargetObjectTypeError} from "../../errors/ClassMemberTargetObjectTypeError";
 import {ClassMemberTargetUndefinedError} from "../../errors/ClassMemberTargetUndefinedError";
 import {MethodNotFoundError} from "../../errors/MethodNotFoundError";
-import {MetadataObject} from "../../extentions/MetadataObjectExtention";
+import {metadataClassOfObject} from "../../extentions/MetadataObjectExtention";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
 import {IMemberMetadataTableRef, IMetadataTableRef} from "../../metatable/metadata/IMetadataTableRef";
-import {DecoratedElementType} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementType, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementType";
 import {ExecutableMember} from "./ExecutableMember";
 import {Parameter} from "./Parameter";
 
@@ -42,7 +42,7 @@ export class Method<T extends object = object, TReturnType = unknown> extends Ex
     /**
      * @inheritDoc
      */
-    public getType(): DecoratedElementType {
+    public getType(): DecoratedElementTypeValues {
         return DecoratedElementType.METHOD;
     }
 
@@ -50,10 +50,9 @@ export class Method<T extends object = object, TReturnType = unknown> extends Ex
      * @inheritDoc
      */
     public getOwnParameterCount(): number {
-        const method: Nullable<IFunction<TReturnType>> = CoreReflect.getDescriptor(
-            this._isStatic ?
-                this._class :
-                this._class.prototype, this._name)?.value;
+        const method: Nullable<IFunction<TReturnType>> = getPropertyDescriptor(
+            (this._isStatic ? this._class : this._class.prototype) as object,
+            this._name)?.value as Nullable<IFunction<TReturnType>>;
         if (method) {
             return method.length;
         } else {
@@ -84,8 +83,8 @@ export class Method<T extends object = object, TReturnType = unknown> extends Ex
      */
     public addDecorator(decoratorOrFn: Decorator | DecoratorFn): boolean {
         let result: boolean = false;
-        const target: Nullable<T> = this.getObject();
-        const descriptor: Nullable<PropertyDescriptor> = CoreReflect.getDescriptor(target, this._name);
+        const target: object = this.getObject();
+        const descriptor: Nullable<PropertyDescriptor> = getPropertyDescriptor(target, this._name);
         if (descriptor) {
             this.getDecoratorFn(decoratorOrFn).apply(undefined, [target, this._name, descriptor]);
             result = true;
@@ -99,18 +98,18 @@ export class Method<T extends object = object, TReturnType = unknown> extends Ex
      */
     public removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): boolean {
         let result: boolean = false;
-        const target: Nullable<T> = this.getObject();
-        if (CoreObject.isClass(decoratorOrClass)) {
+        const target: object = this.getObject();
+        if (isObjectClass(decoratorOrClass)) {
             const decoratorClass: IClass<Decorator> = decoratorOrClass as IClass<Decorator>;
             this._metadataTableProvider.getOwnDecorators().forEach(decorator => {
-                if (CoreObject.classOf(decorator) === decoratorClass && this.isDecoratorOf(MetadataObject.classOf(target), decorator)) {
+                if (classOfObject(decorator) === decoratorClass && this.isDecoratorOf(metadataClassOfObject(target), decorator)) {
                     this._metadataTableProvider.remove(decorator);
                     result = true;
                 }
             });
         } else {
             const decorator: IMetatableDecorator = decoratorOrClass as IMetatableDecorator;
-            if (this.isDecoratorOf(MetadataObject.classOf(target), decorator)) {
+            if (this.isDecoratorOf(metadataClassOfObject(target), decorator)) {
                 this._metadataTableProvider.remove(decorator);
                 result = true;
             }
@@ -124,7 +123,7 @@ export class Method<T extends object = object, TReturnType = unknown> extends Ex
      * @method to validate target before method invoke;
      * @param target - instance for instance methods or class for static methods
      */
-    protected validate(target: IClass<T> | T): void {
+    protected validate(target: Nullable<IClass<T> | T>): void {
         if (!target) {
             throw new ClassMemberTargetUndefinedError(this, this.getType(), this._name);
         }
@@ -133,11 +132,11 @@ export class Method<T extends object = object, TReturnType = unknown> extends Ex
             throw new ClassMemberNotExistenceError(this, this.getType(), this._name, target);
         }
 
-        if (CoreObject.isClass(target) && !this._isStatic) {
+        if (isObjectClass(target) && !this._isStatic) {
             throw new ClassMemberTargetObjectTypeError(this, this.getType(), this._name, target, true);
         }
 
-        if (!CoreObject.isClass(target) && this._isStatic) {
+        if (!isObjectClass(target) && this._isStatic) {
             throw new ClassMemberTargetObjectTypeError(this, this.getType(), this._name, target, false);
         }
     }

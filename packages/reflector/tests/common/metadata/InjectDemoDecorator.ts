@@ -3,12 +3,18 @@ import {
     Decorator,
     IPolicyProvider,
     MetadataAccessPolicy,
+    MetadataAccessPolicyValues,
     MetadataAppearancePolicy,
+    MetadataAppearancePolicyValues,
     MetadataCollisionPolicy,
+    MetadataCollisionPolicyValues,
     MetadataNotExistencePolicy,
+    MetadataNotExistencePolicyValues,
     MetadataSameTargetMultiUsagePolicy,
+    MetadataSameTargetMultiUsagePolicyValues,
     PolicyProvider,
-    PrimitiveMetadataAccessPolicy
+    PrimitiveMetadataAccessPolicy,
+    PrimitiveMetadataAccessPolicyValues
 } from "../../../src";
 
 export function injectDemo<T>(type: IType<T>): IFunction<void> {
@@ -30,27 +36,27 @@ export class InjectDemoDecorator<T> extends Decorator {
         return this;
     }
 
-    public getParameters(): ReadonlyArray<unknown> {
+    public getParameters(): readonly unknown[] {
         return [this.type];
     }
 
-    public getAccessPolicy(): MetadataAccessPolicy {
+    public getAccessPolicy(): MetadataAccessPolicyValues {
         return InjectDemoDecorator.policyProvider.getAccessPolicy();
     }
 
-    public getAppearancePolicy(access: PrimitiveMetadataAccessPolicy = PrimitiveMetadataAccessPolicy.NONE): MetadataAppearancePolicy {
+    public getAppearancePolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataAppearancePolicyValues {
         return InjectDemoDecorator.policyProvider.getAppearancePolicy(access);
     }
 
-    public getNotExistencePolicy(access: PrimitiveMetadataAccessPolicy = PrimitiveMetadataAccessPolicy.NONE): MetadataNotExistencePolicy {
+    public getNotExistencePolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataNotExistencePolicyValues {
         return InjectDemoDecorator.policyProvider.getNotExistencePolicy(access);
     }
 
-    public getCollisionPolicy(access: PrimitiveMetadataAccessPolicy = PrimitiveMetadataAccessPolicy.NONE): MetadataCollisionPolicy {
+    public getCollisionPolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataCollisionPolicyValues {
         return InjectDemoDecorator.policyProvider.getCollisionPolicy(access);
     }
 
-    public getSameTargetMultiUsagePolicy(access: PrimitiveMetadataAccessPolicy = PrimitiveMetadataAccessPolicy.NONE): MetadataSameTargetMultiUsagePolicy {
+    public getSameTargetMultiUsagePolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataSameTargetMultiUsagePolicyValues {
         return InjectDemoDecorator.policyProvider.getSameTargetMultiUsagePolicy(access);
     }
 }

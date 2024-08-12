@@ -1,4 +1,4 @@
-import {CoreObject, IClass, Nullable} from "@semaver/core";
+import {classOfObject, IClass} from "@semaver/core";
 import {Decorator} from "../../../../decorators/Decorator";
 import {ExecutableMember} from "../../../members/ExecutableMember";
 import {IQueryCondition} from "../../IQueryCondition";
@@ -14,31 +14,17 @@ import {QueryInfo} from "../../QueryInfo";
 export class ByParameterDecoratorClass<T extends object = object> implements IQueryCondition<T> {
 
     /**
-     * @public
-     * @static
-     * @method to create query/filter condition (instance) from collection of decorator classes
-     * @param decoratorClasses - collection of decorator classes
-     * @return instance of [[ByParameterDecoratorClass]] query condition
-     */
-    public static from<T extends object>(...decoratorClasses: IClass<Decorator>[]): ByParameterDecoratorClass<T> {
-        if (!ByParameterDecoratorClass._cache) {
-            ByParameterDecoratorClass._cache = new ByParameterDecoratorClass<T>();
-        }
-        return ByParameterDecoratorClass._cache.setDecoratorClass(...decoratorClasses);
-    }
-
-    /**
      * @private
      * @static
      * @property _cache - cache that contains instance of current query/filter condition
      * to prevent creation of instance every time this condition required (reusing of instance)
      */
-    private static _cache: ByParameterDecoratorClass;
+    private static _cache: ByParameterDecoratorClass = new ByParameterDecoratorClass<object>();
     /**
      * @private
-     * @property _decoratorClass - collection of decorator classes used in query/filter condition
+     * @property _decoratorClasses - collection of decorator classes used in query/filter condition
      */
-    private _decoratorClasses: Nullable<IClass<Decorator>[]>;
+    private _decoratorClasses: IClass<Decorator>[] = [];
 
     /**
      * @public
@@ -47,6 +33,17 @@ export class ByParameterDecoratorClass<T extends object = object> implements IQu
      */
     public constructor(...decoratorClasses: IClass<Decorator>[]) {
         this.setDecoratorClass(...decoratorClasses);
+    }
+
+    /**
+     * @public
+     * @static
+     * @method to create query/filter condition (instance) from collection of decorator classes
+     * @param decoratorClasses - collection of decorator classes
+     * @return instance of [[ByParameterDecoratorClass]] query condition
+     */
+    public static from<T extends object>(...decoratorClasses: IClass<Decorator>[]): ByParameterDecoratorClass<T> {
+        return ByParameterDecoratorClass._cache.setDecoratorClass(...decoratorClasses);
     }
 
     /**
@@ -72,7 +69,7 @@ export class ByParameterDecoratorClass<T extends object = object> implements IQu
                     return member
                         .getParameterDecorators()
                         .reduce((result, decorators) => result.concat(...decorators), [])
-                        .find((decorator) => !!this._decoratorClasses?.find((decoratorClass) => decoratorClass === CoreObject.classOf(decorator)));
+                        .some((decorator) => !!this._decoratorClasses?.find((decoratorClass) => decoratorClass === classOfObject(decorator)));
 
                 } else {
                     return false;

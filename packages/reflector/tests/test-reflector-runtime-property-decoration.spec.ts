@@ -11,7 +11,7 @@ describe("Reflector API Runtime decoration Test", () => {
 
         const reflector: Reflector = Reflector.from(reflectedClass, true);
 
-        const member: Nullable<ClassMember<object>> = reflector.query().filter(ByMemberName.from(memberName)).members().first();
+        const member: Nullable<ClassMember> = reflector.query().filter(ByMemberName.from(memberName)).members().first();
 
         expect(member?.getDecorators().length).toBe(1);
         expect(member?.getOwnDecorators().length).toBe(1);
@@ -42,7 +42,7 @@ describe("Reflector API Runtime decoration Test", () => {
 
         const reflector: Reflector = Reflector.from(reflectedClass, true);
 
-        const member: Nullable<ClassMember<object>> = reflector.query().filter(ByMemberName.from(memberName)).members().first();
+        const member: Nullable<ClassMember> = reflector.query().filter(ByMemberName.from(memberName)).members().first();
 
         expect(member?.getDecorators().length).toBe(1);
         expect(member?.getOwnDecorators().length).toBe(1);
@@ -83,7 +83,7 @@ describe("Reflector API Runtime decoration Test", () => {
         expect(reflector.query().filter(ByMemberName.from(memberName)).decorators().all().length).toBe(1);
         expect(reflector.query().filter(ByMemberName.from(memberName)).ownDecorators().all().length).toBe(1);
 
-        const member: Nullable<ClassMember<object>> = reflector.query().filter(ByMemberName.from(memberName)).members().first();
+        const member: Nullable<ClassMember> = reflector.query().filter(ByMemberName.from(memberName)).members().first();
 
         expect(member?.getDecorators(ReflectDecorator).length).toBe(1);
         expect(member?.getOwnDecorators(ReflectDecorator).length).toBe(1);
@@ -103,7 +103,7 @@ describe("Reflector API Runtime decoration Test", () => {
 
         const reflector: Reflector = Reflector.from(reflectedClass, true);
 
-        const member: Nullable<ClassMember<object>> = reflector.query().filter(ByMemberName.from(memberName)).members().first();
+        const member: Nullable<ClassMember> = reflector.query().filter(ByMemberName.from(memberName)).members().first();
 
         expect(member?.getDecorators().length).toBe(1);
         expect(member?.getOwnDecorators().length).toBe(0);

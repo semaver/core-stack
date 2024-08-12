@@ -3,7 +3,7 @@ import {IMetatableDecorator} from "../../decorators/Decorator";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
 import {IMemberMetadata} from "../../metatable/metadata/IMemberMetadata";
 import {IMemberMetadataTableRef} from "../../metatable/metadata/IMetadataTableRef";
-import {DecoratedElementType} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementType, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementType";
 import {DecoratedElement} from "./DecoratedElement";
 
 /**
@@ -57,7 +57,7 @@ export abstract class Parameter<T extends object = object> extends DecoratedElem
     /**
      * @inheritDoc
      */
-    public getType(): DecoratedElementType {
+    public getType(): DecoratedElementTypeValues {
         return DecoratedElementType.PARAMETER;
     }
 
@@ -101,7 +101,7 @@ export abstract class Parameter<T extends object = object> extends DecoratedElem
      */
     // TODO add extra length check
     protected getMemberDecorators(memberMetadataTable: Nullable<IMemberMetadataTableRef>): IMetatableDecorator[] {
-        return memberMetadataTable?._parameters[this._index] || [];
+        return memberMetadataTable?._parameters[this._index] ?? [];
     }
 
 }

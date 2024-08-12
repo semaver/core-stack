@@ -1,8 +1,8 @@
-import {CoreObject, CoreReflect, IClass, IFunction, Nullable} from "@semaver/core";
+import {classOfObject, getPropertyDescriptor, IClass, IFunction, isObjectClass, Nullable} from "@semaver/core";
 import {Decorator, DecoratorFn, IMetatableDecorator} from "../../decorators/Decorator";
-import {MetadataObject} from "../../extentions/MetadataObjectExtention";
+import {metadataClassOfObject} from "../../extentions/MetadataObjectExtention";
 import {IMemberMetadataTableRef, IMetadataTableRef} from "../../metatable/metadata/IMetadataTableRef";
-import {DecoratedElementType} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementType, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementType";
 import {Parameter} from "./Parameter";
 
 /**
@@ -16,19 +16,19 @@ export class MethodParameter<T extends object = object> extends Parameter<T> {
     /**
      * @inheritDoc
      */
-    public getType(): DecoratedElementType {
+    public getType(): DecoratedElementTypeValues {
         return DecoratedElementType.METHODS_PARAMETER;
     }
 
     /**
      * @inheritDoc
      */
-    public addDecorator<TDecorator extends Decorator>(decoratorOrFn: TDecorator | DecoratorFn): boolean {
+    public addDecorator(decoratorOrFn: Nullable<Decorator | DecoratorFn>): boolean {
         let result: boolean = false;
-        const owner: Nullable<T> = this.getObject();
-        const descriptor: Nullable<PropertyDescriptor> = CoreReflect.getDescriptor(owner, this._name);
+        const owner: object = this.getObject();
+        const descriptor: Nullable<PropertyDescriptor> = getPropertyDescriptor(owner, this._name);
         if (descriptor) {
-            const method: Nullable<IFunction<unknown>> = descriptor?.value;
+            const method: Nullable<IFunction<unknown>> = descriptor.value as Nullable<IFunction<unknown>>;
             if (method) {
                 if (this._index < method.length) {
                     this.getDecoratorFn(decoratorOrFn).apply(undefined, [owner, this._name, this._index]);
@@ -45,18 +45,18 @@ export class MethodParameter<T extends object = object> extends Parameter<T> {
      */
     public removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): boolean {
         let result: boolean = false;
-        const owner: Nullable<T> = this.getObject();
-        if (CoreObject.isClass(decoratorOrClass)) {
+        const owner: object = this.getObject();
+        if (isObjectClass(decoratorOrClass)) {
             const decoratorClass: IClass<Decorator> = decoratorOrClass as IClass<Decorator>;
             this._metadataTableProvider.getOwnDecorators().forEach(decorator => {
-                if (CoreObject.classOf(decorator) === decoratorClass && this.isDecoratorOf(MetadataObject.classOf(owner), decorator)) {
+                if (classOfObject(decorator) === decoratorClass && this.isDecoratorOf(metadataClassOfObject(owner), decorator)) {
                     this._metadataTableProvider.remove(decorator);
                     result = true;
                 }
             });
         } else {
             const decorator: IMetatableDecorator = decoratorOrClass as IMetatableDecorator;
-            if (this.isDecoratorOf(MetadataObject.classOf(owner), decorator)) {
+            if (this.isDecoratorOf(metadataClassOfObject(owner), decorator)) {
                 this._metadataTableProvider.remove(decorator);
                 result = true;
             }

@@ -3,16 +3,16 @@
  * @interface
  * @description - class member metadata that contains information about current decoration
  */
-import {DecoratedElementType} from "../types/DecoratedElementType";
+import {DecoratedElementTypeValues} from "../types/DecoratedElementType";
 import {IMetadataClass} from "../classes/IMetadataClass";
-import {MetadataAccessPolicy} from "../policies/MetadataAccessPolicy";
+import {MetadataAccessPolicyValues} from "../policies/MetadataAccessPolicy";
 
 export interface IMemberMetadata<T = unknown> {
     /**
      * @public
-     * @property type - type of decorated element [[DecoratedElementType]]
+     * @property type - type of decorated element [[DecoratedElementTypeValues]]
      */
-    type: DecoratedElementType;
+    type: DecoratedElementTypeValues;
 
     /**
      * @public
@@ -34,9 +34,9 @@ export interface IMemberMetadata<T = unknown> {
 
     /**
      * @public
-     * @property access - metadata access policy
+     * @property access - metadata access policy [[MetadataAccessPolicyValues]]
      */
-    access: MetadataAccessPolicy;
+    access: MetadataAccessPolicyValues;
 
     /**
      * @public

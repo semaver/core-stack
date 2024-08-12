@@ -2,6 +2,8 @@ import {standard} from "../../common/metadata/StandardDecorator";
 
 @standard("class", 0)
 export class SuperReflectedClass {
+    protected static _accessorStaticGet: string = "accessorStaticGet";
+    protected _accessorNormalGet: string = "accessorNormalGet";
 
     // @standard("accessor isStatic full get")
     public static get accessorStaticFull(): string {
@@ -15,7 +17,7 @@ export class SuperReflectedClass {
 
     @standard("accessor isStatic only get", 5)
     public static get accessorStaticGet(): string {
-        return "accessorStaticGet";
+        return this._accessorStaticGet;
     }
 
     @standard("accessor isStatic only set", 6)
@@ -24,7 +26,7 @@ export class SuperReflectedClass {
     }
 
     public get accessorNormalFull(): string {
-        return "aaaaa";
+        return this._accessorNormalGet;
     }
 
     @standard("accessor normal full set", 1)
@@ -34,7 +36,7 @@ export class SuperReflectedClass {
 
     @standard("accessor normal only get", 2)
     public get accessorNormalGet(): string {
-        return "accessorNormalGet";
+        return this._accessorNormalGet;
     }
 
     @standard("accessor normal only set", 3)
@@ -82,12 +84,12 @@ export class SuperReflectedClass {
     }
 
     @standard("method normal with 1 default param", 13)
-    public runNormalWith1DefaultParam(@standard("param 1 in normal method", 14) param: string, defaultParam: number = 10): number {
+    public runNormalWith1DefaultParam(@standard("param 1 in normal method", 14) _param: string, defaultParam: number = 10): number {
         return defaultParam;
     }
 
     @standard("method normal with 2 param", 15)
-    public runNormalWith2Param(@standard("param 1 in normal method", 16) param: string, @standard("param 2 in normal method", 17) notDefaultParam: number): number {
+    public runNormalWith2Param(@standard("param 1 in normal method", 16) _param: string, @standard("param 2 in normal method", 17) notDefaultParam: number): number {
         return notDefaultParam;
     }
 }

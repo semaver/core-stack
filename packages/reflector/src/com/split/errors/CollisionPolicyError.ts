@@ -1,13 +1,13 @@
-import {CoreError} from "@semaver/core";
+import {ExtendedError} from "@semaver/core";
 import {MetadataTableProvider} from "../metatable/MetadataTableProvider";
 
 /**
  * @public
  * @class
- * @extends [[CoreError]]
+ * @extends [[ExtendedError]]
  * @description - custom error for child class thrown if decorator collision policy === MetadataCollisionPolicy.THROW_ERROR and collision in action
  */
-export class CollisionPolicyError extends CoreError {
+export class CollisionPolicyError extends ExtendedError {
 
     /**
      * @public

@@ -1,5 +1,4 @@
-import {Nullable} from "@semaver/core";
-import {DecoratedElementType} from "../../../../metatable/types/DecoratedElementType";
+import {DecoratedElementTypeValues} from "../../../../metatable/types/DecoratedElementType";
 import {IQueryCondition} from "../../IQueryCondition";
 import {QueryInfo} from "../../QueryInfo";
 
@@ -12,39 +11,36 @@ import {QueryInfo} from "../../QueryInfo";
 export class ByMemberType<T extends object = object> implements IQueryCondition<T> {
 
     /**
-     * @public
-     * @static
-     * @method to create query/filter condition (instance) form collection of class members types
-     * @param memberTypes - collection of class members types
-     * @return instance of [[ByMemberType]] query condition
-     */
-    public static from<T extends object>(...memberTypes: DecoratedElementType[]): ByMemberType<T> {
-        if (!ByMemberType._cache) {
-            ByMemberType._cache = new ByMemberType<T>();
-        }
-        return ByMemberType._cache.setMemberTypes(...memberTypes);
-    }
-
-    /**
      * @private
      * @static
      * @property _cache - cache that contains instance of current query/filter condition
      * to prevent creation of instance every time this condition required (reusing of instance)
      */
-    private static _cache: ByMemberType;
+    private static _cache: ByMemberType = new ByMemberType<object>();
     /**
      * @private
      * @property _memberTypes - collection of class members types used in query/filter condition
      */
-    private _memberTypes: Nullable<DecoratedElementType[]>;
+    private _memberTypes: DecoratedElementTypeValues[] = [];
 
     /**
      * @public
      * @constructor
      * @param memberTypes - collection of class members types used in query/filter condition
      */
-    public constructor(...memberTypes: DecoratedElementType[]) {
+    public constructor(...memberTypes: DecoratedElementTypeValues[]) {
         this.setMemberTypes(...memberTypes);
+    }
+
+    /**
+     * @public
+     * @static
+     * @method to create query/filter condition (instance) form collection of class members types
+     * @param memberTypes - collection of class members types
+     * @return instance of [[ByMemberType]] query condition
+     */
+    public static from<T extends object>(...memberTypes: DecoratedElementTypeValues[]): ByMemberType<T> {
+        return ByMemberType._cache.setMemberTypes(...memberTypes);
     }
 
     /**
@@ -53,7 +49,7 @@ export class ByMemberType<T extends object = object> implements IQueryCondition<
      * @param _memberTypes - collection of class members types used in query/filter condition
      * @return current instance of query/filter condition
      */
-    public setMemberTypes(..._memberTypes: DecoratedElementType[]): this {
+    public setMemberTypes(..._memberTypes: DecoratedElementTypeValues[]): this {
         this._memberTypes = _memberTypes;
         return this;
     }
@@ -66,9 +62,10 @@ export class ByMemberType<T extends object = object> implements IQueryCondition<
     public filter(queryInfo: QueryInfo<T>): void {
         // TODO update to bin ops
         queryInfo
-            .filterMembers((member) =>
-                this._memberTypes?.find((memberType) =>
-                    !!(memberType & member.getType())));
+            .filterMembers((member) => {
+                return this._memberTypes.some((memberType) =>
+                    !!(memberType & member.getType()));
+            });
     }
 
 }

@@ -1,4 +1,3 @@
-import {Nullable} from "@semaver/core";
 import {IQueryCondition} from "../../IQueryCondition";
 import {QueryInfo} from "../../QueryInfo";
 
@@ -11,31 +10,17 @@ import {QueryInfo} from "../../QueryInfo";
 export class ByMemberName<T extends object = object> implements IQueryCondition<T> {
 
     /**
-     * @public
-     * @static
-     * @method to create query/filter condition (instance) form collection of class members names
-     * @param memberNames - collection of class members names
-     * @return instance of [[ByMemberName]] query condition
-     */
-    public static from<T extends object>(...memberNames: string[]): ByMemberName<T> {
-        if (!ByMemberName._cache) {
-            ByMemberName._cache = new ByMemberName<T>();
-        }
-        return ByMemberName._cache.setMemberNames(...memberNames);
-    }
-
-    /**
      * @private
      * @static
      * @property _cache - cache that contains instance of current query/filter condition
      * to prevent creation of instance every time this condition required (reusing of instance)
      */
-    private static _cache: ByMemberName;
+    private static _cache: ByMemberName = new ByMemberName<object>();
     /**
      * @private
      * @property _memberNames - collection of class members names used in query/filter condition
      */
-    private _memberNames: Nullable<string[]>;
+    private _memberNames: string[] = [];
 
     /**
      * @public
@@ -44,6 +29,17 @@ export class ByMemberName<T extends object = object> implements IQueryCondition<
      */
     public constructor(...memberNames: string[]) {
         this.setMemberNames(...memberNames);
+    }
+
+    /**
+     * @public
+     * @static
+     * @method to create query/filter condition (instance) form collection of class members names
+     * @param memberNames - collection of class members names
+     * @return instance of [[ByMemberName]] query condition
+     */
+    public static from<T extends object>(...memberNames: string[]): ByMemberName<T> {
+        return ByMemberName._cache.setMemberNames(...memberNames);
     }
 
     /**
@@ -64,9 +60,10 @@ export class ByMemberName<T extends object = object> implements IQueryCondition<
      */
     public filter(queryInfo: QueryInfo<T>): void {
         queryInfo
-            .filterMembers((member) =>
-                this._memberNames?.find((memberName) =>
-                    memberName === member.getName()));
+            .filterMembers((member) => {
+                return this._memberNames.some((memberName) =>
+                    memberName === member.getName());
+            });
     }
 
 }

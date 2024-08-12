@@ -12,7 +12,7 @@ describe("Reflector API Runtime decoration Test", () => {
 
         const reflector: Reflector = Reflector.from(reflectedClass);
 
-        const parameter: Nullable<Parameter<object>> = reflector.query().filter(ByMemberName.from(memberName)).members().first<Method<object>>()?.getParameterAt(0);
+        const parameter: Nullable<Parameter> = reflector.query().filter(ByMemberName.from(memberName)).members().first<Method>()?.getParameterAt(0);
 
         expect(parameter?.getDecorators().length).toBe(1);
         expect(parameter?.getOwnDecorators().length).toBe(1);
@@ -55,7 +55,7 @@ describe("Reflector API Runtime decoration Test", () => {
 
         const reflector: Reflector = Reflector.from(reflectedClass);
 
-        const parameter: Nullable<Parameter<object>> | undefined = reflector.query().filter(ByMemberName.from(memberName)).members().first<Method<object>>()?.getParameterAt(0);
+        const parameter: Nullable<Parameter> | undefined = reflector.query().filter(ByMemberName.from(memberName)).members().first<Method>()?.getParameterAt(0);
 
         expect(parameter?.getDecorators().length).toBe(1);
         expect(parameter?.getOwnDecorators().length).toBe(1);
@@ -98,7 +98,7 @@ describe("Reflector API Runtime decoration Test", () => {
 
         const reflector: Reflector = Reflector.from(reflectedClass);
 
-        const parameter: Nullable<Parameter<object>> | undefined = reflector.query().filter(ByMemberName.from(memberName)).members().first<Method<object>>()?.getParameterAt(0);
+        const parameter: Nullable<Parameter> | undefined = reflector.query().filter(ByMemberName.from(memberName)).members().first<Method>()?.getParameterAt(0);
 
         expect(parameter?.getDecorators().length).toBe(1);
         expect(parameter?.getOwnDecorators().length).toBe(1);
@@ -157,7 +157,7 @@ describe("Reflector API Runtime decoration Test", () => {
 
         const reflector: Reflector = Reflector.from(reflectedClass);
 
-        const parameter: Nullable<Parameter<object>> | undefined = reflector.query().filter(ByMemberName.from(memberName)).members().first<Method<object>>()?.getParameterAt(0);
+        const parameter: Nullable<Parameter> | undefined = reflector.query().filter(ByMemberName.from(memberName)).members().first<Method>()?.getParameterAt(0);
 
         expect(parameter?.getDecorators().length).toBe(1);
         expect(parameter?.getOwnDecorators().length).toBe(0);

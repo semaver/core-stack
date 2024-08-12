@@ -66,7 +66,7 @@ export class ClassTable implements IClassTable {
      * @param subscribers
      */
     public subscribe(...subscribers: IClassTableSubscriber[]): this {
-        subscribers.forEach(subscriber => subscriber && this.classTableRef._subscribers.add(subscriber));
+        subscribers.forEach(subscriber => this.classTableRef._subscribers.add(subscriber));
         return this;
     }
 
@@ -74,7 +74,7 @@ export class ClassTable implements IClassTable {
      * @inheritDoc
      */
     public unsubscribe(...subscribers: IClassTableSubscriber[]): this {
-        subscribers.forEach(subscriber => subscriber && this.classTableRef._subscribers.delete(subscriber));
+        subscribers.forEach(subscriber => this.classTableRef._subscribers.delete(subscriber));
         return this;
     }
 
@@ -85,7 +85,9 @@ export class ClassTable implements IClassTable {
      * @return instance of current class table
      */
     public notify(update: IClassTableUpdate): this {
-        this.classTableRef._subscribers.forEach(subscriber => subscriber.onClassTableUpdate(update));
+        this.classTableRef._subscribers.forEach(subscriber => {
+            subscriber.onClassTableUpdate(update);
+        });
         return this;
     }
 }

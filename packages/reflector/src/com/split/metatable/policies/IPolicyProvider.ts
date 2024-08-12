@@ -1,8 +1,8 @@
-import {MetadataAccessPolicy, PrimitiveMetadataAccessPolicy} from "./MetadataAccessPolicy";
-import {MetadataAppearancePolicy} from "./MetadataAppearancePolicy";
-import {MetadataCollisionPolicy} from "./MetadataCollisionPolicy";
-import {MetadataNotExistencePolicy} from "./MetadataNotExistencePolicy";
-import {MetadataSameTargetMultiUsagePolicy} from "./MetadataSameTargetMultiUsagePolicy";
+import {MetadataAccessPolicyValues, PrimitiveMetadataAccessPolicyValues} from "./MetadataAccessPolicy";
+import {MetadataAppearancePolicyValues} from "./MetadataAppearancePolicy";
+import {MetadataCollisionPolicyValues} from "./MetadataCollisionPolicy";
+import {MetadataNotExistencePolicyValues} from "./MetadataNotExistencePolicy";
+import {MetadataSameTargetMultiUsagePolicyValues} from "./MetadataSameTargetMultiUsagePolicy";
 
 
 /**
@@ -14,48 +14,48 @@ export interface IPolicyProvider {
     /**
      * @public
      * @method to get current access policy
-     * @return metadata access policy [[MetadataAccessPolicy]]
+     * @return metadata access policy [[MetadataAccessPolicyValues]]
      */
-    getAccessPolicy(): MetadataAccessPolicy;
+    getAccessPolicy(): MetadataAccessPolicyValues;
 
     /**
      * @public
      * @method to get current appearance policy by providing access
-     * @param access - primitive metadata access policy [[PrimitiveMetadataAccessPolicy]]
-     * @return metadata appearance policy [[MetadataAppearancePolicy]]
+     * @param access - primitive metadata access policy [[PrimitiveMetadataAccessPolicyValues]]
+     * @return metadata appearance policy [[MetadataAppearancePolicyValues]]
      */
-    getAppearancePolicy(access: PrimitiveMetadataAccessPolicy): MetadataAppearancePolicy;
+    getAppearancePolicy(access: PrimitiveMetadataAccessPolicyValues): MetadataAppearancePolicyValues;
 
     /**
      * @public
      * @method to get current collision policy by providing access
-     * @param access - primitive metadata access policy [[PrimitiveMetadataAccessPolicy]]
-     * @return metadata collision policy [[MetadataCollisionPolicy]]
+     * @param access - primitive metadata access policy [[PrimitiveMetadataAccessPolicyValues]]
+     * @return metadata collision policy [[MetadataCollisionPolicyValues]]
      */
-    getCollisionPolicy(access: PrimitiveMetadataAccessPolicy): MetadataCollisionPolicy;
+    getCollisionPolicy(access: PrimitiveMetadataAccessPolicyValues): MetadataCollisionPolicyValues;
 
     /**
      * @public
      * @method to get current not existence policy by providing access
-     * @param access - primitive metadata access policy [[PrimitiveMetadataAccessPolicy]]
-     * @return metadata collision policy [[MetadataNotExistencePolicy]]
+     * @param access - primitive metadata access policy [[PrimitiveMetadataAccessPolicyValues]]
+     * @return metadata collision policy [[MetadataNotExistencePolicyValues]]
      */
-    getNotExistencePolicy(access: PrimitiveMetadataAccessPolicy): MetadataNotExistencePolicy;
+    getNotExistencePolicy(access: PrimitiveMetadataAccessPolicyValues): MetadataNotExistencePolicyValues;
 
     /**
      * @public
      * @method to get current same target multi usage policy by providing access
-     * @param access - primitive metadata access policy [[PrimitiveMetadataAccessPolicy]]
-     * @return metadata same target multi usage policy [[MetadataSameTargetMultiUsagePolicy]]
+     * @param access - primitive metadata access policy [[PrimitiveMetadataAccessPolicyValues]]
+     * @return metadata same target multi usage policy [[MetadataSameTargetMultiUsagePolicyValues]]
      */
-    getSameTargetMultiUsagePolicy(access: PrimitiveMetadataAccessPolicy): MetadataSameTargetMultiUsagePolicy;
+    getSameTargetMultiUsagePolicy(access: PrimitiveMetadataAccessPolicyValues): MetadataSameTargetMultiUsagePolicyValues;
 
     /**
      * @public
      * @method to check if access policy provided
-     * @param access - primitive metadata access policy [[PrimitiveMetadataAccessPolicy]]
+     * @param access - primitive metadata access policy [[PrimitiveMetadataAccessPolicyValues]]
      * @return if access policy provided
      */
-    hasAccessPolicy(access: PrimitiveMetadataAccessPolicy): boolean;
+    hasAccessPolicy(access: PrimitiveMetadataAccessPolicyValues): boolean;
 }
 

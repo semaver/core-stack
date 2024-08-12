@@ -1,5 +1,5 @@
 import {IInterface} from "../types/base/IInterface";
-import {CoreObject} from "./CoreObject";
+import {isObjectEmpty} from "./CoreObject";
 
 /**
  * @public
@@ -17,7 +17,7 @@ export class InterfaceSymbol<T> implements IInterface<T> {
      * @return interface symbol if found
      */
     public static for<T>(uid: string | symbol): IInterface<T> {
-        if (CoreObject.isEmpty(uid)) {
+        if (isObjectEmpty(uid)) {
             throw new Error("InterfaceSymbol: name is null or undefined");
         }
 

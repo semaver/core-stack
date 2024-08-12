@@ -1,9 +1,9 @@
-import {CoreReflect, Nullable} from "@semaver/core";
+import {hasOwnProperty, Nullable} from "@semaver/core";
 import {IMetatableDecorator} from "../../decorators/Decorator";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
 import {IMemberMetadata} from "../../metatable/metadata/IMemberMetadata";
 import {IMemberMetadataTableRef} from "../../metatable/metadata/IMetadataTableRef";
-import {DecoratedElementType} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementType, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementType";
 import {DecoratedElement} from "./DecoratedElement";
 
 /**
@@ -50,7 +50,7 @@ export abstract class ClassMember<T extends object = object> extends DecoratedEl
     /**
      * @inheritDoc
      */
-    public getType(): DecoratedElementType {
+    public getType(): DecoratedElementTypeValues {
         return DecoratedElementType.CLASS_MEMBER;
     }
 
@@ -74,8 +74,8 @@ export abstract class ClassMember<T extends object = object> extends DecoratedEl
      * @return true if own class member
      */
     public isOwn(): boolean {
-        const target: T = this.getObject();
-        return CoreReflect.hasOwn(target, this._name);
+        const target: object = this.getObject();
+        return hasOwnProperty(target, this._name);
     }
 
     /**
@@ -93,6 +93,6 @@ export abstract class ClassMember<T extends object = object> extends DecoratedEl
      * @inheritDoc
      */
     protected getMemberDecorators(memberMetadataTable: Nullable<IMemberMetadataTableRef>): IMetatableDecorator[] {
-        return memberMetadataTable?._decorators || [];
+        return memberMetadataTable?._decorators ?? [];
     }
 }

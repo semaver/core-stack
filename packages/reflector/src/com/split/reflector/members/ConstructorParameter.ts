@@ -1,8 +1,8 @@
-import {CoreObject, IClass, Nullable} from "@semaver/core";
+import {classOfObject, IClass, isObjectClass, Nullable} from "@semaver/core";
 import {Decorator, DecoratorFn, IMetatableDecorator} from "../../decorators/Decorator";
-import {MetadataObject} from "../../extentions/MetadataObjectExtention";
+import {getKnownConstructorParameterLength, metadataClassOfObject} from "../../extentions/MetadataObjectExtention";
 import {IMemberMetadataTableRef, IMetadataTableRef} from "../../metatable/metadata/IMetadataTableRef";
-import {DecoratedElementType} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementType, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementType";
 import {Parameter} from "./Parameter";
 
 /**
@@ -16,7 +16,7 @@ export class ConstructorParameter<T extends object = object> extends Parameter<T
     /**
      * @inheritDoc
      */
-    public getType(): DecoratedElementType {
+    public getType(): DecoratedElementTypeValues {
         return DecoratedElementType.CONSTRUCTOR_PARAMETER;
     }
 
@@ -26,7 +26,7 @@ export class ConstructorParameter<T extends object = object> extends Parameter<T
     public addDecorator(decoratorOrFn: Decorator | DecoratorFn): boolean {
         let result: boolean = false;
 
-        if (this._index < MetadataObject.getKnownConstructorParameterLength(this._class)) {
+        if (this._index < getKnownConstructorParameterLength(this._class)) {
             this.getDecoratorFn(decoratorOrFn).apply(undefined, [this._class, undefined, this._index]);
             result = true;
         }
@@ -38,18 +38,18 @@ export class ConstructorParameter<T extends object = object> extends Parameter<T
      */
     public removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): boolean {
         let result: boolean = false;
-        const owner: Nullable<T> = this.getObject();
-        if (CoreObject.isClass(decoratorOrClass)) {
+        const owner: object = this.getObject();
+        if (isObjectClass(decoratorOrClass)) {
             const decoratorClass: IClass<Decorator> = decoratorOrClass as IClass<Decorator>;
             this._metadataTableProvider.getOwnDecorators().forEach(decorator => {
-                if (CoreObject.classOf(decorator) === decoratorClass && this.isDecoratorOf(MetadataObject.classOf(owner), decorator)) {
+                if (classOfObject(decorator) === decoratorClass && this.isDecoratorOf(metadataClassOfObject(owner), decorator)) {
                     this._metadataTableProvider.remove(decorator);
                     result = true;
                 }
             });
         } else {
             const decorator: IMetatableDecorator = decoratorOrClass as IMetatableDecorator;
-            if (this.isDecoratorOf(MetadataObject.classOf(owner), decorator)) {
+            if (this.isDecoratorOf(metadataClassOfObject(owner), decorator)) {
                 this._metadataTableProvider.remove(decorator);
                 result = true;
             }

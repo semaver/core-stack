@@ -1,7 +1,7 @@
 import {Decorator} from "../decorators/Decorator";
 import {ClassTableUpdateTypes} from "./ClassTableUpdateTypes";
 import {IClass} from "@semaver/core";
-import {DecoratedElementType} from "../metatable/types/DecoratedElementType";
+import {DecoratedElementTypeValues} from "../metatable/types/DecoratedElementType";
 
 /**
  * @public
@@ -41,7 +41,7 @@ export interface IClassTableUpdate<TDecorator extends Decorator = Decorator, T =
          * @readonly
          * @property type - type of decorated element [[DecoratedElementType]]
          */
-        readonly type: DecoratedElementType;
+        readonly type: DecoratedElementTypeValues;
 
         /**
          * @public

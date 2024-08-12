@@ -1,10 +1,10 @@
-import {CoreObject, CoreReflect, IClass, Nullable} from "@semaver/core";
+import {classOfObject, getPropertyDescriptor, IClass, isObjectClass, Nullable, superClassOfObject} from "@semaver/core";
 import {Decorator, DecoratorFn, IMetatableDecorator} from "../../decorators/Decorator";
 import {AccessType, ClassMemberAccessError} from "../../errors/ClassMemberAccessError";
-import {MetadataObject} from "../../extentions/MetadataObjectExtention";
+import {metadataClassOfObject} from "../../extentions/MetadataObjectExtention";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
 import {IMemberMetadataTableRef, IMetadataTableRef} from "../../metatable/metadata/IMetadataTableRef";
-import {DecoratedElementType} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementType, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementType";
 import {Field} from "./Field";
 import getOwnPropertyDescriptor = Reflect.getOwnPropertyDescriptor;
 
@@ -19,7 +19,7 @@ export class Accessor<T extends object = object, TValue = unknown> extends Field
     /**
      * @inheritDoc
      */
-    public getType(): DecoratedElementType {
+    public getType(): DecoratedElementTypeValues {
         return DecoratedElementType.ACCESSOR;
     }
 
@@ -49,7 +49,7 @@ export class Accessor<T extends object = object, TValue = unknown> extends Field
                 if (getOwnPropertyDescriptor(targetClass.prototype, this._name)?.get) {
                     return true;
                 } else {
-                    targetClass = CoreObject.superClassOf(targetClass, true);
+                    targetClass = superClassOfObject(targetClass, true);
                 }
             }
         }
@@ -68,7 +68,7 @@ export class Accessor<T extends object = object, TValue = unknown> extends Field
                 if (getOwnPropertyDescriptor(targetClass.prototype, this._name)?.set) {
                     return true;
                 } else {
-                    targetClass = CoreObject.superClassOf(targetClass, true);
+                    targetClass = superClassOfObject(targetClass, true);
                 }
             }
         }
@@ -106,8 +106,8 @@ export class Accessor<T extends object = object, TValue = unknown> extends Field
      */
     public addDecorator(decoratorOrFn: Decorator | DecoratorFn): boolean {
         let result: boolean = false;
-        const target: Nullable<T> = this.getObject();
-        const descriptor: Nullable<PropertyDescriptor> = CoreReflect.getDescriptor(target, this._name);
+        const target: object = this.getObject();
+        const descriptor: Nullable<PropertyDescriptor> = getPropertyDescriptor(target, this._name);
         if (descriptor) {
             this.getDecoratorFn(decoratorOrFn).apply(undefined, [target, this._name, descriptor]);
             result = true;
@@ -121,18 +121,18 @@ export class Accessor<T extends object = object, TValue = unknown> extends Field
      */
     public removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): boolean {
         let result: boolean = false;
-        const target: Nullable<T> = this.getObject();
-        if (CoreObject.isClass(decoratorOrClass)) {
+        const target: object = this.getObject();
+        if (isObjectClass(decoratorOrClass)) {
             const decoratorClass: IClass<Decorator> = decoratorOrClass as IClass<Decorator>;
             this._metadataTableProvider.getOwnDecorators().forEach(decorator => {
-                if (CoreObject.classOf(decorator) === decoratorClass && this.isDecoratorOf(MetadataObject.classOf(target), decorator)) {
+                if (classOfObject(decorator) === decoratorClass && this.isDecoratorOf(metadataClassOfObject(target), decorator)) {
                     this._metadataTableProvider.remove(decorator);
                     result = true;
                 }
             });
         } else {
             const decorator: IMetatableDecorator = decoratorOrClass as IMetatableDecorator;
-            if (this.isDecoratorOf(MetadataObject.classOf(target), decorator)) {
+            if (this.isDecoratorOf(metadataClassOfObject(target), decorator)) {
                 this._metadataTableProvider.remove(decorator);
                 result = true;
             }

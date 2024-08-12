@@ -1,3 +1,11 @@
+export interface MetadataAppearancePolicyType {
+    APPLY: number;
+    SKIP: number;
+    DEFAULT: number
+}
+
+export type MetadataAppearancePolicyValues = MetadataAppearancePolicyType[keyof MetadataAppearancePolicyType];
+
 /**
  * @public
  * @enum
@@ -8,8 +16,8 @@
  *  - APPLY - decorator from child class is used
  *  - DEFAULT - APPLY definition used
  */
-export enum MetadataAppearancePolicy {
-    SKIP,
-    APPLY,
-    DEFAULT = APPLY,
-}
+export const MetadataAppearancePolicy: Readonly<MetadataAppearancePolicyType> = Object.freeze({
+    SKIP: 0,
+    APPLY: 1,
+    DEFAULT: 1,
+});

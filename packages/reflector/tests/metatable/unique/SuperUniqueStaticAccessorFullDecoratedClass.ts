@@ -11,4 +11,8 @@ export class SuperUniqueStaticAccessorFullDecoratedClass {
     public static set accessorStaticFull(value: string) {
         void (value);
     }
+
+    public run(param: number): number {
+        return param;
+    }
 }

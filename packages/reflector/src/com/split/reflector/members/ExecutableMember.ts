@@ -1,7 +1,7 @@
 import {IClass, Nullable} from "@semaver/core";
 import {Decorator} from "../../decorators/Decorator";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
-import {DecoratedElementType} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementType, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementType";
 import {ClassMember} from "./ClassMember";
 import {Parameter} from "./Parameter";
 
@@ -41,7 +41,7 @@ export abstract class ExecutableMember<T extends object = object> extends ClassM
     /**
      * @inheritDoc
      */
-    public getType(): DecoratedElementType {
+    public getType(): DecoratedElementTypeValues {
         return DecoratedElementType.EXECUTABLE_ELEMENT;
     }
 
@@ -69,7 +69,7 @@ export abstract class ExecutableMember<T extends object = object> extends ClassM
      * @method to get parameters from provided executable class
      * @return copy of parameters collection [[Parameter]]
      */
-    public getParameters(): ReadonlyArray<Parameter<T>> {
+    public getParameters(): readonly Parameter<T>[] {
         return this._parameters;
     }
 
@@ -109,8 +109,8 @@ export abstract class ExecutableMember<T extends object = object> extends ClassM
      * @param decoratorClasses - collection of decorator classes to get (can be omitted)
      * @return readonly collection of parameters decorators by index (position)
      */
-    public getParameterDecorators(...decoratorClasses: IClass<Decorator>[]): ReadonlyArray<ReadonlyArray<Decorator>> {
-        const decorators: ReadonlyArray<Decorator>[] = [];
+    public getParameterDecorators(...decoratorClasses: IClass<Decorator>[]): readonly (readonly Decorator[])[] {
+        const decorators: (readonly Decorator[])[] = [];
         return this._parameters.reduce((result, parameter) => {
             result.push(parameter.getDecorators(...decoratorClasses));
             return result;
@@ -123,8 +123,8 @@ export abstract class ExecutableMember<T extends object = object> extends ClassM
      * @param decoratorClasses - collection of decorator classes to get (can be omitted)
      * @return readonly collection of parameters decorators by index (position)
      */
-    public getOwnParameterDecorators(...decoratorClasses: IClass<Decorator>[]): ReadonlyArray<ReadonlyArray<Decorator>> {
-        const decorators: ReadonlyArray<Decorator>[] = [];
+    public getOwnParameterDecorators(...decoratorClasses: IClass<Decorator>[]): readonly (readonly Decorator[])[] {
+        const decorators: (readonly Decorator[])[] = [];
         return this._parameters.reduce((result, parameter) => {
             result.push(parameter.getOwnDecorators(...decoratorClasses));
             return result;

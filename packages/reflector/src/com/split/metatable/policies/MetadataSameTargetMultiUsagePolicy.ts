@@ -1,3 +1,11 @@
+export interface MetadataSameTargetMultiUsagePolicyType {
+    ALLOWED: number;
+    NOT_ALLOWED: number;
+    DEFAULT: number
+}
+
+export type MetadataSameTargetMultiUsagePolicyValues = MetadataSameTargetMultiUsagePolicyType[keyof MetadataSameTargetMultiUsagePolicyType];
+
 /**
  * @public
  * @enum
@@ -8,8 +16,8 @@
  *  - NOT_ALLOWED - only first decorator is registered  in metatable
  *  - DEFAULT - NOT_ALLOWED definition used
  */
-export enum MetadataSameTargetMultiUsagePolicy {
-    ALLOWED,
-    NOT_ALLOWED,
-    DEFAULT = NOT_ALLOWED,
-}
+export const MetadataSameTargetMultiUsagePolicy: Readonly<MetadataSameTargetMultiUsagePolicyType> = Object.freeze({
+    ALLOWED: 0,
+    NOT_ALLOWED: 1,
+    DEFAULT: 1,
+});

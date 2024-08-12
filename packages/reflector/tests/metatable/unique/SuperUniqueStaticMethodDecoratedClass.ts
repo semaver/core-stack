@@ -7,4 +7,8 @@ export class SuperUniqueStaticMethodDecoratedClass {
         void (param);
         return 0;
     }
+
+    public run(param: number): number {
+        return param;
+    }
 }

@@ -29,13 +29,13 @@ export interface IMemberMetadataTableRef {
      * @public
      * @property _decorators - contains information about decorators of class member
      */
-    _decorators: Array<IMetatableDecorator>;
+    _decorators: IMetatableDecorator[];
 
     /**
      * @public
      * @property _parameters - contains information about decorators of class member parameters by index(position)
      */
-    _parameters: Array<Array<IMetatableDecorator>>;
+    _parameters: IMetatableDecorator[][];
 }
 
 /**

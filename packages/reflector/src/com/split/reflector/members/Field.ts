@@ -1,7 +1,7 @@
-import {CoreObject, IClass, Nullable} from "@semaver/core";
+import {IClass, isObjectClass, Nullable} from "@semaver/core";
 import {ClassMemberTargetObjectTypeError} from "../../errors/ClassMemberTargetObjectTypeError";
 import {ClassMemberTargetUndefinedError} from "../../errors/ClassMemberTargetUndefinedError";
-import {DecoratedElementType} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementType, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementType";
 import {ClassMember} from "./ClassMember";
 
 /**
@@ -16,7 +16,7 @@ export abstract class Field<T extends object = object, TValue = unknown> extends
     /**
      * @inheritDoc
      */
-    public getType(): DecoratedElementType {
+    public getType(): DecoratedElementTypeValues {
         return DecoratedElementType.FIELD;
     }
 
@@ -59,16 +59,16 @@ export abstract class Field<T extends object = object, TValue = unknown> extends
      * @method to validate target before set or get value;
      * @param target - instance for instance fields or class for static fields
      */
-    protected validate(target: IClass<T> | T): void {
+    protected validate(target: Nullable<IClass<T> | T>): void {
         if (!target) {
             throw new ClassMemberTargetUndefinedError(this, this.getType(), this._name);
         }
 
-        if (CoreObject.isClass(target) && !this._isStatic) {
+        if (isObjectClass(target) && !this._isStatic) {
             throw new ClassMemberTargetObjectTypeError(this, this.getType(), this._name, target, true);
         }
 
-        if (!CoreObject.isClass(target) && this._isStatic) {
+        if (!isObjectClass(target) && this._isStatic) {
             throw new ClassMemberTargetObjectTypeError(this, this.getType(), this._name, target, false);
         }
     }

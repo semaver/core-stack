@@ -32,7 +32,7 @@ export class QueryExecutor<T extends object> {
      * @method to filters class members based on provided condition
      * @param condition - condition [[IQueryCondition]] used to filter
      */
-    public filter(condition: IQueryCondition<T>): QueryExecutor<T> {
+    public filter(condition: IQueryCondition<T>): this {
         condition.filter(this.queryInfo);
         return this;
     }

@@ -18,7 +18,7 @@ export class QueryInfo<T extends object> {
      * @constructor
      * @param members - collection of class members
      */
-    public constructor(members: ClassMember<T>[]) {
+    public constructor(members: Nullable<ClassMember<T>[]>) {
         this.members = members ? members.slice() : [];
     }
 
@@ -45,7 +45,7 @@ export class QueryInfo<T extends object> {
      * @method to filters class members based on filterFn function
      * @param filterFn - filter function
      */
-    public filterMembers(filterFn: (member: ClassMember<T>) => void): void {
+    public filterMembers(filterFn: (member: ClassMember<T>) => boolean): void {
         this.members = this.members.filter(filterFn);
     }
 

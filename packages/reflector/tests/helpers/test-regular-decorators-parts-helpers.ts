@@ -4,7 +4,7 @@ import {
     DecoratedElementType,
     IMetadataClass,
     IMetatableDecorator,
-    MetadataObject,
+    metadataClassOfObject,
     MetadataTableProvider,
 } from "../../src";
 
@@ -12,7 +12,7 @@ export function testOwnAccessors<T extends object>(someClass: IClass<T>,
                                                    totalMembers: number,
                                                    staticMembers: number,
                                                    instMembers: number): void {
-    const decoratedClass: IMetadataClass<T> = MetadataObject.classOf(someClass);
+    const decoratedClass: IMetadataClass<T> = metadataClassOfObject(someClass);
     const decorators: IMetatableDecorator[] = new MetadataTableProvider(decoratedClass).getOwnDecorators();
 
     const accessors: IMetatableDecorator[] = decorators.reduce((collection, decorator) => {
@@ -35,7 +35,7 @@ export function testOwnProperties<T extends object>(someClass: IClass<T>,
                                                     totalMembers: number,
                                                     staticMembers: number,
                                                     instMembers: number): void {
-    const decoratedClass: IMetadataClass<T> = MetadataObject.classOf(someClass);
+    const decoratedClass: IMetadataClass<T> = metadataClassOfObject(someClass);
     const descriptors: IMetatableDecorator[] = new MetadataTableProvider(decoratedClass).getOwnDecorators();
     const properties: IMetatableDecorator[] = descriptors.reduce((collection, decorator) => {
         if (decorator.__metadata__.type === DecoratedElementType.PROPERTY) {
@@ -58,7 +58,7 @@ export function testOwnArguments<T extends object>(someClass: IClass<T>,
                                                    staticMethodArgs: number,
                                                    instMethodArgs: number,
                                                    constructorArgs: number): void {
-    const decoratedClass: IMetadataClass<T> = MetadataObject.classOf(someClass);
+    const decoratedClass: IMetadataClass<T> = metadataClassOfObject(someClass);
     const descriptors: IMetatableDecorator[] = new MetadataTableProvider(decoratedClass).getOwnDecorators();
 
     const args: IMetatableDecorator[] = descriptors.reduce((collection, decorator) => {
@@ -81,7 +81,7 @@ export function testOwnArguments<T extends object>(someClass: IClass<T>,
 
 export function testOwnConstructors<T extends object>(someClass: IClass<T>,
                                                       argLength: number): void {
-    const decoratedClass: IMetadataClass<T> = MetadataObject.classOf(someClass);
+    const decoratedClass: IMetadataClass<T> = metadataClassOfObject(someClass);
     const descriptors: IMetatableDecorator[] = new MetadataTableProvider(decoratedClass).getOwnDecorators();
 
     const constructors: IMetatableDecorator[] = descriptors.reduce((collection, decorator) => {
@@ -99,7 +99,7 @@ export function testOwnMethods<T extends object>(someClass: IClass<T>,
                                                  totalMembers: number,
                                                  staticMembers: number,
                                                  instMembers: number): void {
-    const decoratedClass: IMetadataClass<T> = MetadataObject.classOf(someClass);
+    const decoratedClass: IMetadataClass<T> = metadataClassOfObject(someClass);
     const descriptors: IMetatableDecorator[] = new MetadataTableProvider(decoratedClass).getOwnDecorators();
 
     const methods: IMetatableDecorator[] = descriptors.reduce((collection, decorator) => {

@@ -1,9 +1,10 @@
 import {standard} from "../../common/metadata/StandardDecorator";
 
 export class LambdaSuperClass {
+    protected _property: boolean = true;
 
     public get uglyGetter(): boolean {
-        return true;
+        return this._property;
     }
 
     @standard("some lambda static property")

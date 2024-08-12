@@ -2,7 +2,7 @@
   "name": "@semaver/core",
   "type": "module",
   "rawName": "core",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "split core",
   "homepage": "https://github.com/semaver/core-stack/tree/main/packages/core",
   "bugs": "https://github.com/semaver/core-stack/issues",
@@ -46,7 +46,7 @@
     "test": "jest --collectCoverage",
     "build": "rollup -c ../../rollup.config.js",
     "index": "cti entrypoint src -o index.ts",
-    "lint": "eslint ./src ./tests --ext .ts",
+    "lint": "eslint ./src ./tests",
     "file": "yarn pack --pack-destination packs"
   }
 }

@@ -38,30 +38,36 @@ export default {
     external: [...Object.keys(pkg.peerDependencies ?? {})],
     output: [
         {
+            sourcemap: true,
             file: "lib/library.esm.js",
             format: 'esm'
         },
         {
+            sourcemap: true,
             file: "lib/library.esm.min.js",
             format: 'esm',
             plugins: [terser()]
         },
         {
+            sourcemap: true,
             file: "lib/library.umd.js",
             format: 'umd',
             name: `@semaver/${pkg.rawName}`
         },
         {
+            sourcemap: true,
             file: "lib/library.umd.min.js",
             format: 'umd',
             name: `@semaver/${pkg.rawName}`,
             plugins: [terser()]
         },
         {
+            sourcemap: true,
             file: "lib/library.cjs.cjs",
             format: 'cjs'
         },
         {
+            sourcemap: true,
             file: "lib/library.cjs.min.cjs",
             format: 'cjs',
             plugins: [terser()]

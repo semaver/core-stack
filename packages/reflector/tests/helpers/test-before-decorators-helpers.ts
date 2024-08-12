@@ -27,5 +27,5 @@ export function testSuperAndChildInitialDescriptors<S extends object, C extends 
     const superDecoratedClass: IMetadataClass<S> = superClass as IMetadataClass<S>;
     const childDecoratedClass: IMetadataClass<C> = childCLass as IMetadataClass<C>;
 
-    expect(superDecoratedClass.__metadata__).toEqual(Object.getPrototypeOf(childDecoratedClass.prototype).constructor.__metadata__);
+    expect(superDecoratedClass.__metadata__).toEqual(((Object.getPrototypeOf(childDecoratedClass.prototype) as object).constructor as IMetadataClass<object>).__metadata__);
 }

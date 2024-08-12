@@ -1,13 +1,13 @@
-import {CoreError} from "@semaver/core";
+import {ExtendedError} from "@semaver/core";
 import {DecoratedElement} from "../reflector/members/DecoratedElement";
 
 /**
  * @public
  * @class
- * @extends [[CoreError]]
+ * @extends [[ExtendedError]]
  * @description - custom error for object thrown if decorator is undefined
  */
-export class DecoratorUndefinedError extends CoreError {
+export class DecoratorUndefinedError extends ExtendedError {
 
     /**
      * @public

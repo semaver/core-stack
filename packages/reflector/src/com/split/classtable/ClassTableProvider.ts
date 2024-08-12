@@ -23,7 +23,7 @@ export class ClassTableProvider {
      */
     public constructor() {
         let classTableRef: IClassTableRef;
-        const storage: object = globalThis ?? Object;
+        const storage: object = globalThis;
         if (!Reflect.has(storage, ClassTableNames.CLASS_TABLE)) {
             classTableRef = {
                 _sync_hash: "",
@@ -37,7 +37,7 @@ export class ClassTableProvider {
                 writable: false,
             });
         } else {
-            classTableRef = Reflect.get(storage, ClassTableNames.CLASS_TABLE);
+            classTableRef = Reflect.get(storage, ClassTableNames.CLASS_TABLE) as IClassTableRef;
         }
 
         this.classTable = new ClassTable(classTableRef);

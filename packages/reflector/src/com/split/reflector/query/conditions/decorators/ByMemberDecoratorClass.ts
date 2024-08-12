@@ -1,4 +1,4 @@
-import {CoreObject, IClass, Nullable} from "@semaver/core";
+import {classOfObject, IClass} from "@semaver/core";
 import {Decorator} from "../../../../decorators/Decorator";
 import {IQueryCondition} from "../../IQueryCondition";
 import {QueryInfo} from "../../QueryInfo";
@@ -12,31 +12,17 @@ import {QueryInfo} from "../../QueryInfo";
 export class ByMemberDecoratorClass<T extends object = object> implements IQueryCondition<T> {
 
     /**
-     * @public
-     * @static
-     * @method to create query/filter condition (instance) from collection of decorator classes
-     * @param decoratorClasses - collection of decorator classes
-     * @return instance of [[ByMemberDecoratorClass]] query condition
-     */
-    public static from<T extends object>(...decoratorClasses: IClass<Decorator>[]): ByMemberDecoratorClass<T> {
-        if (!ByMemberDecoratorClass._cache) {
-            ByMemberDecoratorClass._cache = new ByMemberDecoratorClass<T>();
-        }
-        return ByMemberDecoratorClass._cache.setDecoratorClass(...decoratorClasses);
-    }
-
-    /**
      * @private
      * @static
      * @property _cache - cache that contains instance of current query/filter condition
      * to prevent creation of instance every time this condition required (reusing of instance)
      */
-    private static _cache: ByMemberDecoratorClass;
+    private static _cache: ByMemberDecoratorClass = new ByMemberDecoratorClass<object>();
     /**
      * @private
-     * @property _decoratorClass - collection of decorator classes used in query/filter condition
+     * @property _decoratorClasses - collection of decorator classes used in query/filter condition
      */
-    private _decoratorClasses: Nullable<IClass<Decorator>[]>;
+    private _decoratorClasses: IClass<Decorator>[] = [];
 
     /**
      * @public
@@ -45,6 +31,17 @@ export class ByMemberDecoratorClass<T extends object = object> implements IQuery
      */
     public constructor(...decoratorClasses: IClass<Decorator>[]) {
         this.setDecoratorClass(...decoratorClasses);
+    }
+
+    /**
+     * @public
+     * @static
+     * @method to create query/filter condition (instance) from collection of decorator classes
+     * @param decoratorClasses - collection of decorator classes
+     * @return instance of [[ByMemberDecoratorClass]] query condition
+     */
+    public static from<T extends object>(...decoratorClasses: IClass<Decorator>[]): ByMemberDecoratorClass<T> {
+        return ByMemberDecoratorClass._cache.setDecoratorClass(...decoratorClasses);
     }
 
     /**
@@ -65,8 +62,13 @@ export class ByMemberDecoratorClass<T extends object = object> implements IQuery
      */
     public filter(queryInfo: QueryInfo<T>): void {
         queryInfo
-            .filterMembers((member) =>
-                member.getDecorators().find((decorator) => !!this._decoratorClasses?.find((metadataClass) => metadataClass === CoreObject.classOf(decorator))));
+            .filterMembers((member) => {
+                return member.getDecorators()
+                    .some((decorator) => {
+                        return this._decoratorClasses
+                            .some((metadataClass) => metadataClass === classOfObject(decorator));
+                    });
+            });
     }
 
 }

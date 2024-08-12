@@ -1,3 +1,14 @@
+export interface MetadataCollisionPolicyType {
+    OVERRIDE_PARENT: number;
+    OVERRIDE_CHILD: number;
+    THROW_ERROR: number;
+    JOIN: number;
+    SKIP: number;
+    DEFAULT: number
+}
+
+export type MetadataCollisionPolicyValues = MetadataCollisionPolicyType[keyof MetadataCollisionPolicyType];
+
 /**
  * @public
  * @enum
@@ -11,11 +22,11 @@
  *  - THROW_ERROR - if the collision happens, error will be thrown
  *  - DEFAULT - OVERRIDE_PARENT definition used
  */
-export enum MetadataCollisionPolicy {
-    SKIP,
-    OVERRIDE_CHILD,
-    OVERRIDE_PARENT,
-    JOIN,
-    THROW_ERROR,
-    DEFAULT = OVERRIDE_PARENT,
-}
+export const MetadataCollisionPolicy: Readonly<MetadataCollisionPolicyType> = Object.freeze({
+    SKIP: 0,
+    OVERRIDE_CHILD: 1,
+    OVERRIDE_PARENT: 2,
+    JOIN: 3,
+    THROW_ERROR: 4,
+    DEFAULT: 2,
+});

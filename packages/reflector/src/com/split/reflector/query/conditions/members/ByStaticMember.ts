@@ -6,23 +6,9 @@ import {QueryInfo} from "../../QueryInfo";
  * @public
  * @class
  * @implements [[IQueryCondition]]
- * @description - implementation of query condition api to filter class members by staticness of class members (if member is static or not)
+ * @description - implementation of query condition api to filter class members by statics of class members (if member is static or not)
  */
 export class ByStaticMember<T extends object = object> implements IQueryCondition<T> {
-
-    /**
-     * @public
-     * @static
-     * @method to create query/filter condition (instance) by staticness
-     * @param isStatic - staticness flag
-     * @return instance of [[ByStaticMember]] query condition
-     */
-    public static from<T extends object>(isStatic: boolean): ByStaticMember<T> {
-        if (!ByStaticMember._cache) {
-            ByStaticMember._cache = new ByStaticMember<T>();
-        }
-        return ByStaticMember._cache.setIsStatic(isStatic);
-    }
 
     /**
      * @private
@@ -30,17 +16,17 @@ export class ByStaticMember<T extends object = object> implements IQueryConditio
      * @property _cache - cache that contains instance of current query/filter condition
      * to prevent creation of instance every time this condition required (reusing of instance)
      */
-    private static _cache: ByStaticMember;
+    private static _cache: ByStaticMember = new ByStaticMember<object>();
     /**
      * @private
-     * @property _isStatic - staticness flag
+     * @property _isStatic - statics flag
      */
     private _isStatic: Nullable<boolean>;
 
     /**
      * @public
      * @constructor
-     * @param isStatic - staticness flag
+     * @param isStatic - statics flag
      */
     public constructor(isStatic?: boolean) {
         this.setIsStatic(isStatic);
@@ -48,8 +34,19 @@ export class ByStaticMember<T extends object = object> implements IQueryConditio
 
     /**
      * @public
-     * @method to set staticness flag used in query/filter condition
-     * @param isStatic - staticness flag
+     * @static
+     * @method to create query/filter condition (instance) by statics
+     * @param isStatic - statics flag
+     * @return instance of [[ByStaticMember]] query condition
+     */
+    public static from<T extends object>(isStatic: boolean): ByStaticMember<T> {
+        return ByStaticMember._cache.setIsStatic(isStatic);
+    }
+
+    /**
+     * @public
+     * @method to set statics flag used in query/filter condition
+     * @param isStatic - statics flag
      * @return current instance of query/filter condition
      */
     public setIsStatic(isStatic?: boolean): this {

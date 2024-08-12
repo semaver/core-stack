@@ -1,9 +1,11 @@
 import {Decorator, DecoratorFn} from "./Decorator";
-import {MetadataAccessPolicy} from "../metatable/policies/MetadataAccessPolicy";
-import {MetadataNotExistencePolicy} from "../metatable/policies/MetadataNotExistencePolicy";
+import {MetadataAccessPolicy, MetadataAccessPolicyValues} from "../metatable/policies/MetadataAccessPolicy";
+import {
+    MetadataNotExistencePolicy,
+    MetadataNotExistencePolicyValues
+} from "../metatable/policies/MetadataNotExistencePolicy";
 
 /**
- * @global
  * @public
  * @function
  * @return decorator function [[DecoratorFn]]
@@ -25,14 +27,14 @@ export class MetaclassDecorator extends Decorator {
     /**
      * @inheritDoc
      */
-    public getAccessPolicy(): MetadataAccessPolicy {
+    public getAccessPolicy(): MetadataAccessPolicyValues {
         return MetadataAccessPolicy.CONSTRUCTOR;
     }
 
     /**
      * @inheritDoc
      */
-    public getNotExistencePolicy(): MetadataNotExistencePolicy {
+    public getNotExistencePolicy(): MetadataNotExistencePolicyValues {
         return MetadataNotExistencePolicy.SKIP;
     }
 }
