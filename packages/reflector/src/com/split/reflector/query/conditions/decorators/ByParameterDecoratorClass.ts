@@ -65,7 +65,7 @@ export class ByParameterDecoratorClass<T extends object = object> implements IQu
                     return member
                         .getParameterDecorators()
                         .reduce((result, decorators) => result.concat(...decorators), [])
-                        .some((decorator) => !!this._decoratorClasses?.find((decoratorClass) => decoratorClass === classOfObject(decorator)));
+                        .some((decorator) => !!this._decoratorClasses.find((decoratorClass) => decoratorClass === classOfObject(decorator)));
 
                 } else {
                     return false;
