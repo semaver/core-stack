@@ -1,5 +1,5 @@
 # @semaver/reflector
-An extensive way to deal with classes. 
+Reflection framework for TypeScript and JavaScript, with decorator inheritance support and no reflect-metadata dependency.
 
 ## About
 **`reflector`** package does a full examination of TypeScript classes. It provides an extensive mechanism for querying and filtering detailed information about class structure. The package supports the reflection of decorated class members and parameters with the help of the built-in concept of [Annotation Decorators](#annotation-decorators). Annotation Decorators are the decoration mechanism for the code annotations in TypeScript. In other words, it provides the possibility to label different class members and parameters. **`reflector`** covers sophisticated cases of working with such decorators, like dynamic decoration on runtime and inheritance of decorated class members.

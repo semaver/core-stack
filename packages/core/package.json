@@ -3,8 +3,8 @@
   "type": "module",
   "rawName": "core",
   "version": "1.1.0",
-  "description": "split core",
-  "homepage": "https://github.com/semaver/core-stack/tree/main/packages/core",
+  "description": "Core interface/types and helper methods for object manipulation and reflection",
+  "homepage": "https://github.com/semaver/core-stack",
   "bugs": "https://github.com/semaver/core-stack/issues",
   "repository": {
     "type": "git",

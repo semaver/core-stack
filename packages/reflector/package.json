@@ -3,8 +3,8 @@
   "type": "module",
   "rawName": "reflector",
   "version": "1.1.0",
-  "description": "split reflector",
-  "homepage": "https://github.com/semaver/core-stack/tree/main/packages/reflector",
+  "description": "Reflection framework for TypeScript and JavaScript, with decorator inheritance support and no reflect-metadata dependency.",
+  "homepage": "https://github.com/semaver/core-stack",
   "bugs": "https://github.com/semaver/core-stack/issues",
   "repository": {
     "type": "git",

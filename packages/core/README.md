@@ -1,6 +1,6 @@
 # @semaver/core
 
-Core interface/types and helper methods.
+Core interface/types and helper methods for object manipulation and reflection.
 
 ## Introduction
 
