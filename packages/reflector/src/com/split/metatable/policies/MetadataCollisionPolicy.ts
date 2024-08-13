@@ -1,6 +1,6 @@
 /**
  * collision policy:
- * if class member in super class and in child class have decorator of the same type (superclass decorator - <b>own or inherited</b>).
+ * if class member in superclass and in child class have decorator of the same type (superclass decorator - <b>own or inherited</b>).
  *
  *  - SKIP - decorator from super class and child class are not used for child class
  *  - OVERRIDE_CHILD - decorator from super class is used in child class
@@ -22,7 +22,7 @@ export interface MetadataCollisionPolicyType {
 }
 
 /**
- * implementation of {@link MetadataCollisionPolicyType} enum values as type
+ * implementation of {@link MetadataCollisionPolicyType} enum values as a type
  *
  * @public
  * @interface

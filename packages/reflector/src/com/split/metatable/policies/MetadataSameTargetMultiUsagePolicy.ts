@@ -1,9 +1,9 @@
 /**
  * same target multi usage policy:
- * if class member has more than one decorator of the same type.
+ *  if a class member has more than one decorator of the same type.
  *
  *  - ALLOWED - all decorators are registered in metatable
- *  - NOT_ALLOWED - only first decorator is registered  in metatable
+ *  - NOT_ALLOWED - only first decorator is registered in metatable
  *  - DEFAULT - NOT_ALLOWED definition used
  *
  * @public
@@ -16,7 +16,7 @@ export interface MetadataSameTargetMultiUsagePolicyType {
 }
 
 /**
- * implementation of {@link MetadataSameTargetMultiUsagePolicyType} enum values as type
+ * implementation of {@link MetadataSameTargetMultiUsagePolicyType} enum values as a type
  *
  * @public
  * @interface

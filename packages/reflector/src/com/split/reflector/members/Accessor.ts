@@ -16,13 +16,6 @@ import getOwnPropertyDescriptor = Reflect.getOwnPropertyDescriptor;
 export class Accessor<T extends object = object, TValue = unknown> extends Field<T, TValue> {
 
     /**
-     * @inheritDoc
-     */
-    public getType(): DecoratedElementTypeValues {
-        return DecoratedElementEnum.ACCESSOR;
-    }
-
-    /**
      * @public
      * @param metadataClass - class that contains current accessor
      * @param name - accessor name
@@ -33,6 +26,13 @@ export class Accessor<T extends object = object, TValue = unknown> extends Field
         name: string,
         isStatic: boolean) {
         super(metadataClass, name, isStatic);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public getType(): DecoratedElementTypeValues {
+        return DecoratedElementEnum.ACCESSOR;
     }
 
     /**

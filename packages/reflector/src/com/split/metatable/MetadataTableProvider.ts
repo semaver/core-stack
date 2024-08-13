@@ -65,7 +65,7 @@ function createMemberMetadataTable(): IMemberMetadataTableRef {
 }
 
 /**
- * function to get map element by key (helper),
+ * function to get a map element by key (helper),
  * if not found and default value is provided, default value will be assigned and returned
  *
  * @private
@@ -83,11 +83,39 @@ function getMapElementOrDefault<K, V>(map: Map<K, V>, key: K, defaultValue: V): 
 }
 
 /**
- * provider that represent metadata table of some class and provide the information about metadata
+ * provider that represents metadata table of some class and provide the information about metadata
  *
  * @public
  */
 export class MetadataTableProvider<T extends object = object> {
+
+    /**
+     * @private
+     * @readonly
+     * @property _metadataTable - metadata table of the target class that contains information about metadata (pure) only of this class
+     */
+    private readonly _metadataTable: IMetadataTableRef;
+    /**
+     * @private
+     * @readonly
+     * @property _class - class that contains decorated class members
+     */
+    private readonly _class: IMetadataClass<T>;
+    /**
+     * @private
+     * @readonly
+     * @property classTable - class table provides access to all decorated classes
+     */
+    private readonly classTable: ClassTable = new ClassTableProvider().getClassTable();
+
+    /**
+     * @public
+     * @param metadataClass - class that contains decorated class members
+     */
+    public constructor(metadataClass: IMetadataClass<T>) {
+        this._class = metadataClass;
+        this._metadataTable = MetadataTableProvider.getOrCreateClassMetadataTable(metadataClass);
+    }
 
     /**
      * method to create or get existing own metadata table of provided class
@@ -131,36 +159,6 @@ export class MetadataTableProvider<T extends object = object> {
 
             return metadataTable;
         }
-    }
-
-    /**
-     * @private
-     * @readonly
-     * @property _metadataTable - metadata table of the target class that contains information about metadata (pure) only of this class
-     */
-    private readonly _metadataTable: IMetadataTableRef;
-    /**
-     * @private
-     * @readonly
-     * @property _class - class that contains decorated class members
-     */
-    private readonly _class: IMetadataClass<T>;
-
-    /**
-     * @private
-     * @readonly
-     * @property classTable - class table provide access to all decorated classes
-     */
-    private readonly classTable: ClassTable = new ClassTableProvider().getClassTable();
-
-
-    /**
-     * @public
-     * @param metadataClass - class that contains decorated class members
-     */
-    public constructor(metadataClass: IMetadataClass<T>) {
-        this._class = metadataClass;
-        this._metadataTable = MetadataTableProvider.getOrCreateClassMetadataTable(metadataClass);
     }
 
     /**
@@ -377,7 +375,7 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
-     * method to check if metadata table was has any changes
+     * method to check if metadata table had any changes
      *
      * @public
      * @returns true if metatable was modified (of current class or any superclass in chain)
@@ -501,13 +499,13 @@ export class MetadataTableProvider<T extends object = object> {
      * method to merge child class metadata/decorators table with super class metadata/decorators table
      * all class member metadata are merged based on rules provided in decorators,
      * exclusion only for constructor parameters, if the child class constructor contains own (redefined) parameters,
-     * then the decorators (metadata) of super class constructor parameters is not included and if necessary in child class it should be redefined.
-     * If the child class does not contain "own" constructor, them the decorators (metadata) of super class constructor parameters is applied to child constructor parameters.
+     * then the decorators (metadata) of super class constructor parameters is not included, and if necessary in child class it should be redefined.
+     * If the child class does not contain "own" constructor, them the decorators (metadata) of superclass constructor parameters is applied to child constructor parameters.
      *
      * @private
      * @param childClass - child class to get additional information
      * @param childClassMt - child class metadata table
-     * @param superClassMt - super class metadata table
+     * @param superClassMt - superclass metadata table
      * @returns merged class metadata/decorators table
      */
     private merge<C extends object>(childClass: IMetadataClass<C>, childClassMt: IMetadataTableRef, superClassMt: IMetadataTableRef): IMetadataTableRef {
@@ -590,12 +588,12 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
-     * method to merge child constructors metadata/decorators table with super class constructors metadata/decorators table
+     * method to merge child constructors metadata/decorators' table with superclass constructors metadata/decorators' table
      *
      * @private
      * @param access - primitive access policy
      * @param childClassMt - child class metadata table
-     * @param superClassMt - super class metadata table
+     * @param superClassMt - superclass metadata table
      * @param childClass - child class to get additional information
      * @param resultMt - merged constructors metadata
      */
@@ -629,12 +627,12 @@ export class MetadataTableProvider<T extends object = object> {
 
 
     /**
-     * method to merge child methods metadata/decorators table with super class methods metadata/decorators table
+     * method to merge child methods metadata/decorators' table with superclass methods metadata/decorators table
      *
      * @private
      * @param access - primitive access policy
      * @param childClassMt - child class metadata table
-     * @param superClassMt - super class metadata table
+     * @param superClassMt - superclass metadata table
      * @param childClass - child class to get additional information
      * @param resultMt - merged methods metadata
      */
@@ -662,12 +660,12 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
-     * method to merge child fields metadata/decorators table with super class fields metadata/decorators table
+     * method to merge child fields metadata/decorators' table with superclass fields metadata/decorators table
      *
      * @private
      * @param access - primitive access policy
      * @param childClassMt - child class metadata table
-     * @param superClassMt - super class metadata table
+     * @param superClassMt - superclass metadata table
      * @param childClass - child class to get additional information
      * @param resultMt - merged fields metadata
      */
@@ -798,14 +796,14 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
-     * method to merge generic child and super class member decorators based on rules provided in decorators
+     * method to merge generic child and superclass member decorators based on rules provided in decorators
      *
      * @private
      * @param access - primitive access policy
      * @param childClass - child class that contains decorator
-     * @param superCachedDecorators - collection of super class decorators
+     * @param superCachedDecorators - collection of superclass decorators
      * @param childDecorators - collection of child class decorators
-     * @returns merged collection of decorators
+     * @returns a merged collection of decorators
      */
     private mergeClassMemberMetadata<C extends object>(access: PrimitiveMetadataAccessPolicyValues, childClass: IMetadataClass<C>, superCachedDecorators: IMetatableDecorator[], childDecorators: IMetatableDecorator[]): IMetatableDecorator[] {
         const childClassName: string = childClass.name;
@@ -905,14 +903,14 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
-     * method to merge generic child and super class constructor or method parameter decorators based on rules provided in decorators
+     * method to merge generic child and superclass constructor or method parameter decorators based on rules provided in decorators
      *
      * @private
      * @param access - primitive access policy
      * @param childClass - child class that contains decorators
-     * @param superCachedDecorators - collection by parameter index of super class decorators
+     * @param superCachedDecorators - collection by parameter index of superclass decorators
      * @param childDecorators - collection by parameter index of child class decorators
-     * @returns merged collection by parameter index of decorators
+     * @returns a merged collection by parameter index of decorators
      */
     private mergeParameters<C extends object>(access: PrimitiveMetadataAccessPolicyValues, childClass: IMetadataClass<C>, superCachedDecorators: IMetatableDecorator[][], childDecorators: IMetatableDecorator[][]): IMetatableDecorator[][] {
         const parameterDecorators: IMetatableDecorator[][] = [];

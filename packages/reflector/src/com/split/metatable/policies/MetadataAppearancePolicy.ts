@@ -1,7 +1,6 @@
 /**
  * appearance policy:
- * if class member in child class has decorator and class member in super class has no decorator <b>(own or inherited)</b>
- *
+ * if class member in child class has a decorator and class member in superclass has no decorator <b>(own or inherited)</b>
  *  - SKIP - decorator from child class is not used if there is already a decorator of the same type in any of superclasses except "closest" superclass (this is collision case)
  *  - APPLY - decorator from child class is used
  *  - DEFAULT - APPLY definition used
@@ -16,7 +15,7 @@ export interface MetadataAppearancePolicyType {
 }
 
 /**
- * implementation of {@link MetadataAppearancePolicyType} enum values as type
+ * implementation of {@link MetadataAppearancePolicyType} enum values as a type
  *
  * @public
  * @interface

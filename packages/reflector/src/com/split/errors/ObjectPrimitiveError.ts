@@ -1,7 +1,7 @@
 import {ExtendedError} from "@semaver/core";
 
 /**
- * custom error for object thrown if object is primitive
+ * custom error for an object thrown if the object is primitive
  *
  * @public
  */

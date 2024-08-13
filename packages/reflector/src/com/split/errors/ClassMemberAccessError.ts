@@ -15,7 +15,7 @@ export enum AccessType {
 }
 
 /**
- * custom error for class member target thrown if class member does not have right access (read, write, execute)
+ * custom error for class member target thrown if class member does not have the right access (read, write, execute)
  *
  * @public
  */

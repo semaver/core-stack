@@ -10,7 +10,7 @@ import {IClassTableSubscriber} from "./IClassTableSubscriber";
 export interface IClassTable {
 
     /**
-     * method to get collection of classes containing own metadata
+     * method to get a collection of classes containing own metadata
      *
      * @public
      * @returns readonly set of classes
@@ -18,10 +18,10 @@ export interface IClassTable {
     getClasses(): ReadonlySet<IMetadataClass<unknown>>;
 
     /**
-     * method to get synchronisation hash
+     * method to get synchronization hash
      *
      * @public
-     * @returns string of synchronisation hash
+     * @returns string of synchronization hash
      */
     getSyncHash(): string;
 

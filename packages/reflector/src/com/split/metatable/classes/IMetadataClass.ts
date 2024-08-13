@@ -15,7 +15,7 @@ export enum MetadataClassNames {
 }
 
 /**
- * interface that represent class with metadata
+ * interface that represents class with metadata
  *
  * @public
  * @interface

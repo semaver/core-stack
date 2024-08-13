@@ -28,7 +28,7 @@ export interface DecoratedElementType extends PrimitiveDecoratedElementType {
 }
 
 /**
- * implementation of {@link DecoratedElementType} enum values as type
+ * implementation of {@link DecoratedElementType} enum values as a type
  *
  * @public
  * @interface

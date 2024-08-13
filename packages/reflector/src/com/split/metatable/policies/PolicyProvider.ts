@@ -114,7 +114,7 @@ export class PolicyProvider implements IPolicyProvider {
     }
 
     /**
-     * method to set same target multi usage policy based on access provided in constructor, old values will be deleted and new values set
+     * method to set the same target multi usage policy based on access provided in constructor, old values will be deleted and new values set
      *
      * @public
      * @param value - value to apply to metadata same target multi usage policy
@@ -163,7 +163,7 @@ export class PolicyProvider implements IPolicyProvider {
     }
 
     /**
-     * method to add same target multi usage policy based on access provided in constructor, old values will be updated
+     * method to add the same target multi usage policy based on access provided in constructor, old values will be updated
      *
      * @public
      * @param value - value to apply to metadata same target multi usage policy

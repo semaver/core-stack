@@ -9,6 +9,26 @@ import {isObjectEmpty} from "./CoreObject";
 export class InterfaceSymbol<T> implements IInterface<T> {
 
     /**
+     * @private
+     * @property pool of all interface symbols
+     */
+    private static pool: Map<symbol, InterfaceSymbol<unknown>> = new Map<symbol, InterfaceSymbol<unknown>>();
+    /**
+     * @public
+     * @readonly
+     * @property unique identifier of interface symbol
+     */
+    public readonly uid: symbol;
+
+    /**
+     * @private
+     * @param uid - unique identifier of type symbol
+     */
+    private constructor(uid: symbol) {
+        this.uid = uid;
+    }
+
+    /**
      * method to create or get interface symbol by unique identifier
      *
      * @public
@@ -30,25 +50,5 @@ export class InterfaceSymbol<T> implements IInterface<T> {
             InterfaceSymbol.pool.set(uid, symbol);
         }
         return symbol;
-    }
-
-    /**
-     * @private
-     * @property pool of all interface symbols
-     */
-    private static pool: Map<symbol, InterfaceSymbol<unknown>> = new Map<symbol, InterfaceSymbol<unknown>>();
-    /**
-     * @public
-     * @readonly
-     * @property unique identifier of interface symbol
-     */
-    public readonly uid: symbol;
-
-    /**
-     * @private
-     * @param uid - unique identifier of type symbol
-     */
-    private constructor(uid: symbol) {
-        this.uid = uid;
     }
 }

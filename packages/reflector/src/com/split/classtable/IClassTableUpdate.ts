@@ -20,7 +20,7 @@ export interface IClassTableUpdate<TDecorator extends Decorator = Decorator, T =
     /**
      * @public
      * @readonly
-     * @property decorator - decorator applied to provided class
+     * @property decorator - decorator applied to the provided class
      */
     readonly decorator: TDecorator;
 

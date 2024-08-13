@@ -34,7 +34,7 @@ export class ClassTable implements IClassTable {
     }
 
     /**
-     * method to get collection of classes containing own metadata
+     * method to get a collection of classes containing own metadata
      *
      * @public
      * @returns modifiable set of classes
@@ -51,10 +51,10 @@ export class ClassTable implements IClassTable {
     }
 
     /**
-     * method to set synchronisation hash
+     * method to set synchronization hash
      *
      * @public
-     * @param hash - string of synchronisation hash
+     * @param hash - string of synchronization hash
      */
     public setSyncHash(hash: string): void {
         this.classTableRef._sync_hash = hash;

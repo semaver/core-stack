@@ -43,41 +43,12 @@ export class Reflector<T extends object = object> {
      * @property classTableProvider - class table provider used to retrieve class table with all decorated classes
      */
     private static readonly classTableProvider: ClassTableProvider = new ClassTableProvider();
-
-    /**
-     * method to get class table with all classes that contains all decorator
-     *
-     * @public
-     * @returns class table
-     */
-    public static getClassTable(): IClassTable {
-        return this.classTableProvider.getClassTable();
-    }
-
-    /**
-     * method to get class info from provided class or instance
-     *
-     * @public
-     * @param obj - provided class or instance
-     * @param autoSync - allow recalculation of metatable on each api call (default is false)
-     * @returns class info about provided class itself or class of provided instance
-     */
-    public static from<T extends object = object>(obj: IClass<T> | T, autoSync: boolean = false): Throwable<Reflector<T>> {
-        if (isObjectEmpty(obj)) {
-            throw new ObjectUndefinedError(Reflector);
-        } else if (isObjectPrimitive(obj)) {
-            throw new ObjectPrimitiveError(Reflector, obj);
-        }
-        return new Reflector(metadataClassOfObject(obj), autoSync);
-    }
-
     /**
      * @protected
      * @readonly
      * @property _class - class, that will be analysed to retrieve class info
      */
     protected readonly _class: IMetadataClass<T>;
-
     /**
      * @protected
      * @readonly
@@ -142,6 +113,33 @@ export class Reflector<T extends object = object> {
         this._autoSync = autoSync;
         this._metadataTableProvider = new MetadataTableProvider(this._class);
         this.refresh();
+    }
+
+    /**
+     * method to get class table with all classes that contains all decorator
+     *
+     * @public
+     * @returns class table
+     */
+    public static getClassTable(): IClassTable {
+        return this.classTableProvider.getClassTable();
+    }
+
+    /**
+     * method to get class info from provided class or instance
+     *
+     * @public
+     * @param obj - provided class or instance
+     * @param autoSync - allow recalculation of metatable on each api call (default is false)
+     * @returns class info about provided class itself or class of provided instance
+     */
+    public static from<T extends object = object>(obj: IClass<T> | T, autoSync: boolean = false): Throwable<Reflector<T>> {
+        if (isObjectEmpty(obj)) {
+            throw new ObjectUndefinedError(Reflector);
+        } else if (isObjectPrimitive(obj)) {
+            throw new ObjectPrimitiveError(Reflector, obj);
+        }
+        return new Reflector(metadataClassOfObject(obj), autoSync);
     }
 
     /**

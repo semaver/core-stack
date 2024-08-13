@@ -3,7 +3,7 @@ import {DecoratedElementTypeValues} from "../metatable/types/DecoratedElementEnu
 import {ClassMember} from "../reflector/members/ClassMember";
 
 /**
- * custom error for class member target thrown if class member target is wrong object type (e.x. should be class but instance provided)
+ * custom error for class member target thrown if class member target is a wrong object type (e.x. should be class, but instance provided)
  *
  * @public
  */

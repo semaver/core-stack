@@ -61,7 +61,7 @@ export interface MetadataAccessPolicyType extends PrimitiveMetadataAccessPolicyT
 }
 
 /**
- * implementation of {@link PrimitiveMetadataAccessPolicyType} enum values as type
+ * implementation of {@link PrimitiveMetadataAccessPolicyType} enum values as a type
  *
  * @public
  * @interface
@@ -69,7 +69,7 @@ export interface MetadataAccessPolicyType extends PrimitiveMetadataAccessPolicyT
 export type PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicyType[keyof PrimitiveMetadataAccessPolicyType];
 
 /**
- * implementation of {@link MetadataAccessPolicyType} enum values as type
+ * implementation of {@link MetadataAccessPolicyType} enum values as a type
  *
  * @public
  * @interface

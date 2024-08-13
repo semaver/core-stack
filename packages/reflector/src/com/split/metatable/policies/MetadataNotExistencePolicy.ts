@@ -1,9 +1,9 @@
 /**
  * not existence policy:
- * if class member in child class has no decorator and class member in super class has a decorator/s of the same type <b>(own or inherited)</b>.
+ * if class member in child class has no decorator and class member in superclass has a decorator/s of the same type <b>(own or inherited)</b>.
  *
- *  - SKIP - decorator from super class is **not** used for child class
- *  - APPLY - decorator from super class is used for child class
+ *  - SKIP - decorator from superclass is **not** used for child class
+ *  - APPLY - decorator from superclass is used for child class
  *  - DEFAULT - APPLY definition used
  *
  * @public
@@ -16,7 +16,7 @@ export interface MetadataNotExistencePolicyType {
 }
 
 /**
- * implementation of {@link MetadataNotExistencePolicyType} enum values as type
+ * implementation of {@link MetadataNotExistencePolicyType} enum values as a type
  *
  * @public
  * @interface

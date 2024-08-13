@@ -2,7 +2,7 @@ import {ExtendedError} from "@semaver/core";
 import {ClassMember} from "../reflector/members/ClassMember";
 
 /**
- * custom error for object thrown if class member of this object not found
+ * custom error for an object thrown if class member of this object not found
  *
  * @public
  */
