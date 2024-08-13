@@ -45,7 +45,7 @@ $ npm install @semaver/core
     - [CoreReflect](#corereflect)
         - [hasOwnProperty](#hasownproperty)
         - [hasProperty](#hasProperty)
-        - [getProperetyOwner](#getpropertyowner)
+        - [getPropertyOwner](#getpropertyowner)
         - [getPropertyDescriptor](#getpropertydescriptor)
         -
 - [Errors](#errors)
@@ -111,7 +111,7 @@ Type for generic throwable object.
 
 ### Base Types
 
-Contains interfaces and mixed type to make objects strongly typed.
+Contains interfaces and mixed types to make objects strongly typed.
 
 #### IClass
 
@@ -163,7 +163,10 @@ type IType<T> = IClass<T> | IInterface<T>
 class InterfaceSymbol<T> implements IInterface<T>
 ```
 
-Helper to "materialize" interfaces. JS interfaces are just syntactic sugar, so can not be used as a type (e.g. send as a parameter in methods). InterfaceSymbol turns any interface into a symbol, so it can be used as a typical type anywhere, that at the same time is treated as IInterface by TS strong typization.
+Helper to "materialize" interfaces.
+JS interfaces are just syntactic sugar, so cannot be used as a type (e.g., send as a parameter in methods).
+InterfaceSymbol turns any interface into a symbol, so it can be used as a typical type anywhere,
+that at the same time is treated as IInterface by TS strong typization.
 
 ##### For
 
@@ -171,7 +174,7 @@ Helper to "materialize" interfaces. JS interfaces are just syntactic sugar, so c
 static for<T>(uid: string | symbol): IInterface<T>
 ```
 
-Static method to create a symbol for a given interface, that is used to "materialize" an interface.
+Static method to create a symbol for a given interface that is used to "materialize" an interface.
 
 Example:
 
@@ -217,7 +220,7 @@ Checks if given object is null or undefined.
 function isObjectPrimitive(obj: unknown): boolean
 ```
 
-Checks if given object is primitive.
+Checks if a given object is primitive.
 
 [back](#table-of-contents)
 
@@ -227,7 +230,7 @@ Checks if given object is primitive.
 function isObjectClass(obj: Nullable<object & { call?: JsFunction, apply?: JsFunction }>): boolean
 ```
 
-Checks if given object is class.
+Check if a given object is class.
 
 [back](#table-of-contents)
 
@@ -262,7 +265,8 @@ function superClassOfObject<S extends object, C extends S>(
 ): Nullable<IClass<S>>
 ```
 
-Returns super class of a given class. If `ignoreNativeObjectClass` is true and superclass is native
+Returns superclass of a given class.
+If `ignoreNativeObjectClass` is true and superclass is native
 JavaScript `Object`, then returns `undefined`.
 
 [back](#table-of-contents)
@@ -297,13 +301,13 @@ If `reversed` === `true`, then the chain starts from parent class:
 
 **`Object`** -> `ParentClass` -> `ChildClass` -> `ChildOfChildClass`
 
-If `excludeNativeObjectClass` === `true`, then **`Object`** class is excluded from chain.
+If `excludeNativeObjectClass` === `true`, then **`Object`** class is excluded from a chain.
 
 [back](#table-of-contents)
 
 ### CoreReflect
 
-Collection of helpers to work with  object reflection.
+Collection of helpers to work with object reflection.
 
 [back](#table-of-contents)
 
@@ -367,7 +371,7 @@ Base class for error handling.
 function throwDefault(target: object, error: string = "Error"): never
 ```
 
-Throws default error, with minimal information.
+Throws default error with minimal information.
 
 [back](#table-of-contents)
 

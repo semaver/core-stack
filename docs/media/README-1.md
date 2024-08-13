@@ -6,12 +6,13 @@ An extensive way to deal with classes.
 
 ## Features 
 * Acquiring detailed class information via annotated class members and parameters.
-* Static and dynamic annotation (static: via @decorators; dynamic: on runtime, e.g. for third-party libs)
+* Static and dynamic annotation (static: via @decorators; dynamic: on runtime, e.g., for third-party libs)
 * Handling inheritance of annotated class members and parameters with the help of the [Decoration Policies](#decoration-policies).
 
 ## Requirements
 
-To be able to use `@decorator()` syntax in **Typescript** it's required to configure `tsconfig.json` file. However, it is possible to avoid this by using [dynamic decoration](#decorate-class-members-and-parameters-dynamically) (also works for **Javascript** projects)
+To be able to use `@decorator()` syntax in **Typescript** it's required to configure `tsconfig.json` file.
+However, it is possible to avoid this by using [dynamic decoration](#decorate-class-members-and-parameters-dynamically) (also works for **JavaScript** projects)
 
 
 ```json
@@ -24,19 +25,18 @@ To be able to use `@decorator()` syntax in **Typescript** it's required to confi
 }
 ```
 
-> :warning: **Important!** Support of Typescript 5.x decorators will be available after the release of "decorated parameters"
+> :warning: **Important!** Support for Typescript 5.x decorators will be available after the release of "decorated parameters"
 >
 >  [Link](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/) &rarr; "Differences with Experimental Legacy Decorators"
 
 ## Installation
 
-```
+```bash
 $ yarn add @semaver/reflector --peer
 $ npm install @semaver/reflector  
 ```
 
-> :warning: **Important!** Please, pay attention, that this package has a **peer dependency to `@semaver/core`**
-> library.
+> :warning: **Important!** Please, pay attention that this package has a **peer dependency to `@semaver/core`** library.
 >
 > :warning: **Important!** Please, install the library as **peer** dependency if possible.
 
@@ -46,7 +46,8 @@ To get familiar with Reflector API, we will go through simple examples.
 **Examples Setup**: We are trying to develop software that will automatically add getters & setters to the class properties. Let's have a look at how the **`reflector`** package and its built-in [Annotation Decorators](#annotation-decorators) can help us with it.
 
 ## Examples Setup Preparation
-Since our sample software should add getters & setters to the class property, let's define an example method that we can use for this purposes:
+Since our sample software should add getters & setters to the class property,
+let's define an example method that we can use for these purposes:
 
 ```ts
 //Example function how to add accessors to the class property
@@ -141,13 +142,15 @@ class Shape {
 Now, we are all set to explore the Reflector possibilities!
 
 ## Example 1: How to get class members with Reflector API
-To apply our logic of adding accessors to the property we can use Reflector API. It will get us the properties from the class. We can do that in many ways:
+To apply our logic of adding accessors to the property, we can use Reflector API.
+It will get us the properties from the class.
+We can do that in many ways:
 1. via the property name one by one;
 2. as a group of all annotated class properties;
-3. via the Reflector Query API to get the an array of the all annotated class properties.
+3. via the Reflector Query API to get an array of the all annotated class properties.
 
 ### Example 1.1 Get Property By Name
-> :information_source: More information on Reflector API and how to get other class members and parameters can be found here: [Get Class Members and Paramters](#get-class-members-and-paramters)
+> :information_source: More information on Reflector API and how to get other class members and parameters can be found here: [Get Class Members and Parameters](#get-class-members-and-parameters)
 
 ```ts
 import {Property, Reflector} from "@semaver/reflector";
@@ -260,14 +263,14 @@ class Shape {
     this.color = color;
   }
 
-  //This annotation is not allowed by Access Policy, so will be just ignored
+  //Access Policy does not allow this annotation, so will be just ignored
   @accessors()
     public draw(): void {
         console.log("Let's imagine that we are drawing smth here!");
     }
 }
 ```
-So let's check, that Reflector will see 3 annotated Shape class properties but won't find any annotated method:
+So let's check that Reflector will see 3 annotated Shape class properties but won't find any annotated method:
 ```ts
 import {reflector} from "@semaver/reflector";
 
@@ -283,7 +286,9 @@ console.log(shapeReflector.getDecoratedMethods()); // CONSOLE: []
 ## Example 3: How to work with annotation decorator inheritance
 As classes in TS support inheritance, [Annotation Decorators](#annotation-decorators) support it as well for the same class member and parameter. It is regulated via Inheritance [Decoration Policies](#decoration-policies): [Collision Policy](#collision-policy), [Not-Existence Policy](#not-existence-policy), [Appearance Policy](#appearance-policy).
 
-We will see how it works on the example of [Not-Existence Policy](#not-existence-policy). It defines the behavior of the decorator, if it does **NOT EXIST** in the child class, but **EXISTS** in its direct parent class for the same class member or argument.
+We will see how it works on the example of [Not-Existence Policy](#not-existence-policy).
+It defines the behavior of the decorator if it does **NOT EXIST** in the child class,
+but **EXISTS** in its direct parent class for the same class member or argument.
 
 [Not-Existence Policy](#not-existence-policy) has 2 values:
   * `SKIP` - decorator from the direct parent class is **not used** for the child class;
@@ -315,7 +320,7 @@ class AccessorsDecorator extends Decorator {
     }
 }
  ```
- > :information_source: [Not-Existence Policy](#not-existence-policy): `APPLY` is actually the default value for this policy. So there is no need to redefine it again in AccessorsDecorator class, cause it will be default behavior anyway. But we are doing it in this example for better visibility and understanding.
+ > :information_source: [Not-Existence Policy](#not-existence-policy): `APPLY` is actually the default value for this policy. So there is no need to redefine it again in AccessorsDecorator class, because it will be default behavior anyway. But we are doing it in this example for better visibility and understanding.
 
  Now we can check that even without setting anything explicitly in the Circle class, Reflector can see inherited properties as annotated, so we can get them and apply our update with accessors logic:
 
@@ -337,7 +342,11 @@ console.log(myCircle.x);// CONSOLE: GET: x; 3
  ```
 
 ## Example 4: How to get all annotated properties in all classes
-As a final step, we need to make our approach to update class properties with accessors as general as possible, so it will be good not to rely on concrete classes and property names. **`reflector`** package gives us such possibility. It has centralized storage for the decorated classes(classes that contain decorated members and parameters), called ClassTable.
+As a final step, we need to make our approach to update class properties with accessors as general as possible,
+so it will be good not to rely on concrete classes and property names. 
+**`reflector`** package gives us such possibility.
+It has centralized storage for the decorated classes (classes that contain decorated members and parameters),
+called ClassTable.
 
 > :information_source: Detailed information on ClassTable and how to get all decorated classes can be found here: [Get All Decorated Classes](#get-all-decorated-classes)
 
@@ -354,7 +363,7 @@ class Circle extends Shape {
   }
 }
 ```
-Now we can check how all properties in both classes will be seen by Reflector and we can update them with accessors:
+Now we can check how all properties in both classes will be seen by Reflector, and we can update them with accessors:
 
 ```ts
 import {Reflector} from "@semaver/reflector";
@@ -381,7 +390,9 @@ console.log(myCircle.radius);// CONSOLE: GET: radius; 5
 ```
 
 ## Example 5: How to annotate class dynamically
-In the previous examples, we were working with statically annotated classes. The Reflector API gives us the possibility to annotate class members and parameters dynamically during run-time (e.g. for some library class).
+In the previous examples, we were working with statically annotated classes.
+The Reflector API gives us the possibility to annotate class members and parameters dynamically during run-time
+(e.g., for some library class).
 
 > :information_source: Detailed information on dynamic class annotation can be found here: [Decorate Class Members & Parameters Dynamically](#decorate-class-members-and-parameters-dynamically)
 
@@ -422,7 +433,7 @@ shapeReflector.getAccessor("color").addDecorator(accessors());
 
 - [Reflector API](#reflector-api)
     - [Reflected Types](#reflected-types)
-    - [Get Class Members and Paramters](#get-class-members-and-paramters)
+    - [Get Class Members and Parameters](#get-class-members-and-parameters)
     - [Query Class Members and Parameters](#query-class-members-and-parameters)
     - [Filter Class Members and Parameters](#filter-class-members-and-parameters)
         - [Custom Filters](#custom-filters)
@@ -433,7 +444,7 @@ shapeReflector.getAccessor("color").addDecorator(accessors());
     - [STEP 1: Define Decorator Function](#step-1-define-decorator-function)
     - [STEP 2: Define Decorator Class](#step-2-define-decorator-class)
     - [[OPTIONAL] STEP 3: Define Decoration Policies](#optional-step-3-define-decoration-policies)
-    - [[OPTIONAL] STEP 4: Define Decorator Paramters](#optional-step-4-define-decorator-paramters)
+    - [[OPTIONAL] STEP 4: Define Decorator Parameters](#optional-step-4-define-decorator-parameters)
   - [Use Annotation Decorators](#use-annotation-decorators)
   - [Decoration Policies](#decoration-policies)
     - [Access Policy](#access-policy)
@@ -467,7 +478,7 @@ const someReflector2: Reflector = Reflector.from(instance);
 
 ### Reflected Types
 
-There are four class member types and one parameter type, that Reflector can acquire:
+There are four class member types and one parameter type that Reflector can acquire:
 
 ```ts
 enum ClassMemberType {
@@ -487,7 +498,7 @@ The reflected type is a wrapper class under the relevant language construction, 
 
 [back](#reflector-documentation)
 
-### Get Class Members and Paramters
+### Get Class Members and Parameters
 
 To retrieve necessary information from the class, you need to create a Reflector instance for this class and call the relevant API method. In the case of a decorated class member or parameter, the Reflector will return additional information about applied decorators.
 
@@ -588,7 +599,7 @@ const firstFoundMember: ClassMember = membersSelector.first<ClassMember>()
 
 There is also an additional Query API for the annotation decorators. Since [Annotation Decorators](#annotation-decorators) support inheritance of the decorated members and parameters, we differentiate between the decorators that will be actually executed and the class's own decorators that were explicitly assigned to exactly this class member or parameter. The actual execution might be influenced by the inheritance of the decorators and [Decoration Policies](#decoration-policies) (if they are defined).
 
-> :information_source:  Detailed information on decoration policies and their parameters can be found here: [Decoration Policies](#decoration-policies)
+> :information_source: Detailed information on decoration policies and their parameters can be found here: [Decoration Policies](#decoration-policies)
 
 ```ts  
 //---CLASS MEMBER & PARAMETER ANNOTATION DECORATORS----------------------------------------------------
@@ -618,7 +629,7 @@ You can filter class members and parameters based on available filtering conditi
 - `ByStaticMember` - to filter class members by static/non-static;
 - `ByDecoratorClass` - to filter class members by annotation decorator class (class member decorator or parameter decorator);
 - `ByMemberDecoratorClass` - to filter class members by class member annotation decorator class
-- `ByParameterDecoratorClass` - to filter class members by paramter annotation decorator class
+- `ByParameterDecoratorClass` - to filter class members by parameter annotation decorator class
 
 Filtering is based on the query mechanism, that is described in [Query Class Members and Parameters](#query-class-members-and-parameters).
 To access filtered values, please refer to the Query API.
@@ -665,7 +676,8 @@ const byMemberDecoratorClassQuery: QueryExecutor<MyClass> =
 [back](#reflector-documentation)
 
 #### Custom Filters
-It is possible to combine/chain different filtering conditions or create your conditions implementing [IQueryCondition](https://github.com/semaver/split-ts/blob/master/packages/reflector/src/com/split/reflector/query/IQueryCondition.ts) interface.
+It is possible to combine/chain different filtering conditions or create your conditions
+by implementing [IQueryCondition](https://github.com/semaver/split-ts/blob/master/packages/reflector/src/com/split/reflector/query/IQueryCondition.ts) interface.
 The examples can be found in already existing filters:
   - [Filter By Member Type](https://github.com/semaver/split-ts/blob/master/packages/reflector/src/com/split/reflector/query/conditions/members/ByMemberType.ts);
   - [Filter By Member Name](https://github.com/semaver/split-ts/blob/master/packages/reflector/src/com/split/reflector/query/conditions/members/ByMemberName.ts)
@@ -682,7 +694,7 @@ Based on [Reflected Types Architecture](#reflected-types-architecture), each [Re
 
 Let's assume we have defined annotation decorator:
 
-> :information_source:  Detailed information on how to create annotation decorators can be found here: [Annotation Decorators](#annotation-decorators)
+> :information_source: Detailed information on how to create annotation decorators can be found here: [Annotation Decorators](#annotation-decorators)
 
 ```ts
 import {Decorator} from "@semaver/reflector";
@@ -696,7 +708,7 @@ export class AnnotationDecorator extends Decorator {
 ```
 It is important to note that when decorators are added/removed dynamically, the Reflector has to be refreshed. There are two approaches to do that.
 
-1. Set the `autoSync` parameter to true when the Reflector is created. It will make the Reflector to update each time when the Reflector API is called, so it will help to keep the Reflector always up-to-date automatically. The default value of `autoSync` is false: the Reflector does not update automatically.
+1. Set the `autoSync` parameter to true when the Reflector is created. It will make the Reflector to update each time when the Reflector API is called, so it will help to keep the Reflector always up to date automatically. The default value of `autoSync` is false: the Reflector does not update automatically.
 ```ts
 const reflector: Reflector<MyClass> = Reflector.from(MyClass, true); //autoSync is true, the Reflector will be updated automatically
 ```
@@ -759,7 +771,7 @@ reflector.refresh();
 ###  Get All Decorated Classes
 **`reflector`** stores information about decorated classes (with [Annotation Decorators](#annotation-decorators)) in a special centralized storage, called **ClassTable**. It is possible to retrieve decorated classes from ClassTable.
 
-> :warning:  ClassTable contains only classes that have their **OWN** decorators (**NOT** decorators assigned to the class via decorators inheritance & [Decoration Policies](#decoration-policies)). However, it is possible to add such class to ClassTable by applying annotation decorator `@reflect()` on this class.
+> :warning: ClassTable contains only classes that have their **OWN** decorators (**NOT** decorators assigned to the class via decorators' inheritance & [Decoration Policies](#decoration-policies)). However, it is possible to add such a class to ClassTable by applying annotation decorator `@reflect()` on this class.
 
 To retrieve decorated classes from the ClassTable:
 ```ts
@@ -822,7 +834,7 @@ export interface IClassTableUpdate<TDecorator extends Decorator = Decorator, T =
 
 `decoratedElement` - info about the decorated element:
 
-  * `type` - class member type (Constructor, Method, Parameters.... etc.).
+  * `type` - class member type (Constructor, Method, Parameters… etc.).
 
   * `name` - class member name.
 
@@ -842,12 +854,12 @@ If you want to get additional information on how the Reflector retrieves informa
 [back](#reflector-documentation)
 
 ### Create Annotation Decorators
-You can define a annotation decorator in the next 4 steps.
+You can define an annotation decorator in the next 4 steps.
 
 [back](#reflector-documentation)
 
 #### STEP 1: Define Decorator Function
-As with [Type Script decorators](https://www.typescriptlang.org/docs/handbook/decorators.html), you need to define the decorator function. But the decorator function has to contain a call: `Decorator.build()`, that expects a annotation decorator class of [Decorator](https://github.com/semaver/split-ts/blob/master/packages/reflector/src/com/split/decorators/Decorator.ts) type as parameter (step 2).
+As with [Type Script decorators](https://www.typescriptlang.org/docs/handbook/decorators.html), you need to define the decorator function. But the decorator function has to contain a call: `Decorator.build()`, that expects an annotation decorator class of [Decorator](https://github.com/semaver/split-ts/blob/master/packages/reflector/src/com/split/decorators/Decorator.ts) type as parameter (step 2).
 ```ts
 export function annotation(): DecoratorFn {
     return Decorator.build(new AnnotationDecorator());
@@ -877,16 +889,16 @@ Decoration policies are required to define the rules for decorators' behavior in
 Currently, there are 5 policies:
 * **[Access Policy](#access-policy)** defines if the decorator can be applied to a specific member, argument, or member group:
   - Default `ALL` - the decorator can be applied for all [Reflected Types](#reflected-types).
-* **[Same-Target-Multi-Usage Policy](#same-target-multi-usage-policy)** defines the behavior of the decorator, if the class member or the argument has more than one decorator of the same type for the same class member or argument:
+* **[Same-Target-Multi-Usage Policy](#same-target-multi-usage-policy)** defines the behavior of the decorator if the class member or the argument has more than one decorator of the same type for the same class member or argument:
   - Default `NOT_ALLOWED` - only the first decorator will be used.
 * **[Collision Policy](#collision-policy)** defines the behavior of the decorator if it **EXISTS IN BOTH** the child class and its direct parent class for the same class member or argument:
   - Default `OVERRIDE_PARENT` - the decorator of the child class will be used.
-* **[Not-Existence Policy](#not-existence-policy)** defines the behavior of the decorator, if it does **NOT EXIST** in child class, but **EXISTS** in its direct parent class for the same class member or argument:
+* **[Not-Existence Policy](#not-existence-policy)** defines the behavior of the decorator if it does **NOT EXIST** in child class, but **EXISTS** in its direct parent class for the same class member or argument:
   - Default `APPLY` - the decorator of the direct parent class will be used.
-* **[Appearance Policy](#appearance-policy)** defines the behavior of the decorator, if it **EXISTS** in the child class but does **NOT EXIST** in the direct parent class for the same class member or argument:
+* **[Appearance Policy](#appearance-policy)** defines the behavior of the decorator if it **EXISTS** in the child class but does **NOT EXIST** in the direct parent class for the same class member or argument:
   - Default `APPLY` - the decorator of the child class will be used.
 
-> :information_source:  Detailed information on decoration policies and their parameters can be found here: [Decoration Policies](#decoration-policies)
+> :information_source: Detailed information on decoration policies and their parameters can be found here: [Decoration Policies](#decoration-policies)
 
 ```ts
 import {IFunction, IType} from "@semaver/core";
@@ -935,7 +947,7 @@ export class AnnotationDecorator extends Decorator {
 
 The approach above is very general: we use the same policies for selected class members and parameters. It is also possible to have different sets of policies for different reflection types. To do this, we need to define them via Policy Provider.
 
-For example, let's create a decorator, that is allowed for methods (MetadataAccessPolicy.METHOD) and properties (MetadataAccessPolicy.PROPERTY). All policies are the same, except SameTargetMultiUsagePolicy. SameTargetMultiUsagePolicy allows using multiple decorators for an instance method and properties but does not allow this for static methods and properties. Other reflection types are not configured in MetadataAccessPolicy, so any policies for them will be ignored.
+For example, let's create a decorator that is allowed for methods (MetadataAccessPolicy.METHOD) and properties (MetadataAccessPolicy.PROPERTY). All policies are the same, except SameTargetMultiUsagePolicy. SameTargetMultiUsagePolicy allows using multiple decorators for an instance method and properties but does not allow this for static methods and properties. Other reflection types are not configured in MetadataAccessPolicy, so any policies for them will be ignored.
 
 ```ts
 export function annotation(type: string, ...params: any[]): IFunction<void> {
@@ -988,7 +1000,7 @@ export class AnnotationDecorator extends Decorator {
 ```
 [back](#reflector-documentation)
 
-#### [OPTIONAL] STEP 4: Define Decorator Paramters
+#### [OPTIONAL] STEP 4: Define Decorator Parameters
 If necessary, it's possible to set different custom parameters for the annotation decorator.
 
 ```ts
@@ -1052,12 +1064,12 @@ export class MyClass extends MySuperClass {
     
 }
 ```
-> :warning:  **Constructor Parameters**: If you define the constructor in the child class (override parent constructor), then you have to apply decorators for constructor parameters again. Overriding of the parent constructor is handled similarly to a definition of a new method, so no policies, that are defined in the parent constructor, can be applied. Detailed explanation of this case can be found here: [Annotation Decorators Usage for Constructor Parameters](#annotation-decorators-usage-for-constructor-parameters);
+> :warning: **Constructor Parameters**: If you define the constructor in the child class (override parent constructor), then you have to apply decorators for constructor parameters again. Overriding of the parent constructor is handled similarly to a definition of a new method, so no policies that are defined in the parent constructor can be applied. Detailed explanation of this case can be found here: [Annotation Decorators Usage for Constructor Parameters](#annotation-decorators-usage-for-constructor-parameters);
 
 [back](#reflector-documentation)
 
 ### Decoration Policies
-Decoration policies are required to define the rules for decorators' behavior in specific cases. Currently, there are 2 general policies and 3 class ihneritance policies: 
+Decoration policies are required to define the rules for decorators' behavior in specific cases. Currently, there are 2 general policies and 3 class inheritance policies: 
 
 **General Policies:**
 - [Access Policy](#access-policy) 
@@ -1150,7 +1162,7 @@ export enum MetadataCollisionPolicy {
 
 #### Not-Existence Policy
 
-`MetadataNotExistencePolicy` - defines the behavior of the decorator, if it does **NOT EXIST** in child class, but **EXISTS** in its direct parent class for the same class member or argument:
+`MetadataNotExistencePolicy` - defines the behavior of the decorator if it does **NOT EXIST** in child class, but **EXISTS** in its direct parent class for the same class member or argument:
   * `SKIP` - decorator from the direct parent class is **not used** for the child class;
   * `APPLY` - decorator from the direct parent class is **used** for the child class.
 
@@ -1168,8 +1180,8 @@ export enum MetadataNotExistencePolicy {
 
 #### Appearance Policy
 
-`MetadataAppearancePolicy` - defines the behavior of the decorator, if it **EXISTS** in the child class but does **NOT EXIST** in the direct parent class for the same class member or argument.
-  * `SKIP` - decorator from the child class is **not used** if the other decorator is found in any non-direct parent(superclass which is higher in the hierarchy, but not the direct parent. Situations with the direct parent are covered in [Collision Policy](#collision-policy));
+`MetadataAppearancePolicy` - defines the behavior of the decorator if it **EXISTS** in the child class but does **NOT EXIST** in the direct parent class for the same class member or argument.
+  * `SKIP` - decorator from the child class is **not used** if the other decorator is found in any non-direct parent (superclass which is higher in the hierarchy, but not the direct parent. Situations with the direct parent are covered in [Collision Policy](#collision-policy));
   * `APPLY` - decorator from the child class is used, ignoring any other superclass decorators.
 
 Default: `MetadataAppearancePolicy.APPLY`
@@ -1196,7 +1208,7 @@ The diagram shows supported reflected types of class members & parameters with s
 
 
 ### Behind the Scene of Annotation Decorators
-Usage of [Annotation Decorators](#annotation-decorators) are necessary if you want the Reflector to return information on decorated class members.
+Usage of [Annotation Decorators](#annotation-decorators) is necessary if you want the Reflector to return information on decorated class members.
 
 **So how is this information provided?**
 
@@ -1205,7 +1217,7 @@ Every reflected class gets two properties: `__metadata__` & `__cached_metadata__
 * **metadata property** contains the class own information on decorated class members;
 * **cached_metadata property** contains class own info(**metadata property**) merged with its superclass **cached_metadata property** based on the [Decoration Policies](#decoration-policies).
 
-To support the inheritance of decorated class members acc. to the [Decoration Policies](#decoration-policies), the calculation and recalculation (in case of any changes) for the **cached_metadata** property is required. The calculation starts from the top superclass and then goes step by step through the chain of all child classes. **cached_metadata** is optimized with cache to avoid unnecessary recalculations.
+To support the inheritance of decorated class members, acc. to the [Decoration Policies](#decoration-policies), the calculation and recalculation (in case of any changes) for the **cached_metadata** property is required. The calculation starts from the top superclass and then goes step by step through the chain of all child classes. **cached_metadata** is optimized with cache to avoid unnecessary recalculations.
 
 To retrieve the latest state of class metadata information, the Reflector works directly with the **cached_metadata** property.
 
@@ -1236,9 +1248,9 @@ export class ChildOfChildClass extends ChildClass {
 [back](#reflector-documentation)
 
 ### Annotation Decorators Usage for Constructor Parameters
-If you define the constructor in the child class (override parent constructor), then you have to apply decorators for constructor parameters again. Overriding of the parent constructor is handled similarly to a definition of a new method, so no policies, that are defined in the parent constructor, can be applied.
+If you define the constructor in the child class (override parent constructor), then you have to apply decorators for constructor parameters again. Overriding of the parent constructor is handled similarly to a definition of a new method, so no policies that are defined in the parent constructor can be applied.
 
-Let's check some examples, to understand why this is important, even when the child constructor has a similar signature. 
+Let's check some examples to understand why this is important, even when the child constructor has a similar signature. 
 
 First, we define a superclass with parameters in the constructor:
 
@@ -1250,7 +1262,7 @@ export class SuperClass {
 }
 ```
 
-Second, we define child classes, that are extending superclass:
+Second, we define child classes that are extending superclass:
 
 ```ts
 // child class with same parameter order
@@ -1298,11 +1310,11 @@ export class SuperClass {
 }
 ```
 
-The major problem with propogation of the decorator to the child constructor parameters is that we know only parameter positions but we don't know parameter types, because they are erased in JavaScript. So there is no way to handle the case in `WithCustomParameterOrderChildClass`. Even more, the constructor can be defined with extra parameters or with a single one, can contain optional parameters, etc. 
+The major problem with the propagation of the decorator to the child constructor parameters is that we know only parameter positions, but we don't know parameter types because they are erased in JavaScript. So there is no way to handle the case in `WithCustomParameterOrderChildClass`. Even more, the constructor can be defined with extra parameters or with a single one, can contain optional parameters, etc. 
 
 That's why the main and important rule for constructors: 
 
-> :warning: If constructor parameter length  > 0 (aka `knowParameterLength`) we need to redefine decorators even if the order of parameters is the same in the superclass.
+> :warning: If constructor parameter length > 0 (aka `knowParameterLength`) we need to redefine decorators even if the order of parameters is the same in the superclass.
 
 ```ts
 // child class with same parameter order
