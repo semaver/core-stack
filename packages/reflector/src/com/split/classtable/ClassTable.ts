@@ -3,6 +3,7 @@ import {IClassTableRef} from "./IClassTableRef";
 import {IClassTable} from "./IClassTable";
 import {IClassTableSubscriber} from "./IClassTableSubscriber";
 import {IClassTableUpdate} from "./IClassTableUpdate";
+import {IClass} from "@semaver/core";
 
 /**
  * class wrapper for class table reference
@@ -29,7 +30,7 @@ export class ClassTable implements IClassTable {
     /**
      * @inheritDoc
      */
-    public getClasses(): ReadonlySet<IMetadataClass<unknown>> {
+    public getClasses(): ReadonlySet<IClass<object>> {
         return this.classTableRef._classes;
     }
 
@@ -39,7 +40,7 @@ export class ClassTable implements IClassTable {
      * @public
      * @returns modifiable set of classes
      */
-    public getWriteableClasses(): Set<IMetadataClass<unknown>> {
+    public getWriteableClasses(): Set<IMetadataClass<object>> {
         return this.classTableRef._classes;
     }
 

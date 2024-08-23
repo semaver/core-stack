@@ -4,7 +4,7 @@ import {testQueries} from "./helpers/test-regular-queries-helper";
 import {OwnSuperClass} from "./reflector/own/OwnSuperClass";
 import {OwnChildClass} from "./reflector/own/OwnChildClass";
 import {Accessor, ByMemberName, ByMemberType, ClassMember, DecoratedElementEnum, Reflector} from "../src";
-import {Nullable} from "@semaver/core";
+import {Empty} from "@semaver/core";
 
 describe("Reflector API Basic Members Test", () => {
 
@@ -26,13 +26,13 @@ describe("Reflector API Basic Members Test", () => {
         const superInfo: Reflector<OwnSuperClass> = Reflector.from(OwnSuperClass);
         const childInfo: Reflector<OwnSuperClass> = Reflector.from(OwnChildClass);
 
-        const superMember: Nullable<ClassMember<OwnSuperClass>> = superInfo
+        const superMember: Empty<ClassMember<OwnSuperClass>> = superInfo
             .query()
             .filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR))
             .members()
             .first();
 
-        const childMember: Nullable<ClassMember<OwnSuperClass>> = childInfo
+        const childMember: Empty<ClassMember<OwnSuperClass>> = childInfo
             .query()
             .filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR))
             .members()
@@ -54,13 +54,13 @@ describe("Reflector API Basic Members Test", () => {
         const childInfo: Reflector<OwnSuperClass> = Reflector.from(OwnChildClass);
         const accessorName: string = "accessor1";
 
-        const superAccessor: Nullable<Accessor<OwnSuperClass>> = superInfo
+        const superAccessor: Empty<Accessor<OwnSuperClass>> = superInfo
             .query()
             .filter(ByMemberName.from(accessorName))
             .members()
             .first<Accessor<OwnSuperClass>>();
 
-        const childAccessor: Nullable<Accessor<OwnSuperClass>> = childInfo
+        const childAccessor: Empty<Accessor<OwnSuperClass>> = childInfo
             .query()
             .filter(ByMemberName.from(accessorName))
             .members()
@@ -89,13 +89,13 @@ describe("Reflector API Basic Members Test", () => {
         const childInfo: Reflector<OwnSuperClass> = Reflector.from(OwnChildClass);
         const accessorName: string = "accessor2";
 
-        const superAccessor: Nullable<Accessor<OwnSuperClass>> = superInfo
+        const superAccessor: Empty<Accessor<OwnSuperClass>> = superInfo
             .query()
             .filter(ByMemberName.from(accessorName))
             .members()
             .first<Accessor<OwnSuperClass>>();
 
-        const childAccessor: Nullable<Accessor<OwnSuperClass>> = childInfo
+        const childAccessor: Empty<Accessor<OwnSuperClass>> = childInfo
             .query()
             .filter(ByMemberName.from(accessorName))
             .members()

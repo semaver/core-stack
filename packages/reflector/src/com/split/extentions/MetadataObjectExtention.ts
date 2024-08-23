@@ -1,4 +1,4 @@
-import {classOfObject, getObjectSuperClassChain, IClass, Nullable, superClassOfObject} from "@semaver/core";
+import {classOfObject, getObjectSuperClassChain, IClass, Empty, superClassOfObject} from "@semaver/core";
 import {IMetadataClass} from "../metatable/classes/IMetadataClass";
 
 /**
@@ -20,8 +20,8 @@ export function metadataClassOfObject<T extends object>(obj: IClass<T> | T): IMe
  * @param ignoreNativeObjectClass - flag if set to true, native object class will be ignored and function return undefined if superclass is native object class (default value - false)
  * @returns metadata superclass of the given class or undefined
  */
-export function metadataSuperClassOfObject<S extends object, C extends S>(childClass: Nullable<IClass<C>>, ignoreNativeObjectClass: boolean = false): Nullable<IMetadataClass<S>> {
-    return superClassOfObject(childClass, ignoreNativeObjectClass) as Nullable<IMetadataClass<S>>;
+export function metadataSuperClassOfObject<S extends object, C extends S>(childClass: Empty<IClass<C>>, ignoreNativeObjectClass: boolean = false): Empty<IMetadataClass<S>> {
+    return superClassOfObject(childClass, ignoreNativeObjectClass) as Empty<IMetadataClass<S>>;
 }
 
 /**
@@ -32,7 +32,7 @@ export function metadataSuperClassOfObject<S extends object, C extends S>(childC
  * @returns number of known constructor parameters of the target class
  */
 export function getKnownConstructorParameterLength(targetClass: IMetadataClass<object>): number {
-    let target: Nullable<IMetadataClass<object>> = targetClass;
+    let target: Empty<IMetadataClass<object>> = targetClass;
     while (target && !target.length) {
         target = metadataSuperClassOfObject(target, true);
     }
@@ -48,7 +48,7 @@ export function getKnownConstructorParameterLength(targetClass: IMetadataClass<o
  * @param excludeNativeObjectClass - flag to exclude native object class from the chain (default value - true)
  * @returns readonly array of metadata superclasses
  */
-export function getMetadataObjectSuperClassChain(obj: Nullable<object>, reversed: boolean = false, excludeNativeObjectClass: boolean = true): readonly IMetadataClass<object>[] {
+export function getMetadataObjectSuperClassChain(obj: Empty<object>, reversed: boolean = false, excludeNativeObjectClass: boolean = true): readonly IMetadataClass<object>[] {
     return getObjectSuperClassChain(obj, reversed, excludeNativeObjectClass) as readonly IMetadataClass<object>[];
 }
 

@@ -1,6 +1,6 @@
 /**
- * definition for the generic type that can be null or undefined
+ * definition for the generic type that can be null
  *
  * @public
  */
-export type Nullable<T> = T | null | undefined;
+export type Nullable<T> = T | null;

@@ -1,4 +1,4 @@
-import {IClass, Nullable} from "@semaver/core";
+import {IClass, Empty} from "@semaver/core";
 import {IMetadataTableRef} from "../metadata/IMetadataTableRef";
 
 /**
@@ -32,7 +32,7 @@ export interface IMetadataClass<T> extends IClass<T> {
      * @public
      * @property __parent_hash__ used to track changes of metadata
      */
-    __parent_hash__: Nullable<string>;
+    __parent_hash__: Empty<string>;
     /**
      * @public
      * @property __metadata__ - metadata table containing only own original metadata
@@ -43,5 +43,5 @@ export interface IMetadataClass<T> extends IClass<T> {
      * @public
      * @property __cached_metadata__ - metadata table containing proceeded metadata based on different policies
      */
-    __cached_metadata__: Nullable<IMetadataTableRef>;
+    __cached_metadata__: Empty<IMetadataTableRef>;
 }

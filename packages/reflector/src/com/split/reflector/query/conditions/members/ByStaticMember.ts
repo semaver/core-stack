@@ -1,4 +1,4 @@
-import {Nullable} from "@semaver/core";
+import {Empty} from "@semaver/core";
 import {IQueryCondition} from "../../IQueryCondition";
 import {QueryInfo} from "../../QueryInfo";
 
@@ -19,7 +19,7 @@ export class ByStaticMember<T extends object = object> implements IQueryConditio
      * @private
      * @property _isStatic - statics flag
      */
-    private _isStatic: Nullable<boolean>;
+    private _isStatic: Empty<boolean>;
 
     /**
      * @public

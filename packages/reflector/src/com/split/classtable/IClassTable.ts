@@ -1,5 +1,5 @@
-import {IMetadataClass} from "../metatable/classes/IMetadataClass";
 import {IClassTableSubscriber} from "./IClassTableSubscriber";
+import {IClass} from "@semaver/core";
 
 /**
  * interface for class wrapper
@@ -15,7 +15,7 @@ export interface IClassTable {
      * @public
      * @returns readonly set of classes
      */
-    getClasses(): ReadonlySet<IMetadataClass<unknown>>;
+    getClasses(): ReadonlySet<IClass<object>>;
 
     /**
      * method to get synchronization hash

@@ -34,7 +34,6 @@
     "@babel/plugin-transform-runtime": "^7.23.6",
     "@babel/preset-env": "^7.23.6",
     "@babel/preset-typescript": "^7.23.3",
-    "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.9.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^26.0.1",
@@ -43,8 +42,8 @@
     "@rollup/plugin-typescript": "^11.1.5",
     "@types/jest": "^29.5.11",
     "@types/node": "^22.2.0",
-    "@typescript-eslint/eslint-plugin": "^8.0.0",
-    "@typescript-eslint/parser": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.1.0",
+    "@typescript-eslint/parser": "^8.1.0",
     "babel-jest": "^29.7.0",
     "create-ts-index": "^1.14.0",
     "eslint": "^9.9.0",
@@ -57,10 +56,9 @@
     "rollup-plugin-exclude-dependencies-from-bundle": "^1.1.23",
     "source-map-loader": "^5.0.0",
     "ts-jest": "^29.2.4",
-    "type-fest": "^4.24.0",
     "typedoc": "^0.26.5",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^8.0.1"
+    "typescript-eslint": "^8.1.0"
   },
   "dependencies": {}
 }

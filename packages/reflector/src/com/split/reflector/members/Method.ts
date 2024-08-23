@@ -1,4 +1,4 @@
-import {classOfObject, getPropertyDescriptor, IClass, IFunction, isObjectClass, Nullable} from "@semaver/core";
+import {classOfObject, getPropertyDescriptor, IClass, IFunction, isObjectClass, Empty} from "@semaver/core";
 import {Decorator, DecoratorFn, IMetatableDecorator} from "../../decorators/Decorator";
 import {ClassMemberNotExistenceError} from "../../errors/ClassMemberNotExistenceError";
 import {ClassMemberTargetObjectTypeError} from "../../errors/ClassMemberTargetObjectTypeError";
@@ -47,9 +47,9 @@ export class Method<T extends object = object, TReturnType = unknown> extends Ex
      * @inheritDoc
      */
     public getOwnParameterCount(): number {
-        const method: Nullable<IFunction<TReturnType>> = getPropertyDescriptor(
+        const method: Empty<IFunction<TReturnType>> = getPropertyDescriptor(
             (this._isStatic ? this._class : this._class.prototype) as object,
-            this._name)?.value as Nullable<IFunction<TReturnType>>;
+            this._name)?.value as Empty<IFunction<TReturnType>>;
         if (method) {
             return method.length;
         } else {
@@ -68,7 +68,7 @@ export class Method<T extends object = object, TReturnType = unknown> extends Ex
     public invoke(target: IClass<T> | T, ...parameters: any[]): TReturnType {
         this.validate(target);
 
-        const method: Nullable<IFunction<TReturnType>> = Reflect.get(target, this._name) as Nullable<IFunction<TReturnType>>;
+        const method: Empty<IFunction<TReturnType>> = Reflect.get(target, this._name) as Empty<IFunction<TReturnType>>;
 
         if (method) {
             return Reflect.apply(method, target, parameters);
@@ -80,41 +80,36 @@ export class Method<T extends object = object, TReturnType = unknown> extends Ex
     /**
      * @inheritDoc
      */
-    public addDecorator(decoratorOrFn: Decorator | DecoratorFn): boolean {
-        let result: boolean = false;
+    public addDecorator(decoratorOrFn: Decorator | DecoratorFn): this {
         const target: object = this.getObject();
-        const descriptor: Nullable<PropertyDescriptor> = getPropertyDescriptor(target, this._name);
+        const descriptor: Empty<PropertyDescriptor> = getPropertyDescriptor(target, this._name);
         if (descriptor) {
             this.getDecoratorFn(decoratorOrFn).apply(undefined, [target, this._name, descriptor]);
-            result = true;
         }
 
-        return result;
+        return this;
     }
 
     /**
      * @inheritDoc
      */
-    public removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): boolean {
-        let result: boolean = false;
+    public removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): this {
         const target: object = this.getObject();
         if (isObjectClass(decoratorOrClass)) {
             const decoratorClass: IClass<Decorator> = decoratorOrClass as IClass<Decorator>;
             this._metadataTableProvider.getOwnDecorators().forEach(decorator => {
                 if (classOfObject(decorator) === decoratorClass && this.isDecoratorOf(metadataClassOfObject(target), decorator)) {
                     this._metadataTableProvider.remove(decorator);
-                    result = true;
                 }
             });
         } else {
             const decorator: IMetatableDecorator = decoratorOrClass as IMetatableDecorator;
             if (this.isDecoratorOf(metadataClassOfObject(target), decorator)) {
                 this._metadataTableProvider.remove(decorator);
-                result = true;
             }
         }
 
-        return result;
+        return this;
     }
 
     /**
@@ -123,7 +118,7 @@ export class Method<T extends object = object, TReturnType = unknown> extends Ex
      * @protected
      * @param target - instance for instance methods or class for static methods
      */
-    protected validate(target: Nullable<IClass<T> | T>): void {
+    protected validate(target: Empty<IClass<T> | T>): void {
         if (!target) {
             throw new ClassMemberTargetUndefinedError(this, this.getType(), this._name);
         }
@@ -144,7 +139,7 @@ export class Method<T extends object = object, TReturnType = unknown> extends Ex
     /**
      * @inheritDoc
      */
-    protected getMemberMetadataTable(metadataTable: IMetadataTableRef): Nullable<IMemberMetadataTableRef> {
+    protected getMemberMetadataTable(metadataTable: IMetadataTableRef): Empty<IMemberMetadataTableRef> {
         const memberMetadataTables: Map<string, IMemberMetadataTableRef> = this._isStatic ? metadataTable._methods._static : metadataTable._methods._instance;
         return memberMetadataTables.get(this._name);
     }

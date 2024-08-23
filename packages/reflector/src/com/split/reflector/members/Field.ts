@@ -1,4 +1,4 @@
-import {IClass, isObjectClass, Nullable} from "@semaver/core";
+import {IClass, isObjectClass, Empty} from "@semaver/core";
 import {ClassMemberTargetObjectTypeError} from "../../errors/ClassMemberTargetObjectTypeError";
 import {ClassMemberTargetUndefinedError} from "../../errors/ClassMemberTargetUndefinedError";
 import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementEnum";
@@ -41,7 +41,7 @@ export abstract class Field<T extends object = object, TValue = unknown> extends
      * @param target - instance for instance fields or class for static fields
      * @returns value of the provided object
      */
-    public abstract getValue(target: T): Nullable<TValue>;
+    public abstract getValue(target: T): Empty<TValue>;
 
     /**
      * method to set value to the provided object
@@ -50,7 +50,7 @@ export abstract class Field<T extends object = object, TValue = unknown> extends
      * @param target - instance for instance fields or class for static fields
      * @param value - provided value to set
      */
-    public abstract setValue(target: T, value: Nullable<TValue>): void;
+    public abstract setValue(target: T, value: Empty<TValue>): void;
 
     /**
      * method to validate target before a set or get value;
@@ -58,7 +58,7 @@ export abstract class Field<T extends object = object, TValue = unknown> extends
      * @protected
      * @param target - instance for instance fields or class for static fields
      */
-    protected validate(target: Nullable<IClass<T> | T>): void {
+    protected validate(target: Empty<IClass<T> | T>): void {
         if (!target) {
             throw new ClassMemberTargetUndefinedError(this, this.getType(), this._name);
         }

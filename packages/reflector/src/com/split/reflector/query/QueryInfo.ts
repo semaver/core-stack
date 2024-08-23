@@ -1,4 +1,4 @@
-import {Nullable} from "@semaver/core";
+import {Empty} from "@semaver/core";
 import {ClassMember} from "../members/ClassMember";
 
 /**
@@ -16,7 +16,7 @@ export class QueryInfo<T extends object> {
      * @public
      * @param members - collection of class members
      */
-    public constructor(members: Nullable<ClassMember<T>[]>) {
+    public constructor(members: Empty<ClassMember<T>[]>) {
         this.members = members ? members.slice() : [];
     }
 
@@ -36,7 +36,7 @@ export class QueryInfo<T extends object> {
      * @public
      * @returns - selected class members
      */
-    public getMemberAt<K extends ClassMember<T> = ClassMember<T>>(index: number): Nullable<K> {
+    public getMemberAt<K extends ClassMember<T> = ClassMember<T>>(index: number): Empty<K> {
         return -1 < index && index < this.members.length ? this.members[index] as K : undefined;
     }
 

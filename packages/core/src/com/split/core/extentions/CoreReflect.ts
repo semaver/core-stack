@@ -1,5 +1,5 @@
 import {IClass} from "../types/base/IClass";
-import {Nullable} from "../types/utility/Nullable";
+import {Empty} from "../types/utility/Empty";
 import {classOfObject, isObjectClass, superClassOfObject} from "./CoreObject";
 
 /**
@@ -10,7 +10,7 @@ import {classOfObject, isObjectClass, superClassOfObject} from "./CoreObject";
  * @param property - a property key
  * @returns true if property found
  */
-export function hasOwnProperty(obj: Nullable<object>, property: PropertyKey): boolean {
+export function hasOwnProperty(obj: Empty<object>, property: PropertyKey): boolean {
     return !!obj && !!Reflect.getOwnPropertyDescriptor(obj, property);
 }
 
@@ -22,7 +22,7 @@ export function hasOwnProperty(obj: Nullable<object>, property: PropertyKey): bo
  * @param property - a property key
  * @returns true if property found
  */
-export function hasProperty(obj: Nullable<object>, property: PropertyKey): boolean {
+export function hasProperty(obj: Empty<object>, property: PropertyKey): boolean {
     return !!getPropertyDescriptor(obj, property);
 }
 
@@ -34,13 +34,13 @@ export function hasProperty(obj: Nullable<object>, property: PropertyKey): boole
  * @param property  - a property key
  * @returns owner of the property or undefined
  */
-export function getPropertyOwner<S extends object, C extends S>(obj: Nullable<C>, property: PropertyKey): Nullable<S> {
+export function getPropertyOwner<S extends object, C extends S>(obj: Empty<C>, property: PropertyKey): Empty<S> {
     if (obj) {
         if (hasOwnProperty(obj, property)) {
             return obj;
         } else if (!isObjectClass(obj)) {
-            let targetClass: Nullable<IClass<S>> = classOfObject(obj);
-            let target: Nullable<S> = undefined;
+            let targetClass: Empty<IClass<S>> = classOfObject(obj);
+            let target: Empty<S> = undefined;
             while (targetClass) {
                 if (hasOwnProperty(targetClass.prototype as S, property)) {
                     target = targetClass.prototype as S;
@@ -63,8 +63,8 @@ export function getPropertyOwner<S extends object, C extends S>(obj: Nullable<C>
  * @param property  - a property key
  * @returns property descriptor Js {@link PropertyDescriptor} or undefined
  */
-export function getPropertyDescriptor(obj: Nullable<object>, property: PropertyKey): Nullable<PropertyDescriptor> {
-    const target: Nullable<object> = getPropertyOwner(obj, property);
+export function getPropertyDescriptor(obj: Empty<object>, property: PropertyKey): Empty<PropertyDescriptor> {
+    const target: Empty<object> = getPropertyOwner(obj, property);
     return target && Reflect.getOwnPropertyDescriptor(target, property);
 }
 

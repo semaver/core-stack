@@ -1,4 +1,4 @@
-import {hasOwnProperty, Nullable} from "@semaver/core";
+import {hasOwnProperty, Empty} from "@semaver/core";
 import {IMetatableDecorator} from "../../decorators/Decorator";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
 import {IMemberMetadata} from "../../metatable/metadata/IMemberMetadata";
@@ -90,7 +90,7 @@ export abstract class ClassMember<T extends object = object> extends DecoratedEl
     /**
      * @inheritDoc
      */
-    protected getMemberDecorators(memberMetadataTable: Nullable<IMemberMetadataTableRef>): IMetatableDecorator[] {
+    protected getMemberDecorators(memberMetadataTable: Empty<IMemberMetadataTableRef>): IMetatableDecorator[] {
         return memberMetadataTable?._decorators ?? [];
     }
 }

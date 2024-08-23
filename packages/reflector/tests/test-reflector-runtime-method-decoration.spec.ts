@@ -2,7 +2,7 @@ import {ByMemberName, ClassMember, reflect, ReflectDecorator, Reflector} from ".
 import {SuperReflectedClass} from "./reflector/classes/SuperReflectedClass";
 import {ChildEmptyReflectedClass} from "./reflector/classes/ChildEmptyReflectedClass";
 import {ChildFullReflectedClass} from "./reflector/classes/ChildFullReflectedClass";
-import {IClass, Nullable} from "@semaver/core";
+import {IClass, Empty} from "@semaver/core";
 
 describe("Reflector API Runtime decoration Test", () => {
 
@@ -12,7 +12,7 @@ describe("Reflector API Runtime decoration Test", () => {
 
         const reflector: Reflector = Reflector.from(reflectedClass);
 
-        const member: Nullable<ClassMember> = reflector.query().filter(ByMemberName.from(memberName)).members().first();
+        const member: Empty<ClassMember> = reflector.query().filter(ByMemberName.from(memberName)).members().first();
 
         expect(member?.getDecorators().length).toBe(1);
         expect(member?.getOwnDecorators().length).toBe(1);
@@ -55,7 +55,7 @@ describe("Reflector API Runtime decoration Test", () => {
 
         const reflector: Reflector = Reflector.from(reflectedClass);
 
-        const member: Nullable<ClassMember> = reflector.query().filter(ByMemberName.from(memberName)).members().first();
+        const member: Empty<ClassMember> = reflector.query().filter(ByMemberName.from(memberName)).members().first();
 
         expect(member?.getDecorators().length).toBe(1);
         expect(member?.getOwnDecorators().length).toBe(1);
@@ -98,7 +98,7 @@ describe("Reflector API Runtime decoration Test", () => {
 
         const reflector: Reflector = Reflector.from(reflectedClass);
 
-        const member: Nullable<ClassMember> = reflector.query().filter(ByMemberName.from(memberName)).members().first();
+        const member: Empty<ClassMember> = reflector.query().filter(ByMemberName.from(memberName)).members().first();
 
         expect(member?.getDecorators().length).toBe(1);
         expect(member?.getOwnDecorators().length).toBe(1);
@@ -158,7 +158,7 @@ describe("Reflector API Runtime decoration Test", () => {
 
         const reflector: Reflector = Reflector.from(reflectedClass);
 
-        const member: Nullable<ClassMember> = reflector.query().filter(ByMemberName.from(memberName)).members().first();
+        const member: Empty<ClassMember> = reflector.query().filter(ByMemberName.from(memberName)).members().first();
 
         expect(member?.getDecorators().length).toBe(1);
         expect(member?.getOwnDecorators().length).toBe(0);

@@ -5,7 +5,7 @@ import {
     isObjectEmpty,
     isObjectPrimitive,
     JsFunction,
-    Nullable,
+    Empty,
     Throwable
 } from "@semaver/core";
 import {ClassTableProvider} from "../classtable/ClassTableProvider";
@@ -101,7 +101,7 @@ export class Reflector<T extends object = object> {
      * @protected
      * @property _syncHash - hash to synchronize class info with metatable of class
      */
-    protected _syncHash: Nullable<string> = undefined;
+    protected _syncHash: Empty<string> = undefined;
 
     /**
      * @protected
@@ -161,7 +161,7 @@ export class Reflector<T extends object = object> {
      * @public
      * @returns constructor class member of provided target class or undefined
      */
-    public getDecoratedConstructor(): Nullable<Constructor<T>> {
+    public getDecoratedConstructor(): Empty<Constructor<T>> {
         this.updateOnAutoSync();
         return this._constructors.length ? this._constructors[0] : undefined;
     }
@@ -185,10 +185,10 @@ export class Reflector<T extends object = object> {
      * @param isStatic - flag used to find instance or static method with provided name
      * @returns method class members of provided target class (decorated or not decorated if exists, or else return undefined)
      */
-    public getMethod<TReturnType = unknown>(name: string, isStatic: boolean = false): Nullable<Method<T, TReturnType>> {
+    public getMethod<TReturnType = unknown>(name: string, isStatic: boolean = false): Empty<Method<T, TReturnType>> {
         this.updateOnAutoSync();
         return (this._methods.find((member) => member.isStatic() === isStatic && member.getName() === name)
-            ?? this.getNonDecoratedMethod(name, isStatic)) as Nullable<Method<T, TReturnType>>;
+            ?? this.getNonDecoratedMethod(name, isStatic)) as Empty<Method<T, TReturnType>>;
 
     }
 
@@ -217,10 +217,10 @@ export class Reflector<T extends object = object> {
      * @param isStatic - flag used to find instance or static accessor with provided name
      * @returns accessor class members of provided target class (decorated or not decorated if exists, or else return undefined)
      */
-    public getAccessor<TValue = unknown>(name: string, isStatic: boolean = false): Nullable<Accessor<T, TValue>> {
+    public getAccessor<TValue = unknown>(name: string, isStatic: boolean = false): Empty<Accessor<T, TValue>> {
         this.updateOnAutoSync();
         return (this._accessors.find((member) => member.isStatic() === isStatic && member.getName() === name)
-            ?? this.getNonDecoratedAccessor(name, isStatic)) as Nullable<Accessor<T, TValue>>;
+            ?? this.getNonDecoratedAccessor(name, isStatic)) as Empty<Accessor<T, TValue>>;
     }
 
     /**
@@ -400,7 +400,7 @@ export class Reflector<T extends object = object> {
 
             // methods
             metadataTable._methods._static.forEach((structure, name) => {
-                const parameterLength: number = Math.max(structure._parameters.length, (getPropertyDescriptor(this._class, name)?.value as Nullable<JsFunction>)?.length ?? 0);
+                const parameterLength: number = Math.max(structure._parameters.length, (getPropertyDescriptor(this._class, name)?.value as Empty<JsFunction>)?.length ?? 0);
                 const parameters: MethodParameter<T>[] = [];
                 for (let i: number = 0; i < parameterLength; i++) {
                     parameters.push(new MethodParameter(
@@ -420,7 +420,7 @@ export class Reflector<T extends object = object> {
             });
 
             metadataTable._methods._instance.forEach((structure, name) => {
-                const parameterLength: number = Math.max(structure._parameters.length, (getPropertyDescriptor(this._class.prototype as Nullable<object>, name)?.value as Nullable<JsFunction>)?.length ?? 0);
+                const parameterLength: number = Math.max(structure._parameters.length, (getPropertyDescriptor(this._class.prototype as Empty<object>, name)?.value as Empty<JsFunction>)?.length ?? 0);
                 const parameters: MethodParameter<T>[] = [];
                 for (let i: number = 0; i < parameterLength; i++) {
                     parameters.push(new MethodParameter(
@@ -465,11 +465,11 @@ export class Reflector<T extends object = object> {
      * @param isStatic - whether the method is static or not
      * @returns method or if not found undefined
      */
-    private getNonDecoratedMethod(name: string, isStatic: boolean): Nullable<Method<T>> {
+    private getNonDecoratedMethod(name: string, isStatic: boolean): Empty<Method<T>> {
         const target: object = isStatic ? this._class : this._class.prototype as object;
-        const propertyDescriptor: Nullable<PropertyDescriptor> = getPropertyDescriptor(target, name);
+        const propertyDescriptor: Empty<PropertyDescriptor> = getPropertyDescriptor(target, name);
         if (propertyDescriptor) {
-            const parameterLength: number = (propertyDescriptor.value as Nullable<JsFunction>)?.length ?? 0;
+            const parameterLength: number = (propertyDescriptor.value as Empty<JsFunction>)?.length ?? 0;
             const parameters: MethodParameter<T>[] = [];
             for (let i: number = 0; i < parameterLength; i++) {
                 parameters.push(new MethodParameter(
@@ -517,7 +517,7 @@ export class Reflector<T extends object = object> {
      * @param isStatic - whether the accessor is static or not
      * @returns accessor
      */
-    private getNonDecoratedAccessor(name: string, isStatic: boolean): Nullable<Accessor<T>> {
+    private getNonDecoratedAccessor(name: string, isStatic: boolean): Empty<Accessor<T>> {
         const target: object = isStatic ? this._class : this._class.prototype as object;
         if (hasProperty(target, name)) {
             return new Accessor<T>(

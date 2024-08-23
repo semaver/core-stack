@@ -1,7 +1,7 @@
 import {Accessor, ByMemberName, Method, reflect, ReflectDecorator, Reflector} from "../src";
 import {ChildEmptyReflectedClass} from "./reflector/classes/ChildEmptyReflectedClass";
 import {ChildFullReflectedClass} from "./reflector/classes/ChildFullReflectedClass";
-import {IClass, Nullable} from "@semaver/core";
+import {IClass, Empty} from "@semaver/core";
 
 describe("Reflector API Runtime decoration Test", () => {
 
@@ -10,7 +10,7 @@ describe("Reflector API Runtime decoration Test", () => {
         const memberName: string = "accessorStaticFull";
 
         const reflector: Reflector = Reflector.from(reflectedClass);
-        const accessor: Nullable<Accessor> = reflector.query().filter(ByMemberName.from(memberName)).members().first<Accessor>();
+        const accessor: Empty<Accessor> = reflector.query().filter(ByMemberName.from(memberName)).members().first<Accessor>();
 
         expect(accessor?.getDecorators().length).toBe(1);
         expect(accessor?.getOwnDecorators().length).toBe(1);
@@ -45,7 +45,7 @@ describe("Reflector API Runtime decoration Test", () => {
             const memberName: string = "accessorNormalFull";
 
         const reflector: Reflector = Reflector.from(reflectedClass);
-        const method: Nullable<Method> = reflector.query().filter(ByMemberName.from(memberName)).members().first<Method>();
+        const method: Empty<Method> = reflector.query().filter(ByMemberName.from(memberName)).members().first<Method>();
 
             expect(method?.getDecorators().length).toBe(1);
             expect(method?.getOwnDecorators().length).toBe(1);
@@ -84,7 +84,7 @@ describe("Reflector API Runtime decoration Test", () => {
         const memberName: string = "accessorStaticFull";
 
         const reflector: Reflector = Reflector.from(reflectedClass);
-        const method: Nullable<Method> = reflector.query().filter(ByMemberName.from(memberName)).members().first<Method>();
+        const method: Empty<Method> = reflector.query().filter(ByMemberName.from(memberName)).members().first<Method>();
 
         expect(reflector.query().filter(ByMemberName.from(memberName)).members().all().length).toBe(0);
         expect(reflector.query().filter(ByMemberName.from(memberName)).decorators().all().length).toBe(0);
@@ -98,7 +98,7 @@ describe("Reflector API Runtime decoration Test", () => {
         const memberName: string = "accessorNormalFull";
 
         const reflector: Reflector = Reflector.from(reflectedClass);
-        const method: Nullable<Method> = reflector.query().filter(ByMemberName.from(memberName)).members().first<Method>();
+        const method: Empty<Method> = reflector.query().filter(ByMemberName.from(memberName)).members().first<Method>();
 
         expect(method?.getDecorators().length).toBe(1);
         expect(method?.getOwnDecorators().length).toBe(0);

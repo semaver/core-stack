@@ -84,34 +84,34 @@ export interface IDecoratedElement<T extends object = object> {
      *
      * @public
      * @param decoratorOrFn - decorator that extends or decorator function
-     * @returns - return true if decoration was successful
+     * @returns - return current instance
      */
-    addDecorator(decoratorOrFn: Decorator | DecoratorFn): boolean;
+    addDecorator(decoratorOrFn: Decorator | DecoratorFn): this;
 
     /**
      * method to add decorators to the element (class member or parameter), decorator will be added to the element (class member or parameter) of the owner class
      *
      * @public
      * @param decoratorOrFnCollection - collection of decorators that extends or decorator function
-     * @returns - return true if all decorations were successful
+     * @returns - return current instance
      */
-    addDecorators(...decoratorOrFnCollection: (Decorator | DecoratorFn)[]): boolean;
+    addDecorators(...decoratorOrFnCollection: (Decorator | DecoratorFn)[]): this;
 
     /**
      * method to remove decorator/s from class members, decorator will be removed from the element (class member or parameter) of the owner class
      *
      * @public
      * @param decoratorOrClass - class of current decorator or decorator itself
-     * @returns - return true if removal of decorator was successful
+     * @returns - return current instance
      */
-    removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): boolean;
+    removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): this;
 
     /**
      * method to remove decorator/s from class members, decorator will be removed from the element (class member or parameter) of the owner class
      *
      * @public
      * @param decoratorOrClassCollection - collection of classes of current decorator or decorators itself
-     * @returns - return true if removal of all decorators was successful
+     * @returns - return current instance
      */
-    removeDecorators(...decoratorOrClassCollection: (IClass<Decorator> | Decorator)[]): boolean;
+    removeDecorators(...decoratorOrClassCollection: (IClass<Decorator> | Decorator)[]): this;
 }

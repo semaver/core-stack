@@ -2,7 +2,7 @@
  * class to select class members from query info
  * @public
  */
-import {Nullable} from "@semaver/core";
+import {Empty} from "@semaver/core";
 import {ClassMember} from "../members/ClassMember";
 import {QueryInfo} from "./QueryInfo";
 
@@ -37,7 +37,7 @@ export class QueryMembersSelector<T extends object> {
      * @public
      * @returns first class member
      */
-    public first<K extends ClassMember<T> = ClassMember<T>>(): Nullable<K> {
+    public first<K extends ClassMember<T> = ClassMember<T>>(): Empty<K> {
         return this.queryInfo.getMemberAt(0);
     }
 }

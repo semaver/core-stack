@@ -1,4 +1,4 @@
-import {IClass, Nullable} from "@semaver/core";
+import {IClass, Empty} from "@semaver/core";
 import {Decorator} from "../../decorators/Decorator";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
 import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementEnum";
@@ -83,7 +83,7 @@ export abstract class ExecutableMember<T extends object = object> extends ClassM
      * @param index - index (position) of parameter
      * @returns parameter if found or undefined
      */
-    public getParameterAt(index: number): Nullable<Parameter<T>> {
+    public getParameterAt(index: number): Empty<Parameter<T>> {
         return 0 <= index && index < this._parameters.length ? this._parameters[index] : undefined;
     }
 

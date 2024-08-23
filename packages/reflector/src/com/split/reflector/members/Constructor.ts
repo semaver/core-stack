@@ -1,4 +1,4 @@
-import {classOfObject, IClass, isObjectClass, Nullable} from "@semaver/core";
+import {classOfObject, IClass, isObjectClass, Empty} from "@semaver/core";
 import {Decorator, DecoratorFn, IMetatableDecorator} from "../../decorators/Decorator";
 import {metadataClassOfObject} from "../../extentions/MetadataObjectExtention";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
@@ -69,41 +69,38 @@ export class Constructor<T extends object = object> extends ExecutableMember<T> 
     /**
      * @inheritDoc
      */
-    public addDecorator(decoratorOrFn: Decorator | DecoratorFn): boolean {
+    public addDecorator(decoratorOrFn: Decorator | DecoratorFn): this {
         const target: object = this.getObject();
         this.getDecoratorFn(decoratorOrFn).apply(undefined, [target, undefined, undefined]);
-        return true;
+        return this;
     }
 
     /**
      * @inheritDoc
      */
-    public removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): boolean {
-        let result: boolean = false;
+    public removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): this {
         const target: object = this.getObject();
         if (isObjectClass(decoratorOrClass)) {
             const decoratorClass: IClass<Decorator> = decoratorOrClass as IClass<Decorator>;
             this._metadataTableProvider.getOwnDecorators().forEach(decorator => {
                 if (classOfObject(decorator) === decoratorClass && this.isDecoratorOf(metadataClassOfObject(target), decorator)) {
                     this._metadataTableProvider.remove(decorator);
-                    result = true;
                 }
             });
         } else {
             const decorator: IMetatableDecorator = decoratorOrClass as IMetatableDecorator;
             if (this.isDecoratorOf(metadataClassOfObject(target), decorator)) {
                 this._metadataTableProvider.remove(decorator);
-                result = true;
             }
         }
 
-        return result;
+        return this;
     }
 
     /**
      * @inheritDoc
      */
-    protected getMemberMetadataTable(metadataTable: IMetadataTableRef): Nullable<IMemberMetadataTableRef> {
+    protected getMemberMetadataTable(metadataTable: IMetadataTableRef): Empty<IMemberMetadataTableRef> {
         const memberMetadataTables: Map<string, IMemberMetadataTableRef> = this._isStatic ? metadataTable._constructors._static : metadataTable._constructors._instance;
         return memberMetadataTables.get(this._name);
     }

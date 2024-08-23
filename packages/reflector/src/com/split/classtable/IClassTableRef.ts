@@ -19,7 +19,7 @@ export interface IClassTableRef {
      * @public
      * @property _classes - set of metadata classes registered in class table
      */
-    _classes: Set<IMetadataClass<unknown>>
+    _classes: Set<IMetadataClass<object>>
 
     /**
      * @public

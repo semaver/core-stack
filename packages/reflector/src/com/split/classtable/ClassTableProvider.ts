@@ -26,7 +26,7 @@ export class ClassTableProvider {
         if (!Reflect.has(storage, ClassTableNames.CLASS_TABLE)) {
             classTableRef = {
                 _sync_hash: "",
-                _classes: new Set<IMetadataClass<unknown>>(),
+                _classes: new Set<IMetadataClass<object>>(),
                 _subscribers: new Set<IClassTableSubscriber>(),
             };
             Reflect.defineProperty(storage, ClassTableNames.CLASS_TABLE, {

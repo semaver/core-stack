@@ -1,4 +1,4 @@
-import {classOfObject, IClass, Nullable} from "@semaver/core";
+import {classOfObject, IClass, Empty} from "@semaver/core";
 import {Decorator, DecoratorFn, IMetatableDecorator} from "../../decorators/Decorator";
 import {DecoratorUndefinedError} from "../../errors/DecoratorUndefinedError";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
@@ -121,34 +121,32 @@ export abstract class DecoratedElement<T extends object = object> implements IDe
     /**
      * @inheritDoc
      */
-    public abstract addDecorator(decoratorOrFn: Decorator | DecoratorFn): boolean;
+    public abstract addDecorator(decoratorOrFn: Decorator | DecoratorFn): this;
 
     /**
      * @inheritDoc
      */
-    public addDecorators(...decoratorOrFnCollection: (Decorator | DecoratorFn)[]): boolean {
-        let result: boolean = true;
+    public addDecorators(...decoratorOrFnCollection: (Decorator | DecoratorFn)[]): this {
         decoratorOrFnCollection.forEach(decoratorOrFn => {
-            result = this.addDecorator(decoratorOrFn) && result;
+            this.addDecorator(decoratorOrFn);
         });
-        return result;
+        return this;
     }
 
 
     /**
      * @inheritDoc
      */
-    public abstract removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): boolean;
+    public abstract removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): this;
 
     /**
      * @inheritDoc
      */
-    public removeDecorators(...decoratorOrClassCollection: (IClass<Decorator> | Decorator)[]): boolean {
-        let result: boolean = true;
+    public removeDecorators(...decoratorOrClassCollection: (IClass<Decorator> | Decorator)[]): this {
         decoratorOrClassCollection.forEach(decoratorOrClass => {
-            result = this.removeDecorator(decoratorOrClass) && result;
+            this.removeDecorator(decoratorOrClass);
         });
-        return result;
+        return this;
     }
 
     /**
@@ -159,7 +157,7 @@ export abstract class DecoratedElement<T extends object = object> implements IDe
      */
     protected getMetadataDecorators(): IMetatableDecorator[] {
         const metadataTable: IMetadataTableRef = this._metadataTableProvider.getMetadataTable();
-        const memberMetadataTable: Nullable<IMemberMetadataTableRef> = this.getMemberMetadataTable(metadataTable);
+        const memberMetadataTable: Empty<IMemberMetadataTableRef> = this.getMemberMetadataTable(metadataTable);
         return this.getMemberDecorators(memberMetadataTable);
     }
 
@@ -171,7 +169,7 @@ export abstract class DecoratedElement<T extends object = object> implements IDe
      */
     protected getOwnMetadataDecorators(): IMetatableDecorator[] {
         const metadataTable: IMetadataTableRef = this._metadataTableProvider.getOwnMetadataTable();
-        const memberMetadataTable: Nullable<IMemberMetadataTableRef> = this.getMemberMetadataTable(metadataTable);
+        const memberMetadataTable: Empty<IMemberMetadataTableRef> = this.getMemberMetadataTable(metadataTable);
         return this.getMemberDecorators(memberMetadataTable);
     }
 
@@ -182,7 +180,7 @@ export abstract class DecoratedElement<T extends object = object> implements IDe
      * @param metadataTable  - class metadata table
      * @returns class member metadata table
      */
-    protected abstract getMemberMetadataTable(metadataTable: IMetadataTableRef): Nullable<IMemberMetadataTableRef>;
+    protected abstract getMemberMetadataTable(metadataTable: IMetadataTableRef): Empty<IMemberMetadataTableRef>;
 
     /**
      * method to get a collection of decorators from class member metadata table
@@ -191,7 +189,7 @@ export abstract class DecoratedElement<T extends object = object> implements IDe
      * @param memberMetadataTable - class member metadata table
      * @returns collection of decorators
      */
-    protected abstract getMemberDecorators(memberMetadataTable: Nullable<IMemberMetadataTableRef>): IMetatableDecorator[];
+    protected abstract getMemberDecorators(memberMetadataTable: Empty<IMemberMetadataTableRef>): IMetatableDecorator[];
 
     /**
      * method to get decorator function
@@ -200,7 +198,7 @@ export abstract class DecoratedElement<T extends object = object> implements IDe
      * @param decoratorOrFn - decorator or decorator function
      * @returns decorator function
      */
-    protected getDecoratorFn(decoratorOrFn: Nullable<Decorator | DecoratorFn>): DecoratorFn {
+    protected getDecoratorFn(decoratorOrFn: Empty<Decorator | DecoratorFn>): DecoratorFn {
         if (decoratorOrFn) {
             if (decoratorOrFn instanceof Decorator) {
                 return Decorator.build(decoratorOrFn);

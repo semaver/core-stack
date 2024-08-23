@@ -1,12 +1,12 @@
 import {DecoratedElementEnum, Method, ReflectDecorator, Reflector} from "../src";
 import {AsyncSuperClass} from "./reflector/asyncs/AsyncSuperClass";
-import {Nullable} from "@semaver/core";
+import {Empty} from "@semaver/core";
 
 describe("Reflector Async tests", () => {
 
     it("test async decoration ", async () => {
         const reflector: Reflector<AsyncSuperClass> = Reflector.from(AsyncSuperClass);
-        const method: Nullable<Method<AsyncSuperClass, Promise<number>>> = reflector.getMethod<Promise<number>>("asyncMethod");
+        const method: Empty<Method<AsyncSuperClass, Promise<number>>> = reflector.getMethod<Promise<number>>("asyncMethod");
 
         expect(method?.getParameters().length).toBe(2);
         expect(method?.getKnownParameterCount()).toBe(2);
@@ -21,7 +21,7 @@ describe("Reflector Async tests", () => {
 
         const instance: AsyncSuperClass = new AsyncSuperClass();
         const input: number = 1;
-        const result: Nullable<number> = await method?.invoke(instance, input, 2);
+        const result: Empty<number> = await method?.invoke(instance, input, 2);
         expect(result).toBe(input);
         await expect(method?.invoke(instance, input, 2)).resolves.toBe(input);
     });

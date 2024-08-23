@@ -1,13 +1,13 @@
 import {ByMemberName, ByStaticMember, Constructor, Method, Reflector} from "../src";
 import {SuperDecoratedClass} from "./metatable/classes/SuperDecoratedClass";
-import {Nullable} from "@semaver/core";
+import {Empty} from "@semaver/core";
 
 describe("Reflector API Executors", () => {
 
     it("test static method executor", () => {
         const reflector: Reflector<SuperDecoratedClass> = Reflector.from(SuperDecoratedClass);
 
-        const runStatic: Nullable<Method<SuperDecoratedClass>> = reflector
+        const runStatic: Empty<Method<SuperDecoratedClass>> = reflector
             .query()
             .filter(ByMemberName.from("runStatic"))
             .filter(ByStaticMember.from(true))
@@ -23,7 +23,7 @@ describe("Reflector API Executors", () => {
     it("test instance method executor", () => {
         const reflector: Reflector<SuperDecoratedClass> = Reflector.from(SuperDecoratedClass);
 
-        const runNormal: Nullable<Method<SuperDecoratedClass>> = reflector
+        const runNormal: Empty<Method<SuperDecoratedClass>> = reflector
             .query()
             .filter(ByMemberName.from("runNormal"))
             .filter(ByStaticMember.from(false))
@@ -40,7 +40,7 @@ describe("Reflector API Executors", () => {
     it("test constructor executor", () => {
         const reflector: Reflector<SuperDecoratedClass> = Reflector.from(SuperDecoratedClass);
 
-        const runConstructor: Nullable<Constructor<SuperDecoratedClass>> = reflector
+        const runConstructor: Empty<Constructor<SuperDecoratedClass>> = reflector
             .query()
             .filter(ByMemberName.from(Constructor.defaultName))
             .members()

@@ -1,4 +1,4 @@
-import {isObjectClass, Nullable, Throwable, throwDefault} from "@semaver/core";
+import {isObjectClass, Empty, Throwable, throwDefault} from "@semaver/core";
 import {Constructor} from "../reflector/members/Constructor";
 import {IMetadataClass} from "./classes/IMetadataClass";
 import {IMemberMetadata} from "./metadata/IMemberMetadata";
@@ -15,7 +15,7 @@ import {metadataClassOfObject} from "../extentions/MetadataObjectExtention";
  * @param index - index(position) of parameter in constructor or method
  * @returns class member metadata
  */
-export function getParameterMetadata<T extends object>(target: T, name: Nullable<string>, index: number): IMemberMetadata<T> {
+export function getParameterMetadata<T extends object>(target: T, name: Empty<string>, index: number): IMemberMetadata<T> {
 
     const targetClass: IMetadataClass<T> = metadataClassOfObject(target);
 
@@ -138,12 +138,12 @@ export function getConstructorMetadata<T extends object>(target: T): IMemberMeta
  * @returns class member metadata or throws error if class member not found
  */
 export function getMetadata<T extends object>(target: T, classMemberName?: string, propertyDescriptorOrIndex?: TypedPropertyDescriptor<T> | number): Throwable<IMemberMetadata<T>> {
-    let propertyDescriptor: Nullable<TypedPropertyDescriptor<T>>;
+    let propertyDescriptor: Empty<TypedPropertyDescriptor<T>>;
     let index: number = NaN;
 
     if (propertyDescriptorOrIndex !== undefined) {
         if (isNaN(+propertyDescriptorOrIndex)) {
-            propertyDescriptor = propertyDescriptorOrIndex as Nullable<TypedPropertyDescriptor<T>>;
+            propertyDescriptor = propertyDescriptorOrIndex as Empty<TypedPropertyDescriptor<T>>;
         } else {
             index = +propertyDescriptorOrIndex;
         }

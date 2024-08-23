@@ -1,4 +1,4 @@
-import {classOfObject, haveObjectsSameClass, IClass, Nullable, superClassOfObject} from "@semaver/core";
+import {classOfObject, haveObjectsSameClass, IClass, Empty, superClassOfObject} from "@semaver/core";
 import {v4 as uuid} from 'uuid';
 import {ClassTable} from "../classtable/ClassTable";
 import {ClassTableProvider} from "../classtable/ClassTableProvider";
@@ -419,8 +419,8 @@ export class MetadataTableProvider<T extends object = object> {
      * @param metadataClass - proceeded metadata class
      * @returns full proceeded metatable of metadata class
      */
-    private calculateMetadataTable<S extends object, C extends S>(metadataClass: IMetadataClass<C>): IMetadataTableRef {
-        const superClass: Nullable<IMetadataClass<S>> = metadataSuperClassOfObject(metadataClass, true);
+    private calculateMetadataTable(metadataClass: IMetadataClass<object>): IMetadataTableRef {
+        const superClass: Empty<IMetadataClass<object>> = metadataSuperClassOfObject(metadataClass, true);
         let result: IMetadataTableRef;
         if (!superClass) {
             metadataClass.__parent_hash__ = metadataClass.__own_hash__;
@@ -686,7 +686,7 @@ export class MetadataTableProvider<T extends object = object> {
                 childClassMt.get(name)?._decorators ?? [],
             );
 
-            const metatable: Nullable<IMemberMetadataTableRef> = resultMt.get(name) ?? undefined;
+            const metatable: Empty<IMemberMetadataTableRef> = resultMt.get(name) ?? undefined;
             if (metatable && !metatable._decorators.length) {
                 resultMt.delete(name);
             }
@@ -940,7 +940,7 @@ export class MetadataTableProvider<T extends object = object> {
      * @returns true if provided child member decorator found
      */
     private hasSameSuperDecorator<C extends object>(childClass: IMetadataClass<C>, childDecorator: IMetatableDecorator): boolean {
-        let metadataTableClass: Nullable<IMetadataClass<object>> = childClass;
+        let metadataTableClass: Empty<IMetadataClass<object>> = childClass;
 
         let isExist: boolean = false;
 

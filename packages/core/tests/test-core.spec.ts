@@ -16,7 +16,7 @@ import {
     isObjectEmpty,
     isObjectPrimitive,
     IType,
-    Nullable,
+    Empty,
     superClassOfObject
 } from "../src";
 
@@ -123,10 +123,10 @@ describe("Core Test", () => {
         const otherCar: OtherCar = new OtherCar();
         expect(isObjectEmpty(otherCar)).toBe(false);
 
-        const car: Nullable<OtherCar> = null;
+        const car: Empty<OtherCar> = null;
         expect(isObjectEmpty(car)).toBe(true);
 
-        const car2: Nullable<OtherCar> = undefined;
+        const car2: Empty<OtherCar> = undefined;
         expect(isObjectEmpty(car2)).toBe(true);
     });
 

@@ -1,6 +1,6 @@
 import {IClass} from "../types/base/IClass";
 import {JsFunction} from "../types/js/JsFunction";
-import {Nullable} from "../types/utility/Nullable";
+import {Empty} from "../types/utility/Empty";
 
 /**
  * function to check if the given object null or undefined
@@ -31,7 +31,7 @@ export function isObjectPrimitive(obj: unknown): boolean {
  * @param obj - object to check
  * @returns true if a given object is class
  */
-export function isObjectClass(obj: Nullable<object & { call?: JsFunction, apply?: JsFunction }>): boolean {
+export function isObjectClass(obj: Empty<object & { call?: JsFunction, apply?: JsFunction }>): boolean {
     return !!(obj?.constructor && obj.call && obj.apply);
 }
 
@@ -54,7 +54,7 @@ export function classOfObject<T extends object>(obj: IClass<T> | T): IClass<T> {
  * @param instanceB - instance B to compare
  * @returns true if both instances instantiated from the same class
  */
-export function haveObjectsSameClass<A extends object, B extends object>(instanceA: Nullable<A>, instanceB: Nullable<B>): boolean {
+export function haveObjectsSameClass<A extends object, B extends object>(instanceA: Empty<A>, instanceB: Empty<B>): boolean {
     return !!(instanceA && instanceB && instanceA.constructor === instanceB.constructor);
 }
 
@@ -67,9 +67,9 @@ export function haveObjectsSameClass<A extends object, B extends object>(instanc
  * @param ignoreNativeObjectClass - flag if set to true, native object class will be ignored and function return undefined if superclass is native object class (default value - false)
  * @returns super class of the given class or undefined
  */
-export function superClassOfObject<S extends object, C extends S>(childClass: Nullable<IClass<C>>, ignoreNativeObjectClass: boolean = false): Nullable<IClass<S>> {
-    const superPrototype: Nullable<object> = childClass && Reflect.getPrototypeOf(childClass.prototype as object);
-    const superClass: Nullable<IClass<S>> = superPrototype?.constructor as IClass<S>;
+export function superClassOfObject<S extends object, C extends S>(childClass: Empty<IClass<C>>, ignoreNativeObjectClass: boolean = false): Empty<IClass<S>> {
+    const superPrototype: Empty<object> = childClass && Reflect.getPrototypeOf(childClass.prototype as object);
+    const superClass: Empty<IClass<S>> = superPrototype?.constructor as IClass<S>;
     return (ignoreNativeObjectClass && isNativeObjectClass(superClass) ? undefined : superClass);
 }
 
@@ -80,7 +80,7 @@ export function superClassOfObject<S extends object, C extends S>(childClass: Nu
  * @param targetClass - class to check
  * @returns true if is native object class (targetClass === Object)
  */
-export function isNativeObjectClass<T extends object>(targetClass: Nullable<IClass<T>>): boolean {
+export function isNativeObjectClass<T extends object>(targetClass: Empty<IClass<T>>): boolean {
     return !!targetClass && !Reflect.getPrototypeOf(targetClass.prototype as object);
 }
 
@@ -93,10 +93,10 @@ export function isNativeObjectClass<T extends object>(targetClass: Nullable<ICla
  * @param excludeNativeObjectClass - flag to exclude native object class from a chain (default value - true)
  * @returns readonly array of superclasses
  */
-export function getObjectSuperClassChain(obj: Nullable<object>, reversed: boolean = false, excludeNativeObjectClass: boolean = true): readonly IClass<object>[] {
+export function getObjectSuperClassChain(obj: Empty<object>, reversed: boolean = false, excludeNativeObjectClass: boolean = true): readonly IClass<object>[] {
     const result: IClass<object>[] = [];
     if (!obj) return result;
-    let targetClass: Nullable<IClass<object>> = classOfObject(obj);
+    let targetClass: Empty<IClass<object>> = classOfObject(obj);
 
     do {
         if (excludeNativeObjectClass && isNativeObjectClass(targetClass)) {

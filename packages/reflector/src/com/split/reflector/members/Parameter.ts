@@ -1,4 +1,4 @@
-import {Nullable} from "@semaver/core";
+import {Empty} from "@semaver/core";
 import {IMetatableDecorator} from "../../decorators/Decorator";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
 import {IMemberMetadata} from "../../metatable/metadata/IMemberMetadata";
@@ -98,7 +98,7 @@ export abstract class Parameter<T extends object = object> extends DecoratedElem
      * @inheritDoc
      */
     // TODO add extra length check
-    protected getMemberDecorators(memberMetadataTable: Nullable<IMemberMetadataTableRef>): IMetatableDecorator[] {
+    protected getMemberDecorators(memberMetadataTable: Empty<IMemberMetadataTableRef>): IMetatableDecorator[] {
         return memberMetadataTable?._parameters[this._index] ?? [];
     }
 

@@ -11,7 +11,7 @@ import {SuperReflectedClass} from "./reflector/classes/SuperReflectedClass";
 import {testClassInitialDescriptors} from "./helpers/test-before-decorators-helpers";
 import {SuperMinClass} from "./reflector/classes/SuperMinClass";
 import {StandardDecorator} from "./common/metadata/StandardDecorator";
-import {IClass, Nullable} from "@semaver/core";
+import {IClass, Empty} from "@semaver/core";
 
 describe("Reflector API Queries Arguments", () => {
 
@@ -34,7 +34,7 @@ describe("Reflector API Queries Arguments", () => {
             .filter(ByMemberDecoratorClass.from(StandardDecorator))
             .members().all();
 
-        const classMemberOne: Nullable<ClassMember<SuperReflectedClass>> = reflector
+        const classMemberOne: Empty<ClassMember<SuperReflectedClass>> = reflector
             .query()
             .filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR))
             .filter(ByMemberDecoratorClass.from(StandardDecorator))
@@ -49,7 +49,7 @@ describe("Reflector API Queries Arguments", () => {
         const reflector: Reflector = Reflector.from(reflectedClass);
 
         let classMembers: ClassMember<SuperMinClass>[];
-        let classMemberOne: Nullable<ClassMember<SuperMinClass>>;
+        let classMemberOne: Empty<ClassMember<SuperMinClass>>;
 
         classMembers = reflector.query().members().all();
         expect(classMembers.length).toBe(1);
