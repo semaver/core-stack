@@ -2,7 +2,7 @@
   "name": "@semaver/core",
   "type": "module",
   "rawName": "core",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Core interface/types and helper methods for object manipulation and reflection",
   "homepage": "https://github.com/semaver/core-stack",
   "bugs": "https://github.com/semaver/core-stack/issues",
