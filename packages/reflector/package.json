@@ -38,6 +38,7 @@
     "no reflect-metadata"
   ],
   "files": [
+    "diagrams",
     "lib",
     "docs",
     "package.json",

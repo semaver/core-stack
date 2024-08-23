@@ -1481,7 +1481,7 @@ export type MetadataNotExistencePolicyValues =
 
 The **Reflected Types Architecture** diagram illustrates the various types of class members and parameters supported by the **`reflector`** package. It also details the API available for interacting with these reflected types.
 
-![](https://raw.githubusercontent.com/semaver/core-stack/main/packages/reflector/diagrams/reflector-class-members.svg)
+![](diagrams/reflector-class-members.svg)
 
 [back](#reflector-documentation)
 
