@@ -570,33 +570,33 @@ export const DecoratedElementEnum: Readonly<DecoratedElementType> = Object.freez
   	METHOD: PrimitiveDecoratedElementEnum.METHOD,
     
   	EXECUTABLE_ELEMENT: PrimitiveDecoratedElementEnum.METHOD | 
-  											PrimitiveDecoratedElementEnum.CONSTRUCTOR,
+        PrimitiveDecoratedElementEnum.CONSTRUCTOR,
 
     PROPERTY: PrimitiveDecoratedElementEnum.PROPERTY,
     
   	ACCESSOR: PrimitiveDecoratedElementEnum.ACCESSOR,
    
   	FIELD: PrimitiveDecoratedElementEnum.PROPERTY | 
-  				 PrimitiveDecoratedElementEnum.ACCESSOR,
+        PrimitiveDecoratedElementEnum.ACCESSOR,
 
     CLASS_MEMBER: PrimitiveDecoratedElementEnum.PROPERTY | 
-  								PrimitiveDecoratedElementEnum.ACCESSOR |
-        					PrimitiveDecoratedElementEnum.METHOD | 
-  								PrimitiveDecoratedElementEnum.CONSTRUCTOR,
+        PrimitiveDecoratedElementEnum.ACCESSOR | 
+        PrimitiveDecoratedElementEnum.METHOD | 
+        PrimitiveDecoratedElementEnum.CONSTRUCTOR,
 
     CONSTRUCTOR_PARAMETER: PrimitiveDecoratedElementEnum.CONSTRUCTOR_PARAMETER,
     
   	METHODS_PARAMETER: PrimitiveDecoratedElementEnum.METHODS_PARAMETER,
     
-  	PARAMETER: PrimitiveDecoratedElementEnum.CONSTRUCTOR_PARAMETER |
-  						 PrimitiveDecoratedElementEnum.METHODS_PARAMETER,
+  	PARAMETER: PrimitiveDecoratedElementEnum.CONSTRUCTOR_PARAMETER | 
+        PrimitiveDecoratedElementEnum.METHODS_PARAMETER,
 
     DECORATED_ELEMENT: PrimitiveDecoratedElementEnum.PROPERTY | 
-  										 PrimitiveDecoratedElementEnum.ACCESSOR |
-        							 PrimitiveDecoratedElementEnum.METHOD | 
-  										 PrimitiveDecoratedElementEnum.CONSTRUCTOR |
-        							 PrimitiveDecoratedElementEnum.CONSTRUCTOR_PARAMETER | 			
-  										 PrimitiveDecoratedElementEnum.METHODS_PARAMETER,
+        PrimitiveDecoratedElementEnum.ACCESSOR | 
+        PrimitiveDecoratedElementEnum.METHOD | 
+        PrimitiveDecoratedElementEnum.CONSTRUCTOR | 
+        PrimitiveDecoratedElementEnum.CONSTRUCTOR_PARAMETER | 
+        PrimitiveDecoratedElementEnum.METHODS_PARAMETER,
 });
 
 export type DecoratedElementTypeValues = DecoratedElementType[keyof DecoratedElementType];
@@ -1326,37 +1326,37 @@ export const MetadataAccessPolicy: Readonly<MetadataAccessPolicyType> = Object.f
     INST_PROPERTY: PrimitiveMetadataAccessPolicy.INST_PROPERTY,
     STATIC_PROPERTY: PrimitiveMetadataAccessPolicy.STATIC_PROPERTY,
     PROPERTY: PrimitiveMetadataAccessPolicy.INST_PROPERTY | 
-  						PrimitiveMetadataAccessPolicy.STATIC_PROPERTY,
+        PrimitiveMetadataAccessPolicy.STATIC_PROPERTY,
 
     INST_ACCESSOR: PrimitiveMetadataAccessPolicy.INST_ACCESSOR,
     STATIC_ACCESSOR: PrimitiveMetadataAccessPolicy.STATIC_ACCESSOR,
     ACCESSOR: PrimitiveMetadataAccessPolicy.INST_ACCESSOR | 
-  						PrimitiveMetadataAccessPolicy.STATIC_ACCESSOR,
+        PrimitiveMetadataAccessPolicy.STATIC_ACCESSOR,
 
     INST_METHOD: PrimitiveMetadataAccessPolicy.INST_METHOD,
     STATIC_METHOD: PrimitiveMetadataAccessPolicy.STATIC_METHOD,
     METHOD: PrimitiveMetadataAccessPolicy.INST_METHOD | 
-  					PrimitiveMetadataAccessPolicy.STATIC_METHOD,
+        PrimitiveMetadataAccessPolicy.STATIC_METHOD,
 
     PARAMETER_IN_CONSTRUCTOR: PrimitiveMetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR,
     PARAMETER_IN_INST_METHOD: PrimitiveMetadataAccessPolicy.PARAMETER_IN_INST_METHOD,
     PARAMETER_IN_STATIC_METHOD: PrimitiveMetadataAccessPolicy.PARAMETER_IN_STATIC_METHOD,
     PARAMETER_IN_METHOD: PrimitiveMetadataAccessPolicy.PARAMETER_IN_INST_METHOD | 
-  											 PrimitiveMetadataAccessPolicy.PARAMETER_IN_STATIC_METHOD,
-    PARAMETER: PrimitiveMetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR |
-        			 PrimitiveMetadataAccessPolicy.PARAMETER_IN_INST_METHOD | 
-  						 PrimitiveMetadataAccessPolicy.PARAMETER_IN_STATIC_METHOD,
+        PrimitiveMetadataAccessPolicy.PARAMETER_IN_STATIC_METHOD,
+    PARAMETER: PrimitiveMetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR | 
+        PrimitiveMetadataAccessPolicy.PARAMETER_IN_INST_METHOD | 
+        PrimitiveMetadataAccessPolicy.PARAMETER_IN_STATIC_METHOD,
 
-    ALL: PrimitiveMetadataAccessPolicy.CONSTRUCTOR |
-         PrimitiveMetadataAccessPolicy.INST_PROPERTY | 
-  			 PrimitiveMetadataAccessPolicy.STATIC_PROPERTY |
-         PrimitiveMetadataAccessPolicy.INST_ACCESSOR | 
-  			 PrimitiveMetadataAccessPolicy.STATIC_ACCESSOR |
-         PrimitiveMetadataAccessPolicy.INST_METHOD | 
-  			 PrimitiveMetadataAccessPolicy.STATIC_METHOD |
-         PrimitiveMetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR | 
-  			 PrimitiveMetadataAccessPolicy.PARAMETER_IN_INST_METHOD | 
-  			 PrimitiveMetadataAccessPolicy.PARAMETER_IN_STATIC_METHOD,
+    ALL: PrimitiveMetadataAccessPolicy.CONSTRUCTOR | 
+        PrimitiveMetadataAccessPolicy.INST_PROPERTY | 
+        PrimitiveMetadataAccessPolicy.STATIC_PROPERTY | 
+        PrimitiveMetadataAccessPolicy.INST_ACCESSOR | 
+        PrimitiveMetadataAccessPolicy.STATIC_ACCESSOR | 
+        PrimitiveMetadataAccessPolicy.INST_METHOD | 
+        PrimitiveMetadataAccessPolicy.STATIC_METHOD | 
+        PrimitiveMetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR | 
+        PrimitiveMetadataAccessPolicy.PARAMETER_IN_INST_METHOD | 
+        PrimitiveMetadataAccessPolicy.PARAMETER_IN_STATIC_METHOD,
 });
 
 export type MetadataAccessPolicyValues = MetadataAccessPolicyType[keyof MetadataAccessPolicyType];
@@ -1380,12 +1380,11 @@ export interface MetadataSameTargetMultiUsagePolicyType {
     DEFAULT: number
 }
 
-export const MetadataSameTargetMultiUsagePolicy: Readonly<MetadataSameTargetMultiUsagePolicyType> =
-      Object.freeze({
-          ALLOWED: 0,
-          NOT_ALLOWED: 1,
-          DEFAULT: 1,
-      });
+export const MetadataSameTargetMultiUsagePolicy: Readonly<MetadataSameTargetMultiUsagePolicyType> = Object.freeze({
+    ALLOWED: 0, 
+    NOT_ALLOWED: 1, 
+    DEFAULT: 1,
+    });
 
 export type MetadataSameTargetMultiUsagePolicyValues = 
   MetadataSameTargetMultiUsagePolicyType[keyof MetadataSameTargetMultiUsagePolicyType];
@@ -1439,11 +1438,20 @@ The `MetadataNotExistencePolicy` defines the behavior when a decorator does **no
 - **Default:** `MetadataNotExistencePolicy.APPLY`
 
 ```ts
-export enum MetadataNotExistencePolicy {
-    SKIP,
-    APPLY,
-    DEFAULT = APPLY,
+export interface MetadataNotExistencePolicyType {
+    APPLY: number;
+    SKIP: number;
+    DEFAULT: number
 }
+
+export const MetadataNotExistencePolicy: Readonly<MetadataNotExistencePolicyType> = Object.freeze({
+    SKIP: 0,
+    APPLY: 1,
+    DEFAULT: 1,
+});
+
+export type MetadataNotExistencePolicyValues = 
+  MetadataNotExistencePolicyType[keyof MetadataNotExistencePolicyType];
 ```
 
 [Back to top](#reflector-documentation)
