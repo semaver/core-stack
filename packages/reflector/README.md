@@ -1592,7 +1592,13 @@ Suppose we add an annotation decorator (e.g., `@inject`) to the constructor para
 **Superclass Definition with Decorators:**
 
 ```ts
-// Superclass definition with decorators
+import {inject} from "../../example_1/decorators";
+import {FirstData} from "./FirstData";
+import {SecondData} from "./SecondData"
+
+// SUPER class with 2 decorated parameters
+// Constructor OWN parameters length = 2
+// Constructor KNOWN parameters length = 2
 export class SuperClass {
     public constructor(
         @inject(FirstData) dataA: FirstData,
@@ -1614,22 +1620,7 @@ The major issue with propagating the decorator to child constructor parameters i
 import {inject} from "../../example_1/decorators";
 import {FirstData} from "./FirstData";
 import {SecondData} from "./SecondData";
-
-// SUPER class with 2 decorated parameters
-// Constructor OWN parameters length = 2
-// Constructor KNOWN parameters length = 2
-export class SuperClass {
-    public constructor(
-        @inject(FirstData) dataA: FirstData,
-        @inject(SecondData) dataB: SecondData) {
-        void (dataA);
-        void (dataB);
-    }
-
-    public someMethod(): void {
-        void (0);
-    }
-}
+import {SuperClass} from "./SuperClass";
 
 // Child class with the same parameter order
 // Constructor OWN parameters length = 2
@@ -1670,9 +1661,7 @@ export class ArgsChildClass extends SuperClass {
 // Constructor KNOWN parameters length = 2
 // NO NEED TO REDEFINE DECORATORS (inherited from SuperClass)
 export class EmptyConstructorChildClass extends SuperClass {
-    public someMethod(): void {
-        void (0);
-    }
+    
 }
 
 ```
