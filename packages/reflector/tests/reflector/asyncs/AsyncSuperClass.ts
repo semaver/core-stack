@@ -8,7 +8,7 @@ export class AsyncSuperClass {
         return new Promise((resolve => {
             setTimeout(() => {
                 resolve(someParam);
-            }, 150);
+            }, 1);
         }));
     }
 }
