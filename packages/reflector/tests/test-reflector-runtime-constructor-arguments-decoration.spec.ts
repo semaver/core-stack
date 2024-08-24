@@ -13,6 +13,8 @@ describe("Reflector API Runtime decoration Test", () => {
 
         const reflector: Reflector = Reflector.from(reflectedClass);
 
+        expect(reflector.getDecoratedConstructor()?.getOwnParameterCount()).toBe(1);
+        expect(reflector.getDecoratedConstructor()?.getKnownParameterCount()).toBe(1);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getDecorators().length).toBe(1);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getOwnDecorators().length).toBe(1);
         expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(2);
@@ -54,6 +56,8 @@ describe("Reflector API Runtime decoration Test", () => {
 
         const reflector: Reflector = Reflector.from(reflectedClass);
 
+        expect(reflector.getDecoratedConstructor()?.getOwnParameterCount()).toBe(0);
+        expect(reflector.getDecoratedConstructor()?.getKnownParameterCount()).toBe(1);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getDecorators().length).toBe(1);
         expect(reflector.getDecoratedConstructor()?.getParameterAt(0)?.getOwnDecorators().length).toBe(0);
         expect(reflector.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().all().length).toBe(2);
