@@ -30,9 +30,7 @@ To use the `@decorator()` syntax in **TypeScript**, you must configure the `tsco
 
 ## Installation
 
-```
-bash
-Code kopieren
+```bash
 $ yarn add @semaver/reflector --peer
 $ npm install @semaver/reflector  
 ```
@@ -76,8 +74,8 @@ export class InjectDecorator extends Decorator {
 
     public getAccessPolicy(): MetadataAccessPolicyValues {
         return (
-            MetadataAccessPolicy.INST_PROPERTY |
-            MetadataAccessPolicy.INST_ACCESSOR |
+            MetadataAccessPolicy.INSTANCE_PROPERTY |
+            MetadataAccessPolicy.INSTANCE_ACCESSOR |
             MetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR
         );
     }
@@ -103,8 +101,8 @@ export function optional(): IFunction<void> {
 export class OptionalDecorator extends Decorator {
     public getAccessPolicy(): MetadataAccessPolicyValues {
         return (
-            MetadataAccessPolicy.INST_PROPERTY |
-            MetadataAccessPolicy.INST_ACCESSOR |
+            MetadataAccessPolicy.INSTANCE_PROPERTY |
+            MetadataAccessPolicy.INSTANCE_ACCESSOR |
             MetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR
         );
     }
@@ -120,6 +118,8 @@ The `id` parameter can be a string, number, or symbol.
 ```ts
 import { Decorator, MetadataAccessPolicy, MetadataAccessPolicyValues } from "@semaver/reflector";
 
+type DependencyId = string | number | symbol;
+
 export class NamedDecorator extends Decorator {
     protected readonly _name: DependencyId;
 
@@ -134,8 +134,8 @@ export class NamedDecorator extends Decorator {
 
     public getAccessPolicy(): MetadataAccessPolicyValues {
         return (
-            MetadataAccessPolicy.INST_PROPERTY |
-            MetadataAccessPolicy.INST_ACCESSOR |
+            MetadataAccessPolicy.INSTANCE_PROPERTY |
+            MetadataAccessPolicy.INSTANCE_ACCESSOR |
             MetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR
         );
     }
@@ -160,7 +160,7 @@ export function postConstruct(): IFunction<void> {
 
 export class PostConstructDecorator extends Decorator {
     public getAccessPolicy(): MetadataAccessPolicyValues {
-        return MetadataAccessPolicy.INST_METHOD;
+        return MetadataAccessPolicy.INSTANCE_METHOD;
     }
 }
 ```
@@ -179,7 +179,7 @@ export function preDestroy(): IFunction<void> {
 
 export class PreDestroyDecorator extends Decorator {
     public getAccessPolicy(): MetadataAccessPolicyValues {
-        return MetadataAccessPolicy.INST_METHOD;
+        return MetadataAccessPolicy.INSTANCE_METHOD;
     }
 }
 ```
@@ -515,10 +515,7 @@ The `Reflector.from()` method accepts two parameters:
 
 - **`target`**: This can be either the class itself or an instance of the class whose structure you wish to examine.
 
-- `autoSync`
-
-  :
-
+- **`autoSync`**:
   - When set to `true`, the reflector will automatically detect and include any changes made through dynamic decoration.
   - When set to `false` (default), the reflector will not track dynamic changes.
 
@@ -699,7 +696,7 @@ The Query API allows you to retrieve different class members and parameters. How
 #### Example Usage
 
 ```ts
-import { Reflector, QueryExecutor, QueryMembersSelector } from "@semaver/reflector";
+import { ClassMember, Reflector, QueryExecutor, QueryMembersSelector } from "@semaver/reflector";
 import { MyClass } from "./MyClass";
 
 // Returns a query executor for the class
@@ -757,14 +754,23 @@ You can filter class members and parameters using various filtering conditions:
 - **`ByMemberDecoratorClass`**: Filter class members by class member annotation decorator class.
 - **`ByParameterDecoratorClass`**: Filter class members by parameter annotation decorator class.
 
-Filtering is based on the query mechanism described in the [Query Class Members and Parameters](#query-class-members-and-parameters) section. To access filtered values, refer to the Query API.
+Filtering is based on the query mechanism described in the [Query Class Members and Parameters](#query-class-members-and-parameters) section. To access filtered values, refer to the [Query API](#query-class-members-and-parameters).
 
 > **Important:** When retrieving a class member or parameter by **name**, be cautious of obfuscation/minification levels, as these processes can change names and make reflection impossible.
 
 #### Example Usage
 
 ```ts
-import { Reflector, QueryExecutor, ByMemberName, ByMemberType, ByStaticMember, ByDecoratorClass, ByParameterDecoratorClass, ByMemberDecoratorClass } from "@semaver/reflector";
+import { 
+  Reflector, 
+  QueryExecutor, 
+  ByMemberName, 
+  ByMemberType, 
+  ByStaticMember, 
+  ByDecoratorClass, 
+  ByParameterDecoratorClass, 
+  ByMemberDecoratorClass 
+} from "@semaver/reflector";
 import { MyClass, AnnotationDecorator } from "./MyClass";
 
 const query: QueryExecutor<MyClass> = Reflector.from(MyClass).query();
@@ -987,10 +993,7 @@ export interface IClassTableUpdate<TDecorator extends Decorator = Decorator, T =
 
 - **`targetClass`**: The class that had its decorators modified.
 
-- `decoratedElement`
-
-  : Information about the decorated element:
-
+- **`decoratedElement`**: Information about the decorated element:
   - **`type`**: The type of class member (e.g., Constructor, Method, Parameters).
   - **`name`**: The name of the class member.
   - **`isStatic`**: Indicates whether the class member is static.
@@ -1052,72 +1055,68 @@ export class AnnotationDecorator extends Decorator {
 
 Decoration policies define rules for how decorators behave in specific cases, particularly related to class inheritance. There are currently five policies:
 
-1. [Access Policy](#access-policy)
-
-   : Defines whether the decorator can be applied to a specific member, argument, or member group.
-
+1. [Access Policy](#access-policy): Defines whether the decorator can be applied to a specific member, argument, or member group.
    - Default: `ALL` (applies to all [Reflected Types](#reflected-types)).
-
-2. [Same-Target-Multi-Usage Policy](#same-target-multi-usage-policy)
-
-   : Determines the behavior when a class member or argument has more than one decorator of the same type.
-
+   
+2. [Same-Target-Multi-Usage Policy](#same-target-multi-usage-policy): Determines the behavior when a class member or argument has more than one decorator of the same type.
    - Default: `NOT_ALLOWED` (only the first decorator is used).
-
-3. [Collision Policy](#collision-policy)
-
-   : Handles situations where a decorator exists in both a child class and its parent class for the same member or argument.
-
+   
+3. [Collision Policy](#collision-policy): Handles situations where a decorator exists in both a child class and its parent class for the same member or argument.
    - Default: `OVERRIDE_PARENT` (the child class decorator is used).
-
-4. [Not-Existence Policy](#not-existence-policy)
-
-   : Governs behavior when a decorator exists in a parent class but not in the child class.
-
+   
+4. [Not-Existence Policy](#not-existence-policy): Governs behavior when a decorator exists in a parent class but not in the child class.
    - Default: `APPLY` (the parent class decorator is used).
-
-5. [Appearance Policy](#appearance-policy)
-
-   : Manages behavior when a decorator exists in the child class but not in the parent class.
-
-   - Default: `APPLY` (the child class decorator is used).
+   
+5. [Appearance Policy](#appearance-policy): Manages behavior when a decorator exists in the child class but not in the parent class.
+- Default: `APPLY` (the child class decorator is used).
 
 > **Note:** For more details on decoration policies and their parameters, see the [Decoration Policies](#decoration-policies) section.
 
 **Example Implementation:**
 
 ```ts
-import { IFunction, IType } from "@semaver/core";
-import { Decorator, MetadataAccessPolicy } from "@semaver/reflector";
+import {
+    Decorator,
+    DecoratorFn,
+    MetadataAccessPolicy,
+    MetadataAccessPolicyValues,
+    MetadataCollisionPolicy,
+    MetadataCollisionPolicyValues,
+    MetadataNotExistencePolicy,
+    MetadataNotExistencePolicyValues,
+    MetadataSameTargetMultiUsagePolicy,
+    MetadataSameTargetMultiUsagePolicyValues
+} from "@semaver/reflector";
 
-export function annotation(): DecoratorFn {
-    return Decorator.build(new AnnotationDecorator());
+export function annotationWithoutPolicyProvider(): DecoratorFn {
+    return Decorator.build(new AnnotationWithoutPolicyProviderDecorator());
 }
 
-export class AnnotationDecorator extends Decorator {
-    
+export class AnnotationWithoutPolicyProviderDecorator extends Decorator {
+
     // Allow only instance properties, accessors, and constructor parameters
-    public getAccessPolicy(): MetadataAccessPolicy {
-        return MetadataAccessPolicy.INST_PROPERTY |
-               MetadataAccessPolicy.INST_ACCESSOR |
-               MetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR;
+    public getAccessPolicy(): MetadataAccessPolicyValues {
+        return MetadataAccessPolicy.INSTANCE_PROPERTY |
+            MetadataAccessPolicy.INSTANCE_ACCESSOR |
+            MetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR;
     }
 
     // Override parent class decorator if both exist on the same member
-    public getCollisionPolicy(access: PrimitiveMetadataAccessPolicy): MetadataCollisionPolicy {
+    public getCollisionPolicy(): MetadataCollisionPolicyValues {
         return MetadataCollisionPolicy.OVERRIDE_PARENT;
     }
 
     // Apply parent class decorator if none exists in the child class
-    public getNotExistencePolicy(access: PrimitiveMetadataAccessPolicy): MetadataNotExistencePolicy {
+    public getNotExistencePolicy(): MetadataNotExistencePolicyValues {
         return MetadataNotExistencePolicy.APPLY;
     }
 
     // Do not allow multiple decorators on the same class member or parameter
-    public getSameTargetMultiUsagePolicy(access: PrimitiveMetadataAccessPolicy): MetadataSameTargetMultiUsagePolicy {
+    public getSameTargetMultiUsagePolicy(): MetadataSameTargetMultiUsagePolicyValues {
         return MetadataSameTargetMultiUsagePolicy.NOT_ALLOWED;
     }
 }
+
 ```
 
 **Policy Provider:**
@@ -1127,50 +1126,70 @@ For more granular control, you can define different sets of policies for differe
 **Example Implementation:**
 
 ```ts
-import { IFunction } from "@semaver/core";
-import { Decorator, MetadataAccessPolicy, PolicyProvider, MetadataAppearancePolicy, MetadataCollisionPolicy, MetadataNotExistencePolicy, MetadataSameTargetMultiUsagePolicy } from "@semaver/reflector";
+import {
+    Decorator,
+    DecoratorFn,
+    IPolicyProvider,
+    MetadataAccessPolicy,
+    MetadataAccessPolicyValues,
+    MetadataAppearancePolicy,
+    MetadataAppearancePolicyValues,
+    MetadataCollisionPolicy,
+    MetadataCollisionPolicyValues,
+    MetadataNotExistencePolicy,
+    MetadataNotExistencePolicyValues,
+    MetadataSameTargetMultiUsagePolicy,
+    MetadataSameTargetMultiUsagePolicyValues,
+    PolicyProvider,
+    PrimitiveMetadataAccessPolicyValues
+} from "../../src";
 
-export function annotation(type: string, ...params: any[]): IFunction<void> {
-    return Decorator.build(new AnnotationDecorator());
+export function annotationWithPolicyProvider(): DecoratorFn {
+    return Decorator.build(new AnnotationWithPolicyProviderDecorator());
 }
 
-export class AnnotationDecorator extends Decorator {
+export class AnnotationWithPolicyProviderDecorator extends Decorator {
 
-    private static policyProvider: IPolicyProvider = 
-          // Allow for methods and properties only	
-          new PolicyProvider(MetadataAccessPolicy.METHOD | MetadataAccessPolicy.PROPERTY)
-              .setAppearancePolicy(MetadataAppearancePolicy.DEFAULT)
-              .setCollisionPolicy(MetadataCollisionPolicy.DEFAULT)
-              .setNotExistencePolicy(MetadataNotExistencePolicy.DEFAULT)
-              // Allow multiple decorators for instance methods and properties
-              .setSameTargetMultiUsagePolicy(
-                  MetadataSameTargetMultiUsagePolicy.ALLOWED,
-                  MetadataAccessPolicy.INST_METHOD | MetadataAccessPolicy.INST_PROPERTY)
-              // Do not allow multiple decorators for static methods and properties
-              .setSameTargetMultiUsagePolicy(
-                  MetadataSameTargetMultiUsagePolicy.NOT_ALLOWED,
-                  MetadataAccessPolicy.STATIC_METHOD | MetadataAccessPolicy.STATIC_PROPERTY);
+    private static policyProvider: IPolicyProvider =
+        // Allow for methods and properties only
+        new PolicyProvider(MetadataAccessPolicy.METHOD | MetadataAccessPolicy.PROPERTY)
+            .setAppearancePolicy(MetadataAppearancePolicy.DEFAULT)
+            .setCollisionPolicy(MetadataCollisionPolicy.DEFAULT)
+            .setNotExistencePolicy(MetadataNotExistencePolicy.DEFAULT)
+            // Allow multiple decorators for instance methods and properties
+            .setSameTargetMultiUsagePolicy(
+                MetadataSameTargetMultiUsagePolicy.ALLOWED,
+                MetadataAccessPolicy.INSTANCE_METHOD | MetadataAccessPolicy.INSTANCE_PROPERTY)
+            // Do not allow multiple decorators for static methods and properties
+            .setSameTargetMultiUsagePolicy(
+                MetadataSameTargetMultiUsagePolicy.NOT_ALLOWED,
+                MetadataAccessPolicy.STATIC_METHOD | MetadataAccessPolicy.STATIC_PROPERTY);
 
-    public getAccessPolicy(): MetadataAccessPolicy {
-        return AnnotationDecorator.policyProvider.getAccessPolicy();
+    public getAccessPolicy(): MetadataAccessPolicyValues {
+        return AnnotationWithPolicyProviderDecorator.policyProvider.getAccessPolicy();
     }
 
-    public getAppearancePolicy(access: PrimitiveMetadataAccessPolicy): MetadataAppearancePolicy {
-        return AnnotationDecorator.policyProvider.getAppearancePolicy(access);
+    public getAppearancePolicy(
+                access: PrimitiveMetadataAccessPolicyValues): MetadataAppearancePolicyValues {
+        return AnnotationWithPolicyProviderDecorator.policyProvider.getAppearancePolicy(access);
     }
 
-    public getNotExistencePolicy(access: PrimitiveMetadataAccessPolicy): MetadataNotExistencePolicy {
-        return AnnotationDecorator.policyProvider.getNotExistencePolicy(access);
+    public getNotExistencePolicy(
+                  access: PrimitiveMetadataAccessPolicyValues): MetadataNotExistencePolicyValues {
+        return AnnotationWithPolicyProviderDecorator.policyProvider.getNotExistencePolicy(access);
     }
 
-    public getCollisionPolicy(access: PrimitiveMetadataAccessPolicy): MetadataCollisionPolicy {
-        return AnnotationDecorator.policyProvider.getCollisionPolicy(access);
+    public getCollisionPolicy(
+                  access: PrimitiveMetadataAccessPolicyValues): MetadataCollisionPolicyValues {
+        return AnnotationWithPolicyProviderDecorator.policyProvider.getCollisionPolicy(access);
     }
 
-    public getSameTargetMultiUsagePolicy(access: PrimitiveMetadataAccessPolicy): MetadataSameTargetMultiUsagePolicy {
-        return AnnotationDecorator.policyProvider.getSameTargetMultiUsagePolicy(access);
+    public getSameTargetMultiUsagePolicy(
+  								access: PrimitiveMetadataAccessPolicyValues): MetadataSameTargetMultiUsagePolicyValues {
+        return AnnotationWithPolicyProviderDecorator.policyProvider.getSameTargetMultiUsagePolicy(access);
     }
 }
+
 ```
 
 [Back to top](#reflector-documentation)
@@ -1276,14 +1295,14 @@ The `MetadataAccessPolicy` defines whether a decorator can be applied to a speci
 export interface PrimitiveMetadataAccessPolicyType {
     NONE: number;
     CONSTRUCTOR: number
-    INST_PROPERTY: number;
-    INST_ACCESSOR: number;
-    INST_METHOD: number;
+    INSTANCE_PROPERTY: number;
+    INSTANCE_ACCESSOR: number;
+    INSTANCE_METHOD: number;
     STATIC_PROPERTY: number;
     STATIC_ACCESSOR: number;
     STATIC_METHOD: number;
     PARAMETER_IN_CONSTRUCTOR: number;
-    PARAMETER_IN_INST_METHOD: number;
+    PARAMETER_IN_INSTANCE_METHOD: number;
     PARAMETER_IN_STATIC_METHOD: number;
 }
 
@@ -1292,17 +1311,17 @@ export const PrimitiveMetadataAccessPolicy: Readonly<PrimitiveMetadataAccessPoli
 
     CONSTRUCTOR: 1,
 
-    INST_PROPERTY: 2,
+    INSTANCE_PROPERTY: 2,
     STATIC_PROPERTY: 4,
 
-    INST_ACCESSOR: 8,
+    INSTANCE_ACCESSOR: 8,
     STATIC_ACCESSOR: 16,
 
-    INST_METHOD: 32,
+    INSTANCE_METHOD: 32,
     STATIC_METHOD: 64,
 
     PARAMETER_IN_CONSTRUCTOR: 128,
-    PARAMETER_IN_INST_METHOD: 256,
+    PARAMETER_IN_INSTANCE_METHOD: 256,
     PARAMETER_IN_STATIC_METHOD: 512,
 });
 
@@ -1323,39 +1342,39 @@ export const MetadataAccessPolicy: Readonly<MetadataAccessPolicyType> = Object.f
 
     CONSTRUCTOR: PrimitiveMetadataAccessPolicy.CONSTRUCTOR,
 
-    INST_PROPERTY: PrimitiveMetadataAccessPolicy.INST_PROPERTY,
+    INSTANCE_PROPERTY: PrimitiveMetadataAccessPolicy.INSTANCE_PROPERTY,
     STATIC_PROPERTY: PrimitiveMetadataAccessPolicy.STATIC_PROPERTY,
-    PROPERTY: PrimitiveMetadataAccessPolicy.INST_PROPERTY | 
+    PROPERTY: PrimitiveMetadataAccessPolicy.INSTANCE_PROPERTY | 
         PrimitiveMetadataAccessPolicy.STATIC_PROPERTY,
 
-    INST_ACCESSOR: PrimitiveMetadataAccessPolicy.INST_ACCESSOR,
+    INSTANCE_ACCESSOR: PrimitiveMetadataAccessPolicy.INSTANCE_ACCESSOR,
     STATIC_ACCESSOR: PrimitiveMetadataAccessPolicy.STATIC_ACCESSOR,
-    ACCESSOR: PrimitiveMetadataAccessPolicy.INST_ACCESSOR | 
+    ACCESSOR: PrimitiveMetadataAccessPolicy.INSTANCE_ACCESSOR | 
         PrimitiveMetadataAccessPolicy.STATIC_ACCESSOR,
 
-    INST_METHOD: PrimitiveMetadataAccessPolicy.INST_METHOD,
+    INSTANCE_METHOD: PrimitiveMetadataAccessPolicy.INSTANCE_METHOD,
     STATIC_METHOD: PrimitiveMetadataAccessPolicy.STATIC_METHOD,
-    METHOD: PrimitiveMetadataAccessPolicy.INST_METHOD | 
+    METHOD: PrimitiveMetadataAccessPolicy.INSTANCE_METHOD | 
         PrimitiveMetadataAccessPolicy.STATIC_METHOD,
 
     PARAMETER_IN_CONSTRUCTOR: PrimitiveMetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR,
-    PARAMETER_IN_INST_METHOD: PrimitiveMetadataAccessPolicy.PARAMETER_IN_INST_METHOD,
+    PARAMETER_IN_INSTANCE_METHOD: PrimitiveMetadataAccessPolicy.PARAMETER_IN_INSTANCE_METHOD,
     PARAMETER_IN_STATIC_METHOD: PrimitiveMetadataAccessPolicy.PARAMETER_IN_STATIC_METHOD,
-    PARAMETER_IN_METHOD: PrimitiveMetadataAccessPolicy.PARAMETER_IN_INST_METHOD | 
+    PARAMETER_IN_METHOD: PrimitiveMetadataAccessPolicy.PARAMETER_IN_INSTANCE_METHOD | 
         PrimitiveMetadataAccessPolicy.PARAMETER_IN_STATIC_METHOD,
     PARAMETER: PrimitiveMetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR | 
-        PrimitiveMetadataAccessPolicy.PARAMETER_IN_INST_METHOD | 
+        PrimitiveMetadataAccessPolicy.PARAMETER_IN_INSTANCE_METHOD | 
         PrimitiveMetadataAccessPolicy.PARAMETER_IN_STATIC_METHOD,
 
     ALL: PrimitiveMetadataAccessPolicy.CONSTRUCTOR | 
-        PrimitiveMetadataAccessPolicy.INST_PROPERTY | 
+        PrimitiveMetadataAccessPolicy.INSTANCE_PROPERTY | 
         PrimitiveMetadataAccessPolicy.STATIC_PROPERTY | 
-        PrimitiveMetadataAccessPolicy.INST_ACCESSOR | 
+        PrimitiveMetadataAccessPolicy.INSTANCE_ACCESSOR | 
         PrimitiveMetadataAccessPolicy.STATIC_ACCESSOR | 
-        PrimitiveMetadataAccessPolicy.INST_METHOD | 
+        PrimitiveMetadataAccessPolicy.INSTANCE_METHOD | 
         PrimitiveMetadataAccessPolicy.STATIC_METHOD | 
         PrimitiveMetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR | 
-        PrimitiveMetadataAccessPolicy.PARAMETER_IN_INST_METHOD | 
+        PrimitiveMetadataAccessPolicy.PARAMETER_IN_INSTANCE_METHOD | 
         PrimitiveMetadataAccessPolicy.PARAMETER_IN_STATIC_METHOD,
 });
 
@@ -1612,7 +1631,7 @@ export class SuperClass {
 
 The major issue with propagating the decorator to child constructor parameters is that, while we know the parameter positions, we don’t know the parameter types because they are erased in JavaScript. This makes it impossible to handle cases like `WithCustomParameterOrderChildClass`. Moreover, constructors may have additional parameters, optional parameters, or even a single parameter.
 
-**Key Rule:** If the constructor's parameter length is greater than 0 (i.e., `knownParameterLength > 0`), you must redefine decorators, even if the parameter order is the same as in the superclass.
+**Key Rule:** If the constructor's parameter length is greater than 0 (i.e., `knownParameterLength > 0`), you **must** redefine decorators, even if the parameter order is the same as in the superclass.
 
 **Redefined Decorators in Child Classes:**
 

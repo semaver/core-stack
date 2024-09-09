@@ -31,7 +31,7 @@ export function getParameterMetadata<T extends object>(target: T, name: Empty<st
             ? MetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR
             : isStatic
                 ? MetadataAccessPolicy.PARAMETER_IN_STATIC_METHOD
-                : MetadataAccessPolicy.PARAMETER_IN_INST_METHOD,
+                : MetadataAccessPolicy.PARAMETER_IN_INSTANCE_METHOD,
 
         parameterIndex: index,
     };
@@ -56,7 +56,7 @@ export function getMethodMetadata<T extends object>(target: T, name: string): IM
         name,
         owner: targetClass,
         isStatic,
-        access: isStatic ? MetadataAccessPolicy.STATIC_METHOD : MetadataAccessPolicy.INST_METHOD,
+        access: isStatic ? MetadataAccessPolicy.STATIC_METHOD : MetadataAccessPolicy.INSTANCE_METHOD,
         parameterIndex: -1,
     };
 }
@@ -79,7 +79,7 @@ export function getAccessorMetadata<T extends object>(target: T, name: string): 
         name,
         owner: targetClass,
         isStatic,
-        access: isStatic ? MetadataAccessPolicy.STATIC_ACCESSOR : MetadataAccessPolicy.INST_ACCESSOR,
+        access: isStatic ? MetadataAccessPolicy.STATIC_ACCESSOR : MetadataAccessPolicy.INSTANCE_ACCESSOR,
         parameterIndex: -1,
     };
 }
@@ -102,7 +102,7 @@ export function getPropertyMetadata<T extends object>(target: T, name: string): 
         name,
         owner: targetClass,
         isStatic,
-        access: isStatic ? MetadataAccessPolicy.STATIC_PROPERTY : MetadataAccessPolicy.INST_PROPERTY,
+        access: isStatic ? MetadataAccessPolicy.STATIC_PROPERTY : MetadataAccessPolicy.INSTANCE_PROPERTY,
         parameterIndex: -1,
     };
 

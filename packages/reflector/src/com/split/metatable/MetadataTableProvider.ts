@@ -183,21 +183,21 @@ export class MetadataTableProvider<T extends object = object> {
                 if (metadata.isStatic) {
                     operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.STATIC_METHOD, decorator, this._metadataTable._methods._static);
                 } else {
-                    operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.INST_METHOD, decorator, this._metadataTable._methods._instance);
+                    operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.INSTANCE_METHOD, decorator, this._metadataTable._methods._instance);
                 }
                 break;
             case DecoratedElementEnum.PROPERTY:
                 if (metadata.isStatic) {
                     operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.STATIC_PROPERTY, decorator, this._metadataTable._properties._static);
                 } else {
-                    operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.INST_PROPERTY, decorator, this._metadataTable._properties._instance);
+                    operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.INSTANCE_PROPERTY, decorator, this._metadataTable._properties._instance);
                 }
                 break;
             case DecoratedElementEnum.ACCESSOR:
                 if (metadata.isStatic) {
                     operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.STATIC_ACCESSOR, decorator, this._metadataTable._accessors._static);
                 } else {
-                    operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.INST_ACCESSOR, decorator, this._metadataTable._accessors._instance);
+                    operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.INSTANCE_ACCESSOR, decorator, this._metadataTable._accessors._instance);
                 }
                 break;
             case DecoratedElementEnum.CONSTRUCTOR_PARAMETER:
@@ -211,7 +211,7 @@ export class MetadataTableProvider<T extends object = object> {
                 if (metadata.isStatic) {
                     operationResult = this.addParameterMetadata(PrimitiveMetadataAccessPolicy.PARAMETER_IN_STATIC_METHOD, decorator, this._metadataTable._methods._static);
                 } else {
-                    operationResult = this.addParameterMetadata(PrimitiveMetadataAccessPolicy.PARAMETER_IN_INST_METHOD, decorator, this._metadataTable._methods._instance);
+                    operationResult = this.addParameterMetadata(PrimitiveMetadataAccessPolicy.PARAMETER_IN_INSTANCE_METHOD, decorator, this._metadataTable._methods._instance);
                 }
                 break;
         }
@@ -540,7 +540,7 @@ export class MetadataTableProvider<T extends object = object> {
 
         // properties instance
         this.mergeFields(
-            PrimitiveMetadataAccessPolicy.INST_PROPERTY,
+            PrimitiveMetadataAccessPolicy.INSTANCE_PROPERTY,
             childClass,
             childClassMt._properties._instance,
             superClassMt._properties._instance,
@@ -558,7 +558,7 @@ export class MetadataTableProvider<T extends object = object> {
 
         // accessors instance
         this.mergeFields(
-            PrimitiveMetadataAccessPolicy.INST_ACCESSOR,
+            PrimitiveMetadataAccessPolicy.INSTANCE_ACCESSOR,
             childClass,
             childClassMt._accessors._instance,
             superClassMt._accessors._instance,
@@ -577,7 +577,7 @@ export class MetadataTableProvider<T extends object = object> {
 
         // methods instance
         this.mergeMethods(
-            PrimitiveMetadataAccessPolicy.INST_METHOD,
+            PrimitiveMetadataAccessPolicy.INSTANCE_METHOD,
             childClass,
             childClassMt._methods._instance,
             superClassMt._methods._instance,

@@ -20,8 +20,8 @@ export class InjectDecorator extends Decorator {
     }
 
     public getAccessPolicy(): MetadataAccessPolicyValues {
-        return MetadataAccessPolicy.INST_PROPERTY
-            | MetadataAccessPolicy.INST_ACCESSOR
+        return MetadataAccessPolicy.INSTANCE_PROPERTY
+            | MetadataAccessPolicy.INSTANCE_ACCESSOR
             | MetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR;
     }
 
@@ -38,8 +38,8 @@ export function optional(): IFunction<void> {
 
 export class OptionalDecorator extends Decorator {
     public getAccessPolicy(): MetadataAccessPolicyValues {
-        return MetadataAccessPolicy.INST_PROPERTY
-            | MetadataAccessPolicy.INST_ACCESSOR
+        return MetadataAccessPolicy.INSTANCE_PROPERTY
+            | MetadataAccessPolicy.INSTANCE_ACCESSOR
             | MetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR;
     }
 }
@@ -65,8 +65,8 @@ export class NamedDecorator extends Decorator {
     }
 
     public getAccessPolicy(): MetadataAccessPolicyValues {
-        return MetadataAccessPolicy.INST_PROPERTY
-            | MetadataAccessPolicy.INST_ACCESSOR
+        return MetadataAccessPolicy.INSTANCE_PROPERTY
+            | MetadataAccessPolicy.INSTANCE_ACCESSOR
             | MetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR;
     }
 
@@ -83,7 +83,7 @@ export function postConstruct(): IFunction<void> {
 
 export class PostConstructDecorator extends Decorator {
     public getAccessPolicy(): MetadataAccessPolicyValues {
-        return MetadataAccessPolicy.INST_METHOD;
+        return MetadataAccessPolicy.INSTANCE_METHOD;
     }
 }
 
@@ -95,6 +95,6 @@ export function preDestroy(): IFunction<void> {
 
 export class PreDestroyDecorator extends Decorator {
     public getAccessPolicy(): MetadataAccessPolicyValues {
-        return MetadataAccessPolicy.INST_METHOD;
+        return MetadataAccessPolicy.INSTANCE_METHOD;
     }
 }

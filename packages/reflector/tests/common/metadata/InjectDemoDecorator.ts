@@ -23,7 +23,7 @@ export function injectDemo<T>(type: IType<T>): IFunction<void> {
 
 export class InjectDemoDecorator<T> extends Decorator {
 
-    private static policyProvider: IPolicyProvider = new PolicyProvider(MetadataAccessPolicy.INST_PROPERTY | MetadataAccessPolicy.INST_ACCESSOR | MetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR)
+    private static policyProvider: IPolicyProvider = new PolicyProvider(MetadataAccessPolicy.INSTANCE_PROPERTY | MetadataAccessPolicy.INSTANCE_ACCESSOR | MetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR)
         .setAppearancePolicy(MetadataAppearancePolicy.DEFAULT)
         .setCollisionPolicy(MetadataCollisionPolicy.DEFAULT)
         .setNotExistencePolicy(MetadataNotExistencePolicy.DEFAULT)
