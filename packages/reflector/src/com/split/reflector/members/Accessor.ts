@@ -1,31 +1,22 @@
-import {CoreObject, CoreReflect, IClass, Nullable} from "@semaver/core";
+import {classOfObject, getPropertyDescriptor, IClass, isObjectClass, Empty, superClassOfObject} from "@semaver/core";
 import {Decorator, DecoratorFn, IMetatableDecorator} from "../../decorators/Decorator";
 import {AccessType, ClassMemberAccessError} from "../../errors/ClassMemberAccessError";
-import {MetadataObject} from "../../extentions/MetadataObjectExtention";
+import {metadataClassOfObject} from "../../extentions/MetadataObjectExtention";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
 import {IMemberMetadataTableRef, IMetadataTableRef} from "../../metatable/metadata/IMetadataTableRef";
-import {DecoratedElementType} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementEnum";
 import {Field} from "./Field";
 import getOwnPropertyDescriptor = Reflect.getOwnPropertyDescriptor;
 
 /**
+ * class that implement Accessor class member
+ *
  * @public
- * @class
- * @extends [[Field]]
- * @description - class that implement Accessor class member
  */
 export class Accessor<T extends object = object, TValue = unknown> extends Field<T, TValue> {
 
     /**
-     * @inheritDoc
-     */
-    public getType(): DecoratedElementType {
-        return DecoratedElementType.ACCESSOR;
-    }
-
-    /**
      * @public
-     * @constructor
      * @param metadataClass - class that contains current accessor
      * @param name - accessor name
      * @param isStatic - flag that indicates if accessor is static
@@ -40,16 +31,23 @@ export class Accessor<T extends object = object, TValue = unknown> extends Field
     /**
      * @inheritDoc
      */
+    public getType(): DecoratedElementTypeValues {
+        return DecoratedElementEnum.ACCESSOR;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public isGettable(): boolean {
         if (this._isStatic) {
             return !!getOwnPropertyDescriptor(this._class, this._name)?.get;
         } else {
-            let targetClass: Nullable<IClass<T>> = this._class;
+            let targetClass: Empty<IClass<T>> = this._class;
             while (targetClass) {
                 if (getOwnPropertyDescriptor(targetClass.prototype, this._name)?.get) {
                     return true;
                 } else {
-                    targetClass = CoreObject.superClassOf(targetClass, true);
+                    targetClass = superClassOfObject(targetClass, true);
                 }
             }
         }
@@ -63,12 +61,12 @@ export class Accessor<T extends object = object, TValue = unknown> extends Field
         if (this._isStatic) {
             return !!getOwnPropertyDescriptor(this._class, this._name)?.set;
         } else {
-            let targetClass: Nullable<IClass<T>> = this._class;
+            let targetClass: Empty<IClass<T>> = this._class;
             while (targetClass) {
                 if (getOwnPropertyDescriptor(targetClass.prototype, this._name)?.set) {
                     return true;
                 } else {
-                    targetClass = CoreObject.superClassOf(targetClass, true);
+                    targetClass = superClassOfObject(targetClass, true);
                 }
             }
         }
@@ -78,20 +76,20 @@ export class Accessor<T extends object = object, TValue = unknown> extends Field
     /**
      * @inheritDoc
      */
-    public getValue(target: IClass<T> | T): Nullable<TValue> {
+    public getValue(target: IClass<T> | T): Empty<TValue> {
         this.validate(target);
 
         if (!this.isGettable()) {
             throw new ClassMemberAccessError(this, this.getType(), this._name, AccessType.READ);
         }
 
-        return Reflect.get(target, this._name) as Nullable<TValue>;
+        return Reflect.get(target, this._name) as Empty<TValue>;
     }
 
     /**
      * @inheritDoc
      */
-    public setValue(target: IClass<T> | T, value: Nullable<TValue>): void {
+    public setValue(target: IClass<T> | T, value: Empty<TValue>): void {
         this.validate(target);
 
         if (!this.isSettable()) {
@@ -104,47 +102,42 @@ export class Accessor<T extends object = object, TValue = unknown> extends Field
     /**
      * @inheritDoc
      */
-    public addDecorator(decoratorOrFn: Decorator | DecoratorFn): boolean {
-        let result: boolean = false;
-        const target: Nullable<T> = this.getObject();
-        const descriptor: Nullable<PropertyDescriptor> = CoreReflect.getDescriptor(target, this._name);
+    public addDecorator(decoratorOrFn: Decorator | DecoratorFn): this {
+        const target: object = this.getObject();
+        const descriptor: Empty<PropertyDescriptor> = getPropertyDescriptor(target, this._name);
         if (descriptor) {
             this.getDecoratorFn(decoratorOrFn).apply(undefined, [target, this._name, descriptor]);
-            result = true;
         }
 
-        return result;
+        return this;
     }
 
     /**
      * @inheritDoc
      */
-    public removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): boolean {
-        let result: boolean = false;
-        const target: Nullable<T> = this.getObject();
-        if (CoreObject.isClass(decoratorOrClass)) {
+    public removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): this {
+        const target: object = this.getObject();
+        if (isObjectClass(decoratorOrClass)) {
             const decoratorClass: IClass<Decorator> = decoratorOrClass as IClass<Decorator>;
             this._metadataTableProvider.getOwnDecorators().forEach(decorator => {
-                if (CoreObject.classOf(decorator) === decoratorClass && this.isDecoratorOf(MetadataObject.classOf(target), decorator)) {
+                if (classOfObject(decorator) === decoratorClass && this.isDecoratorOf(metadataClassOfObject(target), decorator)) {
                     this._metadataTableProvider.remove(decorator);
-                    result = true;
                 }
             });
         } else {
             const decorator: IMetatableDecorator = decoratorOrClass as IMetatableDecorator;
-            if (this.isDecoratorOf(MetadataObject.classOf(target), decorator)) {
+            if (this.isDecoratorOf(metadataClassOfObject(target), decorator)) {
                 this._metadataTableProvider.remove(decorator);
-                result = true;
             }
         }
 
-        return result;
+        return this;
     }
 
     /**
      * @inheritDoc
      */
-    protected getMemberMetadataTable(metadataTable: IMetadataTableRef): Nullable<IMemberMetadataTableRef> {
+    protected getMemberMetadataTable(metadataTable: IMetadataTableRef): Empty<IMemberMetadataTableRef> {
         const memberMetadataTables: Map<string, IMemberMetadataTableRef> = this._isStatic ? metadataTable._accessors._static : metadataTable._accessors._instance;
         return memberMetadataTables.get(this._name);
     }

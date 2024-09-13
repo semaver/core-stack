@@ -1,77 +1,70 @@
 import {IClass} from "../types/base/IClass";
-import {Nullable} from "../types/utility/Nullable";
-import {CoreObject} from "./CoreObject";
+import {Empty} from "../types/utility/Empty";
+import {classOfObject, isObjectClass, superClassOfObject} from "./CoreObject";
 
 /**
+ * function to check whether an object has an own property with the specified name
+ *
  * @public
- * @class
- * @description - class add additional functionality to Reflect JS/TS API
+ * @param obj - object that contains the property.
+ * @param property - a property key
+ * @returns true if property found
  */
-export class CoreReflect {
-    /**
-     * @public
-     * @static
-     * @method - to check whether an object has an own property with the specified name.
-     * @param obj - object that contains the property.
-     * @param property - a property name.
-     * @return true if property found
-     */
-    public static hasOwn<T extends object>(obj: T, property: PropertyKey): boolean {
-        return !!Reflect.getOwnPropertyDescriptor(obj, property);
-    }
+export function hasOwnProperty(obj: Empty<object>, property: PropertyKey): boolean {
+    return !!obj && !!Reflect.getOwnPropertyDescriptor(obj, property);
+}
 
-    /**
-     * @public
-     * @static
-     * @method - to check whether an object has own or inherited property with the specified name.
-     * @param obj - object that contains the property.
-     * @param property - a property name.
-     * @return true if property found
-     */
-    public static has<T extends object>(obj: T, property: PropertyKey): boolean {
-        return !!this.getDescriptor(obj, property);
-    }
+/**
+ * function to check whether an object has own or inherited property with the specified name.
+ *
+ * @public
+ * @param obj - object that contains the property
+ * @param property - a property key
+ * @returns true if property found
+ */
+export function hasProperty(obj: Empty<object>, property: PropertyKey): boolean {
+    return !!getPropertyDescriptor(obj, property);
+}
 
-    /**
-     * @public
-     * @static
-     * @method - to get the owner of the property
-     * @param obj - object that contains the property
-     * @param property  - a property name
-     * @return owner of the property or undefined
-     */
-    public static getOwner<S extends object, C extends S>(obj: C, property: PropertyKey): Nullable<S> {
-        if (obj) {
-            if (this.hasOwn(obj, property)) {
-                return obj;
-            } else if (!CoreObject.isClass(obj)) {
-                let targetClass: Nullable<IClass<S>> = CoreObject.classOf(obj);
-                let target: Nullable<S> = undefined;
-                while (targetClass) {
-                    if (this.hasOwn(targetClass.prototype, property)) {
-                        target = targetClass.prototype;
-                        break;
-                    } else {
-                        targetClass = CoreObject.superClassOf(targetClass, true);
-                    }
+/**
+ * function to get the owner of the property
+ *
+ * @public
+ * @param obj - object that contains the property
+ * @param property  - a property key
+ * @returns owner of the property or undefined
+ */
+export function getPropertyOwner<S extends object, C extends S>(obj: Empty<C>, property: PropertyKey): Empty<S> {
+    if (obj) {
+        if (hasOwnProperty(obj, property)) {
+            return obj;
+        } else if (!isObjectClass(obj)) {
+            let targetClass: Empty<IClass<S>> = classOfObject(obj);
+            let target: Empty<S> = undefined;
+            while (targetClass) {
+                if (hasOwnProperty(targetClass.prototype as S, property)) {
+                    target = targetClass.prototype as S;
+                    break;
+                } else {
+                    targetClass = superClassOfObject(targetClass, true);
                 }
-                return target;
             }
+            return target;
         }
-        return undefined;
     }
+    return undefined;
+}
 
-    /**
-     * @public
-     * @static
-     * @method - to get own or inherited property descriptor of the specified object.
-     * @param obj - object that contains the property
-     * @param property  - a property name
-     * @return property descriptor Js PropertyDescriptor or undefined
-     */
-    public static getDescriptor<T extends object>(obj: T, property: PropertyKey): Nullable<PropertyDescriptor> {
-        const target: Nullable<object> = this.getOwner(obj, property);
-        return target && Reflect.getOwnPropertyDescriptor(target, property);
-    }
+/**
+ * function to get own or inherited property descriptor of the specified object
+ *
+ * @public
+ * @param obj - object that contains the property
+ * @param property  - a property key
+ * @returns property descriptor Js {@link PropertyDescriptor} or undefined
+ */
+export function getPropertyDescriptor(obj: Empty<object>, property: PropertyKey): Empty<PropertyDescriptor> {
+    const target: Empty<object> = getPropertyOwner(obj, property);
+    return target && Reflect.getOwnPropertyDescriptor(target, property);
 }
 

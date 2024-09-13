@@ -1,121 +1,115 @@
 import {IClass} from "../types/base/IClass";
 import {JsFunction} from "../types/js/JsFunction";
-import {Nullable} from "../types/utility/Nullable";
+import {Empty} from "../types/utility/Empty";
 
 /**
+ * function to check if the given object null or undefined
+ *
  * @public
- * @class
- * @description - class add additional functionality to Object [[Object]]
+ * @param obj - object of unknown type
+ * @returns true if an object is null or undefined, if value 0 (number) return false
  */
-export class CoreObject {
-    /**
-     * @public
-     * @static
-     * @method - to check if the given object null or undefined
-     * @param obj - object of generic type
-     * @return true if object is null or undefined, if value 0 (number) return false
-     */
-    public static isEmpty<T>(obj: T): boolean {
-        return obj === null || obj === undefined;
-    }
+export function isObjectEmpty(obj: unknown): boolean {
+    return obj === null || obj === undefined;
+}
 
-    /**
-     * @public
-     * @static
-     * @method - to check if the given object is primitive
-     * @param obj - object of generic type
-     * @return true if object is primitive
-     */
-    public static isPrimitive<T>(obj: T): boolean {
-        return obj !== Object(obj);
-    }
+/**
+ * function to check if the given object is primitive
+ *
+ * @public
+ * @param obj - object of type
+ * @returns true if an object is primitive
+ */
+export function isObjectPrimitive(obj: unknown): boolean {
+    return obj !== Object(obj);
+}
 
-    /**
-     * @public
-     * @static
-     * @method - to check if a given object is class or instance
-     * @param obj - object of generic type
-     * @return true if a given object is class
-     */
-    public static isClass<T extends object>(obj: T): boolean {
-        return !!(obj && obj.constructor && (obj as { call?: JsFunction, })?.call && (obj as { apply?: JsFunction })?.apply);
-    }
+/**
+ * function to check if a given object is class or instance
+ *
+ * @public
+ * @param obj - object to check
+ * @returns true if a given object is class
+ */
+export function isObjectClass(obj: Empty<object & { call?: JsFunction, apply?: JsFunction }>): boolean {
+    return !!(obj?.constructor && obj.call && obj.apply);
+}
 
-    /**
-     * @public
-     * @static
-     * @method - to get the class of given object
-     * @param obj - object of generic type
-     * @return class [[IClass]] of the given object
-     */
-    public static classOf<T extends object>(obj: IClass<T> | T): IClass<T> {
-        return (this.isClass(obj) ? obj : obj.constructor) as IClass<T>;
-    }
+/**
+ * function to get the class of given object
+ *
+ * @public
+ * @param obj - object of generic type
+ * @returns class of the given object
+ */
+export function classOfObject<T extends object>(obj: IClass<T> | T): IClass<T> {
+    return (isObjectClass(obj) ? obj : obj.constructor) as IClass<T>;
+}
 
-    /**
-     * @public
-     * @static
-     * @method - to compare two given instances and checks if they instantiated from the same class
-     * @param instanceA - instance A to compare
-     * @param instanceB - instance B to compare
-     * @return true if both instances instantiated from the same class
-     */
-    public static haveSameClass<A extends object, B extends object>(instanceA: A, instanceB: B): boolean {
-        return instanceA && instanceB && instanceA.constructor === instanceB.constructor;
-    }
+/**
+ * function to compare two given instances and checks if they instantiated from the same class
+ *
+ * @public
+ * @param instanceA - instance A to compare
+ * @param instanceB - instance B to compare
+ * @returns true if both instances instantiated from the same class
+ */
+export function haveObjectsSameClass<A extends object, B extends object>(instanceA: Empty<A>, instanceB: Empty<B>): boolean {
+    return !!(instanceA && instanceB && instanceA.constructor === instanceB.constructor);
+}
 
 
-    /**
-     * @public
-     * @static
-     * @method - to get super class of the given class
-     * @param childClass - target class [[IClass]]
-     * @param ignoreNativeObjectClass - flag if set to true, native object class will be ignored and function return undefined if superclass is native object class (default value - false)
-     * @return super class [[IClass]] of the given class or undefined
-     */
-    public static superClassOf<S extends object, C extends S>(childClass: IClass<C>, ignoreNativeObjectClass: boolean = false): Nullable<IClass<S>> {
-        const superPrototype: Nullable<object> = Reflect.getPrototypeOf(childClass.prototype);
-        const superClass: Nullable<IClass<S>> = superPrototype?.constructor as IClass<S>;
-        return superClass && (ignoreNativeObjectClass && this.isNativeObjectClass(superClass) ? undefined : superClass);
-    }
+/**
+ * function to get superclass of the given class
+ *
+ * @public
+ * @param childClass - target class to get super class
+ * @param ignoreNativeObjectClass - flag if set to true, native object class will be ignored and function return undefined if superclass is native object class (default value - false)
+ * @returns super class of the given class or undefined
+ */
+export function superClassOfObject<S extends object, C extends S>(childClass: Empty<IClass<C>>, ignoreNativeObjectClass: boolean = false): Empty<IClass<S>> {
+    const superPrototype: Empty<object> = childClass && Reflect.getPrototypeOf(childClass.prototype as object);
+    const superClass: Empty<IClass<S>> = superPrototype?.constructor as IClass<S>;
+    return (ignoreNativeObjectClass && isNativeObjectClass(superClass) ? undefined : superClass);
+}
 
-    /**
-     * @public
-     * @static
-     * @method - to check if class [[IClass]] is native object class
-     * @param targetClass - class [[IClass]] to check
-     * @return true if is native object class (targetClass === Object)
-     */
-    public static isNativeObjectClass<T extends object>(targetClass: IClass<T>): boolean {
-        return !Reflect.getPrototypeOf(targetClass.prototype);
-    }
+/**
+ * function to check if a class is a native object class
+ *
+ * @public
+ * @param targetClass - class to check
+ * @returns true if is native object class (targetClass === Object)
+ */
+export function isNativeObjectClass<T extends object>(targetClass: Empty<IClass<T>>): boolean {
+    return !!targetClass && !Reflect.getPrototypeOf(targetClass.prototype as object);
+}
 
-    /**
-     * @public
-     * @static
-     * @method - to get super class chain of the object (collection, first element is source class of the object)
-     * @param obj - object (class or instance) as source for super class chain
-     * @param reversed - flag if true source class will appear at the end of array (default value - false)
-     * @param excludeNativeObjectClass - flag to exclude native object [[Object]] class from chain (default value - true)
-     * @return readonly array of super classes
-     */
-    public static getSuperClassChain<S extends object, C extends S>(obj: C, reversed: boolean = false, excludeNativeObjectClass: boolean = true): ReadonlyArray<IClass<S>> {
-        const result: IClass<S>[] = [];
-        let targetClass: Nullable<IClass<S>> = this.classOf(obj);
+/**
+ * function to get a superclass chain of the object (collection, the first element is source class of the object)
+ *
+ * @public
+ * @param obj - object (class or instance) as a source for superclass chain
+ * @param reversed - flag if true source class will appear at the end of array (default value - false)
+ * @param excludeNativeObjectClass - flag to exclude native object class from a chain (default value - true)
+ * @returns readonly array of superclasses
+ */
+export function getObjectSuperClassChain(obj: Empty<object>, reversed: boolean = false, excludeNativeObjectClass: boolean = true): readonly IClass<object>[] {
+    const result: IClass<object>[] = [];
+    if (!obj) return result;
+    let targetClass: Empty<IClass<object>> = classOfObject(obj);
 
-        do {
-            if (excludeNativeObjectClass && this.isNativeObjectClass(targetClass)) {
-                break;
-            }
-            if (reversed) {
-                result.unshift(targetClass);
-            } else {
-                result.push(targetClass);
-            }
-            targetClass = this.superClassOf(targetClass);
-        } while (targetClass);
+    do {
+        if (excludeNativeObjectClass && isNativeObjectClass(targetClass)) {
+            break;
+        }
+        if (reversed) {
+            result.unshift(targetClass);
+        } else {
+            result.push(targetClass);
+        }
+        targetClass = superClassOfObject(targetClass);
+    } while (targetClass);
 
-        return result;
-    }
+    return result;
 }
 

@@ -1,25 +1,33 @@
-import {CoreObject, IClass, Nullable} from "@semaver/core";
+import {classOfObject, haveObjectsSameClass, IClass, Empty, superClassOfObject} from "@semaver/core";
 import {v4 as uuid} from 'uuid';
 import {ClassTable} from "../classtable/ClassTable";
 import {ClassTableProvider} from "../classtable/ClassTableProvider";
 import {ClassTableUpdateTypes} from "../classtable/ClassTableUpdateTypes";
 import {IMetatableDecorator} from "../decorators/Decorator";
 import {CollisionPolicyError} from "../errors/CollisionPolicyError";
-import {MetadataObject} from "../extentions/MetadataObjectExtention";
+import {getMetadataObjectSuperClassChain, metadataSuperClassOfObject} from "../extentions/MetadataObjectExtention";
 import {IMetadataClass, MetadataClassNames} from "./classes/IMetadataClass";
 import {IMemberMetadata} from "./metadata/IMemberMetadata";
 import {IMemberMetadataTableRef, IMetadataTableRef, IStructureMetadataTableRef} from "./metadata/IMetadataTableRef";
-import {MetadataAccessPolicy, PrimitiveMetadataAccessPolicy} from "./policies/MetadataAccessPolicy";
+import {
+    MetadataAccessPolicyValues,
+    PrimitiveMetadataAccessPolicy,
+    PrimitiveMetadataAccessPolicyValues
+} from "./policies/MetadataAccessPolicy";
 import {MetadataAppearancePolicy} from "./policies/MetadataAppearancePolicy";
 import {MetadataCollisionPolicy} from "./policies/MetadataCollisionPolicy";
 import {MetadataNotExistencePolicy} from "./policies/MetadataNotExistencePolicy";
-import {MetadataSameTargetMultiUsagePolicy} from "./policies/MetadataSameTargetMultiUsagePolicy";
-import {DecoratedElementType} from "./types/DecoratedElementType";
+import {
+    MetadataSameTargetMultiUsagePolicy,
+    MetadataSameTargetMultiUsagePolicyValues
+} from "./policies/MetadataSameTargetMultiUsagePolicy";
+import {DecoratedElementEnum} from "./types/DecoratedElementEnum";
 
 /**
+ * function to create default metadata table (helper)
+ *
  * @private
- * @function - helper to create default metadata table
- * @return - default empty metadata table
+ * @returns - default empty metadata table
  */
 function createMetadataTable(): IMetadataTableRef {
     return {
@@ -44,9 +52,10 @@ function createMetadataTable(): IMetadataTableRef {
 }
 
 /**
+ * function to create default class member metadata table (helper)
+ *
  * @private
- * @function - helper to create default class member metadata table
- * @return - default empty class member metadata table
+ * @returns - default empty class member metadata table
  */
 function createMemberMetadataTable(): IMemberMetadataTableRef {
     return {
@@ -56,13 +65,14 @@ function createMemberMetadataTable(): IMemberMetadataTableRef {
 }
 
 /**
- * @private
- * @function - helper to get map element by key,
+ * function to get a map element by key (helper),
  * if not found and default value is provided, default value will be assigned and returned
+ *
+ * @private
  * @param map - provided map
  * @param key - provided key
  * @param defaultValue - default value
- * @return requested value
+ * @returns requested value
  */
 function getMapElementOrDefault<K, V>(map: Map<K, V>, key: K, defaultValue: V): V {
     defaultValue = map.get(key) ?? defaultValue;
@@ -73,18 +83,46 @@ function getMapElementOrDefault<K, V>(map: Map<K, V>, key: K, defaultValue: V): 
 }
 
 /**
+ * provider that represents metadata table of some class and provide the information about metadata
+ *
  * @public
- * @class
- * @description - provider that represent metadata table of some class and provide the information about metadata
  */
 export class MetadataTableProvider<T extends object = object> {
 
     /**
      * @private
-     * @static
-     * @method to create or get existing own metadata table of provided class
+     * @readonly
+     * @property _metadataTable - metadata table of the target class that contains information about metadata (pure) only of this class
+     */
+    private readonly _metadataTable: IMetadataTableRef;
+    /**
+     * @private
+     * @readonly
+     * @property _class - class that contains decorated class members
+     */
+    private readonly _class: IMetadataClass<T>;
+    /**
+     * @private
+     * @readonly
+     * @property classTable - class table provides access to all decorated classes
+     */
+    private readonly classTable: ClassTable = new ClassTableProvider().getClassTable();
+
+    /**
+     * @public
+     * @param metadataClass - class that contains decorated class members
+     */
+    public constructor(metadataClass: IMetadataClass<T>) {
+        this._class = metadataClass;
+        this._metadataTable = MetadataTableProvider.getOrCreateClassMetadataTable(metadataClass);
+    }
+
+    /**
+     * method to create or get existing own metadata table of provided class
+     *
+     * @private
      * @param target - class that contains metadata
-     * @return own metadata table of provided class [[IMetadataTableRef]]
+     * @returns own metadata table of provided class
      */
     private static getOrCreateClassMetadataTable<T>(target: IMetadataClass<T>): IMetadataTableRef {
         if (Reflect.ownKeys(target).find((value) => value === MetadataClassNames.METADATA)) {
@@ -124,39 +162,9 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
-     * @private
-     * @readonly
-     * @property _metadataTable - metadata table of the target class that contains information about metadata (pure) only of this class
-     */
-    private readonly _metadataTable: IMetadataTableRef;
-    /**
-     * @private
-     * @readonly
-     * @property _class - class that contains decorated class members
-     */
-    private readonly _class: IMetadataClass<T>;
-
-    /**
-     * @private
-     * @readonly
-     * @property classTable - class table provide access to all decorated classes
-     */
-    private readonly classTable: ClassTable = new ClassTableProvider().getClassTable();
-
-
-    /**
+     * method to write/save decorator
+     *
      * @public
-     * @constructor
-     * @param metadataClass - class that contains decorated class members
-     */
-    public constructor(metadataClass: IMetadataClass<T>) {
-        this._class = metadataClass;
-        this._metadataTable = MetadataTableProvider.getOrCreateClassMetadataTable(metadataClass);
-    }
-
-    /**
-     * @public
-     * @method to write/save decorator
      * @param decorator - used to decorate class member or parameter of the current class
      */
     public add(decorator: IMetatableDecorator): void {
@@ -164,46 +172,46 @@ export class MetadataTableProvider<T extends object = object> {
         const metadata: IMemberMetadata = decorator.__metadata__;
 
         switch (metadata.type) {
-            case DecoratedElementType.CONSTRUCTOR:
+            case DecoratedElementEnum.CONSTRUCTOR:
                 if (metadata.isStatic) {
                     operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.CONSTRUCTOR, decorator, this._metadataTable._constructors._static);
                 } else {
                     operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.CONSTRUCTOR, decorator, this._metadataTable._constructors._instance);
                 }
                 break;
-            case DecoratedElementType.METHOD:
+            case DecoratedElementEnum.METHOD:
                 if (metadata.isStatic) {
                     operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.STATIC_METHOD, decorator, this._metadataTable._methods._static);
                 } else {
-                    operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.INST_METHOD, decorator, this._metadataTable._methods._instance);
+                    operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.INSTANCE_METHOD, decorator, this._metadataTable._methods._instance);
                 }
                 break;
-            case DecoratedElementType.PROPERTY:
+            case DecoratedElementEnum.PROPERTY:
                 if (metadata.isStatic) {
                     operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.STATIC_PROPERTY, decorator, this._metadataTable._properties._static);
                 } else {
-                    operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.INST_PROPERTY, decorator, this._metadataTable._properties._instance);
+                    operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.INSTANCE_PROPERTY, decorator, this._metadataTable._properties._instance);
                 }
                 break;
-            case DecoratedElementType.ACCESSOR:
+            case DecoratedElementEnum.ACCESSOR:
                 if (metadata.isStatic) {
                     operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.STATIC_ACCESSOR, decorator, this._metadataTable._accessors._static);
                 } else {
-                    operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.INST_ACCESSOR, decorator, this._metadataTable._accessors._instance);
+                    operationResult = this.addMemberDecorator(PrimitiveMetadataAccessPolicy.INSTANCE_ACCESSOR, decorator, this._metadataTable._accessors._instance);
                 }
                 break;
-            case DecoratedElementType.CONSTRUCTOR_PARAMETER:
+            case DecoratedElementEnum.CONSTRUCTOR_PARAMETER:
                 if (metadata.isStatic) {
                     operationResult = this.addParameterMetadata(PrimitiveMetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR, decorator, this._metadataTable._constructors._static);
                 } else {
                     operationResult = this.addParameterMetadata(PrimitiveMetadataAccessPolicy.PARAMETER_IN_CONSTRUCTOR, decorator, this._metadataTable._constructors._instance);
                 }
                 break;
-            case DecoratedElementType.METHODS_PARAMETER:
+            case DecoratedElementEnum.METHODS_PARAMETER:
                 if (metadata.isStatic) {
                     operationResult = this.addParameterMetadata(PrimitiveMetadataAccessPolicy.PARAMETER_IN_STATIC_METHOD, decorator, this._metadataTable._methods._static);
                 } else {
-                    operationResult = this.addParameterMetadata(PrimitiveMetadataAccessPolicy.PARAMETER_IN_INST_METHOD, decorator, this._metadataTable._methods._instance);
+                    operationResult = this.addParameterMetadata(PrimitiveMetadataAccessPolicy.PARAMETER_IN_INSTANCE_METHOD, decorator, this._metadataTable._methods._instance);
                 }
                 break;
         }
@@ -231,8 +239,9 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
+     * method to delete/remove decorator
+     *
      * @public
-     * @method to delete/remove decorator
      * @param decorator - used to decorate class member or parameter of the current class
      */
     public remove(decorator: IMetatableDecorator): void {
@@ -240,42 +249,42 @@ export class MetadataTableProvider<T extends object = object> {
         const metadata: IMemberMetadata = decorator.__metadata__;
 
         switch (metadata.type) {
-            case DecoratedElementType.CONSTRUCTOR:
+            case DecoratedElementEnum.CONSTRUCTOR:
                 if (metadata.isStatic) {
                     operationResult = this.deleteMemberMetadata(decorator, this._metadataTable._constructors._static);
                 } else {
                     operationResult = this.deleteMemberMetadata(decorator, this._metadataTable._constructors._instance);
                 }
                 break;
-            case DecoratedElementType.METHOD:
+            case DecoratedElementEnum.METHOD:
                 if (metadata.isStatic) {
                     operationResult = this.deleteMemberMetadata(decorator, this._metadataTable._methods._static);
                 } else {
                     operationResult = this.deleteMemberMetadata(decorator, this._metadataTable._methods._instance);
                 }
                 break;
-            case DecoratedElementType.PROPERTY:
+            case DecoratedElementEnum.PROPERTY:
                 if (metadata.isStatic) {
                     operationResult = this.deleteMemberMetadata(decorator, this._metadataTable._properties._static);
                 } else {
                     operationResult = this.deleteMemberMetadata(decorator, this._metadataTable._properties._instance);
                 }
                 break;
-            case DecoratedElementType.ACCESSOR:
+            case DecoratedElementEnum.ACCESSOR:
                 if (metadata.isStatic) {
                     operationResult = this.deleteMemberMetadata(decorator, this._metadataTable._accessors._static);
                 } else {
                     operationResult = this.deleteMemberMetadata(decorator, this._metadataTable._accessors._instance);
                 }
                 break;
-            case DecoratedElementType.CONSTRUCTOR_PARAMETER:
+            case DecoratedElementEnum.CONSTRUCTOR_PARAMETER:
                 if (metadata.isStatic) {
                     operationResult = this.deleteParameterMetadata(decorator, this._metadataTable._constructors._static);
                 } else {
                     operationResult = this.deleteParameterMetadata(decorator, this._metadataTable._constructors._instance);
                 }
                 break;
-            case DecoratedElementType.METHODS_PARAMETER:
+            case DecoratedElementEnum.METHODS_PARAMETER:
                 if (metadata.isStatic) {
                     operationResult = this.deleteParameterMetadata(decorator, this._metadataTable._methods._static);
                 } else {
@@ -308,9 +317,10 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
+     * method to check if class has own decorators
+     *
      * @public
-     * @method to check if class has own decorators
-     * @return true if class has its own decorators
+     * @returns true if class has its own decorators
      */
     public hasOwnDecorators(): boolean {
         return !!(this._class.__metadata__._constructors._static.size
@@ -324,9 +334,10 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
+     * method to get own class metadata table
+     *
      * @public
-     * @method to get own class metadata table
-     * @return own metadata table
+     * @returns own metadata table
      *
      */
     public getOwnMetadataTable(): IMetadataTableRef {
@@ -334,61 +345,66 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
+     * method to get full proceeded class metadata table
+     *
      * @public
-     * @method to get full proceeded class metadata table
-     * @return full proceeded class metadata table
+     * @returns full proceeded class metadata table
      */
     public getMetadataTable(): IMetadataTableRef {
         return !this._class.__cached_metadata__ || this.isMetatableChanged() ? this.calculateMetadataTable(this._class) : this._class.__cached_metadata__;
     }
 
     /**
+     * method to get only own class members decorators
+     *
      * @public
-     * @method to get only own class members decorators
-     * @return - collection of own class members decorators
+     * @returns - collection of own class members decorators
      */
     public getOwnDecorators(): IMetatableDecorator[] {
         return this.collectMetadataTableDecorators(this._metadataTable);
     }
 
     /**
+     * method to get all proceeded (own and inherited) class members decorators
+     *
      * @public
-     * @method to get all proceeded (own and inherited) class members decorators
-     * @return - collection of all proceeded class members decorators
+     * @returns - collection of all proceeded class members decorators
      */
     public getDecorators(): IMetatableDecorator[] {
         return this.collectMetadataTableDecorators(this.getMetadataTable());
     }
 
     /**
+     * method to check if metadata table had any changes
+     *
      * @public
-     * @method to check if metadata table was has any changes
-     * @return true if metatable was modified (of current class or any superclass in chain)
+     * @returns true if metatable was modified (of current class or any superclass in chain)
      */
     public isMetatableChanged(): boolean {
-        const chain: ReadonlyArray<IMetadataClass<object>> = MetadataObject.getSuperClassChain(this._class);
+        const chain: readonly IMetadataClass<object>[] = getMetadataObjectSuperClassChain(this._class);
         return !this._class.__cached_metadata__
             || chain.some((metadataClass: IMetadataClass<object>) => {
                 return metadataClass.__parent_hash__ !== metadataClass.__own_hash__
-                    && metadataClass.__parent_hash__ !== MetadataObject.superClassOf(metadataClass, true)?.__own_hash__;
+                    && metadataClass.__parent_hash__ !== metadataSuperClassOfObject(metadataClass, true)?.__own_hash__;
             });
     }
 
     /**
+     * method to check if decoration is allowed based on policy
+     *
      * @private
-     * @method to check if decoration is allowed based on policy
      * @param access - primitive access policy
      * @param decorator - used to decorate class member or parameter of the current class
-     * @return true if decoration is allowed
+     * @returns true if decoration is allowed
      */
-    private isDecorationAllowed(access: PrimitiveMetadataAccessPolicy, decorator: IMetatableDecorator): boolean {
-        const accessPolicy: MetadataAccessPolicy = decorator.getAccessPolicy() ?? MetadataAccessPolicy.ALL;
-        const sameTargetMultiUsagePolicy: MetadataSameTargetMultiUsagePolicy = decorator.getSameTargetMultiUsagePolicy(access);
+    private isDecorationAllowed(access: PrimitiveMetadataAccessPolicyValues, decorator: IMetatableDecorator): boolean {
+        const accessPolicy: MetadataAccessPolicyValues = decorator.getAccessPolicy();
+        const sameTargetMultiUsagePolicy: MetadataSameTargetMultiUsagePolicyValues = decorator.getSameTargetMultiUsagePolicy(access);
 
         return !!(accessPolicy & decorator.__metadata__.access) &&
             (sameTargetMultiUsagePolicy === MetadataSameTargetMultiUsagePolicy.ALLOWED
                 || !this.getOwnDecorators().some((ownDecorator) =>
-                    CoreObject.haveSameClass(decorator, ownDecorator)
+                    haveObjectsSameClass(decorator, ownDecorator)
                     && ownDecorator.__metadata__.type === decorator.__metadata__.type
                     && ownDecorator.__metadata__.name === decorator.__metadata__.name
                     && ownDecorator.__metadata__.isStatic === decorator.__metadata__.isStatic
@@ -397,13 +413,14 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
+     * method to get/proceed metadata information
+     *
      * @private
-     * @method to get/proceed metadata information
      * @param metadataClass - proceeded metadata class
-     * @return full proceeded metatable of metadata class
+     * @returns full proceeded metatable of metadata class
      */
-    private calculateMetadataTable<S extends object, C extends S>(metadataClass: IMetadataClass<C>): IMetadataTableRef {
-        const superClass: Nullable<IMetadataClass<S>> = MetadataObject.superClassOf(metadataClass, true);
+    private calculateMetadataTable(metadataClass: IMetadataClass<object>): IMetadataTableRef {
+        const superClass: Empty<IMetadataClass<object>> = metadataSuperClassOfObject(metadataClass, true);
         let result: IMetadataTableRef;
         if (!superClass) {
             metadataClass.__parent_hash__ = metadataClass.__own_hash__;
@@ -425,29 +442,29 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
+     * method to collect all decorators from member metadata table
+     *
      * @private
-     * @method to collect all decorators from member metadata table
      * @param memberTable - class member metadata table
-     * @return collection of decorators
+     * @returns collection of decorators
      */
     private collectMemberDecorators(memberTable: IMemberMetadataTableRef): IMetatableDecorator[] {
         let result: IMetatableDecorator[] = [];
         result = result.concat(memberTable._decorators);
 
-        if (memberTable._parameters) {
-            memberTable._parameters.forEach((parameters) => {
-                result = result.concat(parameters);
-            });
-        }
+        memberTable._parameters.forEach((parameters) => {
+            result = result.concat(parameters);
+        });
 
         return result;
     }
 
     /**
+     * method to collect all decorators from structure metadata table
+     *
      * @private
-     * @method to collect all decorators from structure metadata table
      * @param structureTable - structure metadata table
-     * @return collection of decorators
+     * @returns collection of decorators
      */
     private collectStructureDecorators(structureTable: IStructureMetadataTableRef): IMetatableDecorator[] {
         let result: IMetatableDecorator[] = [];
@@ -464,10 +481,11 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
+     * method to collect all decorators from class metadata table
+     *
      * @private
-     * @method to collect all decorators from class metadata table
      * @param metadataTable - source metadata table
-     * @return collection of decorators
+     * @returns collection of decorators
      */
     private collectMetadataTableDecorators(metadataTable: IMetadataTableRef): IMetatableDecorator[] {
         return this.collectStructureDecorators(metadataTable._constructors).concat(
@@ -478,16 +496,17 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
+     * method to merge child class metadata/decorators table with super class metadata/decorators table
+     * all class member metadata are merged based on rules provided in decorators,
+     * exclusion only for constructor parameters, if the child class constructor contains own (redefined) parameters,
+     * then the decorators (metadata) of super class constructor parameters is not included, and if necessary in child class it should be redefined.
+     * If the child class does not contain "own" constructor, them the decorators (metadata) of superclass constructor parameters is applied to child constructor parameters.
+     *
      * @private
-     * @method to merge child class metadata/decorators table with super class metadata/decorators table
      * @param childClass - child class to get additional information
      * @param childClassMt - child class metadata table
-     * @param superClassMt - super class metadata table
-     * @return merged class metadata/decorators table
-     * @description - all class member metadata are merged based on rules provided in decorators,
-     * exclusion only for constructor parameters, if the child class constructor contains own (redefined) parameters,
-     * then the decorators (metadata) of super class constructor parameters is not included and if necessary in child class it should be redefined.
-     * If the child class does not contain "own" constructor, them the decorators (metadata) of super class constructor parameters is applied to child constructor parameters.
+     * @param superClassMt - superclass metadata table
+     * @returns merged class metadata/decorators table
      */
     private merge<C extends object>(childClass: IMetadataClass<C>, childClassMt: IMetadataTableRef, superClassMt: IMetadataTableRef): IMetadataTableRef {
         const result: IMetadataTableRef = createMetadataTable();
@@ -521,7 +540,7 @@ export class MetadataTableProvider<T extends object = object> {
 
         // properties instance
         this.mergeFields(
-            PrimitiveMetadataAccessPolicy.INST_PROPERTY,
+            PrimitiveMetadataAccessPolicy.INSTANCE_PROPERTY,
             childClass,
             childClassMt._properties._instance,
             superClassMt._properties._instance,
@@ -539,7 +558,7 @@ export class MetadataTableProvider<T extends object = object> {
 
         // accessors instance
         this.mergeFields(
-            PrimitiveMetadataAccessPolicy.INST_ACCESSOR,
+            PrimitiveMetadataAccessPolicy.INSTANCE_ACCESSOR,
             childClass,
             childClassMt._accessors._instance,
             superClassMt._accessors._instance,
@@ -558,7 +577,7 @@ export class MetadataTableProvider<T extends object = object> {
 
         // methods instance
         this.mergeMethods(
-            PrimitiveMetadataAccessPolicy.INST_METHOD,
+            PrimitiveMetadataAccessPolicy.INSTANCE_METHOD,
             childClass,
             childClassMt._methods._instance,
             superClassMt._methods._instance,
@@ -569,57 +588,93 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
+     * method to merge child constructors metadata/decorators' table with superclass constructors metadata/decorators' table
+     *
      * @private
-     * @method to merge child constructors metadata/decorators table with super class constructors metadata/decorators table
      * @param access - primitive access policy
      * @param childClassMt - child class metadata table
-     * @param superClassMt - super class metadata table
+     * @param superClassMt - superclass metadata table
      * @param childClass - child class to get additional information
      * @param resultMt - merged constructors metadata
      */
-    private mergeConstructors<C extends object>(access: PrimitiveMetadataAccessPolicy, childClass: IMetadataClass<C>, childClassMt: Map<string, IMemberMetadataTableRef>, superClassMt: Map<string, IMemberMetadataTableRef>, resultMt: Map<string, IMemberMetadataTableRef>): void {
-        childClassMt.forEach((table, name) => {
+    private mergeConstructors<C extends object>(access: PrimitiveMetadataAccessPolicyValues, childClass: IMetadataClass<C>, childClassMt: Map<string, IMemberMetadataTableRef>, superClassMt: Map<string, IMemberMetadataTableRef>, resultMt: Map<string, IMemberMetadataTableRef>): void {
+        childClassMt.forEach((_table, name) => {
             resultMt.set(name, createMemberMetadataTable());
         });
 
-        superClassMt.forEach((table, name) => {
+        superClassMt.forEach((_table, name) => {
             resultMt.set(name, createMemberMetadataTable());
         });
 
-        resultMt.forEach((table, name) => {
-            const superData: IMemberMetadataTableRef = superClassMt.get(name) || createMemberMetadataTable();
-            const childData: IMemberMetadataTableRef = childClassMt.get(name) || createMemberMetadataTable();
-            const resultData: IMemberMetadataTableRef = resultMt.get(name) || createMemberMetadataTable();
+        resultMt.forEach((_table, name) => {
+            const superConstructorData: IMemberMetadataTableRef = superClassMt.get(name) ?? createMemberMetadataTable();
+            const childConstructorData: IMemberMetadataTableRef = childClassMt.get(name) ?? createMemberMetadataTable();
+            const resultConstructorData: IMemberMetadataTableRef = resultMt.get(name) ?? createMemberMetadataTable();
 
-            resultData._decorators = this.mergeClassMemberMetadata(access, childClass, superData._decorators, childData._decorators);
-            resultData._parameters = this.mergeParameters(
+            resultConstructorData._decorators = this.mergeClassMemberMetadata(access, childClass, superConstructorData._decorators, childConstructorData._decorators);
+            resultConstructorData._parameters = this.mergeParameters(
                 access,
                 childClass,
-                childClass.length ? [] : superData._parameters,
-                childData._parameters,
+                childClass.length ? [] : superConstructorData._parameters,
+                childConstructorData._parameters,
             );
 
-            if (resultMt.has(name) && !resultData._decorators.length && !resultData._parameters.some((parameter) => parameter.length > 0)) {
+            if (resultMt.has(name) && !resultConstructorData._decorators.length && !resultConstructorData._parameters.some((parameter) => parameter.length > 0)) {
+                resultMt.delete(name);
+            }
+        });
+    }
+
+
+    /**
+     * method to merge child methods metadata/decorators' table with superclass methods metadata/decorators table
+     *
+     * @private
+     * @param access - primitive access policy
+     * @param childClassMt - child class metadata table
+     * @param superClassMt - superclass metadata table
+     * @param childClass - child class to get additional information
+     * @param resultMt - merged methods metadata
+     */
+    private mergeMethods<C extends object>(access: PrimitiveMetadataAccessPolicyValues, childClass: IMetadataClass<C>, childClassMt: Map<string, IMemberMetadataTableRef>, superClassMt: Map<string, IMemberMetadataTableRef>, resultMt: Map<string, IMemberMetadataTableRef>): void {
+        childClassMt.forEach((_table, name) => {
+            resultMt.set(name, createMemberMetadataTable());
+        });
+
+        superClassMt.forEach((_table, name) => {
+            resultMt.set(name, createMemberMetadataTable());
+        });
+
+        resultMt.forEach((_table, name) => {
+            const superMethodData: IMemberMetadataTableRef = superClassMt.get(name) ?? createMemberMetadataTable();
+            const childMethodData: IMemberMetadataTableRef = childClassMt.get(name) ?? createMemberMetadataTable();
+            const resulMethodsData: IMemberMetadataTableRef = resultMt.get(name) ?? createMemberMetadataTable();
+
+            resulMethodsData._decorators = this.mergeClassMemberMetadata(access, childClass, superMethodData._decorators, childMethodData._decorators);
+            resulMethodsData._parameters = this.mergeParameters(access, childClass, superMethodData._parameters, childMethodData._parameters);
+
+            if (resultMt.has(name) && !resulMethodsData._decorators.length && !resulMethodsData._parameters.some((parameter) => parameter.length > 0)) {
                 resultMt.delete(name);
             }
         });
     }
 
     /**
+     * method to merge child fields metadata/decorators' table with superclass fields metadata/decorators table
+     *
      * @private
-     * @method to merge child fields metadata/decorators table with super class fields metadata/decorators table
      * @param access - primitive access policy
      * @param childClassMt - child class metadata table
-     * @param superClassMt - super class metadata table
+     * @param superClassMt - superclass metadata table
      * @param childClass - child class to get additional information
      * @param resultMt - merged fields metadata
      */
-    private mergeFields<C extends object>(access: PrimitiveMetadataAccessPolicy, childClass: IMetadataClass<C>, childClassMt: Map<string, IMemberMetadataTableRef>, superClassMt: Map<string, IMemberMetadataTableRef>, resultMt: Map<string, IMemberMetadataTableRef>): void {
-        childClassMt.forEach((table, name) => {
+    private mergeFields<C extends object>(access: PrimitiveMetadataAccessPolicyValues, childClass: IMetadataClass<C>, childClassMt: Map<string, IMemberMetadataTableRef>, superClassMt: Map<string, IMemberMetadataTableRef>, resultMt: Map<string, IMemberMetadataTableRef>): void {
+        childClassMt.forEach((_table, name) => {
             resultMt.set(name, createMemberMetadataTable());
         });
 
-        superClassMt.forEach((table, name) => {
+        superClassMt.forEach((_table, name) => {
             resultMt.set(name, createMemberMetadataTable());
         });
 
@@ -631,7 +686,7 @@ export class MetadataTableProvider<T extends object = object> {
                 childClassMt.get(name)?._decorators ?? [],
             );
 
-            const metatable: Nullable<IMemberMetadataTableRef> = resultMt.get(name) ?? undefined;
+            const metatable: Empty<IMemberMetadataTableRef> = resultMt.get(name) ?? undefined;
             if (metatable && !metatable._decorators.length) {
                 resultMt.delete(name);
             }
@@ -639,46 +694,15 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
+     * method to write constructor decorator into metadata table
+     *
      * @private
-     * @method to merge child methods metadata/decorators table with super class methods metadata/decorators table
-     * @param access - primitive access policy
-     * @param childClassMt - child class metadata table
-     * @param superClassMt - super class metadata table
-     * @param childClass - child class to get additional information
-     * @param resultMt - merged methods metadata
-     */
-    private mergeMethods<C extends object>(access: PrimitiveMetadataAccessPolicy, childClass: IMetadataClass<C>, childClassMt: Map<string, IMemberMetadataTableRef>, superClassMt: Map<string, IMemberMetadataTableRef>, resultMt: Map<string, IMemberMetadataTableRef>): void {
-        childClassMt.forEach((table, name) => {
-            resultMt.set(name, createMemberMetadataTable());
-        });
-
-        superClassMt.forEach((table, name) => {
-            resultMt.set(name, createMemberMetadataTable());
-        });
-
-        resultMt.forEach((table, name) => {
-            const superData: IMemberMetadataTableRef = superClassMt.get(name) || createMemberMetadataTable();
-            const childData: IMemberMetadataTableRef = childClassMt.get(name) || createMemberMetadataTable();
-            const resultData: IMemberMetadataTableRef = resultMt.get(name) || createMemberMetadataTable();
-
-            resultData._decorators = this.mergeClassMemberMetadata(access, childClass, superData._decorators, childData._decorators);
-            resultData._parameters = this.mergeParameters(access, childClass, superData._parameters, childData._parameters);
-
-            if (resultMt.has(name) && !resultData._decorators.length && !resultData._parameters.some((parameter) => parameter.length > 0)) {
-                resultMt.delete(name);
-            }
-        });
-    }
-
-    /**
-     * @private
-     * @method to write constructor decorator into metadata table
      * @param access - primitive access policy
      * @param decorator - constructor decorator
      * @param membersMetadataTable
-     * @return true if decoration was successful
+     * @returns true if decoration was successful
      */
-    private addMemberDecorator(access: PrimitiveMetadataAccessPolicy, decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
+    private addMemberDecorator(access: PrimitiveMetadataAccessPolicyValues, decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
         if (this.isDecorationAllowed(access, decorator)) {
             getMapElementOrDefault(membersMetadataTable, decorator.__metadata__.name, createMemberMetadataTable())._decorators.push(decorator);
             return true;
@@ -687,16 +711,17 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
+     * method to write constructor parameter decorator into metadata table
+     *
      * @private
-     * @method to write constructor parameter decorator into metadata table
      * @param access - primitive access policy
      * @param decorator - constructor parameter decorator
      * @param membersMetadataTable - members metadata tables by member name
-     * @return true if decoration was successful
+     * @returns true if decoration was successful
      */
-    private addParameterMetadata(access: PrimitiveMetadataAccessPolicy, decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
+    private addParameterMetadata(access: PrimitiveMetadataAccessPolicyValues, decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
         if (this.isDecorationAllowed(access, decorator)) {
-            const parameters: IMetatableDecorator[][] = getMapElementOrDefault(membersMetadataTable, decorator.__metadata__.name, createMemberMetadataTable())._parameters || [];
+            const parameters: IMetatableDecorator[][] = getMapElementOrDefault(membersMetadataTable, decorator.__metadata__.name, createMemberMetadataTable())._parameters;
             parameters.length = Math.max(parameters.length, decorator.__metadata__.parameterIndex + 1);
 
             for (let i = 0; i < parameters.length; i++) {
@@ -713,11 +738,12 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
+     * method to delete constructor decorator from metadata table
+     *
      * @private
-     * @method to delete constructor decorator from metadata table
      * @param decorator - constructor decorator
      * @param membersMetadataTable - members metadata tables by member name
-     * @return true if removal of decorator was successful
+     * @returns true if removal of decorator was successful
      */
     private deleteMemberMetadata(decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
         let isDeleted: boolean = false;
@@ -736,16 +762,17 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
+     * method to delete constructor decorator from metadata table
+     *
      * @private
-     * @method to delete constructor decorator from metadata table
      * @param decorator - constructor decorator
      * @param membersMetadataTable - members metadata tables by member name
-     * @return true if removal of decorator was successful
+     * @returns true if removal of decorator was successful
      */
     private deleteParameterMetadata(decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
         let isDeleted: boolean = false;
         const memberMetadataTable: IMemberMetadataTableRef = getMapElementOrDefault(membersMetadataTable, decorator.__metadata__.name, createMemberMetadataTable());
-        const parameters: IMetatableDecorator[][] = memberMetadataTable._parameters || [];
+        const parameters: IMetatableDecorator[][] = memberMetadataTable._parameters;
         parameters.length = Math.max(parameters.length, decorator.__metadata__.parameterIndex + 1);
 
         for (let i = 0; i < parameters.length; i++) {
@@ -769,18 +796,16 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
+     * method to merge generic child and superclass member decorators based on rules provided in decorators
+     *
      * @private
-     * @method to merge generic child and super class member decorators based on rules provided in decorators
      * @param access - primitive access policy
      * @param childClass - child class that contains decorator
-     * @param superCachedDecorators - collection of super class decorators
+     * @param superCachedDecorators - collection of superclass decorators
      * @param childDecorators - collection of child class decorators
-     * @return merged collection of decorators
+     * @returns a merged collection of decorators
      */
-    private mergeClassMemberMetadata<C extends object>(access: PrimitiveMetadataAccessPolicy, childClass: IMetadataClass<C>, superCachedDecorators: IMetatableDecorator[], childDecorators: IMetatableDecorator[]): IMetatableDecorator[] {
-        superCachedDecorators = superCachedDecorators || [];
-        childDecorators = childDecorators || [];
-
+    private mergeClassMemberMetadata<C extends object>(access: PrimitiveMetadataAccessPolicyValues, childClass: IMetadataClass<C>, superCachedDecorators: IMetatableDecorator[], childDecorators: IMetatableDecorator[]): IMetatableDecorator[] {
         const childClassName: string = childClass.name;
 
         const sharedInChild: IMetatableDecorator[] = [];
@@ -793,7 +818,7 @@ export class MetadataTableProvider<T extends object = object> {
 
         superCachedDecorators
             .forEach((decorator) => {
-                const decoratorClass: IClass<IMetatableDecorator> = CoreObject.classOf(decorator);
+                const decoratorClass: IClass<IMetatableDecorator> = classOfObject(decorator);
                 const metadataDecorators: IMetatableDecorator[] = superDecoratorsByType.get(decoratorClass) ?? [];
                 if (!superDecoratorsByType.has(decoratorClass)) {
                     superDecoratorsByType.set(decoratorClass, metadataDecorators);
@@ -803,7 +828,7 @@ export class MetadataTableProvider<T extends object = object> {
 
         childDecorators
             .forEach((decorator) => {
-                const decoratorClass: IClass<IMetatableDecorator> = CoreObject.classOf(decorator);
+                const decoratorClass: IClass<IMetatableDecorator> = classOfObject(decorator);
                 const metadataDecorators: IMetatableDecorator[] = childDecoratorsByType.get(decoratorClass) ?? [];
                 if (!childDecoratorsByType.has(decoratorClass)) {
                     childDecoratorsByType.set(decoratorClass, metadataDecorators);
@@ -844,27 +869,27 @@ export class MetadataTableProvider<T extends object = object> {
         sharedInChild.forEach((childDecorator) => {
             if (childDecorator.getCollisionPolicy(access) === MetadataCollisionPolicy.SKIP) {
                 sharedInSuper
-                    .filter((superDecorator) => CoreObject.haveSameClass(superDecorator, childDecorator))
+                    .filter((superDecorator) => haveObjectsSameClass(superDecorator, childDecorator))
                     .forEach((superDecorator) => {
                         sharedInSuper.splice(sharedInSuper.indexOf(superDecorator), 1);
                     });
             } else if (childDecorator.getCollisionPolicy(access) === MetadataCollisionPolicy.OVERRIDE_CHILD) {
                 sharedInSuper
-                    .filter((superDecorator) => CoreObject.haveSameClass(superDecorator, childDecorator))
+                    .filter((superDecorator) => haveObjectsSameClass(superDecorator, childDecorator))
                     .forEach((superDecorator) => {
                         memberDecorators.push(superDecorator);
                         sharedInSuper.splice(sharedInSuper.indexOf(superDecorator), 1);
                     });
             } else if (childDecorator.getCollisionPolicy(access) === MetadataCollisionPolicy.OVERRIDE_PARENT) {
                 sharedInSuper
-                    .filter((superDecorator) => CoreObject.haveSameClass(superDecorator, childDecorator))
+                    .filter((superDecorator) => haveObjectsSameClass(superDecorator, childDecorator))
                     .forEach((superDecorator) => {
                         sharedInSuper.splice(sharedInSuper.indexOf(superDecorator), 1);
                     });
                 memberDecorators.push(childDecorator);
             } else if (childDecorator.getCollisionPolicy(access) === MetadataCollisionPolicy.JOIN) {
                 sharedInSuper
-                    .filter((superDecorator) => CoreObject.haveSameClass(superDecorator, childDecorator))
+                    .filter((superDecorator) => haveObjectsSameClass(superDecorator, childDecorator))
                     .forEach((superDecorator) => {
                         memberDecorators.push(superDecorator);
                     });
@@ -878,30 +903,28 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
+     * method to merge generic child and superclass constructor or method parameter decorators based on rules provided in decorators
+     *
      * @private
-     * @method to merge generic child and super class constructor or method parameter decorators based on rules provided in decorators
      * @param access - primitive access policy
      * @param childClass - child class that contains decorators
-     * @param superCachedDecorators - collection by parameter index of super class decorators
+     * @param superCachedDecorators - collection by parameter index of superclass decorators
      * @param childDecorators - collection by parameter index of child class decorators
-     * @return merged collection by parameter index of decorators
+     * @returns a merged collection by parameter index of decorators
      */
-    private mergeParameters<C extends object>(access: PrimitiveMetadataAccessPolicy, childClass: IMetadataClass<C>, superCachedDecorators: IMetatableDecorator[][], childDecorators: IMetatableDecorator[][]): IMetatableDecorator[][] {
-        superCachedDecorators = superCachedDecorators || [];
-        childDecorators = childDecorators || [];
-
+    private mergeParameters<C extends object>(access: PrimitiveMetadataAccessPolicyValues, childClass: IMetadataClass<C>, superCachedDecorators: IMetatableDecorator[][], childDecorators: IMetatableDecorator[][]): IMetatableDecorator[][] {
         const parameterDecorators: IMetatableDecorator[][] = [];
 
-        childDecorators.forEach((decorator, index) => {
+        childDecorators.forEach((_decorator, index) => {
             parameterDecorators[index] = [];
         });
 
-        superCachedDecorators.forEach((decorator, index) => {
+        superCachedDecorators.forEach((_decorator, index) => {
             parameterDecorators[index] = [];
         });
 
-        parameterDecorators.forEach((decorators, index) => {
-            this.mergeClassMemberMetadata(access, childClass, superCachedDecorators[index], childDecorators[index])
+        parameterDecorators.forEach((_decorators, index) => {
+            this.mergeClassMemberMetadata(access, childClass, superCachedDecorators[index] ?? [], childDecorators[index] ?? [])
                 .forEach((metadata) => parameterDecorators[index].push(metadata));
         });
 
@@ -909,40 +932,41 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
+     * method to check if provided child member decorator exist in any metadata table of superclasses (constructor parameters and static member metadata are ignored)
+     *
      * @private
-     * @method to check if provided child member decorator exist in any metadata table of super classes (constructor parameters and static member metadata are ignored)
      * @param childClass - child class to check
      * @param childDecorator - provided child member decorator
-     * @return true if provided child member decorator found
+     * @returns true if provided child member decorator found
      */
     private hasSameSuperDecorator<C extends object>(childClass: IMetadataClass<C>, childDecorator: IMetatableDecorator): boolean {
-        let metadataTableClass: Nullable<IMetadataClass<object>> = childClass;
+        let metadataTableClass: Empty<IMetadataClass<object>> = childClass;
 
         let isExist: boolean = false;
 
         if (!childDecorator.__metadata__.isStatic) {
 
-            while (!isExist && metadataTableClass && CoreObject.superClassOf(metadataTableClass)) {
+            while (!isExist && metadataTableClass && superClassOfObject(metadataTableClass)) {
                 const metadataTable: IMetadataTableRef = MetadataTableProvider.getOrCreateClassMetadataTable(metadataTableClass);
                 switch (childDecorator.__metadata__.type) {
-                    case DecoratedElementType.CONSTRUCTOR:
+                    case DecoratedElementEnum.CONSTRUCTOR:
                         isExist = this.hasSameMetadataInMember(childDecorator, metadataTable._constructors._instance);
                         break;
-                    case DecoratedElementType.PROPERTY:
+                    case DecoratedElementEnum.PROPERTY:
                         isExist = this.hasSameMetadataInMember(childDecorator, metadataTable._properties._instance);
                         break;
-                    case DecoratedElementType.ACCESSOR:
+                    case DecoratedElementEnum.ACCESSOR:
                         isExist = this.hasSameMetadataInMember(childDecorator, metadataTable._accessors._instance);
                         break;
-                    case DecoratedElementType.METHOD:
+                    case DecoratedElementEnum.METHOD:
                         isExist = this.hasSameMetadataInMember(childDecorator, metadataTable._methods._instance);
                         break;
-                    case DecoratedElementType.METHODS_PARAMETER:
+                    case DecoratedElementEnum.METHODS_PARAMETER:
                         isExist = this.hasSameMetadataInParameter(childDecorator, metadataTable._methods._instance);
                         break;
                 }
 
-                metadataTableClass = MetadataObject.superClassOf(metadataTableClass);
+                metadataTableClass = metadataSuperClassOfObject(metadataTableClass);
             }
         }
 
@@ -950,26 +974,28 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
+     * method to check if provided decorator exist in metadata table
+     *
      * @private
-     * @method to check if provided decorator exist in metadata table
      * @param decorator - constructor decorator
      * @param membersMetadataTable - members metadata tables by member name
-     * @return true if provided constructor decorator found in metadata table
+     * @returns true if provided constructor decorator found in metadata table
      */
     private hasSameMetadataInMember(decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
         return getMapElementOrDefault(membersMetadataTable, decorator.__metadata__.name, createMemberMetadataTable())
-            ._decorators.some((memberDecorator) => CoreObject.haveSameClass(memberDecorator, decorator));
+            ._decorators.some((memberDecorator) => haveObjectsSameClass(memberDecorator, decorator));
     }
 
     /**
+     * method to check if provided instance method parameter decorator exist in metadata table
+     *
      * @private
-     * @method to check if provided instance method parameter decorator exist in metadata table
      * @param decorator - instance method parameter decorator
      * @param membersMetadataTable - members metadata tables by member name
-     * @return true if given instance method parameter decorator found in metadata table
+     * @returns true if given instance method parameter decorator found in metadata table
      */
     private hasSameMetadataInParameter(decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
         return getMapElementOrDefault(membersMetadataTable, decorator.__metadata__.name, createMemberMetadataTable())
-            ._parameters[decorator.__metadata__.parameterIndex].some((memberDecorator) => CoreObject.haveSameClass(memberDecorator, decorator));
+            ._parameters[decorator.__metadata__.parameterIndex].some((memberDecorator) => haveObjectsSameClass(memberDecorator, decorator));
     }
 }

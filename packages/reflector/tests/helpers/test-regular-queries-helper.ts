@@ -1,5 +1,5 @@
 import {IClass} from "@semaver/core";
-import {Accessor, ByMemberType, Constructor, DecoratedElementType, Method, Property, Reflector,} from "../../src";
+import {Accessor, ByMemberType, Constructor, DecoratedElementEnum, Method, Property, Reflector,} from "../../src";
 
 export function testQueries<T extends object>(
     someClass: IClass<T>,
@@ -12,12 +12,12 @@ export function testQueries<T extends object>(
     ndMethodsArguments: number,
 ): void {
     const info: Reflector<T> = Reflector.from(someClass);
-    expect(info.query().filter(ByMemberType.from(DecoratedElementType.ACCESSOR)).members().all<Accessor<T>>().length).toBe(ndAccessors);
-    expect(info.query().filter(ByMemberType.from(DecoratedElementType.PROPERTY)).members().all<Property<T>>().length).toBe(ndProperties);
-    expect(info.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).members().all<Constructor<T>>().length).toBe(ndConstructor);
-    expect(info.query().filter(ByMemberType.from(DecoratedElementType.METHOD)).members().all<Method<T>>().length).toBe(ndMethods);
-    expect(info.query().filter(ByMemberType.from(DecoratedElementType.ACCESSOR, DecoratedElementType.PROPERTY)).members().all().length).toBe(ndAccessors + ndProperties);
+    expect(info.query().filter(ByMemberType.from(DecoratedElementEnum.ACCESSOR)).members().all<Accessor<T>>().length).toBe(ndAccessors);
+    expect(info.query().filter(ByMemberType.from(DecoratedElementEnum.PROPERTY)).members().all<Property<T>>().length).toBe(ndProperties);
+    expect(info.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).members().all<Constructor<T>>().length).toBe(ndConstructor);
+    expect(info.query().filter(ByMemberType.from(DecoratedElementEnum.METHOD)).members().all<Method<T>>().length).toBe(ndMethods);
+    expect(info.query().filter(ByMemberType.from(DecoratedElementEnum.ACCESSOR, DecoratedElementEnum.PROPERTY)).members().all().length).toBe(ndAccessors + ndProperties);
 
-    expect(info.query().filter(ByMemberType.from(DecoratedElementType.CONSTRUCTOR)).decorators().ofParameters().length).toBe(ndConsrtuctorArguments);
-    expect(info.query().filter(ByMemberType.from(DecoratedElementType.METHOD)).decorators().ofParameters().length).toBe(ndMethodsArguments);
+    expect(info.query().filter(ByMemberType.from(DecoratedElementEnum.CONSTRUCTOR)).decorators().ofParameters().length).toBe(ndConsrtuctorArguments);
+    expect(info.query().filter(ByMemberType.from(DecoratedElementEnum.METHOD)).decorators().ofParameters().length).toBe(ndMethodsArguments);
 }

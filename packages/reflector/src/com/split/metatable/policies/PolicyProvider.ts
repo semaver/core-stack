@@ -1,63 +1,69 @@
 import {IPolicyProvider} from "./IPolicyProvider";
-import {MetadataAccessPolicy, PrimitiveMetadataAccessPolicy} from "./MetadataAccessPolicy";
-import {MetadataAppearancePolicy} from "./MetadataAppearancePolicy";
-import {MetadataCollisionPolicy} from "./MetadataCollisionPolicy";
-import {MetadataNotExistencePolicy} from "./MetadataNotExistencePolicy";
-import {MetadataSameTargetMultiUsagePolicy} from "./MetadataSameTargetMultiUsagePolicy";
+import {
+    MetadataAccessPolicy,
+    MetadataAccessPolicyValues,
+    PrimitiveMetadataAccessPolicyValues
+} from "./MetadataAccessPolicy";
+import {MetadataAppearancePolicy, MetadataAppearancePolicyValues} from "./MetadataAppearancePolicy";
+import {MetadataCollisionPolicy, MetadataCollisionPolicyValues} from "./MetadataCollisionPolicy";
+import {MetadataNotExistencePolicy, MetadataNotExistencePolicyValues} from "./MetadataNotExistencePolicy";
+import {
+    MetadataSameTargetMultiUsagePolicy,
+    MetadataSameTargetMultiUsagePolicyValues
+} from "./MetadataSameTargetMultiUsagePolicy";
 
 /**
+ * implementation of policy provider that can be used for advanced policy configuration
+ *
  * @public
- * @class
- * @implements [[IPolicyProvider]]
- * @description - implementation of policy provider
  */
 export class PolicyProvider implements IPolicyProvider {
     /**
      * @protected
      * @readonly
-     * @property access - access policy [[MetadataAccessPolicy]]
+     * @property access - access policy
      */
-    protected readonly access: MetadataAccessPolicy;
+    protected readonly access: MetadataAccessPolicyValues;
 
     /**
      * @protected
      * @readonly
-     * @property appearance - map of metadata appearance policy [[MetadataAppearancePolicy]] by primitive metadata access policy [[PrimitiveMetadataAccessPolicy]]
+     * @property appearance - map of metadata appearance policy by primitive metadata access policy
      */
-    protected readonly appearance: Map<PrimitiveMetadataAccessPolicy, MetadataAppearancePolicy> = new Map();
+    protected readonly appearance: Map<PrimitiveMetadataAccessPolicyValues, MetadataAppearancePolicyValues> = new Map<PrimitiveMetadataAccessPolicyValues, MetadataAppearancePolicyValues>();
     /**
      * @protected
      * @readonly
-     * @property collision - map of metadata collision policy [[MetadataCollisionPolicy]] by primitive metadata access policy [[PrimitiveMetadataAccessPolicy]]
+     * @property collision - map of metadata collision policy by primitive metadata access policy
      */
-    protected collision: Map<PrimitiveMetadataAccessPolicy, MetadataCollisionPolicy> = new Map();
+    protected collision: Map<PrimitiveMetadataAccessPolicyValues, MetadataCollisionPolicyValues> = new Map<PrimitiveMetadataAccessPolicyValues, MetadataCollisionPolicyValues>();
     /**
      * @protected
      * @readonly
-     * @property notExistence - map of metadata not existence policy [[MetadataNotExistencePolicy]] by primitive metadata access policy [[PrimitiveMetadataAccessPolicy]]
+     * @property notExistence - map of metadata not existence policy by primitive metadata access policy
      */
-    protected notExistence: Map<PrimitiveMetadataAccessPolicy, MetadataNotExistencePolicy> = new Map();
+    protected notExistence: Map<PrimitiveMetadataAccessPolicyValues, MetadataNotExistencePolicyValues> = new Map<PrimitiveMetadataAccessPolicyValues, MetadataNotExistencePolicyValues>();
     /**
      * @protected
      * @readonly
-     * @property notExistence - map of metadata same target multi usage policy [[MetadataSameTargetMultiUsagePolicy]] by primitive metadata access policy [[PrimitiveMetadataAccessPolicy]]
+     * @property notExistence - map of metadata same target multi usage policy by primitive metadata access policy
      */
-    protected sameTargetMultiUsage: Map<PrimitiveMetadataAccessPolicy, MetadataSameTargetMultiUsagePolicy> = new Map();
+    protected sameTargetMultiUsage: Map<PrimitiveMetadataAccessPolicyValues, MetadataSameTargetMultiUsagePolicyValues> = new Map<PrimitiveMetadataAccessPolicyValues, MetadataSameTargetMultiUsagePolicyValues>();
 
     /**
      * @public
-     * @constructor
-     * @param access - metadata access policy [[MetadataAccessPolicy]] default value - ALL
+     * @param access - metadata access policy default value - ALL
      */
-    public constructor(access: MetadataAccessPolicy = MetadataAccessPolicy.ALL) {
+    public constructor(access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL) {
         this.access = access;
         this.setDefault();
     }
 
     /**
+     * method to set default values for all policies based on access provided in constructor
+     *
      * @public
-     * @method to set default values for all policies based on access provided in constructor
-     * @return current instance of policy provider
+     * @returns current instance of policy provider
      */
     public setDefault(): this {
         return this
@@ -69,149 +75,158 @@ export class PolicyProvider implements IPolicyProvider {
     }
 
     /**
+     * method to set appearance policy based on access provided in constructor, all values will be deleted and new values set
+     *
      * @public
-     * @method to set appearance policy based on access provided in constructor, all values will be deleted and new values set
-     * @param value - value [[MetadataAppearancePolicy]] to apply to metadata appearance policy
-     * @param access - metadata access policy [[MetadataAccessPolicy]], default value - ALL
-     * @return current instance of policy provider
+     * @param value - value to apply to metadata appearance policy
+     * @param access - metadata access policy, default value - ALL
+     * @returns current instance of policy provider
      */
-    public setAppearancePolicy(value: MetadataAppearancePolicy, access: MetadataAccessPolicy = MetadataAccessPolicy.ALL): this {
+    public setAppearancePolicy(value: MetadataAppearancePolicyValues, access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL): this {
         this.appearance.clear();
         return this.addPolicy(this.appearance, value, access);
     }
 
     /**
+     * method to set collision policy based on access provided in constructor, old values will be deleted and new values set
+     *
      * @public
-     * @method to set collision policy based on access provided in constructor, old values will be deleted and new values set
-     * @param value - value [[MetadataCollisionPolicy]] to apply to metadata collision policy
-     * @param access - metadata access policy [[MetadataAccessPolicy]], default value - ALL
-     * @return current instance of policy provider
+     * @param value - value to apply to metadata collision policy
+     * @param access - metadata access policy, default value - ALL
+     * @returns current instance of policy provider
      */
-    public setCollisionPolicy(value: MetadataCollisionPolicy, access: MetadataAccessPolicy = MetadataAccessPolicy.ALL): this {
+    public setCollisionPolicy(value: MetadataCollisionPolicyValues, access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL): this {
         this.collision.clear();
         return this.addPolicy(this.collision, value, access);
     }
 
     /**
+     * method to set not existence policy based on access provided in constructor, old values will be deleted and new values set
+     *
      * @public
-     * @method to set not existence policy based on access provided in constructor, old values will be deleted and new values set
-     * @param value - value [[MetadataNotExistencePolicy]] to apply to metadata not existence policy
-     * @param access - metadata access policy [[MetadataAccessPolicy]], default value - ALL
-     * @return current instance of policy provider
+     * @param value - value to apply to metadata not existence policy
+     * @param access - metadata access policy, default value - ALL
+     * @returns current instance of policy provider
      */
-    public setNotExistencePolicy(value: MetadataNotExistencePolicy, access: MetadataAccessPolicy = MetadataAccessPolicy.ALL): this {
+    public setNotExistencePolicy(value: MetadataNotExistencePolicyValues, access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL): this {
         this.notExistence.clear();
         return this.addPolicy(this.notExistence, value, access);
     }
 
     /**
+     * method to set the same target multi usage policy based on access provided in constructor, old values will be deleted and new values set
+     *
      * @public
-     * @method to set same target multi usage policy based on access provided in constructor, old values will be deleted and new values set
-     * @param value - value [[MetadataSameTargetMultiUsagePolicy]] to apply to metadata same target multi usage policy
-     * @param access - metadata access policy [[MetadataAccessPolicy]], default value - ALL
-     * @return current instance of policy provider
+     * @param value - value to apply to metadata same target multi usage policy
+     * @param access - metadata access policy, default value - ALL
+     * @returns current instance of policy provider
      */
-    public setSameTargetMultiUsagePolicy(value: MetadataSameTargetMultiUsagePolicy, access: MetadataAccessPolicy = MetadataAccessPolicy.ALL): this {
+    public setSameTargetMultiUsagePolicy(value: MetadataSameTargetMultiUsagePolicyValues, access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL): this {
         this.sameTargetMultiUsage.clear();
         return this.addPolicy(this.sameTargetMultiUsage, value, access);
     }
 
     /**
+     * method to add appearance policy based on access provided in constructor, old values will be updated
+     *
      * @public
-     * @method to add appearance policy based on access provided in constructor, old values will be updated
-     * @param value - value [[MetadataAppearancePolicy]] to apply to metadata appearance policy
-     * @param access - metadata access policy [[MetadataAccessPolicy]], default value - ALL
-     * @return current instance of policy provider
+     * @param value - value to apply to metadata appearance policy
+     * @param access - metadata access policy, default value - ALL
+     * @returns current instance of policy provider
      */
-    public addAppearancePolicy(value: MetadataAppearancePolicy, access: MetadataAccessPolicy = MetadataAccessPolicy.ALL): this {
+    public addAppearancePolicy(value: MetadataAppearancePolicyValues, access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL): this {
         return this.addPolicy(this.appearance, value, access);
     }
 
     /**
+     * method to add collision policy based on access provided in constructor, old values will be updated
+     *
      * @public
-     * @method to add collision policy based on access provided in constructor, old values will be updated
-     * @param value - value [[MetadataCollisionPolicy]] to apply to metadata collision policy
-     * @param access - metadata access policy [[MetadataAccessPolicy]], default value - ALL
-     * @return current instance of policy provider
+     * @param value - value to apply to metadata collision policy
+     * @param access - metadata access policy, default value - ALL
+     * @returns current instance of policy provider
      */
-    public addCollisionPolicy(value: MetadataCollisionPolicy, access: MetadataAccessPolicy = MetadataAccessPolicy.ALL): this {
+    public addCollisionPolicy(value: MetadataCollisionPolicyValues, access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL): this {
         return this.addPolicy(this.collision, value, access);
     }
 
     /**
+     * method to add not existence policy based on access provided in constructor, old values will be updated
+     *
      * @public
-     * @method to add not existence policy based on access provided in constructor, old values will be updated
-     * @param value - value [[MetadataNotExistencePolicy]] to apply to metadata not existence policy
-     * @param access - metadata access policy [[MetadataAccessPolicy]], default value - ALL
-     * @return current instance of policy provider
+     * @param value - value to apply to metadata not existence policy
+     * @param access - metadata access policy, default value - ALL
+     * @returns current instance of policy provider
      */
-    public addNotExistencePolicy(value: MetadataNotExistencePolicy, access: MetadataAccessPolicy = MetadataAccessPolicy.ALL): this {
+    public addNotExistencePolicy(value: MetadataNotExistencePolicyValues, access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL): this {
         return this.addPolicy(this.notExistence, value, access);
     }
 
     /**
+     * method to add the same target multi usage policy based on access provided in constructor, old values will be updated
+     *
      * @public
-     * @method to add same target multi usage policy based on access provided in constructor, old values will be updated
-     * @param value - value [[MetadataSameTargetMultiUsagePolicy]] to apply to metadata same target multi usage policy
-     * @param access - metadata access policy [[MetadataAccessPolicy]], default value - ALL
-     * @return current instance of policy provider
+     * @param value - value to apply to metadata same target multi usage policy
+     * @param access - metadata access policy, default value - ALL
+     * @returns current instance of policy provider
      */
-    public addSameTargetMultiUsagePolicy(value: MetadataSameTargetMultiUsagePolicy, access: MetadataAccessPolicy = MetadataAccessPolicy.ALL): this {
+    public addSameTargetMultiUsagePolicy(value: MetadataSameTargetMultiUsagePolicyValues, access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL): this {
         return this.addPolicy(this.sameTargetMultiUsage, value, access);
     }
 
     /**
      * @inheritDoc
      */
-    public getAppearancePolicy(access: PrimitiveMetadataAccessPolicy): MetadataAppearancePolicy {
+    public getAppearancePolicy(access: PrimitiveMetadataAccessPolicyValues): MetadataAppearancePolicyValues {
         return this.appearance.get(access) ?? MetadataAppearancePolicy.DEFAULT;
     }
 
     /**
      * @inheritDoc
      */
-    public getCollisionPolicy(access: PrimitiveMetadataAccessPolicy): MetadataCollisionPolicy {
+    public getCollisionPolicy(access: PrimitiveMetadataAccessPolicyValues): MetadataCollisionPolicyValues {
         return this.collision.get(access) ?? MetadataCollisionPolicy.DEFAULT;
     }
 
     /**
      * @inheritDoc
      */
-    public getNotExistencePolicy(access: PrimitiveMetadataAccessPolicy): MetadataNotExistencePolicy {
+    public getNotExistencePolicy(access: PrimitiveMetadataAccessPolicyValues): MetadataNotExistencePolicyValues {
         return this.notExistence.get(access) ?? MetadataNotExistencePolicy.DEFAULT;
     }
 
     /**
      * @inheritDoc
      */
-    public getSameTargetMultiUsagePolicy(access: PrimitiveMetadataAccessPolicy): MetadataSameTargetMultiUsagePolicy {
+    public getSameTargetMultiUsagePolicy(access: PrimitiveMetadataAccessPolicyValues): MetadataSameTargetMultiUsagePolicyValues {
         return this.sameTargetMultiUsage.get(access) ?? MetadataSameTargetMultiUsagePolicy.DEFAULT;
     }
 
     /**
      * @inheritDoc
      */
-    public getAccessPolicy(): MetadataAccessPolicy {
+    public getAccessPolicy(): MetadataAccessPolicyValues {
         return this.access;
     }
 
     /**
      * @inheritDoc
      */
-    public hasAccessPolicy(access: PrimitiveMetadataAccessPolicy): boolean {
+    public hasAccessPolicy(access: PrimitiveMetadataAccessPolicyValues): boolean {
         return (this.access & access) > 0;
     }
 
     /**
+     * method to add generic policy based on access provided in constructor
+     *
      * @protected
-     * @method to add generic policy
      * @param map - map of metadata policy
      * @param value - value to apply to metadata policy
-     * @param access - metadata access policy [[MetadataAccessPolicy]]
-     * @return current instance of policy provider
+     * @param access - metadata access policy
+     * @returns current instance of policy provider
      */
-    protected addPolicy(map: Map<PrimitiveMetadataAccessPolicy, unknown>, value: unknown, access: MetadataAccessPolicy): this {
-        let currentAccess: MetadataAccessPolicy = this.access & access;
+    protected addPolicy(map: Map<PrimitiveMetadataAccessPolicyValues, unknown>, value: unknown, access: MetadataAccessPolicyValues): this {
+        let currentAccess: MetadataAccessPolicyValues = this.access & access;
         let key: number = 1;
         while (currentAccess) {
             const bit: number = currentAccess & 1;

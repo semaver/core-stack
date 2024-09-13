@@ -1,18 +1,16 @@
-import {CoreError} from "@semaver/core";
+import {ExtendedError} from "@semaver/core";
 import {DecoratedElement} from "../reflector/members/DecoratedElement";
 
 /**
+ * custom error for object thrown if decorator is undefined
+ *
  * @public
- * @class
- * @extends [[CoreError]]
- * @description - custom error for object thrown if decorator is undefined
  */
-export class DecoratorUndefinedError extends CoreError {
+export class DecoratorUndefinedError extends ExtendedError {
 
     /**
      * @public
-     * @constructor
-     * @param target - decorated element [[DecoratedElement]] where error is thrown
+     * @param target - decorated element where error is thrown
      */
     public constructor(target: DecoratedElement) {
         super(target, `Decorator is null or undefined`);

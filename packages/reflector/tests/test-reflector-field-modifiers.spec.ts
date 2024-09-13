@@ -1,13 +1,13 @@
 import {Accessor, ByMemberName, ByStaticMember, Property, Reflector} from "../src";
 import {SuperDecoratedClass} from "./metatable/classes/SuperDecoratedClass";
-import {Nullable} from "@semaver/core";
+import {Empty} from "@semaver/core";
 
 describe("Reflector API FieldModifiers", () => {
 
     it("test static full accessor modifiers", () => {
         const reflector: Reflector<SuperDecoratedClass> = Reflector.from(SuperDecoratedClass);
 
-        const accessorStaticFull: Nullable<Accessor<SuperDecoratedClass>> = reflector
+        const accessorStaticFull: Empty<Accessor<SuperDecoratedClass>> = reflector
             .query()
             .filter(ByMemberName.from("accessorStaticFull"))
             .filter(ByStaticMember.from(true))
@@ -28,7 +28,7 @@ describe("Reflector API FieldModifiers", () => {
     it("test static get accessor modifiers", () => {
         const reflector: Reflector<SuperDecoratedClass> = Reflector.from(SuperDecoratedClass);
 
-        const accessorStaticGet: Nullable<Accessor<SuperDecoratedClass>> = reflector
+        const accessorStaticGet: Empty<Accessor<SuperDecoratedClass>> = reflector
             .query()
             .filter(ByMemberName.from("accessorStaticGet"))
             .filter(ByStaticMember.from(true))
@@ -48,7 +48,7 @@ describe("Reflector API FieldModifiers", () => {
     it("test static set accessor modifiers", () => {
         const reflector: Reflector<SuperDecoratedClass> = Reflector.from(SuperDecoratedClass);
 
-        const accessorStaticSet: Nullable<Accessor<SuperDecoratedClass>> = reflector
+        const accessorStaticSet: Empty<Accessor<SuperDecoratedClass>> = reflector
             .query()
             .filter(ByMemberName.from("accessorStaticSet"))
             .filter(ByStaticMember.from(true))
@@ -67,7 +67,7 @@ describe("Reflector API FieldModifiers", () => {
     it("test instance full accessor modifiers", () => {
         const reflector: Reflector<SuperDecoratedClass> = Reflector.from(SuperDecoratedClass);
 
-        const accessorNormalFull: Nullable<Accessor<SuperDecoratedClass>> = reflector
+        const accessorNormalFull: Empty<Accessor<SuperDecoratedClass>> = reflector
             .query()
             .filter(ByMemberName.from("accessorNormalFull"))
             .filter(ByStaticMember.from(false))
@@ -92,7 +92,7 @@ describe("Reflector API FieldModifiers", () => {
     it("test instance get accessor modifiers", () => {
         const reflector: Reflector<SuperDecoratedClass> = Reflector.from(SuperDecoratedClass);
 
-        const accessorNormalGet: Nullable<Accessor<SuperDecoratedClass>> = reflector
+        const accessorNormalGet: Empty<Accessor<SuperDecoratedClass>> = reflector
             .query()
             .filter(ByMemberName.from("accessorNormalGet"))
             .filter(ByStaticMember.from(false))
@@ -115,7 +115,7 @@ describe("Reflector API FieldModifiers", () => {
     it("test instance set accessor modifiers", () => {
         const reflector: Reflector<SuperDecoratedClass> = Reflector.from(SuperDecoratedClass);
 
-        const accessorNormalSet: Nullable<Accessor<SuperDecoratedClass>> = reflector
+        const accessorNormalSet: Empty<Accessor<SuperDecoratedClass>> = reflector
             .query()
             .filter(ByMemberName.from("accessorNormalSet"))
             .filter(ByStaticMember.from(false))
@@ -139,7 +139,7 @@ describe("Reflector API FieldModifiers", () => {
     it("test static property modifiers", () => {
         const reflector: Reflector<SuperDecoratedClass> = Reflector.from(SuperDecoratedClass);
 
-        const propertyUndefStatic: Nullable<Property<SuperDecoratedClass>> = reflector
+        const propertyUndefStatic: Empty<Property<SuperDecoratedClass>> = reflector
             .query()
             .filter(ByMemberName.from("propertyUndefStatic"))
             .filter(ByStaticMember.from(true))
@@ -163,7 +163,7 @@ describe("Reflector API FieldModifiers", () => {
     it("test instance property modifiers", () => {
         const reflector: Reflector<SuperDecoratedClass> = Reflector.from(SuperDecoratedClass);
 
-        const propertyUndefNormal: Nullable<Property<SuperDecoratedClass>> = reflector
+        const propertyUndefNormal: Empty<Property<SuperDecoratedClass>> = reflector
             .query()
             .filter(ByMemberName.from("propertyUndefNormal"))
             .filter(ByStaticMember.from(false))

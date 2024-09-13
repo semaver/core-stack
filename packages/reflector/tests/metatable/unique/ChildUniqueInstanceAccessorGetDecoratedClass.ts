@@ -5,7 +5,7 @@ export class ChildUniqueInstanceAccessorGetDecoratedClass extends SuperUniqueIns
 
     @unique("accessor normal only get", 2)
     public get accessorNormalGet(): string {
-        return "aaaaa";
+        return this._accessorNormalGet;
     }
 
 }

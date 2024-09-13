@@ -2,9 +2,9 @@
   "name": "@semaver/core",
   "type": "module",
   "rawName": "core",
-  "version": "1.0.6",
-  "description": "split core",
-  "homepage": "https://github.com/semaver/core-stack/tree/main/packages/core",
+  "version": "2.0.0",
+  "description": "Core interface/types and helper methods for object manipulation and reflection",
+  "homepage": "https://github.com/semaver/core-stack",
   "bugs": "https://github.com/semaver/core-stack/issues",
   "repository": {
     "type": "git",
@@ -19,9 +19,22 @@
   "license": "MIT",
   "types": "lib/index.d.ts",
   "exports": {
-    "import": "./lib/library.esm.js",
-    "require": "./lib/library.cjs.cjs"
+    ".": {
+      "import": "./lib/library.esm.mjs",
+      "require": "./lib/library.cjs.cjs"
+    },
+    "./package.json": "./package.json"
   },
+  "main": "./lib/library.cjs.cjs",
+  "module": "./lib/library.esm.mjs",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "lib/index.d.ts"
+      ]
+    }
+  },
+  "sideEffects": false,
   "keywords": [
     "typescript",
     "javascript",
@@ -46,7 +59,7 @@
     "test": "jest --collectCoverage",
     "build": "rollup -c ../../rollup.config.js",
     "index": "cti entrypoint src -o index.ts",
-    "lint": "eslint ./src ./tests --ext .ts",
+    "lint": "eslint ./src ./tests",
     "file": "yarn pack --pack-destination packs"
   }
 }

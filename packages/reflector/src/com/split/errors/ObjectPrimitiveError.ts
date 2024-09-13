@@ -1,20 +1,18 @@
-import {CoreError} from "@semaver/core";
+import {ExtendedError} from "@semaver/core";
 
 /**
+ * custom error for an object thrown if the object is primitive
+ *
  * @public
- * @class
- * @extends [[CoreError]]
- * @description - custom error for object thrown if object is primitive
  */
-export class ObjectPrimitiveError extends CoreError {
+export class ObjectPrimitiveError extends ExtendedError {
 
     /**
      * @public
-     * @constructor
      * @param target - object where error is thrown
      * @param obj - obj to check
      */
-    public constructor(target: unknown, obj: unknown) {
-        super(target, `Object is primitive ${obj}`);
+    public constructor(target: object, obj: unknown) {
+        super(target, `Object is primitive ${String(obj)}`);
     }
 }

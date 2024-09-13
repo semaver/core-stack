@@ -1,17 +1,16 @@
-import {CoreObject, IClass, Nullable} from "@semaver/core";
+import {classOfObject, IClass, isObjectClass, Empty} from "@semaver/core";
 import {Decorator, DecoratorFn, IMetatableDecorator} from "../../decorators/Decorator";
-import {MetadataObject} from "../../extentions/MetadataObjectExtention";
+import {metadataClassOfObject} from "../../extentions/MetadataObjectExtention";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
 import {IMemberMetadataTableRef, IMetadataTableRef} from "../../metatable/metadata/IMetadataTableRef";
-import {DecoratedElementType} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementEnum";
 import {ExecutableMember} from "./ExecutableMember";
 import {Parameter} from "./Parameter";
 
 /**
+ * class that implement Constructor class member
+ *
  * @public
- * @class
- * @extends [[ExecutableMember]]
- * @description - class that implement Constructor class member
  */
 export class Constructor<T extends object = object> extends ExecutableMember<T> {
 
@@ -19,10 +18,9 @@ export class Constructor<T extends object = object> extends ExecutableMember<T> 
 
     /**
      * @public
-     * @constructor
      * @param metadataClass - class that contains current constructor
      * @param name
-     * @param parameters - collection of constructor arguments [[Parameter]]
+     * @param parameters - collection of constructor arguments
      */
     public constructor(
         metadataClass: IMetadataClass<T>,
@@ -46,8 +44,8 @@ export class Constructor<T extends object = object> extends ExecutableMember<T> 
     /**
      * @inheritDoc
      */
-    public getType(): DecoratedElementType {
-        return DecoratedElementType.CONSTRUCTOR;
+    public getType(): DecoratedElementTypeValues {
+        return DecoratedElementEnum.CONSTRUCTOR;
     }
 
     /**
@@ -58,9 +56,11 @@ export class Constructor<T extends object = object> extends ExecutableMember<T> 
     }
 
     /**
+     * method to create new instance from constructor/class
+     *
      * @public
-     * @method to create new instance from constructor/class
      * @param parameters - parameters used in constructor
+     * @returns newly created instance applying parameters
      */
     public newInstance(...parameters: any[]): T {
         return Reflect.construct(this._class, parameters);
@@ -69,41 +69,38 @@ export class Constructor<T extends object = object> extends ExecutableMember<T> 
     /**
      * @inheritDoc
      */
-    public addDecorator(decoratorOrFn: Decorator | DecoratorFn): boolean {
-        const target: Nullable<T> = this.getObject();
-        this.getDecoratorFn(decoratorOrFn).apply(undefined, [target]);
-        return true;
+    public addDecorator(decoratorOrFn: Decorator | DecoratorFn): this {
+        const target: object = this.getObject();
+        this.getDecoratorFn(decoratorOrFn).apply(undefined, [target, undefined, undefined]);
+        return this;
     }
 
     /**
      * @inheritDoc
      */
-    public removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): boolean {
-        let result: boolean = false;
-        const target: Nullable<T> = this.getObject();
-        if (CoreObject.isClass(decoratorOrClass)) {
+    public removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): this {
+        const target: object = this.getObject();
+        if (isObjectClass(decoratorOrClass)) {
             const decoratorClass: IClass<Decorator> = decoratorOrClass as IClass<Decorator>;
             this._metadataTableProvider.getOwnDecorators().forEach(decorator => {
-                if (CoreObject.classOf(decorator) === decoratorClass && this.isDecoratorOf(MetadataObject.classOf(target), decorator)) {
+                if (classOfObject(decorator) === decoratorClass && this.isDecoratorOf(metadataClassOfObject(target), decorator)) {
                     this._metadataTableProvider.remove(decorator);
-                    result = true;
                 }
             });
         } else {
             const decorator: IMetatableDecorator = decoratorOrClass as IMetatableDecorator;
-            if (this.isDecoratorOf(MetadataObject.classOf(target), decorator)) {
+            if (this.isDecoratorOf(metadataClassOfObject(target), decorator)) {
                 this._metadataTableProvider.remove(decorator);
-                result = true;
             }
         }
 
-        return result;
+        return this;
     }
 
     /**
      * @inheritDoc
      */
-    protected getMemberMetadataTable(metadataTable: IMetadataTableRef): Nullable<IMemberMetadataTableRef> {
+    protected getMemberMetadataTable(metadataTable: IMetadataTableRef): Empty<IMemberMetadataTableRef> {
         const memberMetadataTables: Map<string, IMemberMetadataTableRef> = this._isStatic ? metadataTable._constructors._static : metadataTable._constructors._instance;
         return memberMetadataTables.get(this._name);
     }

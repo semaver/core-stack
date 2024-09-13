@@ -1,14 +1,16 @@
 import {IClassTableUpdate} from "./IClassTableUpdate";
 
 /**
+ * interface representing class table subscribers, if class table updated all subscribers receive update notification
+ *
  * @public
  * @interface
- * @description -  interface representing class table subscribers, if class table updated all subscribers receive upate notification
  */
 export interface IClassTableSubscriber {
     /**
+     * method to receive class table updates
+     *
      * @public
-     * @method to receive class table updates
      * @param update - object sent to subscriber after class table update
      */
     onClassTableUpdate(update: IClassTableUpdate): void;

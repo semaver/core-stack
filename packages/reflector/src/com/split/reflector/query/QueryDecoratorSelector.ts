@@ -1,7 +1,7 @@
 /**
+ * class to select metadata from class members defined in query info
+ *
  * @public
- * @class
- * @description - class to select metadata from class members defined in query info [[QueryInfo]]
  */
 import {Decorator} from "../../decorators/Decorator";
 import {ExecutableMember} from "../members/ExecutableMember";
@@ -12,7 +12,7 @@ export class QueryDecoratorSelector<T extends object> {
     /**
      * @protected
      * @readonly
-     * @property queryInfo - query info, that contains information about selected class members
+     * @property queryInfo - query info that contains information about selected class members
      */
     protected readonly queryInfo: QueryInfo<T>;
 
@@ -24,8 +24,7 @@ export class QueryDecoratorSelector<T extends object> {
 
     /**
      * @public
-     * @constructor
-     * @param queryInfo - query info, that contains information about selected class members
+     * @param queryInfo - query info that contains information about selected class members
      * @param useOwn
      */
     public constructor(queryInfo: QueryInfo<T>, useOwn: boolean) {
@@ -34,9 +33,10 @@ export class QueryDecoratorSelector<T extends object> {
     }
 
     /**
+     * method to get all class members and parameters decorators from all class members
+     *
      * @public
-     * @method to get all class members and parameters decorators from all class members
-     * @return collection of all class members and parameters decorators
+     * @returns collection of all class members and parameters' decorators
      */
     public all(): Decorator[] {
         const result: Decorator[] = [];
@@ -65,9 +65,10 @@ export class QueryDecoratorSelector<T extends object> {
     }
 
     /**
+     * method to get all class members decorators from all class members
+     *
      * @public
-     * @method to get all class members decorators from all class members
-     * @return collection of all class members decorators
+     * @returns collection of all class members decorators
      */
     public ofMembers(): Decorator[] {
         const result: Decorator[] = [];
@@ -83,9 +84,10 @@ export class QueryDecoratorSelector<T extends object> {
     }
 
     /**
+     * method to get all parameters' decorators from all class members
+     *
      * @public
-     * @method to get all parameters decorators from all class members
-     * @return collection of all parameters decorators
+     * @returns collection of all parameters' decorators
      */
     public ofParameters(): Decorator[] {
         const result: Decorator[] = [];

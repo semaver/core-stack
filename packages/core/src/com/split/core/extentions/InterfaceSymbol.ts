@@ -1,23 +1,42 @@
 import {IInterface} from "../types/base/IInterface";
-import {CoreObject} from "./CoreObject";
+import {isObjectEmpty} from "./CoreObject";
 
 /**
+ * implementation of generic Interface Symbol to "materialize" interface and avoid "only refers to a type, but is being used as a value" Error
+ *
  * @public
- * @class
- * @implements [[IInterface]]
- * @description - implementation of generic Interface Symbol to "materialize" interface and avoid "only refers to a type, but is being used as a value" Error
  */
 export class InterfaceSymbol<T> implements IInterface<T> {
 
     /**
+     * @private
+     * @property pool of all interface symbols
+     */
+    private static pool: Map<symbol, InterfaceSymbol<unknown>> = new Map<symbol, InterfaceSymbol<unknown>>();
+    /**
      * @public
-     * @static
-     * @method to create or get interface symbol [[InterfaceSymbol]]
+     * @readonly
+     * @property unique identifier of interface symbol
+     */
+    public readonly uid: symbol;
+
+    /**
+     * @private
+     * @param uid - unique identifier of type symbol
+     */
+    private constructor(uid: symbol) {
+        this.uid = uid;
+    }
+
+    /**
+     * method to create or get interface symbol by unique identifier
+     *
+     * @public
      * @param uid - unique identifier
-     * @return interface symbol if found
+     * @returns interface symbol if found
      */
     public static for<T>(uid: string | symbol): IInterface<T> {
-        if (CoreObject.isEmpty(uid)) {
+        if (isObjectEmpty(uid)) {
             throw new Error("InterfaceSymbol: name is null or undefined");
         }
 
@@ -31,27 +50,5 @@ export class InterfaceSymbol<T> implements IInterface<T> {
             InterfaceSymbol.pool.set(uid, symbol);
         }
         return symbol;
-    }
-
-    /**
-     * @private
-     * @static
-     * @property pool of all interface symbols
-     */
-    private static pool: Map<symbol, InterfaceSymbol<unknown>> = new Map<symbol, InterfaceSymbol<unknown>>();
-    /**
-     * @public
-     * @readonly
-     * @property unique identifier of interface symbol
-     */
-    public readonly uid: symbol;
-
-    /**
-     * @private
-     * @constructor
-     * @param uid - unique identifier of type [[symbol]]
-     */
-    private constructor(uid: symbol) {
-        this.uid = uid;
     }
 }

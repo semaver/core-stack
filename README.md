@@ -5,6 +5,10 @@
 - [Core](packages/core/README.md)
 - [Reflector](packages/reflector/README.md)
 
+### Requirements
+
+- [Node 18+](https://nodejs.org/en/download/package-manager) (_>= 18.18.0_)
+
 ### Tool Set
 
 - [yarn](https://yarnpkg.com/) - package manager

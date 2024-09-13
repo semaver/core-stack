@@ -2,20 +2,22 @@ import {skipped} from "../../common/metadata/SkippedDecorator";
 
 @skipped("class", 0)
 export class SuperSkippedDecoratedClass {
+    protected _property: string = "aaaaa";
+    protected static _staticProperty: string = "aaaaa";
 
     // @multi("accessor isStatic full get")
-    public static get accessorStaticFull(): string {
-        return "aaaaa";
+    public static get staticProperty(): string {
+        return this._staticProperty;
     }
 
     @skipped("accessor isStatic full set", 4)
-    public static set accessorStaticFull(value: string) {
+    public static set staticProperty(value: string) {
         void (value);
     }
 
     @skipped("accessor isStatic only get", 5)
     public static get accessorStaticGet(): string {
-        return "aaaaa";
+        return this._staticProperty;
     }
 
     @skipped("accessor isStatic only set", 6)
@@ -24,18 +26,18 @@ export class SuperSkippedDecoratedClass {
     }
 
     // @multi("accessor normal full get")
-    public get accessorNormalFull(): string {
-        return "aaaaa";
+    public get property(): string {
+        return this._property;
     }
 
     @skipped("accessor normal full set", 1)
-    public set accessorNormalFull(value: string) {
+    public set property(value: string) {
         void (value);
     }
 
     @skipped("accessor normal only get", 2)
     public get accessorNormalGet(): string {
-        return "aaaaa";
+        return this._property;
     }
 
     @skipped("accessor normal only set", 3)
@@ -79,12 +81,12 @@ export class SuperSkippedDecoratedClass {
     }
 
     @skipped("method normal with 1 default param", 13)
-    public runNormalWith1DefaultParam(@skipped("param 1 in normal method", 14) param: string, defaultParam: number = 10): number {
+    public runNormalWith1DefaultParam(@skipped("param 1 in normal method", 14) _param: string, defaultParam: number = 10): number {
         return defaultParam;
     }
 
     @skipped("method normal with 2 param", 15)
-    public runNormalWith2Param(@skipped("param 1 in normal method", 16) param: string, @skipped("param 2 in normal method", 17) notDefaultParam: number): number {
+    public runNormalWith2Param(@skipped("param 1 in normal method", 16) _param: string, @skipped("param 2 in normal method", 17) notDefaultParam: number): number {
         return notDefaultParam;
     }
 }

@@ -1,17 +1,15 @@
-import {CoreReflect, Nullable} from "@semaver/core";
+import {hasOwnProperty, Empty} from "@semaver/core";
 import {IMetatableDecorator} from "../../decorators/Decorator";
 import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
 import {IMemberMetadata} from "../../metatable/metadata/IMemberMetadata";
 import {IMemberMetadataTableRef} from "../../metatable/metadata/IMetadataTableRef";
-import {DecoratedElementType} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementEnum";
 import {DecoratedElement} from "./DecoratedElement";
 
 /**
+ * class that implements core functionality for class members
+ *
  * @public
- * @abstract
- * @class
- * @extends [[DecoratedElement]]
- * @description - class that implements core functionality for class members
  */
 export abstract class ClassMember<T extends object = object> extends DecoratedElement<T> {
 
@@ -31,7 +29,6 @@ export abstract class ClassMember<T extends object = object> extends DecoratedEl
 
     /**
      * @protected
-     * @constructor
      * @param metadataClass - class that contains current class member
      * @param name -  class member name
      * @param isStatic  - flag that indicates if class member is static
@@ -50,8 +47,8 @@ export abstract class ClassMember<T extends object = object> extends DecoratedEl
     /**
      * @inheritDoc
      */
-    public getType(): DecoratedElementType {
-        return DecoratedElementType.CLASS_MEMBER;
+    public getType(): DecoratedElementTypeValues {
+        return DecoratedElementEnum.CLASS_MEMBER;
     }
 
     /**
@@ -69,13 +66,14 @@ export abstract class ClassMember<T extends object = object> extends DecoratedEl
     }
 
     /**
+     * method to get if current class member its own or inherited
+     *
      * @public
-     * @method to get if current class member is own or inherited
-     * @return true if own class member
+     * @returns true if own class member
      */
     public isOwn(): boolean {
-        const target: T = this.getObject();
-        return CoreReflect.hasOwn(target, this._name);
+        const target: object = this.getObject();
+        return hasOwnProperty(target, this._name);
     }
 
     /**
@@ -92,7 +90,7 @@ export abstract class ClassMember<T extends object = object> extends DecoratedEl
     /**
      * @inheritDoc
      */
-    protected getMemberDecorators(memberMetadataTable: Nullable<IMemberMetadataTableRef>): IMetatableDecorator[] {
-        return memberMetadataTable?._decorators || [];
+    protected getMemberDecorators(memberMetadataTable: Empty<IMemberMetadataTableRef>): IMetatableDecorator[] {
+        return memberMetadataTable?._decorators ?? [];
     }
 }

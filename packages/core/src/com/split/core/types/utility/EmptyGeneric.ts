@@ -1,7 +1,9 @@
 /**
+ * definition of empty generic
+ *
  * @public
- * @interface type
- * @description -  definition of empty generic
+ * @interface
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/ban-types
-export type EmptyGeneric<T> = {};
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-object-type
+export interface EmptyGeneric<T> {
+}

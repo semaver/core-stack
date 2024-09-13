@@ -1,54 +1,54 @@
-import {CoreObject, IClass, Nullable} from "@semaver/core";
+import {classOfObject, getObjectSuperClassChain, IClass, Empty, superClassOfObject} from "@semaver/core";
 import {IMetadataClass} from "../metatable/classes/IMetadataClass";
 
 /**
+ * function to get the metadata class of given object
+ *
  * @public
- * @class
- * @description - class add additional functionality to Object [[Object]]
+ * @param obj - object of generic type
+ * @returns class of the given object
  */
-export class MetadataObject {
-    /**
-     * @public
-     * @static
-     * @method - to get the metadata class of given object
-     * @param obj - object of generic type
-     * @return class [[IClass]] of the given object
-     */
-    public static classOf<T extends object>(obj: IClass<T> | T): IMetadataClass<T> {
-        return CoreObject.classOf(obj) as IMetadataClass<T>;
-    }
+export function metadataClassOfObject<T extends object>(obj: IClass<T> | T): IMetadataClass<T> {
+    return classOfObject(obj) as IMetadataClass<T>;
+}
 
-    /**
-     * @public
-     * @static
-     * @method - to get metadata super class of the given class
-     * @param childClass - target class [[IClass]]
-     * @param ignoreNativeObjectClass - flag if set to true, native object class will be ignored and function return undefined if superclass is native object class (default value - false)
-     * @return metadta super class [[IMetadataClass]] of the given class or undefined
-     */
-    public static superClassOf<S extends object, C extends S>(childClass: IClass<C>, ignoreNativeObjectClass: boolean = false): Nullable<IMetadataClass<S>> {
-        return CoreObject.superClassOf(childClass, ignoreNativeObjectClass) as Nullable<IMetadataClass<S>>;
-    }
+/**
+ * function to get metadata superclass of the given class
+ *
+ * @public
+ * @param childClass - target class
+ * @param ignoreNativeObjectClass - flag if set to true, native object class will be ignored and function return undefined if superclass is native object class (default value - false)
+ * @returns metadata superclass of the given class or undefined
+ */
+export function metadataSuperClassOfObject<S extends object, C extends S>(childClass: Empty<IClass<C>>, ignoreNativeObjectClass: boolean = false): Empty<IMetadataClass<S>> {
+    return superClassOfObject(childClass, ignoreNativeObjectClass) as Empty<IMetadataClass<S>>;
+}
 
-    public static getKnownConstructorParameterLength(targetClass: IMetadataClass<object>): number {
-        let target: Nullable<IMetadataClass<object>> = targetClass;
-        while (target && !target.length) {
-            target = this.superClassOf(target, true);
-        }
-        return target?.length || 0;
+/**
+ * function to get known constructor parameter length of the target class
+ *
+ * @public
+ * @param targetClass - target class
+ * @returns number of known constructor parameters of the target class
+ */
+export function getKnownConstructorParameterLength(targetClass: IMetadataClass<object>): number {
+    let target: Empty<IMetadataClass<object>> = targetClass;
+    while (target && !target.length) {
+        target = metadataSuperClassOfObject(target, true);
     }
+    return target?.length ?? 0;
+}
 
-    /**
-     * @public
-     * @static
-     * @method - to get metadata super class chain of the object (collection, first element is source class of the object)
-     * @param obj - object (class or instance) as source for super class chain
-     * @param reversed - flag if true source class will appear at the end of array (default value - false)
-     * @param excludeNativeObjectClass - flag to exclude native object [[Object]] class from chain (default value - true)
-     * @return readonly array of metadata super classes
-     */
-    public static getSuperClassChain<S extends object>(obj: S, reversed: boolean = false, excludeNativeObjectClass: boolean = true): ReadonlyArray<IMetadataClass<object>> {
-        return CoreObject.getSuperClassChain(obj, reversed, excludeNativeObjectClass) as ReadonlyArray<IMetadataClass<object>>;
-    }
+/**
+ * function to get a metadata superclass chain of the object (collection, the first element is source class of the object)
+ *
+ * @public
+ * @param obj - object (class or instance) as a source for superclass chain
+ * @param reversed - flag if true source class will appear at the end of array (default value - false)
+ * @param excludeNativeObjectClass - flag to exclude native object class from the chain (default value - true)
+ * @returns readonly array of metadata superclasses
+ */
+export function getMetadataObjectSuperClassChain(obj: Empty<object>, reversed: boolean = false, excludeNativeObjectClass: boolean = true): readonly IMetadataClass<object>[] {
+    return getObjectSuperClassChain(obj, reversed, excludeNativeObjectClass) as readonly IMetadataClass<object>[];
 }
 

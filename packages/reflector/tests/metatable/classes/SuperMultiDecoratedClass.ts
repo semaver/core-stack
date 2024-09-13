@@ -3,6 +3,8 @@ import {multi} from "../../common/metadata/MultiDecorator";
 @multi("class", 0)
 @multi("class", 0)
 export class SuperMultiDecoratedClass {
+    private static _accessorStaticGet: string = "aaaaa";
+    protected _accessorNormalGet: string = "aaaaa";
 
     // @multi("accessor isStatic full get")
     public static get accessorStaticFull(): string {
@@ -18,7 +20,7 @@ export class SuperMultiDecoratedClass {
     @multi("accessor isStatic only get", 5)
     @multi("accessor isStatic only get", 5)
     public static get accessorStaticGet(): string {
-        return "aaaaa";
+        return this._accessorStaticGet;
     }
 
     @multi("accessor isStatic only set", 6)
@@ -29,7 +31,7 @@ export class SuperMultiDecoratedClass {
 
     // @multi("accessor normal full get")
     public get accessorNormalFull(): string {
-        return "aaaaa";
+        return this._accessorNormalGet;
     }
 
     @multi("accessor normal full set", 1)
@@ -41,7 +43,7 @@ export class SuperMultiDecoratedClass {
     @multi("accessor normal only get", 2)
     @multi("accessor normal only get", 2)
     public get accessorNormalGet(): string {
-        return "aaaaa";
+        return this._accessorNormalGet;
     }
 
     @multi("accessor normal only set", 3)
@@ -94,13 +96,13 @@ export class SuperMultiDecoratedClass {
 
     @multi("method normal with 1 default param", 13)
     @multi("method normal with 1 default param", 13)
-    public runNormalWith1DefaultParam(@multi("param 1 in normal method", 14) @multi("param 1 in normal method", 14) param: string, defaultParam: number = 10): number {
+    public runNormalWith1DefaultParam(@multi("param 1 in normal method", 14) @multi("param 1 in normal method", 14) _param: string, defaultParam: number = 10): number {
         return defaultParam;
     }
 
     @multi("method normal with 2 param", 15)
     @multi("method normal with 2 param", 15)
-    public runNormalWith2Param(@multi("param 1 in normal method", 16) @multi("param 1 in normal method", 16) param: string, @multi("param 2 in normal method", 17) @multi("param 2 in normal method", 17) notDefaultParam: number): number {
+    public runNormalWith2Param(@multi("param 1 in normal method", 16) @multi("param 1 in normal method", 16) _param: string, @multi("param 2 in normal method", 17) @multi("param 2 in normal method", 17) notDefaultParam: number): number {
         return notDefaultParam;
     }
 }

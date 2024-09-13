@@ -6,4 +6,8 @@ export class SuperUniqueStaticAccessorSetDecoratedClass {
     public static set accessorStaticSet(value: string) {
         void (value);
     }
+
+    public run(param: number): number {
+        return param;
+    }
 }

@@ -1,103 +1,117 @@
 import {IClass} from "@semaver/core";
 import {Decorator, DecoratorFn} from "../../decorators/Decorator";
-import {DecoratedElementType} from "../../metatable/types/DecoratedElementType";
+import {DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementEnum";
 
 /**
+ * interface that represents decorated element (class member or parameter)
+ *
  * @public
  * @interface
- * @description interface that represent decorated element (class member or parameter)
  */
 export interface IDecoratedElement<T extends object = object> {
 
     /**
+     * method to get the current class member type (can be constructor, method, accessor, property)
+     *
      * @public
-     * @method to get current class member type from [[DecoratedElementType]] (can be constructor, method, accessor, property)
-     * @return current class member type
+     * @returns current class member type
+     * @see [[DecoratedElementTypeValues]]
      */
-    getType(): DecoratedElementType;
+    getType(): DecoratedElementTypeValues;
 
     /**
+     * method to get current class that contains current class member
+     *
      * @public
-     * @method to get current class that contains current class member
-     * @return current class
+     * @returns current class
      */
     getClass(): IClass<T>;
 
     /**
+     * method to get current class member name
+     *
      * @public
-     * @method to get current class member name
-     * @return current class member name
+     * @returns current class member name
      */
     getName(): string;
 
     /**
+     * method to get if class member is static or not
+     *
      * @public
-     * @method to get if class member is static or not
-     * @return true if class member is static
+     * @returns true if class member is static
      */
     isStatic(): boolean;
 
     /**
+     * method to check if the current element (class member or parameter) has full-proceeded decorators (inherited and own)
+     *
      * @public
-     * @method to check if current element (class member or parameter) has full proceeded decorators
      * @param decoratorClasses - collection of decorator classes to check (can be omitted)
-     * @return true if class member metadata found
+     * @returns true if class member metadata found
      */
     hasDecorators(...decoratorClasses: IClass<Decorator>[]): boolean;
 
     /**
+     * method to check if the current element (class member or parameter) has own decorators
+     *
      * @public
-     * @method to check if current element (class member or parameter) has own decorators
      * @param decoratorClasses - collection of decorator classes to check (can be omitted)
-     * @return true if class member metadata found
+     * @returns true if class member metadata found
      */
     hasOwnDecorators(...decoratorClasses: IClass<Decorator>[]): boolean;
 
     /**
+     * method to get readonly collection of elements (class member or parameter) full-proceeded decorators (inherited and own)
+     *
      * @public
-     * @method to get readonly collection of element (class member or parameter) full proceeded decorators
      * @param decoratorClasses - collection of decorator classes to get (can be omitted)
-     * @return readonly collection of decorators
+     * @returns readonly collection of decorators
      */
-    getDecorators(...decoratorClasses: IClass<Decorator>[]): ReadonlyArray<Decorator>;
+    getDecorators(...decoratorClasses: IClass<Decorator>[]): readonly Decorator[];
 
     /**
+     * method to get a readonly collection of elements (class member or parameter) own decorators
+     *
      * @public
-     * @method to get readonly collection of element (class member or parameter) own decorators
      * @param decoratorClasses - collection of decorator classes to get (can be omitted)
-     * @return readonly collection of decorators
+     * @returns readonly collection of decorators
      */
-    getOwnDecorators(...decoratorClasses: IClass<Decorator>[]): ReadonlyArray<Decorator>;
+    getOwnDecorators(...decoratorClasses: IClass<Decorator>[]): readonly Decorator[];
 
     /**
+     * method to add decorator to the element (class member or parameter), decorator will be added to the element (class member or parameter) of the owner class
+     *
      * @public
-     * @method to add decorator to element (class member or parameter), decorator will be added to the element (class member or parameter) of the owner class
-     * @param decoratorOrFn - decorator that extends [[Decorator]] or decorator function
-     * @return - return true if decoration was successful
+     * @param decoratorOrFn - decorator that extends or decorator function
+     * @returns - return current instance
      */
-    addDecorator(decoratorOrFn: Decorator | DecoratorFn): boolean;
+    addDecorator(decoratorOrFn: Decorator | DecoratorFn): this;
 
     /**
+     * method to add decorators to the element (class member or parameter), decorator will be added to the element (class member or parameter) of the owner class
+     *
      * @public
-     * @method to add decorators to element (class member or parameter), decorator will be added to the element (class member or parameter) of the owner class
-     * @param decoratorOrFnCollection - collection of decorators that extends [[Decorator]] or decorator function
-     * @return - return true if all decorations was successful
+     * @param decoratorOrFnCollection - collection of decorators that extends or decorator function
+     * @returns - return current instance
      */
-    addDecorators(...decoratorOrFnCollection: (Decorator | DecoratorFn)[]): boolean;
+    addDecorators(...decoratorOrFnCollection: (Decorator | DecoratorFn)[]): this;
 
     /**
+     * method to remove decorator/s from class members, decorator will be removed from the element (class member or parameter) of the owner class
+     *
      * @public
-     * @method to remove decorator/s from class members, decorator will be removed from the element (class member or parameter) of the owner class
-     * @param decoratorOrClass - class of current decorator [[Decorator]] or decorator it self
-     * @return - return true if removal of decorator was successful
+     * @param decoratorOrClass - class of current decorator or decorator itself
+     * @returns - return current instance
      */
-    removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): boolean;
+    removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): this;
 
     /**
+     * method to remove decorator/s from class members, decorator will be removed from the element (class member or parameter) of the owner class
+     *
      * @public
-     * @method to remove decorator/s from class members, decorator will be removed from the element (class member or parameter) of the owner class
-     * @param decoratorOrClassCollection - collection of classes of current decorator [[Decorator]] or decorators it self
-     * @return - return true if removal of all decorator was successful
+     * @param decoratorOrClassCollection - collection of classes of current decorator or decorators itself
+     * @returns - return current instance
      */
-    removeDecorators(...decoratorOrClassCollection: (IClass<Decorator> | Decorator)[]): boolean;
+    removeDecorators(...decoratorOrClassCollection: (IClass<Decorator> | Decorator)[]): this;
 }

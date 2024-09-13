@@ -2,9 +2,9 @@
   "name": "@semaver/reflector",
   "type": "module",
   "rawName": "reflector",
-  "version": "1.0.6",
-  "description": "split reflector",
-  "homepage": "https://github.com/semaver/core-stack/tree/main/packages/reflector",
+  "version": "2.0.0",
+  "description": "Reflection framework for TypeScript and JavaScript, with decorator inheritance support and no reflect-metadata dependency.",
+  "homepage": "https://github.com/semaver/core-stack",
   "bugs": "https://github.com/semaver/core-stack/issues",
   "repository": {
     "type": "git",
@@ -19,9 +19,22 @@
   "license": "MIT",
   "types": "lib/index.d.ts",
   "exports": {
-    "import": "./lib/library.esm.js",
-    "require": "./lib/library.cjs.cjs"
+    ".": {
+      "import": "./lib/library.esm.mjs",
+      "require": "./lib/library.cjs.cjs"
+    },
+    "./package.json": "./package.json"
   },
+  "main": "./lib/library.cjs.cjs",
+  "module": "./lib/library.esm.mjs",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "lib/index.d.ts"
+      ]
+    }
+  },
+  "sideEffects": false,
   "keywords": [
     "reflection",
     "reflect",
@@ -38,6 +51,7 @@
     "no reflect-metadata"
   ],
   "files": [
+    "diagrams",
     "lib",
     "docs",
     "package.json",
@@ -48,17 +62,17 @@
     "test": "jest --collectCoverage",
     "build": "rollup -c ../../rollup.config.js",
     "index": "cti entrypoint src -o index.ts",
-    "lint": "eslint ./src ./tests --ext .ts",
+    "lint": "eslint ./src ./tests",
     "file": "yarn pack --pack-destination packs"
   },
   "devDependencies": {
-    "@semaver/core": "^1.0.6"
+    "@semaver/core": "^2.0.0"
   },
   "peerDependencies": {
-    "@semaver/core": "^1.0.0"
+    "@semaver/core": "^2.0.0"
   },
   "dependencies": {
-    "@types/uuid": "^8.3.0",
-    "uuid": "^8.3.1"
+    "@types/uuid": "^10.0.0",
+    "uuid": "^10.0.0"
   }
 }

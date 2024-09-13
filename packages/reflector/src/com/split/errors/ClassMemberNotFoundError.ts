@@ -1,18 +1,16 @@
-import {CoreError} from "@semaver/core";
+import {ExtendedError} from "@semaver/core";
 import {ClassMember} from "../reflector/members/ClassMember";
 
 /**
+ * custom error for an object thrown if class member of this object not found
+ *
  * @public
- * @class
- * @extends [[CoreError]]
- * @description - custom error for object thrown if class member of this object not found
  */
-export class ClassMemberNotFoundError extends CoreError {
+export class ClassMemberNotFoundError extends ExtendedError {
 
     /**
      * @public
-     * @constructor
-     * @param target - class member [[ClassMember]] where error is thrown
+     * @param target - class member where error is thrown
      * @param classMemberName - class member name
      */
     public constructor(target: ClassMember, classMemberName: string) {

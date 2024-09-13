@@ -1,6 +1,9 @@
 import {unique} from "../../common/metadata/UniqueDecorator";
 
 class SuperUniqueStaticPropertyDefinedDecoratedClass {
+    public run(param: number): number {
+        return param;
+    }
 }
 
 export class ChildUniqueStaticPropertyDefinedDecoratedClass extends SuperUniqueStaticPropertyDefinedDecoratedClass {

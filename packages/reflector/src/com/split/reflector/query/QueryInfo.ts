@@ -1,10 +1,9 @@
-import {Nullable} from "@semaver/core";
+import {Empty} from "@semaver/core";
 import {ClassMember} from "../members/ClassMember";
 
 /**
+ * class that contains information about class members used to perform the query
  * @public
- * @class
- * @description - class that contains information about class members used to perform query
  */
 export class QueryInfo<T extends object> {
     /**
@@ -15,43 +14,46 @@ export class QueryInfo<T extends object> {
 
     /**
      * @public
-     * @constructor
      * @param members - collection of class members
      */
-    public constructor(members: ClassMember<T>[]) {
+    public constructor(members: Empty<ClassMember<T>[]>) {
         this.members = members ? members.slice() : [];
     }
 
     /**
+     * method to get a collection of class members
+     *
      * @public
-     * @method to get collection of class members
-     * @return - collection of class members
+     * @returns - collection of class members
      */
     public getMembers<K extends ClassMember<T> = ClassMember<T>>(): K[] {
         return this.members as K[];
     }
 
     /**
+     * method to get class members from a collection at index
+     *
      * @public
-     * @method to get class members from collection at index
-     * @return - selected class members
+     * @returns - selected class members
      */
-    public getMemberAt<K extends ClassMember<T> = ClassMember<T>>(index: number): Nullable<K> {
+    public getMemberAt<K extends ClassMember<T> = ClassMember<T>>(index: number): Empty<K> {
         return -1 < index && index < this.members.length ? this.members[index] as K : undefined;
     }
 
     /**
+     * method to filters class members based on filterFn function
+     *
      * @public
-     * @method to filters class members based on filterFn function
      * @param filterFn - filter function
      */
-    public filterMembers(filterFn: (member: ClassMember<T>) => void): void {
+    public filterMembers(filterFn: (member: ClassMember<T>) => boolean): void {
         this.members = this.members.filter(filterFn);
     }
 
     /**
+     * method to iterate class members using iteratorFn function
+     *
      * @public
-     * @method to iterate class members using iteratorFn function
      * @param iteratorFn - iterator function
      */
     public forEachMember(iteratorFn: (member: ClassMember<T>) => void): void {

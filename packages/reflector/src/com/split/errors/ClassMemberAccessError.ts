@@ -1,11 +1,12 @@
-import {CoreError} from "@semaver/core";
-import {DecoratedElementType} from "../metatable/types/DecoratedElementType";
+import {DecoratedElementTypeValues} from "../metatable/types/DecoratedElementEnum";
 import {ClassMember} from "../reflector/members/ClassMember";
+import {ExtendedError} from "@semaver/core";
 
 /**
+ * access type used for fields
+ *
  * @public
  * @enum
- * @description access type used for fields [[Field]]
  */
 export enum AccessType {
     READ = "read",
@@ -14,22 +15,20 @@ export enum AccessType {
 }
 
 /**
+ * custom error for class member target thrown if class member does not have the right access (read, write, execute)
+ *
  * @public
- * @class
- * @extends [[CoreError]]
- * @description - custom error for class member target thrown if class member does not have right access (read, write, execute)
  */
-export class ClassMemberAccessError extends CoreError {
+export class ClassMemberAccessError extends ExtendedError {
 
     /**
      * @public
-     * @constructor
-     * @param target - class member [[ClassMember]] where error is thrown
-     * @param classMemberType - class member type [[DecoratedElementType]]
+     * @param target - class member where error is thrown
+     * @param classMemberType - class member type
      * @param classMemberName - class member name
-     * @param wrongAccessType - wrong class member access type [[AccessType]]
+     * @param wrongAccessType - wrong class member access type
      */
-    public constructor(target: ClassMember, classMemberType: DecoratedElementType, classMemberName: string, wrongAccessType: AccessType) {
+    public constructor(target: ClassMember, classMemberType: DecoratedElementTypeValues, classMemberName: string, wrongAccessType: AccessType) {
         super(target, `${classMemberType.toString()} - (${classMemberName}) Class member has no ${wrongAccessType} access`);
     }
 }

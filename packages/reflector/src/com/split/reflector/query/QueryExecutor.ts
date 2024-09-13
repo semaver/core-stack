@@ -5,22 +5,21 @@ import {QueryInfo} from "./QueryInfo";
 import {QueryMembersSelector} from "./QueryMembersSelector";
 
 /**
+ * class to perform filter and selection of class members and decorators
+ *
  * @public
- * @class
- * @description - class to perform filter and selection of class members and decorators
  */
 export class QueryExecutor<T extends object> {
 
     /**
      * @protected
      * @readonly
-     * @property queryInfo - query info, that contains information about selected class members
+     * @property queryInfo - query info that contains information about selected class members
      */
     private readonly queryInfo: QueryInfo<T>;
 
     /**
      * @public
-     * @constructor
      * @param members - collection of class members
      */
     public constructor(members: ClassMember<T>[]) {
@@ -28,37 +27,41 @@ export class QueryExecutor<T extends object> {
     }
 
     /**
+     * method to filter class members based on provided condition
+     *
      * @public
-     * @method to filters class members based on provided condition
-     * @param condition - condition [[IQueryCondition]] used to filter
+     * @param condition - condition used to filter
      */
-    public filter(condition: IQueryCondition<T>): QueryExecutor<T> {
+    public filter(condition: IQueryCondition<T>): this {
         condition.filter(this.queryInfo);
         return this;
     }
 
     /**
+     * method to get instance of query member selector with provided filtered query info
+     *
      * @public
-     * @method to get instance of query member selector with provided filtered query info [[QueryInfo]]
-     * @return instance of query member selector [[QueryMembersSelector]], that allows to select class members
+     * @returns instance of query member selector, that allows selecting class members
      */
     public members(): QueryMembersSelector<T> {
         return new QueryMembersSelector(this.queryInfo);
     }
 
     /**
+     * method to get instance of query decorator selector with provided filtered query info
+     *
      * @public
-     * @method to get instance of query decorator selector with provided filtered query info [[QueryInfo]]
-     * @return instance of query decorator selector [[QueryDecoratorSelector]], that allows to select full proceeded decorators from class members
+     * @returns instance of query decorator selector, that allows to select full proceeded decorators from class members
      */
     public decorators(): QueryDecoratorSelector<T> {
         return new QueryDecoratorSelector(this.queryInfo, false);
     }
 
     /**
+     * method to get instance of query decorator selector with provided filtered query info
+     *
      * @public
-     * @method to get instance of query decorator selector with provided filtered query info [[QueryInfo]]
-     * @return instance of query decorator selector [[QueryDecoratorSelector]], that allows to select own decorators from class members
+     * @returns instance of query decorator selector, that allows to select own decorators from class members
      */
     public ownDecorators(): QueryDecoratorSelector<T> {
         return new QueryDecoratorSelector(this.queryInfo, true);

@@ -1,23 +1,21 @@
-import {CoreError} from "@semaver/core";
-import {DecoratedElementType} from "../metatable/types/DecoratedElementType";
+import {ExtendedError} from "@semaver/core";
+import {DecoratedElementTypeValues} from "../metatable/types/DecoratedElementEnum";
 import {ClassMember} from "../reflector/members/ClassMember";
 
 /**
+ * custom error for class member target thrown if class member target is undefined
+ *
  * @public
- * @class
- * @extends [[CoreError]]
- * @description - custom error for class member target thrown if class member target is undefined
  */
-export class ClassMemberTargetUndefinedError extends CoreError {
+export class ClassMemberTargetUndefinedError extends ExtendedError {
 
     /**
      * @public
-     * @constructor
-     * @param target - class member [[ClassMember]] where error is thrown
-     * @param classMemberType - class member type [[DecoratedElementType]]
+     * @param target - class member where error is thrown
+     * @param classMemberType - class member type
      * @param classMemberName - class member name
      */
-    public constructor(target: ClassMember, classMemberType: DecoratedElementType, classMemberName: string) {
+    public constructor(target: ClassMember, classMemberType: DecoratedElementTypeValues, classMemberName: string) {
         super(target, `${classMemberType.toString()} - (${classMemberName}): target is null or undefined`);
     }
 }

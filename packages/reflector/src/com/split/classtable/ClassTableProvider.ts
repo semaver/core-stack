@@ -5,29 +5,28 @@ import {IClassTableRef} from "./IClassTableRef";
 import {IClassTableSubscriber} from "./IClassTableSubscriber";
 
 /**
+ *  main responsibility is to provide access to class table as well as create storage for it
+ *
  * @public
- * @class
- * @description - main responsibility is to provide access to class table as well as create storage for it
  */
 export class ClassTableProvider {
     /**
      * @private
      * @readonly
-     * @property classTable - class table instance [[ClassTable]], wrapper for class table reference
+     * @property classTable - class table instance, wrapper for class table reference
      */
     private readonly classTable: ClassTable;
 
     /**
      * @public
-     * @constructor
      */
     public constructor() {
         let classTableRef: IClassTableRef;
-        const storage: object = globalThis ?? Object;
+        const storage: object = globalThis;
         if (!Reflect.has(storage, ClassTableNames.CLASS_TABLE)) {
             classTableRef = {
                 _sync_hash: "",
-                _classes: new Set<IMetadataClass<unknown>>(),
+                _classes: new Set<IMetadataClass<object>>(),
                 _subscribers: new Set<IClassTableSubscriber>(),
             };
             Reflect.defineProperty(storage, ClassTableNames.CLASS_TABLE, {
@@ -37,16 +36,17 @@ export class ClassTableProvider {
                 writable: false,
             });
         } else {
-            classTableRef = Reflect.get(storage, ClassTableNames.CLASS_TABLE);
+            classTableRef = Reflect.get(storage, ClassTableNames.CLASS_TABLE) as IClassTableRef;
         }
 
         this.classTable = new ClassTable(classTableRef);
     }
 
     /**
+     * method to get class table
+     *
      * @public
-     * @method to get class table
-     * @return instance of class table [[ClassTable]]
+     * @returns instance of class table
      */
     public getClassTable(): ClassTable {
         return this.classTable;

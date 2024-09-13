@@ -2,9 +2,10 @@ import {IMetadataClass} from "../metatable/classes/IMetadataClass";
 import {IClassTableSubscriber} from "./IClassTableSubscriber";
 
 /**
+ * class table reference, only classes with own metadata are registered in classtable
+ *
  * @public
  * @interface
- * @description - class table reference, only classes with own metadata are registered in classtable
  */
 export interface IClassTableRef {
 
@@ -18,7 +19,7 @@ export interface IClassTableRef {
      * @public
      * @property _classes - set of metadata classes registered in class table
      */
-    _classes: Set<IMetadataClass<unknown>>
+    _classes: Set<IMetadataClass<object>>
 
     /**
      * @public

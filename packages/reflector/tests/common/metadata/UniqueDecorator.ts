@@ -3,15 +3,21 @@ import {
     Decorator,
     IPolicyProvider,
     MetadataAccessPolicy,
+    MetadataAccessPolicyValues,
     MetadataAppearancePolicy,
+    MetadataAppearancePolicyValues,
     MetadataCollisionPolicy,
+    MetadataCollisionPolicyValues,
     MetadataNotExistencePolicy,
+    MetadataNotExistencePolicyValues,
     MetadataSameTargetMultiUsagePolicy,
+    MetadataSameTargetMultiUsagePolicyValues,
     PolicyProvider,
-    PrimitiveMetadataAccessPolicy
+    PrimitiveMetadataAccessPolicy,
+    PrimitiveMetadataAccessPolicyValues
 } from "../../../src";
 
-export function unique(type: string, ...params: any[]): IFunction<void> {
+export function unique(type: string, ...params: unknown[]): IFunction<void> {
     return Decorator.build(new UniqueDecorator().setType(type).setAnyParams(...params));
 }
 
@@ -31,32 +37,32 @@ export class UniqueDecorator extends Decorator {
         return this;
     }
 
-    public setAnyParams(...args: any[]): this {
+    public setAnyParams(...args: unknown[]): this {
         this.args = args;
         return this;
     }
 
-    public getParameters(): ReadonlyArray<unknown> {
+    public getParameters(): readonly unknown[] {
         return [this.type, ...this.args];
     }
 
-    public getAccessPolicy(): MetadataAccessPolicy {
+    public getAccessPolicy(): MetadataAccessPolicyValues {
         return UniqueDecorator.policyProvider.getAccessPolicy();
     }
 
-    public getAppearancePolicy(access: PrimitiveMetadataAccessPolicy = PrimitiveMetadataAccessPolicy.NONE): MetadataAppearancePolicy {
+    public getAppearancePolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataAppearancePolicyValues {
         return UniqueDecorator.policyProvider.getAppearancePolicy(access);
     }
 
-    public getNotExistencePolicy(access: PrimitiveMetadataAccessPolicy = PrimitiveMetadataAccessPolicy.NONE): MetadataNotExistencePolicy {
+    public getNotExistencePolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataNotExistencePolicyValues {
         return UniqueDecorator.policyProvider.getNotExistencePolicy(access);
     }
 
-    public getCollisionPolicy(access: PrimitiveMetadataAccessPolicy = PrimitiveMetadataAccessPolicy.NONE): MetadataCollisionPolicy {
+    public getCollisionPolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataCollisionPolicyValues {
         return UniqueDecorator.policyProvider.getCollisionPolicy(access);
     }
 
-    public getSameTargetMultiUsagePolicy(access: PrimitiveMetadataAccessPolicy = PrimitiveMetadataAccessPolicy.NONE): MetadataSameTargetMultiUsagePolicy {
+    public getSameTargetMultiUsagePolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataSameTargetMultiUsagePolicyValues {
         return UniqueDecorator.policyProvider.getSameTargetMultiUsagePolicy(access);
     }
 }

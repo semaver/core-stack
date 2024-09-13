@@ -3,12 +3,11 @@ import {IClassTableRef} from "./IClassTableRef";
 import {IClassTable} from "./IClassTable";
 import {IClassTableSubscriber} from "./IClassTableSubscriber";
 import {IClassTableUpdate} from "./IClassTableUpdate";
+import {IClass} from "@semaver/core";
 
 /**
+ * class wrapper for class table reference
  * @public
- * @class
- * @implements [[IClassTable]]
- * @description class wrapper for class table reference
  */
 export class ClassTable implements IClassTable {
 
@@ -16,14 +15,13 @@ export class ClassTable implements IClassTable {
      *
      * @private
      * @readonly
-     * @property classTableRef - reference to class table [[IClassTableRef]]
+     * @property classTableRef - reference to class table
      */
     private readonly classTableRef: IClassTableRef;
 
     /**
      * @public
-     * @constructor
-     * @param classTableRef - reference to class table [[IClassTableRef]]
+     * @param classTableRef - reference to class table
      */
     public constructor(classTableRef: IClassTableRef) {
         this.classTableRef = classTableRef;
@@ -32,16 +30,17 @@ export class ClassTable implements IClassTable {
     /**
      * @inheritDoc
      */
-    public getClasses(): ReadonlySet<IMetadataClass<unknown>> {
+    public getClasses(): ReadonlySet<IClass<object>> {
         return this.classTableRef._classes;
     }
 
     /**
+     * method to get a collection of classes containing own metadata
+     *
      * @public
-     * @method to get collection of classes containing own metadata
-     * @return modifiable set of classes
+     * @returns modifiable set of classes
      */
-    public getWriteableClasses(): Set<IMetadataClass<unknown>> {
+    public getWriteableClasses(): Set<IMetadataClass<object>> {
         return this.classTableRef._classes;
     }
 
@@ -53,9 +52,10 @@ export class ClassTable implements IClassTable {
     }
 
     /**
+     * method to set synchronization hash
+     *
      * @public
-     * @method to set synchronisation hash
-     * @param hash - string of synchronisation hash
+     * @param hash - string of synchronization hash
      */
     public setSyncHash(hash: string): void {
         this.classTableRef._sync_hash = hash;
@@ -63,10 +63,9 @@ export class ClassTable implements IClassTable {
 
     /**
      * @inheritDoc
-     * @param subscribers
      */
     public subscribe(...subscribers: IClassTableSubscriber[]): this {
-        subscribers.forEach(subscriber => subscriber && this.classTableRef._subscribers.add(subscriber));
+        subscribers.forEach(subscriber => this.classTableRef._subscribers.add(subscriber));
         return this;
     }
 
@@ -74,18 +73,21 @@ export class ClassTable implements IClassTable {
      * @inheritDoc
      */
     public unsubscribe(...subscribers: IClassTableSubscriber[]): this {
-        subscribers.forEach(subscriber => subscriber && this.classTableRef._subscribers.delete(subscriber));
+        subscribers.forEach(subscriber => this.classTableRef._subscribers.delete(subscriber));
         return this;
     }
 
     /**
+     * method to notify subscribers about class table updates
+     *
      * @public
-     * @method to notify subscribers about class table updates
-     * @param update - update object containing information about updates [[IClassTableUpdate]]
-     * @return instance of current class table
+     * @param update - update object containing information about updates
+     * @returns instance of current class table
      */
     public notify(update: IClassTableUpdate): this {
-        this.classTableRef._subscribers.forEach(subscriber => subscriber.onClassTableUpdate(update));
+        this.classTableRef._subscribers.forEach(subscriber => {
+            subscriber.onClassTableUpdate(update);
+        });
         return this;
     }
 }

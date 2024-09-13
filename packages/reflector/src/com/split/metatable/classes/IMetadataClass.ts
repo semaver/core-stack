@@ -1,10 +1,11 @@
-import {IClass, Nullable} from "@semaver/core";
+import {IClass, Empty} from "@semaver/core";
 import {IMetadataTableRef} from "../metadata/IMetadataTableRef";
 
 /**
+ * metadata class names used to define metadata properties
+ *
  * @public
  * @enum
- * @description - metadata class names used to define metadata properties
  */
 export enum MetadataClassNames {
     OWN_HASH = "__own_hash__",
@@ -14,10 +15,10 @@ export enum MetadataClassNames {
 }
 
 /**
+ * interface that represents class with metadata
+ *
  * @public
  * @interface
- * @extends [[IClass]]
- * @description - interface that represent class with metadata
  */
 export interface IMetadataClass<T> extends IClass<T> {
 
@@ -31,7 +32,7 @@ export interface IMetadataClass<T> extends IClass<T> {
      * @public
      * @property __parent_hash__ used to track changes of metadata
      */
-    __parent_hash__: Nullable<string>;
+    __parent_hash__: Empty<string>;
     /**
      * @public
      * @property __metadata__ - metadata table containing only own original metadata
@@ -42,5 +43,5 @@ export interface IMetadataClass<T> extends IClass<T> {
      * @public
      * @property __cached_metadata__ - metadata table containing proceeded metadata based on different policies
      */
-    __cached_metadata__: Nullable<IMetadataTableRef>;
+    __cached_metadata__: Empty<IMetadataTableRef>;
 }
