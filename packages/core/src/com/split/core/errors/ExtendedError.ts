@@ -30,7 +30,7 @@ export function throwDefault(target: object, error: string = "Error"): never {
  * function to throw an error
  *
  * @public
- * @param error - instance of {@link Error}
+ * @param error - instance of JS Error
  * @returns never
  */
 export function throwError(error: Error): never {

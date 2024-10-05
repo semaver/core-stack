@@ -23,6 +23,7 @@ export * from "./com/split/extentions/MetadataObjectExtention";
 export * from "./com/split/metatable/MetadataFactory";
 export * from "./com/split/metatable/MetadataTableProvider";
 export * from "./com/split/metatable/classes/IMetadataClass";
+export * from "./com/split/metatable/constants/ConstructorName";
 export * from "./com/split/metatable/metadata/IMemberMetadata";
 export * from "./com/split/metatable/metadata/IMetadataTableRef";
 export * from "./com/split/metatable/policies/IPolicyProvider";

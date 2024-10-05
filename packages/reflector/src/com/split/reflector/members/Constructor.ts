@@ -14,8 +14,6 @@ import {Parameter} from "./Parameter";
  */
 export class Constructor<T extends object = object> extends ExecutableMember<T> {
 
-    public static defaultName: string = "ctor";
-
     /**
      * @public
      * @param metadataClass - class that contains current constructor

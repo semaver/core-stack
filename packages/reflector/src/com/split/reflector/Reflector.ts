@@ -1,11 +1,11 @@
 import {
+    Empty,
     getPropertyDescriptor,
     hasProperty,
     IClass,
     isObjectEmpty,
     isObjectPrimitive,
     JsFunction,
-    Empty,
     Throwable
 } from "@semaver/core";
 import {ClassTableProvider} from "../classtable/ClassTableProvider";
@@ -25,6 +25,7 @@ import {Method} from "./members/Method";
 import {MethodParameter} from "./members/MethodParameter";
 import {Property} from "./members/Property";
 import {QueryExecutor} from "./query/QueryExecutor";
+import {constructorName} from "../metatable/constants/ConstructorName";
 
 
 /**
@@ -540,14 +541,14 @@ export class Reflector<T extends object = object> {
         for (let i: number = 0; i < parameterLength; i++) {
             parameters.push(new ConstructorParameter(
                 this._class,
-                Constructor.defaultName,
+                constructorName,
                 false,
                 i,
             ));
         }
         return new Constructor(
             this._class,
-            Constructor.defaultName,
+            constructorName,
             parameters,
         );
     }

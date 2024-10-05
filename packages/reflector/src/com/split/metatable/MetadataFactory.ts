@@ -1,10 +1,10 @@
-import {isObjectClass, Empty, Throwable, throwDefault} from "@semaver/core";
-import {Constructor} from "../reflector/members/Constructor";
+import {Empty, isObjectClass, Throwable, throwDefault} from "@semaver/core";
 import {IMetadataClass} from "./classes/IMetadataClass";
 import {IMemberMetadata} from "./metadata/IMemberMetadata";
 import {MetadataAccessPolicy} from "./policies/MetadataAccessPolicy";
 import {DecoratedElementEnum} from "./types/DecoratedElementEnum";
 import {metadataClassOfObject} from "../extentions/MetadataObjectExtention";
+import {constructorName} from "./constants/ConstructorName";
 
 /**
  * function to generate parameter metadata
@@ -24,7 +24,7 @@ export function getParameterMetadata<T extends object>(target: T, name: Empty<st
 
     return {
         type: isConstructor ? DecoratedElementEnum.CONSTRUCTOR_PARAMETER : DecoratedElementEnum.METHODS_PARAMETER,
-        name: name ?? Constructor.defaultName,
+        name: name ?? constructorName,
         owner: targetClass,
         isStatic: !!name && isStatic,
         access: isConstructor
@@ -120,7 +120,7 @@ export function getConstructorMetadata<T extends object>(target: T): IMemberMeta
 
     return {
         type: DecoratedElementEnum.CONSTRUCTOR,
-        name: Constructor.defaultName,
+        name: constructorName,
         owner: targetClass,
         isStatic: false,
         access: MetadataAccessPolicy.CONSTRUCTOR,

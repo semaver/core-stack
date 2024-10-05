@@ -1,12 +1,12 @@
 import {IClass} from "@semaver/core";
 import {
-    Constructor,
     DecoratedElementEnum,
     IMetadataClass,
     IMetatableDecorator,
     metadataClassOfObject,
     MetadataTableProvider,
 } from "../../src";
+import {constructorName} from "../../src/com/split/metatable/constants/ConstructorName";
 
 export function testOwnAccessors<T extends object>(someClass: IClass<T>,
                                                    totalMembers: number,
@@ -92,7 +92,7 @@ export function testOwnConstructors<T extends object>(someClass: IClass<T>,
     }, new Array<IMetatableDecorator>());
 
     expect(constructors.length).toBe(argLength);
-    expect(constructors[0].__metadata__.name).toBe(Constructor.defaultName);
+    expect(constructors[0].__metadata__.name).toBe(constructorName);
 }
 
 export function testOwnMethods<T extends object>(someClass: IClass<T>,

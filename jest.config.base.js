@@ -16,7 +16,6 @@ export const packageBase = (packageJson) => {
 	return {
 		...base,
 		displayName: packageJson.name,
-		name: packageJson.name,
 		rootDir: "../..",
 		testMatch: [`<rootDir>/packages/${packageJson.rawName}/**/*.spec.ts`],
 		coverageDirectory: `<rootDir>/packages/${packageJson.rawName}/coverage/`,

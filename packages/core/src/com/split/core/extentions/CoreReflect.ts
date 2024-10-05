@@ -61,7 +61,7 @@ export function getPropertyOwner<S extends object, C extends S>(obj: Empty<C>, p
  * @public
  * @param obj - object that contains the property
  * @param property  - a property key
- * @returns property descriptor Js {@link PropertyDescriptor} or undefined
+ * @returns JS property descriptor or undefined
  */
 export function getPropertyDescriptor(obj: Empty<object>, property: PropertyKey): Empty<PropertyDescriptor> {
     const target: Empty<object> = getPropertyOwner(obj, property);

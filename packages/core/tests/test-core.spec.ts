@@ -134,7 +134,7 @@ describe("Core Test", () => {
         let uid: never;
         expect(() => {
             InterfaceSymbol.for(uid);
-        }).toThrowError(Error);
+        }).toThrow(Error);
     });
 
     it("should validate super constructors", () => {

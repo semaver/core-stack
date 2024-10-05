@@ -1,0 +1,75 @@
+{
+  "name": "@semaver/dicontainer-api",
+  "type": "module",
+  "rawName": "dicontainerapi",
+  "version": "2.0.0",
+  "description": "Dependency Injection Container API only.",
+  "homepage": "https://github.com/semaver/core-stack",
+  "bugs": "https://github.com/semaver/core-stack/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/semaver/core-stack.git"
+  },
+  "author": "semaver",
+  "contributors": [
+    "Eugen Reyzenkind <eugen.reyzenkind@web.de>",
+    "Ismail Simsek <ismailsimsek09@gmail.com>",
+    "Kateryna Sergieieva <sergeeva.kathy@gmail.com>"
+  ],
+  "license": "MIT",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/library.esm.mjs",
+      "require": "./lib/library.cjs.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./lib/library.cjs.cjs",
+  "module": "./lib/library.esm.mjs",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "lib/index.d.ts"
+      ]
+    }
+  },
+  "sideEffects": false,
+  "keywords": [
+    "dependency injection",
+    "reflection",
+    "reflect",
+    "typescript",
+    "javascript",
+    "decorators",
+    "annotations",
+    "metadata",
+    "inheritance",
+    "ioc",
+    "frontend",
+    "backend",
+    "api",
+    "no reflect-metadata"
+  ],
+  "files": [
+    "diagrams",
+    "lib",
+    "docs",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "jest --collectCoverage",
+    "build": "rollup -c ../../rollup.config.js",
+    "index": "cti entrypoint src -o index.ts",
+    "lint": "eslint ./src ./tests",
+    "file": "yarn pack --pack-destination packs"
+  },
+  "devDependencies": {
+    "@semaver/core": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@semaver/core": "^2.0.0"
+  }
+}

@@ -66,13 +66,13 @@
     "file": "yarn pack --pack-destination packs"
   },
   "devDependencies": {
+    "@types/uuid": "^10.0.0",
     "@semaver/core": "^2.0.0"
   },
   "peerDependencies": {
     "@semaver/core": "^2.0.0"
   },
   "dependencies": {
-    "@types/uuid": "^10.0.0",
     "uuid": "^10.0.0"
   }
 }
