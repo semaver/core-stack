@@ -4,7 +4,7 @@ import {IQueryCondition} from "../../IQueryCondition";
 import {QueryInfo} from "../../QueryInfo";
 
 /**
- * implementation of query condition api to filter class members by provided decorator classes
+ * implementation of query condition api to filter class members by member-level decorator classes (parameter decorators are not considered)
  *
  * @public
  */

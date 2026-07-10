@@ -28,7 +28,7 @@ export class ByMemberName<T extends object = object> implements IQueryCondition<
     }
 
     /**
-     * method to create query/filter condition (instance) form a collection of class members names
+     * method to create query/filter condition (instance) from a collection of class members names
      *
      * @public
      * @param memberNames - collection of class members names

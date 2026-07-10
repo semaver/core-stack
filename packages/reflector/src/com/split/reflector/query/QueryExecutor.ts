@@ -12,7 +12,7 @@ import {QueryMembersSelector} from "./QueryMembersSelector";
 export class QueryExecutor<T extends object> {
 
     /**
-     * @protected
+     * @private
      * @readonly
      * @property queryInfo - query info that contains information about selected class members
      */
@@ -51,7 +51,7 @@ export class QueryExecutor<T extends object> {
      * method to get instance of query decorator selector with provided filtered query info
      *
      * @public
-     * @returns instance of query decorator selector, that allows to select full proceeded decorators from class members
+     * @returns instance of query decorator selector, that allows to select full processed decorators from class members
      */
     public decorators(): QueryDecoratorSelector<T> {
         return new QueryDecoratorSelector(this.queryInfo, false);

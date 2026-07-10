@@ -43,7 +43,7 @@ export interface IPolicyProvider {
      *
      * @public
      * @param access - primitive metadata access policy
-     * @returns metadata collision policy
+     * @returns metadata not existence policy
      */
     getNotExistencePolicy(access: PrimitiveMetadataAccessPolicyValues): MetadataNotExistencePolicyValues;
 

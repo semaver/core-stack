@@ -42,7 +42,7 @@ export abstract class ExecutableMember<T extends object = object> extends ClassM
     }
 
     /**
-     * method to get known parameter count from <b>reflection api<b>
+     * method to get known parameter count from <b>reflection api</b>
      * myMethodA(...args) return argument length == 0,
      * myMethodA(someArg1, someArg2, ...args) return argument length == 2
      * myMethodA(someArg1, someArg2 = 1, ...args) return argument length == 1
@@ -56,7 +56,7 @@ export abstract class ExecutableMember<T extends object = object> extends ClassM
     }
 
     /**
-     * method to get own parameter count from <b>descriptor api<b>
+     * method to get own parameter count from <b>descriptor api</b>
      * myMethodA(...args) return argument length == 0,
      * myMethodA(someArg1, someArg2, ...args) return argument length == 2
      * myMethodA(someArg1, someArg2 = 1, ...args) return argument length == 1
@@ -70,7 +70,7 @@ export abstract class ExecutableMember<T extends object = object> extends ClassM
      * method to get parameters from provided executable class
      *
      * @public
-     * @returns copy of parameters' collection
+     * @returns readonly parameters' collection
      */
     public getParameters(): readonly Parameter<T>[] {
         return this._parameters;
@@ -99,7 +99,7 @@ export abstract class ExecutableMember<T extends object = object> extends ClassM
     }
 
     /**
-     * method to check if executable class member has full proceeded parameter decorators
+     * method to check if executable class member has full processed parameter decorators
      *
      * @public
      * @param decoratorClasses - collection of decorator classes to check (can be omitted)
@@ -110,7 +110,7 @@ export abstract class ExecutableMember<T extends object = object> extends ClassM
     }
 
     /**
-     * method to get full proceeded parameter decorators from provided executable class
+     * method to get full processed parameter decorators from provided executable class
      *
      * @public
      * @param decoratorClasses - collection of decorator classes to get (can be omitted)

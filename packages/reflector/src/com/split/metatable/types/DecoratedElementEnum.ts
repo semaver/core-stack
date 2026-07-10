@@ -36,7 +36,7 @@ export interface DecoratedElementType extends PrimitiveDecoratedElementType {
 export type DecoratedElementTypeValues = DecoratedElementType[keyof DecoratedElementType];
 
 /**
- * implementation of {@link PrimitiveDecoratedElementEnum} interface
+ * implementation of {@link PrimitiveDecoratedElementType} interface
  * - CONSTRUCTOR: 1,
  * - PROPERTY: 2,
  * - ACCESSOR: 4,

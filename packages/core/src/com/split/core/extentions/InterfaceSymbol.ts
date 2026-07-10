@@ -22,7 +22,7 @@ export class InterfaceSymbol<T> implements IInterface<T> {
 
     /**
      * @private
-     * @param uid - unique identifier of type symbol
+     * @param uid - unique identifier of interface symbol
      */
     private constructor(uid: symbol) {
         this.uid = uid;

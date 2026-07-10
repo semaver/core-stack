@@ -693,12 +693,12 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
-     * method to write constructor decorator into metadata table
+     * method to write member decorator into metadata table
      *
      * @private
      * @param access - primitive access policy
-     * @param decorator - constructor decorator
-     * @param membersMetadataTable
+     * @param decorator - class member decorator
+     * @param membersMetadataTable - members metadata tables by member name
      * @returns true if decoration was successful
      */
     private addMemberDecorator(access: PrimitiveMetadataAccessPolicyValues, decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
@@ -710,11 +710,11 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
-     * method to write constructor parameter decorator into metadata table
+     * method to write parameter decorator into metadata table
      *
      * @private
      * @param access - primitive access policy
-     * @param decorator - constructor parameter decorator
+     * @param decorator - parameter decorator
      * @param membersMetadataTable - members metadata tables by member name
      * @returns true if decoration was successful
      */
@@ -737,10 +737,10 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
-     * method to delete constructor decorator from metadata table
+     * method to delete member decorator from metadata table
      *
      * @private
-     * @param decorator - constructor decorator
+     * @param decorator - class member decorator
      * @param membersMetadataTable - members metadata tables by member name
      * @returns true if removal of decorator was successful
      */
@@ -761,10 +761,10 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
-     * method to delete constructor decorator from metadata table
+     * method to delete parameter decorator from metadata table
      *
      * @private
-     * @param decorator - constructor decorator
+     * @param decorator - parameter decorator
      * @param membersMetadataTable - members metadata tables by member name
      * @returns true if removal of decorator was successful
      */
@@ -976,9 +976,9 @@ export class MetadataTableProvider<T extends object = object> {
      * method to check if provided decorator exist in metadata table
      *
      * @private
-     * @param decorator - constructor decorator
+     * @param decorator - class member decorator
      * @param membersMetadataTable - members metadata tables by member name
-     * @returns true if provided constructor decorator found in metadata table
+     * @returns true if provided member decorator found in metadata table
      */
     private hasSameMetadataInMember(decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
         return getMapElementOrDefault(membersMetadataTable, decorator.__metadata__.name, createMemberMetadataTable())

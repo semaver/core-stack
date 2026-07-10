@@ -18,7 +18,7 @@ export class QueryDecoratorSelector<T extends object> {
 
     /**
      * @protected
-     * @property useOwn - flag to select only own or full proceeded decorators
+     * @property useOwn - flag to select only own or full processed decorators
      */
     protected readonly useOwn: boolean;
 

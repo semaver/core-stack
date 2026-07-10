@@ -29,7 +29,7 @@ export class ByMemberType<T extends object = object> implements IQueryCondition<
     }
 
     /**
-     * method to create query/filter condition (instance) form collection of class members types
+     * method to create query/filter condition (instance) from a collection of class members types
      *
      * @public
      * @param memberTypes - collection of class members types

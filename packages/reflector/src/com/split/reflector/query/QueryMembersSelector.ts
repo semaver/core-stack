@@ -33,7 +33,7 @@ export class QueryMembersSelector<T extends object> {
     }
 
     /**
-     * method to get a first accrued class member from the filtered collection of class members
+     * method to get the first class member from the filtered collection of class members
      * @public
      * @returns first class member
      */

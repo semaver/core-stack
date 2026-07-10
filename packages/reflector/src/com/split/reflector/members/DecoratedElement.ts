@@ -24,7 +24,7 @@ export abstract class DecoratedElement<T extends object = object> implements IDe
     /**
      * @protected
      * @readonly
-     * @property _metadataTable - metatable provider for decorated element
+     * @property _metadataTableProvider - metatable provider for decorated element
      */
     protected readonly _metadataTableProvider: MetadataTableProvider<T>;
 
@@ -150,10 +150,10 @@ export abstract class DecoratedElement<T extends object = object> implements IDe
     }
 
     /**
-     * method to get a collection of full proceeded decorators
+     * method to get a collection of full processed decorators
      *
      * @protected
-     * @returns collection of full proceeded decorators
+     * @returns collection of full processed decorators
      */
     protected getMetadataDecorators(): IMetatableDecorator[] {
         const metadataTable: IMetadataTableRef = this._metadataTableProvider.getMetadataTable();

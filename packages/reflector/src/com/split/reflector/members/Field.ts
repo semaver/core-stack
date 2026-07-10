@@ -19,7 +19,7 @@ export abstract class Field<T extends object = object, TValue = unknown> extends
     }
 
     /**
-     * method to set a flag, that indicates if field is gettable
+     * method to get a flag, that indicates if field is gettable
      *
      * @public
      * @returns true if field is gettable
@@ -27,7 +27,7 @@ export abstract class Field<T extends object = object, TValue = unknown> extends
     public abstract isGettable(): boolean;
 
     /**
-     * method to set a flag, that indicates if field is settable
+     * method to get a flag, that indicates if field is settable
      *
      * @public
      * @returns true if field is settable

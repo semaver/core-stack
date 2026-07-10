@@ -81,20 +81,18 @@ export class Reflector<T extends object = object> {
     protected readonly _accessors: Accessor<T>[] = [];
     /**
      * @protected
-     * @readonly
      * @property _fields - collection of fields for provided class
      */
     protected _fields: Field<T>[] = [];
     /**
      * @protected
-     * @readonly
      * @property _members - collection of all class members for provided class
      */
     protected _members: ClassMember<T>[] = [];
     /**
      * @protected
      * @readonly
-     * @property _metadataTable - metatable provider for decorated class
+     * @property _metadataTableProvider - metatable provider for decorated class
      */
     protected readonly _metadataTableProvider: MetadataTableProvider<T>;
     /**
@@ -116,7 +114,7 @@ export class Reflector<T extends object = object> {
     }
 
     /**
-     * method to get class table with all classes that contains all decorator
+     * method to get class table with all classes that contain decorators
      *
      * @public
      * @returns class table

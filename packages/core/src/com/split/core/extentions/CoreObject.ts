@@ -25,7 +25,7 @@ export function isObjectPrimitive(obj: unknown): boolean {
 }
 
 /**
- * function to check if a given object is class or instance
+ * function to check if a given object is a class (not an instance)
  *
  * @public
  * @param obj - object to check

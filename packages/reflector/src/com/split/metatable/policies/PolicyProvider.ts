@@ -33,20 +33,17 @@ export class PolicyProvider implements IPolicyProvider {
     protected readonly appearance: Map<PrimitiveMetadataAccessPolicyValues, MetadataAppearancePolicyValues> = new Map<PrimitiveMetadataAccessPolicyValues, MetadataAppearancePolicyValues>();
     /**
      * @protected
-     * @readonly
      * @property collision - map of metadata collision policy by primitive metadata access policy
      */
     protected collision: Map<PrimitiveMetadataAccessPolicyValues, MetadataCollisionPolicyValues> = new Map<PrimitiveMetadataAccessPolicyValues, MetadataCollisionPolicyValues>();
     /**
      * @protected
-     * @readonly
      * @property notExistence - map of metadata not existence policy by primitive metadata access policy
      */
     protected notExistence: Map<PrimitiveMetadataAccessPolicyValues, MetadataNotExistencePolicyValues> = new Map<PrimitiveMetadataAccessPolicyValues, MetadataNotExistencePolicyValues>();
     /**
      * @protected
-     * @readonly
-     * @property notExistence - map of metadata same target multi usage policy by primitive metadata access policy
+     * @property sameTargetMultiUsage - map of metadata same target multi usage policy by primitive metadata access policy
      */
     protected sameTargetMultiUsage: Map<PrimitiveMetadataAccessPolicyValues, MetadataSameTargetMultiUsagePolicyValues> = new Map<PrimitiveMetadataAccessPolicyValues, MetadataSameTargetMultiUsagePolicyValues>();
 

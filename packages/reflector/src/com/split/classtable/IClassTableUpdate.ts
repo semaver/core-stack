@@ -62,7 +62,7 @@ export interface IClassTableUpdate<TDecorator extends Decorator = Decorator, T =
         /**
          * @public
          * @readonly
-         * @property index - index(position) of current parameters
+         * @property parameterIndex - index(position) of current parameter
          */
         readonly parameterIndex: number;
     };
