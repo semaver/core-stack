@@ -52,7 +52,6 @@
   ],
   "files": [
     "lib",
-    "docs",
     "package.json",
     "README.md",
     "LICENSE"

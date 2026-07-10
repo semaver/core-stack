@@ -1543,7 +1543,67 @@ export type MetadataAppearancePolicyValues =
 
 The **Reflected Types Architecture** diagram illustrates the various types of class members and parameters supported by the **`reflector`** package. It also details the API available for interacting with these reflected types.
 
-![](diagrams/reflector-class-members.svg)
+```mermaid
+classDiagram
+    class IDecoratedElement~T~ {
+        <<interface>>
+        +getType() DecoratedElementTypeValues
+        +getClass() IClass~T~
+        +getName() string
+        +isStatic() boolean
+        +hasDecorators(...classes) boolean
+        +getDecorators(...classes) readonly Decorator[]
+        +addDecorator(decoratorOrFn) this
+        +removeDecorator(decoratorOrClass) this
+    }
+    class DecoratedElement~T~ {
+        <<abstract>>
+    }
+    class ClassMember~T~ {
+        <<abstract>>
+        +isOwn() boolean
+    }
+    class ExecutableMember~T, TReturnType~ {
+        <<abstract>>
+        +getKnownParameterCount() number
+        +getOwnParameterCount() number
+        +getParameters() readonly Parameter~T~[]
+        +getParameterAt(index) Parameter~T~
+    }
+    class Constructor~T~ {
+        +newInstance(...parameters) T
+    }
+    class Method~T, TReturnType~ {
+        +invoke(target, ...parameters) TReturnType
+    }
+    class Field~T, TReturnType~ {
+        <<abstract>>
+        +isGettable() boolean
+        +isSettable() boolean
+        +getValue(target) TValue
+        +setValue(target, value) void
+    }
+    class Accessor~T, TReturnType~
+    class Property~T, TReturnType~
+    class Parameter~T~ {
+        <<abstract>>
+        +getIndex() number
+    }
+    class ConstructorParameter~T~
+    class MethodParameter~T~
+
+    IDecoratedElement <|.. DecoratedElement
+    DecoratedElement <|-- ClassMember
+    DecoratedElement <|-- Parameter
+    ClassMember <|-- ExecutableMember
+    ClassMember <|-- Field
+    ExecutableMember <|-- Constructor
+    ExecutableMember <|-- Method
+    Field <|-- Accessor
+    Field <|-- Property
+    Parameter <|-- ConstructorParameter
+    Parameter <|-- MethodParameter
+```
 
 [Back to top](#reflector-documentation)
 
