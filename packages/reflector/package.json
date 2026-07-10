@@ -53,6 +53,7 @@
     "no reflect-metadata"
   ],
   "files": [
+    "diagrams/*.svg",
     "lib",
     "package.json",
     "README.md",
