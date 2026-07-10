@@ -603,67 +603,7 @@ If <code>autoSync</code> is set to <code>false</code> (the default), the Reflect
 <h2 id="architectural-notes" class="tsd-anchor-link">Architectural Notes<a href="#architectural-notes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <h3 id="reflected-types-architecture" class="tsd-anchor-link">Reflected Types Architecture<a href="#reflected-types-architecture" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <p>The <strong>Reflected Types Architecture</strong> diagram illustrates the various types of class members and parameters supported by the <strong><code>reflector</code></strong> package. It also details the API available for interacting with these reflected types.</p>
-<pre><code class="mermaid">classDiagram
-    class IDecoratedElement~T~ {
-        <<interface>>
-        +getType() DecoratedElementTypeValues
-        +getClass() IClass~T~
-        +getName() string
-        +isStatic() boolean
-        +hasDecorators(...classes) boolean
-        +getDecorators(...classes) readonly Decorator[]
-        +addDecorator(decoratorOrFn) this
-        +removeDecorator(decoratorOrClass) this
-    }
-    class DecoratedElement~T~ {
-        <<abstract>>
-    }
-    class ClassMember~T~ {
-        <<abstract>>
-        +isOwn() boolean
-    }
-    class ExecutableMember~T, TReturnType~ {
-        <<abstract>>
-        +getKnownParameterCount() number
-        +getOwnParameterCount() number
-        +getParameters() readonly Parameter~T~[]
-        +getParameterAt(index) Parameter~T~
-    }
-    class Constructor~T~ {
-        +newInstance(...parameters) T
-    }
-    class Method~T, TReturnType~ {
-        +invoke(target, ...parameters) TReturnType
-    }
-    class Field~T, TReturnType~ {
-        <<abstract>>
-        +isGettable() boolean
-        +isSettable() boolean
-        +getValue(target) TValue
-        +setValue(target, value) void
-    }
-    class Accessor~T, TReturnType~
-    class Property~T, TReturnType~
-    class Parameter~T~ {
-        <<abstract>>
-        +getIndex() number
-    }
-    class ConstructorParameter~T~
-    class MethodParameter~T~
-
-    IDecoratedElement <|.. DecoratedElement
-    DecoratedElement <|-- ClassMember
-    DecoratedElement <|-- Parameter
-    ClassMember <|-- ExecutableMember
-    ClassMember <|-- Field
-    ExecutableMember <|-- Constructor
-    ExecutableMember <|-- Method
-    Field <|-- Accessor
-    Field <|-- Property
-    Parameter <|-- ConstructorParameter
-    Parameter <|-- MethodParameter
-</code><button type="button">Copy</button></pre>
-
+<p><img src="../media/reflector-class-members.svg" alt="Reflected Types Architecture"></p>
 <p><a href="#reflector-documentation">Back to top</a></p>
 <h3 id="behind-the-scene-of-annotation-decorators" class="tsd-anchor-link">Behind the Scene of Annotation Decorators<a href="#behind-the-scene-of-annotation-decorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <p>Using <a href="#annotation-decorators">Annotation Decorators</a> is essential if you want the Reflector to return information about decorated class members.</p>
