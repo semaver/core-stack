@@ -1,5 +1,4 @@
-import {classOfObject, haveObjectsSameClass, IClass, Empty, superClassOfObject} from "@semaver/core";
-import {v4 as uuid} from 'uuid';
+import {classOfObject, haveObjectsSameClass, IClass, Empty, superClassOfObject, token} from "@semaver/core";
 import {ClassTable} from "../classtable/ClassTable";
 import {ClassTableProvider} from "../classtable/ClassTableProvider";
 import {ClassTableUpdateTypes} from "../classtable/ClassTableUpdateTypes";
@@ -146,7 +145,7 @@ export class MetadataTableProvider<T extends object = object> {
             Reflect.defineProperty(target, MetadataClassNames.OWN_HASH, {
                 configurable: false,
                 enumerable: true,
-                value: uuid(),
+                value: token(),
                 writable: true,
             });
 
@@ -216,12 +215,12 @@ export class MetadataTableProvider<T extends object = object> {
                 break;
         }
         if (operationResult) {
-            this._class.__own_hash__ = uuid();
+            this._class.__own_hash__ = token();
             this._class.__cached_metadata__ = undefined;
 
             if (!this.classTable.getWriteableClasses().has(this._class)) {
                 this.classTable.getWriteableClasses().add(this._class);
-                this.classTable.setSyncHash(uuid());
+                this.classTable.setSyncHash(token());
             }
             this.classTable.notify({
                 type: ClassTableUpdateTypes.METADATA_ADDED,
@@ -294,12 +293,12 @@ export class MetadataTableProvider<T extends object = object> {
         }
 
         if (operationResult) {
-            this._class.__own_hash__ = uuid();
+            this._class.__own_hash__ = token();
             this._class.__cached_metadata__ = undefined;
 
             if (!this.hasOwnDecorators()) {
                 this.classTable.getWriteableClasses().delete(this._class);
-                this.classTable.setSyncHash(uuid());
+                this.classTable.setSyncHash(token());
             }
 
             this.classTable.notify({
@@ -434,7 +433,7 @@ export class MetadataTableProvider<T extends object = object> {
             } else {
                 result = metadataClass.__cached_metadata__ = this.merge(metadataClass, metadataClass.__metadata__, cachedMetatable);
                 metadataClass.__parent_hash__ = superClass.__own_hash__;
-                metadataClass.__own_hash__ = uuid();
+                metadataClass.__own_hash__ = token();
             }
         }
 

@@ -71,8 +71,5 @@
   },
   "peerDependencies": {
     "@semaver/core": "^2.0.0"
-  },
-  "dependencies": {
-    "uuid": "^14.0.0"
   }
 }

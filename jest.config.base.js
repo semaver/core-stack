@@ -1,12 +1,7 @@
 export const base = {
 	transform: {
 		"^.+\\.ts$": ["ts-jest", {tsconfig: "tsconfig.jest.json"}],
-		"^.+\\.js$": "babel-jest",
 	},
-	// uuid v14 ships ESM only; let babel-jest transform it (node_modules is ignored by default)
-	transformIgnorePatterns: [
-		"/node_modules/(?!uuid)",
-	],
 	moduleFileExtensions: [
 		"ts",
 		"js",

@@ -2,6 +2,7 @@ export * from "./com/split/core/errors/ExtendedError";
 export * from "./com/split/core/extentions/CoreObject";
 export * from "./com/split/core/extentions/CoreReflect";
 export * from "./com/split/core/extentions/InterfaceSymbol";
+export * from "./com/split/core/extentions/Token";
 export * from "./com/split/core/types/base/IClass";
 export * from "./com/split/core/types/base/IFunction";
 export * from "./com/split/core/types/base/IInterface";
