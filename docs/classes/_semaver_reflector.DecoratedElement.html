@@ -12,7 +12,10 @@
 <li><a href="" aria-current="page">DecoratedElement</a></li></ul>
 <h1>Class DecoratedElement&lt;T&gt;<code class="tsd-tag">Abstract</code></h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>base class for all decorated class members and parameters</p>
+<div class="tsd-comment tsd-typography"><p>abstract base class for decorated elements (class members and parameters) that implements
+<a href="../interfaces/_semaver_reflector.IDecoratedElement.html" class="tsd-kind-interface">IDecoratedElement</a>; resolves a decorated element's decorators from the owner class's
+metatable via a metadata table provider and supplies the shared logic to query, add and remove
+them, while exposing both full decorators (inherited and own) and own-only decorators.</p>
 </div></section>
 <section class="tsd-panel">
 <h4>Type Parameters</h4>
@@ -30,7 +33,7 @@
 <ul class="tsd-hierarchy">
 <li><a href="../interfaces/_semaver_reflector.IDecoratedElement.html" class="tsd-signature-type tsd-kind-interface">IDecoratedElement</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#t">T</a><span class="tsd-signature-symbol">&gt;</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L15">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:15</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L18">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:18</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
@@ -88,7 +91,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type tsd-kind-class">DecoratedElement</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#t">T</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L36">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:36</a></li></ul></aside></div></li></ul></section></section></details>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L39">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:39</a></li></ul></aside></div></li></ul></section></section></details>
 <details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Properties"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
 <h2 class="tsd-anchor-link" id="properties-1">Properties<a href="#properties-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary>
 <section>
@@ -96,12 +99,12 @@
 <h3 class="tsd-anchor-link" id="_class"><code class="tsd-tag">Protected</code> <code class="tsd-tag">Readonly</code><span>_<wbr/>class</span><a href="#_class" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">_class</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/_semaver_reflector.IMetadataClass.html" class="tsd-signature-type tsd-kind-interface">IMetadataClass</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#t">T</a><span class="tsd-signature-symbol">&gt;</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L22">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:22</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L25">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:25</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-protected">
 <h3 class="tsd-anchor-link" id="_metadatatableprovider"><code class="tsd-tag">Protected</code> <code class="tsd-tag">Readonly</code><span>_<wbr/>metadata<wbr/>Table<wbr/>Provider</span><a href="#_metadatatableprovider" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">_metadataTableProvider</span><span class="tsd-signature-symbol">:</span> <a href="_semaver_reflector.MetadataTableProvider.html" class="tsd-signature-type tsd-kind-class">MetadataTableProvider</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#t">T</a><span class="tsd-signature-symbol">&gt;</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L29">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:29</a></li></ul></aside></section></section></details>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L32">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:32</a></li></ul></aside></section></section></details>
 <details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Methods"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
 <h2 class="tsd-anchor-link" id="methods-1">Methods<a href="#methods-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary>
 <section>
@@ -125,7 +128,7 @@
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IDecoratedElement.html">IDecoratedElement</a>.<a href="../interfaces/_semaver_reflector.IDecoratedElement.html#adddecorator">addDecorator</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L124">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:124</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L127">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:127</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="adddecorators"><span>add<wbr/>Decorators</span><a href="#adddecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -146,7 +149,7 @@
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IDecoratedElement.html">IDecoratedElement</a>.<a href="../interfaces/_semaver_reflector.IDecoratedElement.html#adddecorators">addDecorators</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L129">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:129</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L132">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:132</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="getclass"><span>get<wbr/>Class</span><a href="#getclass" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -159,7 +162,7 @@
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IDecoratedElement.html">IDecoratedElement</a>.<a href="../interfaces/_semaver_reflector.IDecoratedElement.html#getclass">getClass</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L61">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:61</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L64">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:64</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected">
 <h3 class="tsd-anchor-link" id="getdecoratorfn"><code class="tsd-tag">Protected</code><span>get<wbr/>Decorator<wbr/>Fn</span><a href="#getdecoratorfn" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -177,7 +180,7 @@
 <h4 class="tsd-returns-title">Returns <a href="../interfaces/_semaver_reflector.DecoratorFn.html" class="tsd-signature-type tsd-kind-interface">DecoratorFn</a></h4><p>decorator function</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L201">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:201</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L204">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:204</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="getdecorators"><span>get<wbr/>Decorators</span><a href="#getdecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -196,7 +199,7 @@
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IDecoratedElement.html">IDecoratedElement</a>.<a href="../interfaces/_semaver_reflector.IDecoratedElement.html#getdecorators">getDecorators</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L90">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:90</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L93">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:93</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected">
 <h3 class="tsd-anchor-link" id="getmemberdecorators"><code class="tsd-tag">Protected</code> <code class="tsd-tag">Abstract</code><span>get<wbr/>Member<wbr/>Decorators</span><a href="#getmemberdecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -214,7 +217,7 @@
 <h4 class="tsd-returns-title">Returns <a href="../interfaces/_semaver_reflector.IMetatableDecorator.html" class="tsd-signature-type tsd-kind-interface">IMetatableDecorator</a><span class="tsd-signature-symbol">[]</span></h4><p>collection of decorators</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L192">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:192</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L195">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:195</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected">
 <h3 class="tsd-anchor-link" id="getmembermetadatatable"><code class="tsd-tag">Protected</code> <code class="tsd-tag">Abstract</code><span>get<wbr/>Member<wbr/>Metadata<wbr/>Table</span><a href="#getmembermetadatatable" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -232,7 +235,7 @@
 <h4 class="tsd-returns-title">Returns <a href="../types/_semaver_core.Empty.html" class="tsd-signature-type tsd-kind-type-alias">Empty</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_semaver_reflector.IMemberMetadataTableRef.html" class="tsd-signature-type tsd-kind-interface">IMemberMetadataTableRef</a><span class="tsd-signature-symbol">&gt;</span></h4><p>class member metadata table</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L183">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:183</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L186">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:186</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected">
 <h3 class="tsd-anchor-link" id="getmetadatadecorators"><code class="tsd-tag">Protected</code><span>get<wbr/>Metadata<wbr/>Decorators</span><a href="#getmetadatadecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -244,7 +247,7 @@
 <h4 class="tsd-returns-title">Returns <a href="../interfaces/_semaver_reflector.IMetatableDecorator.html" class="tsd-signature-type tsd-kind-interface">IMetatableDecorator</a><span class="tsd-signature-symbol">[]</span></h4><p>collection of full processed decorators</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L158">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:158</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L161">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:161</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="getname"><code class="tsd-tag">Abstract</code><span>get<wbr/>Name</span><a href="#getname" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -257,7 +260,7 @@
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IDecoratedElement.html">IDecoratedElement</a>.<a href="../interfaces/_semaver_reflector.IDecoratedElement.html#getname">getName</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L44">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:44</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L47">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:47</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected">
 <h3 class="tsd-anchor-link" id="getobject"><code class="tsd-tag">Protected</code><span>get<wbr/>Object</span><a href="#getobject" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -269,7 +272,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4><p>decorated object</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L230">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:230</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L233">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:233</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="getowndecorators"><span>get<wbr/>Own<wbr/>Decorators</span><a href="#getowndecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -288,7 +291,7 @@
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IDecoratedElement.html">IDecoratedElement</a>.<a href="../interfaces/_semaver_reflector.IDecoratedElement.html#getowndecorators">getOwnDecorators</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L107">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:107</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L110">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:110</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected">
 <h3 class="tsd-anchor-link" id="getownmetadatadecorators"><code class="tsd-tag">Protected</code><span>get<wbr/>Own<wbr/>Metadata<wbr/>Decorators</span><a href="#getownmetadatadecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -300,7 +303,7 @@
 <h4 class="tsd-returns-title">Returns <a href="../interfaces/_semaver_reflector.IMetatableDecorator.html" class="tsd-signature-type tsd-kind-interface">IMetatableDecorator</a><span class="tsd-signature-symbol">[]</span></h4><p>collection of own decorators</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L170">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:170</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L173">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:173</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="gettype"><span>get<wbr/>Type</span><a href="#gettype" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -317,7 +320,7 @@
 </div></div><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IDecoratedElement.html">IDecoratedElement</a>.<a href="../interfaces/_semaver_reflector.IDecoratedElement.html#gettype">getType</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L54">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:54</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L57">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:57</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="hasdecorators"><span>has<wbr/>Decorators</span><a href="#hasdecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -336,7 +339,7 @@
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IDecoratedElement.html">IDecoratedElement</a>.<a href="../interfaces/_semaver_reflector.IDecoratedElement.html#hasdecorators">hasDecorators</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L68">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:68</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L71">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:71</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="hasowndecorators"><span>has<wbr/>Own<wbr/>Decorators</span><a href="#hasowndecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -355,7 +358,7 @@
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IDecoratedElement.html">IDecoratedElement</a>.<a href="../interfaces/_semaver_reflector.IDecoratedElement.html#hasowndecorators">hasOwnDecorators</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L79">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:79</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L82">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:82</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected">
 <h3 class="tsd-anchor-link" id="isdecoratorof"><code class="tsd-tag">Protected</code> <code class="tsd-tag">Abstract</code><span>is<wbr/>Decorator<wbr/>Of</span><a href="#isdecoratorof" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -376,7 +379,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p>true if decorator is of the current decorated element</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L222">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:222</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L225">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:225</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="isstatic"><code class="tsd-tag">Abstract</code><span>is<wbr/>Static</span><a href="#isstatic" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -389,7 +392,7 @@
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IDecoratedElement.html">IDecoratedElement</a>.<a href="../interfaces/_semaver_reflector.IDecoratedElement.html#isstatic">isStatic</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L49">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:49</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L52">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:52</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="removedecorator"><code class="tsd-tag">Abstract</code><span>remove<wbr/>Decorator</span><a href="#removedecorator" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -410,7 +413,7 @@
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IDecoratedElement.html">IDecoratedElement</a>.<a href="../interfaces/_semaver_reflector.IDecoratedElement.html#removedecorator">removeDecorator</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L140">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:140</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L143">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:143</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="removedecorators"><span>remove<wbr/>Decorators</span><a href="#removedecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -431,7 +434,7 @@
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IDecoratedElement.html">IDecoratedElement</a>.<a href="../interfaces/_semaver_reflector.IDecoratedElement.html#removedecorators">removeDecorators</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L145">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:145</a></li></ul></aside></div></li></ul></section></section></details></div>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L148">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:148</a></li></ul></aside></div></li></ul></section></section></details></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

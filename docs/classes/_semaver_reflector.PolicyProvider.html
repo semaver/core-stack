@@ -12,14 +12,14 @@
 <li><a href="" aria-current="page">PolicyProvider</a></li></ul>
 <h1>Class PolicyProvider</h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>implementation of policy provider that can be used for advanced policy configuration</p>
+<div class="tsd-comment tsd-typography"><p>default implementation of <a href="../interfaces/_semaver_reflector.IPolicyProvider.html" class="tsd-kind-interface">IPolicyProvider</a> for advanced, per-member-kind policy configuration. Constructed with an access mask (defaulting to <a href="../enums/_semaver_reflector.MetadataAccessPolicy.html#all" class="tsd-kind-enum-member">MetadataAccessPolicy.ALL</a>) that limits which member kinds it applies to; it stores appearance, collision, not-existence and same-target-multi-usage policies keyed by primitive member kind. The <code>set*</code> and <code>add*</code> methods fan a composite access mask out into the individual member-kind bits (<code>set*</code> first clears, <code>add*</code> merges), and any member kind left unconfigured falls back to its policy's DEFAULT value.</p>
 </div></section>
 <section class="tsd-panel">
 <h4>Implements</h4>
 <ul class="tsd-hierarchy">
 <li><a href="../interfaces/_semaver_reflector.IPolicyProvider.html" class="tsd-signature-type tsd-kind-interface">IPolicyProvider</a></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L20">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:20</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L20">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:20</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
@@ -65,15 +65,17 @@
 <li class="">
 <div class="tsd-signature tsd-anchor-link" id="constructorpolicyprovider"><span class="tsd-signature-keyword">new</span> <span class="tsd-kind-constructor-signature">PolicyProvider</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">access</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type tsd-kind-class">PolicyProvider</a><a href="#constructorpolicyprovider" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>creates a policy provider bound to the given metadata access mask and seeds every policy (appearance, collision, not-existence, same-target-multi-usage) to its DEFAULT value for each member kind covered by that mask.</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li><span><span class="tsd-kind-parameter">access</span>: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = MetadataAccessPolicy.ALL</span></span>
-<div class="tsd-comment tsd-typography"><p>metadata access policy default value - ALL</p>
+<div class="tsd-comment tsd-typography"><p>composite metadata access mask limiting which member kinds this provider applies to; defaults to MetadataAccessPolicy.ALL</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type tsd-kind-class">PolicyProvider</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L54">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:54</a></li></ul></aside></div></li></ul></section></section></details>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L56">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:56</a></li></ul></aside></div></li></ul></section></section></details>
 <details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Properties"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
 <h2 class="tsd-anchor-link" id="properties-1">Properties<a href="#properties-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary>
 <section>
@@ -81,27 +83,27 @@
 <h3 class="tsd-anchor-link" id="access"><code class="tsd-tag">Protected</code> <code class="tsd-tag">Readonly</code><span>access</span><a href="#access" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">access</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L26">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:26</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L26">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:26</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-protected">
 <h3 class="tsd-anchor-link" id="appearance"><code class="tsd-tag">Protected</code> <code class="tsd-tag">Readonly</code><span>appearance</span><a href="#appearance" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">appearance</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L33">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:33</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L33">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:33</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-protected">
 <h3 class="tsd-anchor-link" id="collision"><code class="tsd-tag">Protected</code><span>collision</span><a href="#collision" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">collision</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L38">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:38</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L38">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:38</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-protected">
 <h3 class="tsd-anchor-link" id="notexistence"><code class="tsd-tag">Protected</code><span>not<wbr/>Existence</span><a href="#notexistence" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">notExistence</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L43">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:43</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L43">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:43</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-protected">
 <h3 class="tsd-anchor-link" id="sametargetmultiusage"><code class="tsd-tag">Protected</code><span>same<wbr/>Target<wbr/>Multi<wbr/>Usage</span><a href="#sametargetmultiusage" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">sameTargetMultiUsage</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">,</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L48">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:48</a></li></ul></aside></section></section></details>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L48">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:48</a></li></ul></aside></section></section></details>
 <details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Methods"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
 <h2 class="tsd-anchor-link" id="methods-1">Methods<a href="#methods-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary>
 <section>
@@ -125,7 +127,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4><p>current instance of policy provider</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L134">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:134</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L136">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:136</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="addcollisionpolicy"><span>add<wbr/>Collision<wbr/>Policy</span><a href="#addcollisionpolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -146,7 +148,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4><p>current instance of policy provider</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L146">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:146</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L148">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:148</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="addnotexistencepolicy"><span>add<wbr/>Not<wbr/>Existence<wbr/>Policy</span><a href="#addnotexistencepolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -167,7 +169,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4><p>current instance of policy provider</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L158">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:158</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L160">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:160</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected">
 <h3 class="tsd-anchor-link" id="addpolicy"><code class="tsd-tag">Protected</code><span>add<wbr/>Policy</span><a href="#addpolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -191,7 +193,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4><p>current instance of policy provider</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L225">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:225</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L227">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:227</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="addsametargetmultiusagepolicy"><span>add<wbr/>Same<wbr/>Target<wbr/>Multi<wbr/>Usage<wbr/>Policy</span><a href="#addsametargetmultiusagepolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -212,115 +214,122 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4><p>current instance of policy provider</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L170">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:170</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L172">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:172</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="getaccesspolicy"><span>get<wbr/>Access<wbr/>Policy</span><a href="#getaccesspolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="">
 <div class="tsd-signature tsd-anchor-link" id="getaccesspolicy-1"><span class="tsd-kind-call-signature">getAccessPolicy</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><a href="#getaccesspolicy-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>method to get current access policy</p>
+<div class="tsd-comment tsd-typography"><p>method to get the current access policy, i.e. the bitmask of member kinds this
+provider/decorator applies to</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>metadata access policy</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>the metadata access policy value, a bitwise-OR combination of member-kind bits
+(e.g. <code>MetadataAccessPolicy.ALL</code> by default); tested against a member's access via a bitwise AND</p>
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IPolicyProvider.html">IPolicyProvider</a>.<a href="../interfaces/_semaver_reflector.IPolicyProvider.html#getaccesspolicy">getAccessPolicy</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L205">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:205</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L207">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:207</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="getappearancepolicy"><span>get<wbr/>Appearance<wbr/>Policy</span><a href="#getappearancepolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="">
 <div class="tsd-signature tsd-anchor-link" id="getappearancepolicy-1"><span class="tsd-kind-call-signature">getAppearancePolicy</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">access</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><a href="#getappearancepolicy-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>method to get current appearance policy by providing access</p>
+<div class="tsd-comment tsd-typography"><p>method to get the appearance policy configured for a single primitive access (member kind).</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li><span><span class="tsd-kind-parameter">access</span>: <span class="tsd-signature-type">number</span></span>
-<div class="tsd-comment tsd-typography"><p>primitive metadata access policy</p>
+<div class="tsd-comment tsd-typography"><p>a single primitive metadata access value identifying the member kind (e.g. INSTANCE_METHOD)</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>metadata appearance policy</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>the appearance policy configured for that access, or MetadataAppearancePolicy.DEFAULT if none was set</p>
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IPolicyProvider.html">IPolicyProvider</a>.<a href="../interfaces/_semaver_reflector.IPolicyProvider.html#getappearancepolicy">getAppearancePolicy</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L177">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:177</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L179">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:179</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="getcollisionpolicy"><span>get<wbr/>Collision<wbr/>Policy</span><a href="#getcollisionpolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="">
 <div class="tsd-signature tsd-anchor-link" id="getcollisionpolicy-1"><span class="tsd-kind-call-signature">getCollisionPolicy</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">access</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><a href="#getcollisionpolicy-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>method to get current collision policy by providing access</p>
+<div class="tsd-comment tsd-typography"><p>method to get the collision policy configured for a single member kind.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li><span><span class="tsd-kind-parameter">access</span>: <span class="tsd-signature-type">number</span></span>
-<div class="tsd-comment tsd-typography"><p>primitive metadata access policy</p>
+<div class="tsd-comment tsd-typography"><p>a single primitive access bit identifying the member kind (e.g. INSTANCE_METHOD)</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>metadata collision policy</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>the collision policy set for that member kind, or MetadataCollisionPolicy.DEFAULT if none was configured</p>
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IPolicyProvider.html">IPolicyProvider</a>.<a href="../interfaces/_semaver_reflector.IPolicyProvider.html#getcollisionpolicy">getCollisionPolicy</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L184">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:184</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L186">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:186</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="getnotexistencepolicy"><span>get<wbr/>Not<wbr/>Existence<wbr/>Policy</span><a href="#getnotexistencepolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="">
 <div class="tsd-signature tsd-anchor-link" id="getnotexistencepolicy-1"><span class="tsd-kind-call-signature">getNotExistencePolicy</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">access</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><a href="#getnotexistencepolicy-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>method to get current not existence policy by providing access</p>
+<div class="tsd-comment tsd-typography"><p>method to get the not-existence policy configured for a single member kind.</p>
+<p>The not-existence policy decides whether a superclass decorator is applied to a child-class
+member that itself has no decorator of the same type (SKIP or APPLY).</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li><span><span class="tsd-kind-parameter">access</span>: <span class="tsd-signature-type">number</span></span>
-<div class="tsd-comment tsd-typography"><p>primitive metadata access policy</p>
+<div class="tsd-comment tsd-typography"><p>a single primitive access bit identifying the member kind (e.g. INSTANCE_METHOD)</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>metadata not existence policy</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>the not-existence policy set for that member kind, or MetadataNotExistencePolicy.DEFAULT if none was configured</p>
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IPolicyProvider.html">IPolicyProvider</a>.<a href="../interfaces/_semaver_reflector.IPolicyProvider.html#getnotexistencepolicy">getNotExistencePolicy</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L191">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:191</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L193">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:193</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="getsametargetmultiusagepolicy"><span>get<wbr/>Same<wbr/>Target<wbr/>Multi<wbr/>Usage<wbr/>Policy</span><a href="#getsametargetmultiusagepolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="">
 <div class="tsd-signature tsd-anchor-link" id="getsametargetmultiusagepolicy-1"><span class="tsd-kind-call-signature">getSameTargetMultiUsagePolicy</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">access</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><a href="#getsametargetmultiusagepolicy-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>method to get current same target multi usage policy by providing access</p>
+<div class="tsd-comment tsd-typography"><p>method to get the same-target multi-usage policy configured for a given member kind, i.e.
+whether multiple decorators of the same type on one member are all registered (ALLOWED) or
+only the first (NOT_ALLOWED).</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li><span><span class="tsd-kind-parameter">access</span>: <span class="tsd-signature-type">number</span></span>
-<div class="tsd-comment tsd-typography"><p>primitive metadata access policy</p>
+<div class="tsd-comment tsd-typography"><p>a single primitive access bit identifying the member kind (e.g. INSTANCE_METHOD)</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>metadata same target multi usage policy</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>the same-target multi-usage policy set for that member kind, or MetadataSameTargetMultiUsagePolicy.DEFAULT if none was configured</p>
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IPolicyProvider.html">IPolicyProvider</a>.<a href="../interfaces/_semaver_reflector.IPolicyProvider.html#getsametargetmultiusagepolicy">getSameTargetMultiUsagePolicy</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L198">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:198</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L200">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:200</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="hasaccesspolicy"><span>has<wbr/>Access<wbr/>Policy</span><a href="#hasaccesspolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="">
 <div class="tsd-signature tsd-anchor-link" id="hasaccesspolicy-1"><span class="tsd-kind-call-signature">hasAccessPolicy</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">access</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><a href="#hasaccesspolicy-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>method to check if access policy provided</p>
+<div class="tsd-comment tsd-typography"><p>method to check whether the given member or parameter kind is covered by this provider's
+configured access policy (tested via bitwise intersection of the access masks).</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li><span><span class="tsd-kind-parameter">access</span>: <span class="tsd-signature-type">number</span></span>
-<div class="tsd-comment tsd-typography"><p>primitive metadata access policy</p>
+<div class="tsd-comment tsd-typography"><p>a single primitive access bit identifying the member or parameter kind to test</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p>if access policy provided</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p>true if the given kind is included in this provider's access policy</p>
 <aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_reflector.IPolicyProvider.html">IPolicyProvider</a>.<a href="../interfaces/_semaver_reflector.IPolicyProvider.html#hasaccesspolicy">hasAccessPolicy</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L212">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:212</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L214">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:214</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="setappearancepolicy"><span>set<wbr/>Appearance<wbr/>Policy</span><a href="#setappearancepolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -341,7 +350,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4><p>current instance of policy provider</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L82">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:82</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L84">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:84</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="setcollisionpolicy"><span>set<wbr/>Collision<wbr/>Policy</span><a href="#setcollisionpolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -362,7 +371,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4><p>current instance of policy provider</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L95">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:95</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L97">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:97</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="setdefault"><span>set<wbr/>Default</span><a href="#setdefault" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -374,7 +383,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4><p>current instance of policy provider</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L65">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:65</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L67">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:67</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="setnotexistencepolicy"><span>set<wbr/>Not<wbr/>Existence<wbr/>Policy</span><a href="#setnotexistencepolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -395,7 +404,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4><p>current instance of policy provider</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L108">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:108</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L110">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:110</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="setsametargetmultiusagepolicy"><span>set<wbr/>Same<wbr/>Target<wbr/>Multi<wbr/>Usage<wbr/>Policy</span><a href="#setsametargetmultiusagepolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -416,7 +425,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4><p>current instance of policy provider</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L121">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:121</a></li></ul></aside></div></li></ul></section></section></details></div>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts#L123">packages/reflector/src/com/split/metatable/policies/PolicyProvider.ts:123</a></li></ul></aside></div></li></ul></section></section></details></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

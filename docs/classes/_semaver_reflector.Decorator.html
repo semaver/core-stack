@@ -12,7 +12,7 @@
 <li><a href="" aria-current="page">Decorator</a></li></ul>
 <h1>Class Decorator<code class="tsd-tag">Abstract</code></h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>base class used to create custom decorators and perform decoration of class members</p>
+<div class="tsd-comment tsd-typography"><p>abstract base class for custom decorators; subclass it and override the policy getters (access, collision, appearance, not-existence and same-target-multi-usage) to control how the decorator's metadata is registered in the class metatable and how it interacts with existing metadata, then expose it as a decorator function via <a href="#build" class="tsd-kind-method">Decorator.build</a>.</p>
 </div></section>
 <section class="tsd-panel tsd-hierarchy" data-refl="3022">
 <h4>Hierarchy (<a href="../hierarchy.html#@semaver/reflector.Decorator">View Summary</a>)</h4>
@@ -22,7 +22,7 @@
 <li class="tsd-hierarchy-item"><a href="_semaver_reflector.MetaclassDecorator.html" class="tsd-signature-type tsd-kind-class">MetaclassDecorator</a></li>
 <li class="tsd-hierarchy-item"><a href="_semaver_reflector.ReflectDecorator.html" class="tsd-signature-type tsd-kind-class">ReflectDecorator</a></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/decorators/Decorator.ts#L46">packages/reflector/src/com/split/decorators/Decorator.ts:46</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/decorators/Decorator.ts#L46">packages/reflector/src/com/split/decorators/Decorator.ts:46</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
@@ -61,19 +61,19 @@
 <li class="">
 <div class="tsd-signature tsd-anchor-link" id="getaccesspolicy-1"><span class="tsd-kind-call-signature">getAccessPolicy</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><a href="#getaccesspolicy-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>method to get access policy of decorator</p>
+<div class="tsd-comment tsd-typography"><p>method to get the access policy restricting which member kinds (constructor, instance/static property, accessor, method, and parameters) the decorator may be applied to; members that do not match the policy are skipped and no metadata is registered. Base implementation returns ALL (all member kinds).</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>access policy value</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/decorators/Decorator.ts#L112">packages/reflector/src/com/split/decorators/Decorator.ts:112</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/decorators/Decorator.ts#L112">packages/reflector/src/com/split/decorators/Decorator.ts:112</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="getappearancepolicy"><span>get<wbr/>Appearance<wbr/>Policy</span><a href="#getappearancepolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="">
 <div class="tsd-signature tsd-anchor-link" id="getappearancepolicy-1"><span class="tsd-kind-call-signature">getAppearancePolicy</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">access</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><a href="#getappearancepolicy-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>method to get appearance policy of decorator by access</p>
+<div class="tsd-comment tsd-typography"><p>method to get the appearance policy that governs a decorator which newly appears on a member in a child class while no superclass declares the same decorator type; the policy decides whether that decorator is applied (APPLY) or skipped (SKIP). Base implementation returns DEFAULT, which resolves to APPLY. The access argument lets the policy vary per member access kind.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -84,32 +84,32 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>appearance policy value</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/decorators/Decorator.ts#L147">packages/reflector/src/com/split/decorators/Decorator.ts:147</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/decorators/Decorator.ts#L147">packages/reflector/src/com/split/decorators/Decorator.ts:147</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="getcollisionpolicy"><span>get<wbr/>Collision<wbr/>Policy</span><a href="#getcollisionpolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="">
 <div class="tsd-signature tsd-anchor-link" id="getcollisionpolicy-1"><span class="tsd-kind-call-signature">getCollisionPolicy</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">access</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><a href="#getcollisionpolicy-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>method to get collision policy of decorator by access</p>
+<div class="tsd-comment tsd-typography"><p>method to get the collision policy of this decorator: the rule applied when a member in a child class and in a superclass both carry a decorator of the same type. The policy decides whether the child's, the parent's, both, or neither decorator is used for the child class (or whether an error is thrown). Base implementation returns DEFAULT (equivalent to OVERRIDE_PARENT). Override to vary the policy per member kind via the access argument.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li><span><span class="tsd-kind-parameter">access</span>: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = PrimitiveMetadataAccessPolicy.NONE</span></span>
-<div class="tsd-comment tsd-typography"><p>primitive access policy</p>
+<div class="tsd-comment tsd-typography"><p>primitive access policy identifying the member kind the policy applies to</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>collision policy value</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/decorators/Decorator.ts#L123">packages/reflector/src/com/split/decorators/Decorator.ts:123</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/decorators/Decorator.ts#L123">packages/reflector/src/com/split/decorators/Decorator.ts:123</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="getnotexistencepolicy"><span>get<wbr/>Not<wbr/>Existence<wbr/>Policy</span><a href="#getnotexistencepolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="">
 <div class="tsd-signature tsd-anchor-link" id="getnotexistencepolicy-1"><span class="tsd-kind-call-signature">getNotExistencePolicy</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">access</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><a href="#getnotexistencepolicy-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>method to get not existence policy of decorator by access</p>
+<div class="tsd-comment tsd-typography"><p>method to get the &quot;not existence&quot; policy for the given access: when a child-class member has no decorator of this type but a superclass member does, this policy decides whether that inherited decorator is applied to the child (APPLY) or ignored (SKIP). Base implementation returns DEFAULT (which resolves to APPLY); the access argument lets subclasses vary the policy per member kind.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -120,44 +120,44 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>not existence policy value</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/decorators/Decorator.ts#L135">packages/reflector/src/com/split/decorators/Decorator.ts:135</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/decorators/Decorator.ts#L135">packages/reflector/src/com/split/decorators/Decorator.ts:135</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="getparameters"><span>get<wbr/>Parameters</span><a href="#getparameters" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="">
 <div class="tsd-signature tsd-anchor-link" id="getparameters-1"><span class="tsd-kind-call-signature">getParameters</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-keyword">readonly</span> <span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">[]</span><a href="#getparameters-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>method to get decorator parameters</p>
+<div class="tsd-comment tsd-typography"><p>method to get the parameters carried by this decorator; the base implementation returns an empty collection, so custom decorators should override it to supply their own arguments, which consumers can read back via the reflected member's getDecorators().</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-keyword">readonly</span> <span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">[]</span></h4><p>readonly collection of parameters</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/decorators/Decorator.ts#L102">packages/reflector/src/com/split/decorators/Decorator.ts:102</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/decorators/Decorator.ts#L102">packages/reflector/src/com/split/decorators/Decorator.ts:102</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="getsametargetmultiusagepolicy"><span>get<wbr/>Same<wbr/>Target<wbr/>Multi<wbr/>Usage<wbr/>Policy</span><a href="#getsametargetmultiusagepolicy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="">
 <div class="tsd-signature tsd-anchor-link" id="getsametargetmultiusagepolicy-1"><span class="tsd-kind-call-signature">getSameTargetMultiUsagePolicy</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">access</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><a href="#getsametargetmultiusagepolicy-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>method to get same target usage policy of decorator by access</p>
+<div class="tsd-comment tsd-typography"><p>method to get the policy applied when a single class member carries more than one decorator of the same type; the policy decides whether all such decorators are registered in the metatable (ALLOWED) or only the first (NOT_ALLOWED). Base implementation returns DEFAULT (equivalent to NOT_ALLOWED). Override to vary the policy per member access kind via the access argument.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li><span><span class="tsd-kind-parameter">access</span>: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = PrimitiveMetadataAccessPolicy.NONE</span></span>
-<div class="tsd-comment tsd-typography"><p>primitive access policy</p>
+<div class="tsd-comment tsd-typography"><p>primitive access policy for which the policy applies</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>same target usage policy value</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>same target multi usage policy value</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/decorators/Decorator.ts#L159">packages/reflector/src/com/split/decorators/Decorator.ts:159</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/decorators/Decorator.ts#L159">packages/reflector/src/com/split/decorators/Decorator.ts:159</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="build"><code class="tsd-tag">Static</code><span>build</span><a href="#build" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="">
 <div class="tsd-signature tsd-anchor-link" id="build-1"><span class="tsd-kind-call-signature">build</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">decorator</span><span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type tsd-kind-class">Decorator</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/_semaver_reflector.DecoratorFn.html" class="tsd-signature-type tsd-kind-interface">DecoratorFn</a><a href="#build-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>method to build class member and parameter metadata from provided decorator</p>
+<div class="tsd-comment tsd-typography"><p>method to wrap a decorator instance into a TS decorator function (<code>DecoratorFn</code>); the returned function, when applied to a decorated class member or parameter, resolves the target's metadata class, attaches the decorator's member metadata to the decorator, and registers it in that class's metadata table.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -166,7 +166,7 @@
 <h4 class="tsd-returns-title">Returns <a href="../interfaces/_semaver_reflector.DecoratorFn.html" class="tsd-signature-type tsd-kind-interface">DecoratorFn</a></h4><p>decorator function</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/decorators/Decorator.ts#L54">packages/reflector/src/com/split/decorators/Decorator.ts:54</a></li></ul></aside></div></li></ul></section></section></details></div>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/decorators/Decorator.ts#L54">packages/reflector/src/com/split/decorators/Decorator.ts:54</a></li></ul></aside></div></li></ul></section></section></details></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

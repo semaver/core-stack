@@ -12,7 +12,7 @@
 <li><a href="" aria-current="page">InterfaceSymbol</a></li></ul>
 <h1>Class InterfaceSymbol&lt;T&gt;</h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>implementation of generic Interface Symbol to &quot;materialize&quot; interface and avoid &quot;only refers to a type, but is being used as a value&quot; Error</p>
+<div class="tsd-comment tsd-typography"><p>class that &quot;materializes&quot; a TypeScript interface into a runtime value (an <a href="../interfaces/_semaver_core.IInterface.html" class="tsd-kind-interface">IInterface</a>) so it can be used where a value is required, avoiding the &quot;only refers to a type, but is being used as a value&quot; error. Instances are keyed by a unique symbol and pooled, so the same identifier always yields the same interface symbol. Created via the static <a href="#for" class="tsd-kind-method">InterfaceSymbol.for</a> factory rather than the constructor.</p>
 </div></section>
 <section class="tsd-panel">
 <h4>Type Parameters</h4>
@@ -23,7 +23,7 @@
 <ul class="tsd-hierarchy">
 <li><a href="../interfaces/_semaver_core.IInterface.html" class="tsd-signature-type tsd-kind-interface">IInterface</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#t">T</a><span class="tsd-signature-symbol">&gt;</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/core/src/com/split/core/extentions/InterfaceSymbol.ts#L9">packages/core/src/com/split/core/extentions/InterfaceSymbol.ts:9</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/core/src/com/split/core/extentions/InterfaceSymbol.ts#L9">packages/core/src/com/split/core/extentions/InterfaceSymbol.ts:9</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
@@ -45,7 +45,7 @@
 <div class="tsd-signature"><span class="tsd-kind-property">uid</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">symbol</span></div><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/_semaver_core.IInterface.html">IInterface</a>.<a href="../interfaces/_semaver_core.IInterface.html#uid">uid</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/core/src/com/split/core/extentions/InterfaceSymbol.ts#L21">packages/core/src/com/split/core/extentions/InterfaceSymbol.ts:21</a></li></ul></aside></section></section></details>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/core/src/com/split/core/extentions/InterfaceSymbol.ts#L21">packages/core/src/com/split/core/extentions/InterfaceSymbol.ts:21</a></li></ul></aside></section></section></details>
 <details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Methods"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
 <h2 class="tsd-anchor-link" id="methods-1">Methods<a href="#methods-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary>
 <section>
@@ -55,7 +55,7 @@
 <li class="">
 <div class="tsd-signature tsd-anchor-link" id="for-1"><span class="tsd-kind-call-signature">for</span><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#fort">T</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">uid</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/_semaver_core.IInterface.html" class="tsd-signature-type tsd-kind-interface">IInterface</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#fort">T</a><span class="tsd-signature-symbol">&gt;</span><a href="#for-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>method to create or get interface symbol by unique identifier</p>
+<div class="tsd-comment tsd-typography"><p>method to get the pooled interface symbol for a unique identifier, creating and caching it on first use so repeated calls with the same identifier return the same instance. A string identifier is resolved to a global symbol via <code>Symbol.for</code> before lookup.</p>
 </div>
 <section class="tsd-panel">
 <h4>Type Parameters</h4>
@@ -67,10 +67,14 @@
 <li><span><span class="tsd-kind-parameter">uid</span>: <span class="tsd-signature-type">string</span> <span class="tsd-signature-symbol">|</span> <span class="tsd-signature-type">symbol</span></span>
 <div class="tsd-comment tsd-typography"><p>unique identifier</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="../interfaces/_semaver_core.IInterface.html" class="tsd-signature-type tsd-kind-interface">IInterface</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#fort">T</a><span class="tsd-signature-symbol">&gt;</span></h4><p>interface symbol if found</p>
-<aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <a href="../interfaces/_semaver_core.IInterface.html" class="tsd-signature-type tsd-kind-interface">IInterface</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#fort">T</a><span class="tsd-signature-symbol">&gt;</span></h4><p>the interface symbol associated with the given identifier</p>
+
+<div class="tsd-comment tsd-typography">
+<div class="tsd-tag-throws">
+<h4 class="tsd-anchor-link" id="throws">Throws<a href="#throws" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h4><p>Error if the identifier is null or undefined</p>
+</div></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/core/src/com/split/core/extentions/InterfaceSymbol.ts#L38">packages/core/src/com/split/core/extentions/InterfaceSymbol.ts:38</a></li></ul></aside></div></li></ul></section></section></details></div>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/core/src/com/split/core/extentions/InterfaceSymbol.ts#L39">packages/core/src/com/split/core/extentions/InterfaceSymbol.ts:39</a></li></ul></aside></div></li></ul></section></section></details></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

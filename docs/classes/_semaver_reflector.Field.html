@@ -12,7 +12,8 @@
 <li><a href="" aria-current="page">Field</a></li></ul>
 <h1>Class Field&lt;T, TValue&gt;<code class="tsd-tag">Abstract</code></h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>abstract class that implement Field api and contains core functionality for field class members</p>
+<div class="tsd-comment tsd-typography"><p>abstract base class for value-bearing class members (its subclasses <a href="_semaver_reflector.Property.html" class="tsd-kind-class">Property</a> and <a href="_semaver_reflector.Accessor.html" class="tsd-kind-class">Accessor</a>);
+defines a common read/write contract via isGettable, isSettable, getValue and setValue, whose semantics are refined by each subclass</p>
 </div></section>
 <section class="tsd-panel">
 <h4>Type Parameters</h4>
@@ -29,7 +30,7 @@
 <li class="tsd-hierarchy-item"><a href="_semaver_reflector.Accessor.html" class="tsd-signature-type tsd-kind-class">Accessor</a></li>
 <li class="tsd-hierarchy-item"><a href="_semaver_reflector.Property.html" class="tsd-signature-type tsd-kind-class">Property</a></li></ul></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/Field.ts#L12">packages/reflector/src/com/split/reflector/members/Field.ts:12</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/Field.ts#L13">packages/reflector/src/com/split/reflector/members/Field.ts:13</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-accordion" open><summary class="tsd-accordion-summary tsd-index-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
@@ -103,7 +104,7 @@
 <h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type tsd-kind-class">Field</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#t">T</a><span class="tsd-signature-symbol">,</span> <a class="tsd-signature-type tsd-kind-type-parameter" href="#tvalue">TValue</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#constructor">constructor</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/ClassMember.ts#L36">packages/reflector/src/com/split/reflector/members/ClassMember.ts:36</a></li></ul></aside></div></li></ul></section></section></details>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/ClassMember.ts#L36">packages/reflector/src/com/split/reflector/members/ClassMember.ts:36</a></li></ul></aside></div></li></ul></section></section></details>
 <details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Properties"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
 <h2 class="tsd-anchor-link" id="properties-1">Properties<a href="#properties-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary>
 <section>
@@ -112,25 +113,25 @@
 <div class="tsd-signature"><span class="tsd-kind-property">_class</span><span class="tsd-signature-symbol">:</span> <a href="../interfaces/_semaver_reflector.IMetadataClass.html" class="tsd-signature-type tsd-kind-interface">IMetadataClass</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#t">T</a><span class="tsd-signature-symbol">&gt;</span></div><aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#_class">_class</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L22">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:22</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L25">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:25</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-protected tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="_isstatic"><code class="tsd-tag">Protected</code> <code class="tsd-tag">Readonly</code><span>_<wbr/>is<wbr/>Static</span><a href="#_isstatic" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">_isStatic</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div><aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#_isstatic">_isStatic</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/ClassMember.ts#L28">packages/reflector/src/com/split/reflector/members/ClassMember.ts:28</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/ClassMember.ts#L28">packages/reflector/src/com/split/reflector/members/ClassMember.ts:28</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-protected tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="_metadatatableprovider"><code class="tsd-tag">Protected</code> <code class="tsd-tag">Readonly</code><span>_<wbr/>metadata<wbr/>Table<wbr/>Provider</span><a href="#_metadatatableprovider" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">_metadataTableProvider</span><span class="tsd-signature-symbol">:</span> <a href="_semaver_reflector.MetadataTableProvider.html" class="tsd-signature-type tsd-kind-class">MetadataTableProvider</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#t">T</a><span class="tsd-signature-symbol">&gt;</span></div><aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#_metadatatableprovider">_metadataTableProvider</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L29">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:29</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L32">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:32</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-protected tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="_name"><code class="tsd-tag">Protected</code> <code class="tsd-tag">Readonly</code><span>_<wbr/>name</span><a href="#_name" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">_name</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#_name">_name</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/ClassMember.ts#L21">packages/reflector/src/com/split/reflector/members/ClassMember.ts:21</a></li></ul></aside></section></section></details>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/ClassMember.ts#L21">packages/reflector/src/com/split/reflector/members/ClassMember.ts:21</a></li></ul></aside></section></section></details>
 <details class="tsd-panel-group tsd-member-group tsd-accordion" open><summary class="tsd-accordion-summary" data-key="section-Methods"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>
 <h2 class="tsd-anchor-link" id="methods-1">Methods<a href="#methods-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2></summary>
 <section>
@@ -154,7 +155,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#adddecorator">addDecorator</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L124">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:124</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L127">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:127</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="adddecorators"><span>add<wbr/>Decorators</span><a href="#adddecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -175,7 +176,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#adddecorators">addDecorators</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L129">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:129</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L132">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:132</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="getclass"><span>get<wbr/>Class</span><a href="#getclass" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -188,7 +189,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#getclass">getClass</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L61">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:61</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L64">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:64</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="getdecoratorfn"><code class="tsd-tag">Protected</code><span>get<wbr/>Decorator<wbr/>Fn</span><a href="#getdecoratorfn" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected tsd-is-inherited">
@@ -207,7 +208,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#getdecoratorfn">getDecoratorFn</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L201">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:201</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L204">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:204</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="getdecorators"><span>get<wbr/>Decorators</span><a href="#getdecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -226,7 +227,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#getdecorators">getDecorators</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L90">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:90</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L93">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:93</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="getmemberdecorators"><code class="tsd-tag">Protected</code><span>get<wbr/>Member<wbr/>Decorators</span><a href="#getmemberdecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected tsd-is-inherited">
@@ -245,7 +246,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#getmemberdecorators">getMemberDecorators</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/ClassMember.ts#L93">packages/reflector/src/com/split/reflector/members/ClassMember.ts:93</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/ClassMember.ts#L93">packages/reflector/src/com/split/reflector/members/ClassMember.ts:93</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="getmembermetadatatable"><code class="tsd-tag">Protected</code> <code class="tsd-tag">Abstract</code><span>get<wbr/>Member<wbr/>Metadata<wbr/>Table</span><a href="#getmembermetadatatable" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected tsd-is-inherited">
@@ -264,7 +265,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#getmembermetadatatable">getMemberMetadataTable</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L183">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:183</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L186">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:186</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="getmetadatadecorators"><code class="tsd-tag">Protected</code><span>get<wbr/>Metadata<wbr/>Decorators</span><a href="#getmetadatadecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected tsd-is-inherited">
@@ -277,7 +278,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#getmetadatadecorators">getMetadataDecorators</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L158">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:158</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L161">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:161</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="getname"><span>get<wbr/>Name</span><a href="#getname" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -290,7 +291,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#getname">getName</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/ClassMember.ts#L57">packages/reflector/src/com/split/reflector/members/ClassMember.ts:57</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/ClassMember.ts#L57">packages/reflector/src/com/split/reflector/members/ClassMember.ts:57</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="getobject"><code class="tsd-tag">Protected</code><span>get<wbr/>Object</span><a href="#getobject" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected tsd-is-inherited">
@@ -303,7 +304,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#getobject">getObject</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L230">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:230</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L233">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:233</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="getowndecorators"><span>get<wbr/>Own<wbr/>Decorators</span><a href="#getowndecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -322,7 +323,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#getowndecorators">getOwnDecorators</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L107">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:107</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L110">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:110</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="getownmetadatadecorators"><code class="tsd-tag">Protected</code><span>get<wbr/>Own<wbr/>Metadata<wbr/>Decorators</span><a href="#getownmetadatadecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected tsd-is-inherited">
@@ -335,7 +336,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#getownmetadatadecorators">getOwnMetadataDecorators</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L170">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:170</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L173">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:173</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="gettype"><span>get<wbr/>Type</span><a href="#gettype" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -352,7 +353,7 @@
 </div></div><aside class="tsd-sources">
 <p>Overrides <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#gettype">getType</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/Field.ts#L17">packages/reflector/src/com/split/reflector/members/Field.ts:17</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/Field.ts#L18">packages/reflector/src/com/split/reflector/members/Field.ts:18</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="getvalue"><code class="tsd-tag">Abstract</code><span>get<wbr/>Value</span><a href="#getvalue" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -370,7 +371,7 @@
 <h4 class="tsd-returns-title">Returns <a href="../types/_semaver_core.Empty.html" class="tsd-signature-type tsd-kind-type-alias">Empty</a><span class="tsd-signature-symbol">&lt;</span><a class="tsd-signature-type tsd-kind-type-parameter" href="#tvalue">TValue</a><span class="tsd-signature-symbol">&gt;</span></h4><p>value of the provided object</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/Field.ts#L44">packages/reflector/src/com/split/reflector/members/Field.ts:44</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/Field.ts#L45">packages/reflector/src/com/split/reflector/members/Field.ts:45</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="hasdecorators"><span>has<wbr/>Decorators</span><a href="#hasdecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -389,7 +390,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#hasdecorators">hasDecorators</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L68">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:68</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L71">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:71</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="hasowndecorators"><span>has<wbr/>Own<wbr/>Decorators</span><a href="#hasowndecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -408,7 +409,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#hasowndecorators">hasOwnDecorators</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L79">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:79</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L82">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:82</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="isdecoratorof"><code class="tsd-tag">Protected</code><span>is<wbr/>Decorator<wbr/>Of</span><a href="#isdecoratorof" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected tsd-is-inherited">
@@ -430,7 +431,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#isdecoratorof">isDecoratorOf</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/ClassMember.ts#L82">packages/reflector/src/com/split/reflector/members/ClassMember.ts:82</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/ClassMember.ts#L82">packages/reflector/src/com/split/reflector/members/ClassMember.ts:82</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="isgettable"><code class="tsd-tag">Abstract</code><span>is<wbr/>Gettable</span><a href="#isgettable" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -442,20 +443,20 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p>true if field is gettable</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/Field.ts#L27">packages/reflector/src/com/split/reflector/members/Field.ts:27</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/Field.ts#L28">packages/reflector/src/com/split/reflector/members/Field.ts:28</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="isown"><span>is<wbr/>Own</span><a href="#isown" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
 <li class="tsd-is-inherited">
 <div class="tsd-signature tsd-anchor-link" id="isown-1"><span class="tsd-kind-call-signature">isOwn</span><span class="tsd-signature-symbol">()</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><a href="#isown-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></div>
 <div class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>method to get if current class member its own or inherited</p>
+<div class="tsd-comment tsd-typography"><p>method to check whether this member is declared directly on the target rather than inherited from a superclass, via an own-property lookup on the class (for static members) or its prototype (for instance members)</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p>true if own class member</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p>true if the member is declared on the target itself, false if inherited</p>
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#isown">isOwn</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/ClassMember.ts#L74">packages/reflector/src/com/split/reflector/members/ClassMember.ts:74</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/ClassMember.ts#L74">packages/reflector/src/com/split/reflector/members/ClassMember.ts:74</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="issettable"><code class="tsd-tag">Abstract</code><span>is<wbr/>Settable</span><a href="#issettable" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -467,7 +468,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p>true if field is settable</p>
 <aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/Field.ts#L35">packages/reflector/src/com/split/reflector/members/Field.ts:35</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/Field.ts#L36">packages/reflector/src/com/split/reflector/members/Field.ts:36</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="isstatic"><span>is<wbr/>Static</span><a href="#isstatic" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -480,7 +481,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#isstatic">isStatic</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/ClassMember.ts#L64">packages/reflector/src/com/split/reflector/members/ClassMember.ts:64</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/ClassMember.ts#L64">packages/reflector/src/com/split/reflector/members/ClassMember.ts:64</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="removedecorator"><code class="tsd-tag">Abstract</code><span>remove<wbr/>Decorator</span><a href="#removedecorator" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -501,7 +502,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#removedecorator">removeDecorator</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L140">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:140</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L143">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:143</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited">
 <h3 class="tsd-anchor-link" id="removedecorators"><span>remove<wbr/>Decorators</span><a href="#removedecorators" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -522,7 +523,7 @@
 <aside class="tsd-sources">
 <p>Inherited from <a href="_semaver_reflector.ClassMember.html">ClassMember</a>.<a href="_semaver_reflector.ClassMember.html#removedecorators">removeDecorators</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L145">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:145</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/DecoratedElement.ts#L148">packages/reflector/src/com/split/reflector/members/DecoratedElement.ts:148</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member">
 <h3 class="tsd-anchor-link" id="setvalue"><code class="tsd-tag">Abstract</code><span>set<wbr/>Value</span><a href="#setvalue" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -542,7 +543,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/Field.ts#L53">packages/reflector/src/com/split/reflector/members/Field.ts:53</a></li></ul></aside></div></li></ul></section>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/Field.ts#L54">packages/reflector/src/com/split/reflector/members/Field.ts:54</a></li></ul></aside></div></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected">
 <h3 class="tsd-anchor-link" id="validate"><code class="tsd-tag">Protected</code><span>validate</span><a href="#validate" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -559,7 +560,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/semaver/core-stack/blob/5d5a157436a6f855d0c609926905080298e4196c/packages/reflector/src/com/split/reflector/members/Field.ts#L61">packages/reflector/src/com/split/reflector/members/Field.ts:61</a></li></ul></aside></div></li></ul></section></section></details></div>
+<li>Defined in <a href="https://github.com/semaver/core-stack/blob/904673c548e510ba8c4430da9eb6d86ae4506945/packages/reflector/src/com/split/reflector/members/Field.ts#L62">packages/reflector/src/com/split/reflector/members/Field.ts:62</a></li></ul></aside></div></li></ul></section></section></details></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
