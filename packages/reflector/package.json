@@ -22,7 +22,8 @@
     ".": {
       "types": "./lib/index.d.ts",
       "import": "./lib/library.esm.mjs",
-      "require": "./lib/library.cjs.cjs"
+      "require": "./lib/library.cjs.cjs",
+      "default": "./lib/library.esm.mjs"
     },
     "./package.json": "./package.json"
   },

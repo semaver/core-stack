@@ -20,7 +20,7 @@ const babelOptions = {
     exclude: /node_modules/,
     extensions,
     configFile: '../../babel.config.json',
-    babelHelpers: 'runtime'
+    babelHelpers: 'bundled'
 };
 const nodeOptions = {
     extensions,

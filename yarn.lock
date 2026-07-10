@@ -1372,18 +1372,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-runtime@npm:^8.0.1":
-  version: 8.0.1
-  resolution: "@babel/plugin-transform-runtime@npm:8.0.1"
-  dependencies:
-    "@babel/helper-module-imports": "npm:^8.0.0"
-    "@babel/helper-plugin-utils": "npm:^8.0.1"
-  peerDependencies:
-    "@babel/core": ^8.0.0
-  checksum: 10c0/96392bec3aa5d8c1238cbaa460724695dcf749808a4d17f77b1accb69a55bc2512b9706c487936f60243321594df5aeeffd255ec4c205a75b6259e2ff3cc38b8
-  languageName: node
-  linkType: hard
-
 "@babel/plugin-transform-shorthand-properties@npm:^8.0.1":
   version: 8.0.1
   resolution: "@babel/plugin-transform-shorthand-properties@npm:8.0.1"
@@ -1603,13 +1591,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^8.0.0
   checksum: 10c0/9c73f06fdde4161895001dab863bfac367f5281ecaa089c931189a04d5955749589e26202e84b2cc2ee0ac55259f24e9aaa2113b646c3bae19d5c4a7a68f979f
-  languageName: node
-  linkType: hard
-
-"@babel/runtime@npm:^8.0.0":
-  version: 8.0.0
-  resolution: "@babel/runtime@npm:8.0.0"
-  checksum: 10c0/450857cf52b3a3935d4aad505277201361c86185dad3bdd2ae083d78b76c6265c7fc7610e170c80de1b825d5bfdcfb50697f0853fff922b2661c91cff1fbbd81
   languageName: node
   linkType: hard
 
@@ -9923,10 +9904,8 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^8.0.1"
     "@babel/plugin-proposal-decorators": "npm:^8.0.2"
-    "@babel/plugin-transform-runtime": "npm:^8.0.1"
     "@babel/preset-env": "npm:^8.0.2"
     "@babel/preset-typescript": "npm:^8.0.1"
-    "@babel/runtime": "npm:^8.0.0"
     "@eslint/js": "npm:^10.0.0"
     "@rollup/plugin-babel": "npm:^7.1.0"
     "@rollup/plugin-commonjs": "npm:^29.0.3"
