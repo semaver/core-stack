@@ -7,7 +7,7 @@ import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/
 import {Field} from "./Field";
 
 /**
- * class that implement Property class member
+ * class that represents a plain data-property member of a class (as opposed to an {@link Accessor} getter/setter); it is always gettable and settable, and `setValue` defines the property on the target via `Reflect.defineProperty` when it does not yet exist, otherwise assigns to it.
  *
  * @public
  */

@@ -1,7 +1,8 @@
 import {classOfObject} from "../extentions/CoreObject";
 
 /**
- * default error with an object where error is thrown
+ * class that extends the native {@link Error}, prefixing the given message with the class name
+ * of the target object that raised it to produce a message of the form `[ClassName] error`.
  *
  * @public
  */

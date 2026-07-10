@@ -33,9 +33,10 @@ export class QueryMembersSelector<T extends object> {
     }
 
     /**
-     * method to get the first class member from the filtered collection of class members
+     * method to get the first class member from the filtered collection.
+     *
      * @public
-     * @returns first class member
+     * @returns the first filtered class member, or undefined if the collection is empty
      */
     public first<K extends ClassMember<T> = ClassMember<T>>(): Empty<K> {
         return this.queryInfo.getMemberAt(0);

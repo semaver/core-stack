@@ -30,11 +30,15 @@ export class ByStaticMember<T extends object = object> implements IQueryConditio
     }
 
     /**
-     * method to create query/filter condition (instance) by statics
+     * method to obtain a query/filter condition that keeps members whose static-ness strictly
+     * equals the given flag (true keeps static members, false keeps instance members).
      *
      * @public
      * @param isStatic - statics flag
-     * @returns instance of query condition
+     * @remarks reuses a single shared cached instance rather than creating a new one, so each call
+     * overwrites the flag configured by the previous call; use the constructor when an isolated
+     * instance is required.
+     * @returns shared query condition instance configured with the given statics flag
      */
     public static from<T extends object>(isStatic: boolean): ByStaticMember<T> {
         return ByStaticMember._cache.setIsStatic(isStatic);

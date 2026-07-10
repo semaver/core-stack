@@ -10,7 +10,7 @@ import {IClass} from "@semaver/core";
 export interface IClassTable {
 
     /**
-     * method to get a collection of classes containing own metadata
+     * method to get the read-only set of classes registered in the class table; a class is included only once it carries its own metadata (added when it is decorated, e.g. via `metaclass()` or any member/parameter decorator).
      *
      * @public
      * @returns readonly set of classes
@@ -18,10 +18,10 @@ export interface IClassTable {
     getClasses(): ReadonlySet<IClass<object>>;
 
     /**
-     * method to get synchronization hash
+     * method to get the class table's synchronization hash; the hash changes whenever a metadata class is added to, updated with own metadata, or removed from the class table, so compare hashes to detect whether the table changed.
      *
      * @public
-     * @returns string of synchronization hash
+     * @returns synchronization hash of the class table
      */
     getSyncHash(): string;
 

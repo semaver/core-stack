@@ -3,7 +3,10 @@ import {IQueryCondition} from "../../IQueryCondition";
 import {QueryInfo} from "../../QueryInfo";
 
 /**
- * implementation of query condition api to filter class members by type
+ * query condition that keeps class members whose type matches any of the configured member types.
+ * Member types are bit flags, so a member matches when its type shares any bit with a configured type,
+ * and passing multiple types acts as a logical OR.
+ *
  * @public
  */
 export class ByMemberType<T extends object = object> implements IQueryCondition<T> {
@@ -29,11 +32,13 @@ export class ByMemberType<T extends object = object> implements IQueryCondition<
     }
 
     /**
-     * method to create query/filter condition (instance) from a collection of class members types
+     * method to obtain a condition that keeps only members matching any of the given member types.
+     * Note: this reuses a single shared cached instance instead of creating a new one, so each call overwrites
+     * the member types configured by the previous call; use the constructor when an isolated, independently configured instance is needed.
      *
      * @public
      * @param memberTypes - collection of class members types
-     * @returns instance of query condition
+     * @returns the shared condition instance, reconfigured with the given member types
      */
     public static from<T extends object>(...memberTypes: DecoratedElementTypeValues[]): ByMemberType<T> {
         return ByMemberType._cache.setMemberTypes(...memberTypes);

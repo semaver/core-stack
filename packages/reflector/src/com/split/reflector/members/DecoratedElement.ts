@@ -8,7 +8,10 @@ import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/
 import {IDecoratedElement} from "./IDecoratedElement";
 
 /**
- * base class for all decorated class members and parameters
+ * abstract base class for decorated elements (class members and parameters) that implements
+ * {@link IDecoratedElement}; resolves a decorated element's decorators from the owner class's
+ * metatable via a metadata table provider and supplies the shared logic to query, add and remove
+ * them, while exposing both full decorators (inherited and own) and own-only decorators.
  *
  * @public
  */

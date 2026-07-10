@@ -36,11 +36,11 @@ export function isObjectClass(obj: Empty<object & { call?: JsFunction, apply?: J
 }
 
 /**
- * function to get the class of given object
+ * function to resolve the class (constructor) of a given value. If the value is already a class it is returned unchanged; if it is an instance, its constructor is returned.
  *
  * @public
  * @param obj - object of generic type
- * @returns class of the given object
+ * @returns the class of the given object
  */
 export function classOfObject<T extends object>(obj: IClass<T> | T): IClass<T> {
     return (isObjectClass(obj) ? obj : obj.constructor) as IClass<T>;
@@ -85,13 +85,13 @@ export function isNativeObjectClass<T extends object>(targetClass: Empty<IClass<
 }
 
 /**
- * function to get a superclass chain of the object (collection, the first element is source class of the object)
+ * function to build the ordered chain of a value's class and all of its superclasses. Accepts either a class or an instance; by default the source class comes first and the native `Object` class is excluded.
  *
  * @public
  * @param obj - object (class or instance) as a source for superclass chain
  * @param reversed - flag if true source class will appear at the end of array (default value - false)
  * @param excludeNativeObjectClass - flag to exclude native object class from a chain (default value - true)
- * @returns readonly array of superclasses
+ * @returns readonly array of classes ordered from the source class up through its superclasses (order reversed when `reversed` is true, so the source class appears last)
  */
 export function getObjectSuperClassChain(obj: Empty<object>, reversed: boolean = false, excludeNativeObjectClass: boolean = true): readonly IClass<object>[] {
     const result: IClass<object>[] = [];

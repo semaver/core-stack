@@ -39,14 +39,14 @@ export type IMetatableDecorator = Decorator & { __metadata__: IMemberMetadata };
 export type DecoratorFn = (target: object, key?: string, descriptorOrIndex?: TypedPropertyDescriptor<any> | number) => void;
 
 /**
- * base class used to create custom decorators and perform decoration of class members
+ * abstract base class for custom decorators; subclass it and override the policy getters (access, collision, appearance, not-existence and same-target-multi-usage) to control how the decorator's metadata is registered in the class metatable and how it interacts with existing metadata, then expose it as a decorator function via {@link Decorator.build}.
  *
  * @public
  */
 export abstract class Decorator {
 
     /**
-     * method to build class member and parameter metadata from provided decorator
+     * method to wrap a decorator instance into a TS decorator function (`DecoratorFn`); the returned function, when applied to a decorated class member or parameter, resolves the target's metadata class, attaches the decorator's member metadata to the decorator, and registers it in that class's metadata table.
      *
      * @public
      * @returns decorator function
@@ -94,7 +94,7 @@ export abstract class Decorator {
     }
 
     /**
-     * method to get decorator parameters
+     * method to get the parameters carried by this decorator; the base implementation returns an empty collection, so custom decorators should override it to supply their own arguments, which consumers can read back via the reflected member's getDecorators().
      *
      * @public
      * @returns readonly collection of parameters
@@ -104,7 +104,7 @@ export abstract class Decorator {
     }
 
     /**
-     * method to get access policy of decorator
+     * method to get the access policy restricting which member kinds (constructor, instance/static property, accessor, method, and parameters) the decorator may be applied to; members that do not match the policy are skipped and no metadata is registered. Base implementation returns ALL (all member kinds).
      *
      * @public
      * @returns  access policy value
@@ -114,10 +114,10 @@ export abstract class Decorator {
     }
 
     /**
-     * method to get collision policy of decorator by access
+     * method to get the collision policy of this decorator: the rule applied when a member in a child class and in a superclass both carry a decorator of the same type. The policy decides whether the child's, the parent's, both, or neither decorator is used for the child class (or whether an error is thrown). Base implementation returns DEFAULT (equivalent to OVERRIDE_PARENT). Override to vary the policy per member kind via the access argument.
      *
      * @public
-     * @param access - primitive access policy
+     * @param access - primitive access policy identifying the member kind the policy applies to
      * @returns collision policy value
      */
     public getCollisionPolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataCollisionPolicyValues {
@@ -126,7 +126,7 @@ export abstract class Decorator {
     }
 
     /**
-     * method to get not existence policy of decorator by access
+     * method to get the "not existence" policy for the given access: when a child-class member has no decorator of this type but a superclass member does, this policy decides whether that inherited decorator is applied to the child (APPLY) or ignored (SKIP). Base implementation returns DEFAULT (which resolves to APPLY); the access argument lets subclasses vary the policy per member kind.
      *
      * @public
      * @param access - primitive access policy
@@ -138,7 +138,7 @@ export abstract class Decorator {
     }
 
     /**
-     * method to get appearance policy of decorator by access
+     * method to get the appearance policy that governs a decorator which newly appears on a member in a child class while no superclass declares the same decorator type; the policy decides whether that decorator is applied (APPLY) or skipped (SKIP). Base implementation returns DEFAULT, which resolves to APPLY. The access argument lets the policy vary per member access kind.
      *
      * @public
      * @param access - primitive access policy
@@ -150,11 +150,11 @@ export abstract class Decorator {
     }
 
     /**
-     * method to get same target usage policy of decorator by access
+     * method to get the policy applied when a single class member carries more than one decorator of the same type; the policy decides whether all such decorators are registered in the metatable (ALLOWED) or only the first (NOT_ALLOWED). Base implementation returns DEFAULT (equivalent to NOT_ALLOWED). Override to vary the policy per member access kind via the access argument.
      *
      * @public
-     * @param access - primitive access policy
-     * @returns same target usage policy value
+     * @param access - primitive access policy for which the policy applies
+     * @returns same target multi usage policy value
      */
     public getSameTargetMultiUsagePolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataSameTargetMultiUsagePolicyValues {
         void (access);

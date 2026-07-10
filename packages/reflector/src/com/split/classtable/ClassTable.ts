@@ -6,7 +6,9 @@ import {IClassTableUpdate} from "./IClassTableUpdate";
 import {IClass} from "@semaver/core";
 
 /**
- * class wrapper for class table reference
+ * default {@link IClassTable} implementation backed by a shared {@link IClassTableRef}; exposes the
+ * set of classes carrying their own metadata, the synchronization hash, and subscriber
+ * (un)registration plus update notification.
  * @public
  */
 export class ClassTable implements IClassTable {

@@ -2,7 +2,7 @@ import {IInterface} from "../types/base/IInterface";
 import {isObjectEmpty} from "./CoreObject";
 
 /**
- * implementation of generic Interface Symbol to "materialize" interface and avoid "only refers to a type, but is being used as a value" Error
+ * class that "materializes" a TypeScript interface into a runtime value (an {@link IInterface}) so it can be used where a value is required, avoiding the "only refers to a type, but is being used as a value" error. Instances are keyed by a unique symbol and pooled, so the same identifier always yields the same interface symbol. Created via the static {@link InterfaceSymbol.for} factory rather than the constructor.
  *
  * @public
  */
@@ -29,11 +29,12 @@ export class InterfaceSymbol<T> implements IInterface<T> {
     }
 
     /**
-     * method to create or get interface symbol by unique identifier
+     * method to get the pooled interface symbol for a unique identifier, creating and caching it on first use so repeated calls with the same identifier return the same instance. A string identifier is resolved to a global symbol via `Symbol.for` before lookup.
      *
      * @public
      * @param uid - unique identifier
-     * @returns interface symbol if found
+     * @returns the interface symbol associated with the given identifier
+     * @throws Error if the identifier is null or undefined
      */
     public static for<T>(uid: string | symbol): IInterface<T> {
         if (isObjectEmpty(uid)) {

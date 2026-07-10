@@ -5,7 +5,8 @@ import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/
 import {ClassMember} from "./ClassMember";
 
 /**
- * abstract class that implement Field api and contains core functionality for field class members
+ * abstract base class for value-bearing class members (its subclasses {@link Property} and {@link Accessor});
+ * defines a common read/write contract via isGettable, isSettable, getValue and setValue, whose semantics are refined by each subclass
  *
  * @public
  */
