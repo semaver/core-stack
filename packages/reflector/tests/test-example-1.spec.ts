@@ -65,7 +65,7 @@ describe("Reflector Example 1 tests", () => {
                     const inject: InjectDecorator = injectDecorators[0] as InjectDecorator;
 
                     const optionalDecorators: readonly Decorator[] = parameter.getDecorators(OptionalDecorator);
-                    const optional: Empty<OptionalDecorator> = optionalDecorators.length ? (optionalDecorators[0] as OptionalDecorator) : undefined;
+                    const optional: Empty<OptionalDecorator> = optionalDecorators.length ? optionalDecorators[0] : undefined;
 
                     const namedDecorators: readonly Decorator[] = parameter.getDecorators(NamedDecorator);
                     const named: Empty<NamedDecorator> = namedDecorators.length ? (namedDecorators[0] as NamedDecorator) : undefined;
@@ -85,7 +85,7 @@ describe("Reflector Example 1 tests", () => {
                     const inject: InjectDecorator = injectDecorators[0] as InjectDecorator;
 
                     const optionalDecorators: readonly Decorator[] = field.getDecorators(OptionalDecorator);
-                    const optional: Empty<OptionalDecorator> = optionalDecorators.length ? (optionalDecorators[0] as OptionalDecorator) : undefined;
+                    const optional: Empty<OptionalDecorator> = optionalDecorators.length ? optionalDecorators[0] : undefined;
 
                     const namedDecorators: readonly Decorator[] = field.getDecorators(NamedDecorator);
                     const named: Empty<NamedDecorator> = namedDecorators.length ? (namedDecorators[0] as NamedDecorator) : undefined;

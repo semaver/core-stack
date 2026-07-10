@@ -14,7 +14,7 @@ describe("Reflector API Executors", () => {
             .members().first<Method<SuperDecoratedClass>>();
 
         expect(runStatic).toBeDefined();
-        expect(() => runStatic?.invoke(SuperDecoratedClass)).not.toThrowError();
+        expect(() => runStatic?.invoke(SuperDecoratedClass)).not.toThrow();
         expect(runStatic?.getKnownParameterCount()).toBe(1);
         expect(runStatic?.invoke(SuperDecoratedClass, 10)).toBe(10);
         expect(runStatic?.invoke(SuperDecoratedClass, 0, 20)).toBe(0);
@@ -31,7 +31,7 @@ describe("Reflector API Executors", () => {
             .first<Method<SuperDecoratedClass>>();
 
         expect(runNormal).toBeDefined();
-        expect(() => runNormal?.invoke(undefined as never)).toThrowError();
+        expect(() => runNormal?.invoke(undefined as never)).toThrow();
         expect(runNormal?.getKnownParameterCount()).toBe(1);
         expect(runNormal?.invoke(new SuperDecoratedClass(), 10)).toBe(10);
         expect(runNormal?.invoke(new SuperDecoratedClass(), 0, 20)).toBe(0);
@@ -47,7 +47,7 @@ describe("Reflector API Executors", () => {
             .first<Constructor<SuperDecoratedClass>>();
 
         expect(runConstructor).toBeDefined();
-        expect(() => runConstructor?.newInstance(10)).not.toThrowError();
+        expect(() => runConstructor?.newInstance(10)).not.toThrow();
         expect(runConstructor?.getKnownParameterCount()).toBe(1);
         expect(runConstructor?.newInstance(10)).toBeInstanceOf(SuperDecoratedClass);
 

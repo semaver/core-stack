@@ -41,7 +41,7 @@ describe("Reflector API FieldModifiers", () => {
 
         expect(accessorStaticGet?.getValue(SuperDecoratedClass)).toBe("accessorStaticGet");
 
-        expect(() => accessorStaticGet?.setValue(SuperDecoratedClass, "accessorStaticGet")).toThrowError();
+        expect(() => accessorStaticGet?.setValue(SuperDecoratedClass, "accessorStaticGet")).toThrow();
 
     });
 
@@ -59,8 +59,8 @@ describe("Reflector API FieldModifiers", () => {
         expect(accessorStaticSet?.isGettable()).toBe(false);
         expect(accessorStaticSet?.isSettable()).toBe(true);
 
-        expect(() => accessorStaticSet?.getValue(SuperDecoratedClass)).toThrowError();
-        expect(() => accessorStaticSet?.setValue(SuperDecoratedClass, "accessorStaticSet")).not.toThrowError();
+        expect(() => accessorStaticSet?.getValue(SuperDecoratedClass)).toThrow();
+        expect(() => accessorStaticSet?.setValue(SuperDecoratedClass, "accessorStaticSet")).not.toThrow();
 
     });
 
@@ -80,8 +80,8 @@ describe("Reflector API FieldModifiers", () => {
         expect(accessorNormalFull?.isGettable()).toBe(true);
         expect(accessorNormalFull?.isSettable()).toBe(true);
 
-        expect(() => accessorNormalFull?.getValue(undefined as never)).toThrowError();
-        expect(() => accessorNormalFull?.setValue(undefined as never, "accessorNormalFull")).toThrowError();
+        expect(() => accessorNormalFull?.getValue(undefined as never)).toThrow();
+        expect(() => accessorNormalFull?.setValue(undefined as never, "accessorNormalFull")).toThrow();
 
         expect(accessorNormalFull?.getValue(instance)).toBe("");
         accessorNormalFull?.setValue(instance, "accessorNormalFull");
@@ -105,10 +105,10 @@ describe("Reflector API FieldModifiers", () => {
         expect(accessorNormalGet?.isGettable()).toBe(true);
         expect(accessorNormalGet?.isSettable()).toBe(false);
 
-        expect(() => accessorNormalGet?.getValue(undefined as never)).toThrowError();
+        expect(() => accessorNormalGet?.getValue(undefined as never)).toThrow();
 
         expect(accessorNormalGet?.getValue(instance)).toBe("accessorNormalGet");
-        expect(() => accessorNormalGet?.setValue(instance, "accessorNormalGet")).toThrowError();
+        expect(() => accessorNormalGet?.setValue(instance, "accessorNormalGet")).toThrow();
 
     });
 
@@ -128,11 +128,11 @@ describe("Reflector API FieldModifiers", () => {
         expect(accessorNormalSet?.isGettable()).toBe(false);
         expect(accessorNormalSet?.isSettable()).toBe(true);
 
-        expect(() => accessorNormalSet?.getValue(undefined as never)).toThrowError();
-        expect(() => accessorNormalSet?.setValue(undefined as never, "accessorNormalSet")).toThrowError();
+        expect(() => accessorNormalSet?.getValue(undefined as never)).toThrow();
+        expect(() => accessorNormalSet?.setValue(undefined as never, "accessorNormalSet")).toThrow();
 
-        expect(() => accessorNormalSet?.getValue(instance)).toThrowError();
-        expect(() => accessorNormalSet?.setValue(instance, "accessorNormalSet")).not.toThrowError();
+        expect(() => accessorNormalSet?.getValue(instance)).toThrow();
+        expect(() => accessorNormalSet?.setValue(instance, "accessorNormalSet")).not.toThrow();
 
     });
 
@@ -176,8 +176,8 @@ describe("Reflector API FieldModifiers", () => {
         expect(propertyUndefNormal?.isGettable()).toBe(true);
         expect(propertyUndefNormal?.isSettable()).toBe(true);
 
-        expect(() => propertyUndefNormal?.getValue(undefined as never)).toThrowError();
-        expect(() => propertyUndefNormal?.setValue(undefined as never, 10)).toThrowError();
+        expect(() => propertyUndefNormal?.getValue(undefined as never)).toThrow();
+        expect(() => propertyUndefNormal?.setValue(undefined as never, 10)).toThrow();
 
         expect(propertyUndefNormal?.getValue(instance)).toBeUndefined();
         propertyUndefNormal?.setValue(instance, 1);

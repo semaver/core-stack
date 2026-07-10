@@ -1,3 +1,5 @@
+import {classOfObject} from "../extentions/CoreObject";
+
 /**
  * default error with an object where error is thrown
  *
@@ -10,7 +12,7 @@ export class ExtendedError extends Error {
      * @param error - description of error
      */
     public constructor(target: object, error: string) {
-        super(`[${String(target)}] ${error}`);
+        super(`[${classOfObject(target).name}] ${error}`);
     }
 }
 

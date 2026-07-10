@@ -1,4 +1,4 @@
-import {ExtendedError} from "@semaver/core";
+import {classOfObject, ExtendedError} from "@semaver/core";
 import {DecoratedElementTypeValues} from "../metatable/types/DecoratedElementEnum";
 import {ClassMember} from "../reflector/members/ClassMember";
 
@@ -17,6 +17,6 @@ export class ClassMemberNotExistenceError extends ExtendedError {
      * @param classMemberTarget - class member object (object containing class member)
      */
     public constructor(target: ClassMember, classMemberType: DecoratedElementTypeValues, classMemberName: string, classMemberTarget: object) {
-        super(target, `${classMemberType.toString()} - (${classMemberName}) does not exist in target ${String(classMemberTarget)}`);
+        super(target, `${classMemberType.toString()} - (${classMemberName}) does not exist in target ${classOfObject(classMemberTarget).name}`);
     }
 }
