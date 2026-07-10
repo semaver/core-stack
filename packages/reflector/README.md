@@ -45,15 +45,17 @@ $ npm install @semaver/reflector
 > :warning: **Important!** Install the library as a **peer dependency** if possible.
 
 # Get Started
-To get familiar with the Reflector API, we will explore some simple examples. These examples are based on a real implementation of a **dependency injection framework**, also known as an Injector.
+To get familiar with the Reflector API, we will explore some simple examples. These examples are modeled after a **dependency injection framework** (an Injector) to show a realistic use case.
 
 Processing the dependency tree is outside the scope of this example. Instead, we will focus on defining decorators and retrieving information about them using the Reflector.
+
+> :information_source: **Note:** The `@inject`, `@optional`, `@named`, `@postConstruct`, and `@preDestroy` decorators below are **not** part of `@semaver/reflector`. They are **example** decorators, defined in user code on top of the package's [Annotation Decorators](#annotation-decorators) mechanism (via `Decorator.build`), purely to illustrate a dependency-injection scenario. The package ships the reflection engine and the `Decorator` base class — **you** define your own annotation decorators like these.
 
 ### Decorators Used in This Example
 
 #### `@inject(type: IType)`
 
-This decorator marks class members for dependency injection, where the `type` parameter is a class or interface. It can be applied to constructor parameters, instance properties, and instance setters, but not to other class members. If a class inherits properties or setters with this decorator from a superclass, the decorator will be applied to the current class. If the current class has its own decorator of this type, it will override the one from the superclass. For decorators on constructor parameters, we follow the rules based on ["Annotation Decorators Usage for Constructor Parameters"](#annotation-decorators-usage-for-constructor-parameters). The inheritance rules are applied by default.
+In this example, we define a decorator that marks class members for dependency injection, where the `type` parameter is a class or interface. It can be applied to constructor parameters, instance properties, and instance setters, but not to other class members. If a class inherits properties or setters with this decorator from a superclass, the decorator will be applied to the current class. If the current class has its own decorator of this type, it will override the one from the superclass. For decorators on constructor parameters, we follow the rules based on ["Annotation Decorators Usage for Constructor Parameters"](#annotation-decorators-usage-for-constructor-parameters). The inheritance rules are applied by default.
 
 The `type` parameter can be a class or an interface.
 
@@ -627,7 +629,11 @@ const reflector: Reflector = Reflector.from(SomeClass);
 
 //---CONSTRUCTOR---------------------------------------------------------------------------
 
-// Returns the constructor of a class (decorated or not)
+// Returns the constructor class member (decorated or not). NEVER undefined:
+// if neither the constructor nor its parameters carry any decorator, a synthesized
+// non-decorated constructor is returned, with parameters derived from the class's
+// known constructor parameter count. Contrast with getDecoratedConstructor(),
+// which returns undefined when nothing is decorated.
 const baseConstructor: Constructor<SomeClass> = reflector.getConstructor();
 
 //---METHOD---------------------------------------------------------------------------------
@@ -641,7 +647,10 @@ const someMethod: Method<SomeClass> = reflector.getMethod(methodName, isMethodSt
 //---FIELD (UNION OF ACCESSOR & PROPERTY)----------------------------------------------------
 
 // BEWARE OF OBFUSCATION/MINIFICATION LEVEL
-// Returns instance/static field by name (decorated or not) or else undefined
+// Returns instance/static field (accessor or property) by name (decorated or not).
+// NEVER returns undefined: if no decorated field and no matching accessor exist, a
+// synthesized Property with the requested name/isStatic is returned even if no such
+// member exists on the class. Do not use an undefined-check to test for existence.
 const fieldName = 'myField';
 const isFieldStatic = false;
 const someField: Field<SomeClass> = reflector.getField(fieldName, isFieldStatic);
@@ -657,7 +666,10 @@ const someAccessor: Accessor<SomeClass> = reflector.getAccessor(accessorName, is
 //---PROPERTY--------------------------------------------------------------------------------
 
 // BEWARE OF OBFUSCATION/MINIFICATION LEVEL
-// Returns instance/static property by name (decorated or not) or else undefined
+// Returns instance/static property by name (decorated or not).
+// NEVER returns undefined: on a miss a synthesized Property with the requested
+// name/isStatic is returned regardless of whether the property actually exists on
+// the class (its runtime value may be undefined). Not suitable for existence checks.
 const propertyName = 'myProperty';
 const isPropertyStatic = false;
 const someProperty: Property<SomeClass> = reflector.getProperty(propertyName, isPropertyStatic);
@@ -721,8 +733,8 @@ const memberSelector: QueryMembersSelector<MyClass> = query.members();
 // Returns all class members from the member selector
 const members: ClassMember[] = memberSelector.all<ClassMember>();
 
-// Returns the first class member from the member selector
-const firstFoundMember: ClassMember = memberSelector.first<ClassMember>();
+// Returns the first class member from the filtered collection, or `undefined` if no members matched (callers must null-check)
+const firstFoundMember: ClassMember | undefined = memberSelector.first<ClassMember>();
 ```
 
 ### Additional Query API for Annotation Decorators
@@ -740,14 +752,16 @@ const decoratorSelector: QueryDecoratorSelector<MyClass> = query.decorators();
 // Returns only the decorators explicitly assigned to the class, excluding inheritance and decoration policies
 const ownDecorators: QueryDecoratorSelector<MyClass> = query.ownDecorators();
 
-// Retrieves all decorators from the decorator selector
+// Retrieves all decorators: a flat union of every selected member's member-level decorators PLUS the parameter decorators of executable members (constructors/methods). Equivalent to ofMembers() + ofParameters() combined.
 const decorators: Decorator[] = decoratorSelector.all();
 
-// Retrieves class member decorators from the decorator selector
+// Retrieves only member-level decorators from every selected class member
 const memberDecorators: Decorator[] = decoratorSelector.ofMembers();
 
-// Retrieves class parameter decorators from the decorator selector
+// Retrieves only parameter decorators, gathered exclusively from executable members (constructors/methods); fields and accessors have no parameters and contribute none
 const parameterDecorators: Decorator[] = decoratorSelector.ofParameters();
+
+// Note: whether these three methods return own-only decorators or the full inherited-and-policy-processed set is determined by the selector they came from — query.ownDecorators() yields own-only, query.decorators() yields the full set — not by the method called.
 ```
 
 [Back to top](#reflector-documentation)
@@ -759,15 +773,19 @@ const parameterDecorators: Decorator[] = decoratorSelector.ofParameters();
 You can filter class members and parameters using various filtering conditions:
 
 - **`ByMemberName`**: Filter class members by name.
-- **`ByMemberType`**: Filter class members by type (CONSTRUCTOR, METHOD, PROPERTY, ACCESSOR).
+- **`ByMemberType`**: Filter class members by type (CONSTRUCTOR, METHOD, PROPERTY, ACCESSOR). Types are bit flags and matching is bitwise: a member is kept when its type shares any bit with a supplied type. You may pass several types in one call (e.g. `ByMemberType.from(DecoratedElementEnum.METHOD, DecoratedElementEnum.ACCESSOR)`), which keeps members of *any* of those types (logical OR).
 - **`ByStaticMember`**: Filter class members by static or non-static.
-- **`ByDecoratorClass`**: Filter class members by annotation decorator class (either class member or parameter decorator).
-- **`ByMemberDecoratorClass`**: Filter class members by class member annotation decorator class.
-- **`ByParameterDecoratorClass`**: Filter class members by parameter annotation decorator class.
+- **`ByDecoratorClass`**: keep members that carry a decorator of the given class either on the member itself or on any of its parameters (parameters are only inspected for executable members — constructor/methods).
+- **`ByMemberDecoratorClass`**: keep members whose member-level decorators include the given class (parameter decorators are ignored).
+- **`ByParameterDecoratorClass`**: keep executable members (constructor/methods) with at least one parameter decorated by the given class; non-executable members (fields/accessors) never match.
+
+> **Note:** For `ByDecoratorClass`, `ByMemberDecoratorClass`, and `ByParameterDecoratorClass`, matching is by **exact** decorator-class identity (constructor equality), not `instanceof` — subclasses of the given decorator class do **not** match. Multiple decorator classes may be passed and are matched as OR (a member matches if it carries any of them).
 
 Filtering is based on the query mechanism described in the [Query Class Members and Parameters](#query-class-members-and-parameters) section. To access filtered values, refer to the [Query API](#query-class-members-and-parameters).
 
 > **Important:** When retrieving a class member or parameter by **name**, be cautious of obfuscation/minification levels, as these processes can change names and make reflection impossible.
+
+> **Important — `filter()` narrows the executor in place.** `filter(condition)` narrows the executor's current set of class members in place by applying the given condition, then returns the same executor instance for chaining — it does not clone. Because the underlying query state is shared, after `query.filter(...)` the original `query` reference is itself narrowed, and chaining multiple `filter` calls ANDs the conditions cumulatively. In the examples below the results are stored in separate variables (`byMemberNameQuery`, `byMemberTypeQuery`, etc.) only for readability; they all refer to the same, progressively narrowed `query` object. To obtain a fresh, unfiltered executor, call `Reflector.from(MyClass).query()` again.
 
 #### Example Usage
 
@@ -813,6 +831,8 @@ const byParameterDecoratorClassQuery: QueryExecutor<MyClass> = query.filter(ByPa
 // 3. Filter by annotation decorator for class members only
 const byMemberDecoratorClassQuery: QueryExecutor<MyClass> = query.filter(ByMemberDecoratorClass.from(decoratorClass));
 ```
+
+> **Important — `from()` returns a shared cached instance.** For every filter condition above, the `from(...)` static factory does not allocate a new object; each condition class keeps a single static cached instance and `from(...)` reconfigures and returns that same instance. This keeps allocation cheap when a condition is applied immediately (as in the example above), but it means two conditions of the same type obtained via `from()` are the *same* object: a later `from()` call — or a later `setX()` call — overwrites the configuration of an earlier one. If you need to hold a condition and reuse or reconfigure it independently (for example, keeping two `ByMemberName` conditions with different names alive at once), construct it directly with `new ByMemberName(...)` (all conditions expose a public constructor taking the same arguments as `from()`) instead of `from()`.
 
 [Back to top](#reflector-documentation)
 
@@ -884,6 +904,8 @@ When decorators are added or removed dynamically, the Reflector must be refreshe
    
    reflector.refresh(); // explicit update makes the newly added decorator visible to the Reflector
    ```
+
+> **Note:** `getHash()` and `refresh()` always recompute regardless of `autoSync` (`getHash()` calls `refresh()` internally). All other accessors — `getConstructor`, `getMethod`, `getField`, `getAccessor`, `getProperty`, the `getDecorated*` methods, and `query()` — only auto-refresh when `autoSync` is `true`; otherwise call `refresh()` manually after dynamic decoration. `refresh()` is a cheap no-op when neither the class hash nor the metatable has changed, so it is safe to call frequently.
 
 ### Complete Reflector API for Dynamic Decoration
 
@@ -963,7 +985,7 @@ export interface IClassTable {
 ```
 
 - **`getClasses`**: Returns a set of all decorated classes.
-- **`getSyncHash`**: Returns a hash string that is recalculated each time the ClassTable is modified, allowing you to detect changes.
+- **`getSyncHash`**: Returns the class table's synchronization hash, an opaque string regenerated by the reflection engine whenever a class is added to, updated with its own metadata, or removed from the table. Cache the value and compare it against a later call: any difference means the set of decorated classes changed, so you can invalidate caches keyed on it. Do not parse or order the string. This is the table-wide hash, distinct from the per-class `Reflector.getHash()`.
 - **`subscribe/unsubscribe`**: Allows you to subscribe or unsubscribe from ClassTable modifications. Subscribers receive detailed information about what was modified.
 
 #### ClassTable Subscription API
@@ -991,7 +1013,7 @@ export interface IClassTableUpdate<TDecorator extends Decorator = Decorator, T =
 
     readonly type: DecoratedElementTypeValues; // Class member type (Constructor, Method, Parameters, etc.); the runtime enum constant is `DecoratedElementEnum`
 
-    readonly name: string;               // Name of the class member
+    readonly name: string;               // Name of the class member; for a parameter, the enclosing method's name; for a constructor or constructor parameter, the literal "ctor"
 
     readonly isStatic: boolean;          // Indicates if the class member is static
 
@@ -1008,7 +1030,7 @@ export interface IClassTableUpdate<TDecorator extends Decorator = Decorator, T =
 
 - **`decoratedElement`**: Information about the decorated element:
   - **`type`**: The type of class member (e.g., Constructor, Method, Parameters).
-  - **`name`**: The name of the class member.
+  - **`name`**: For an ordinary class member (method, accessor, property), its own name. For a **parameter**, the name of the enclosing method — use `parameterIndex` to locate the specific parameter. For a **constructor** or a **constructor parameter**, the literal string `"ctor"` (`Constructor.defaultName`), not the class name.
   - **`isStatic`**: Indicates whether the class member is static.
   - **`parameterIndex`**: The parameter index if the decorated element is a parameter.
 
