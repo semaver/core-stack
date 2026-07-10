@@ -244,7 +244,7 @@ A collection of helper functions for working with objects.
 function isObjectEmpty(obj: unknown): boolean;
 ```
 
-Checks if a given object is `null` or `undefined`.
+Checks if a given object is strictly `null` or `undefined`, returning `true` only in those two cases. Despite the name, this is not a general emptiness/falsiness check: other falsy values such as `0`, `""`, `false`, and `NaN` return `false`.
 
 [Back to top](#table-of-contents)
 
@@ -254,7 +254,7 @@ Checks if a given object is `null` or `undefined`.
 function isObjectPrimitive(obj: unknown): boolean;
 ```
 
-Checks if a given object is a primitive type.
+Checks if a given value is a primitive. Returns `true` for strings, numbers, booleans, symbols, and bigints, and also for `null` and `undefined` (they are not object references); returns `false` for objects, arrays, and functions.
 
 [Back to top](#table-of-contents)
 
@@ -264,7 +264,7 @@ Checks if a given object is a primitive type.
 function isObjectClass(obj: Nullable<object & { call?: JsFunction, apply?: JsFunction }>): boolean;
 ```
 
-Checks if a given object is a class.
+Checks if a given object is a class (constructor) rather than an instance, by testing that it is callable (has `constructor`, `call`, and `apply`). Returns `false` for `null`/`undefined` (handled safely — never throws) and for plain instances. Note: because the check is essentially "is this callable", ordinary functions also return `true`.
 
 [Back to top](#table-of-contents)
 
@@ -287,7 +287,7 @@ function haveObjectsSameClass<A extends object, B extends object>(
 ): boolean;
 ```
 
-Returns `true` if two instances belong to the same class.
+Returns `true` if two instances belong to the same class. Comparison is by strict reference equality of each value's `constructor`. Accepts `null`/`undefined` safely (never throws): returns `false` if either argument is `null` or `undefined`.
 
 [Back to top](#table-of-contents)
 
@@ -300,7 +300,7 @@ function superClassOfObject<S extends object, C extends S>(
 ): Nullable<IClass<S>>;
 ```
 
-Returns the superclass of a given class. If `ignoreNativeObjectClass` is `true` and the superclass is the native JavaScript `Object` class, it returns `undefined`.
+Returns the superclass (the class itself, resolved via the prototype chain) of a given class, or `undefined`. Expects a class, not an instance (it reads `childClass.prototype`). Returns `undefined` if `childClass` is `null`/`undefined`. The optional `ignoreNativeObjectClass` flag (default `false`) controls the top of the chain: when `true`, if the superclass is the native JavaScript `Object` class the function returns `undefined` instead of `Object`.
 
 [Back to top](#table-of-contents)
 
@@ -310,7 +310,7 @@ Returns the superclass of a given class. If `ignoreNativeObjectClass` is `true` 
 function isNativeObjectClass<T extends object>(targetClass: Nullable<IClass<T>>): boolean;
 ```
 
-Returns `true` if the class is the native JavaScript `Object` class.
+Returns `true` if the class is the native JavaScript `Object` class, detected by checking that its prototype has no further prototype in the chain (i.e. it sits at the root of the prototype chain). Returns `false` for `null` or `undefined` input; never throws.
 
 [Back to top](#table-of-contents)
 
@@ -324,7 +324,7 @@ function getObjectSuperClassChain(
 ): readonly IClass<object>[];
 ```
 
-Returns the superclass chain of the object.
+Returns the superclass chain of the object. Accepts either a class or an instance, and returns a readonly array. Returns an empty array for `null`/`undefined` input.
 
 - If `reversed` is `false`, the chain starts from the child classes:
   - `ChildOfChildClass` -> `ChildClass` -> `ParentClass` -> **`Object`**
@@ -346,7 +346,7 @@ A collection of helper functions for working with object reflection.
 function hasOwnProperty(obj: Nullable<object>, property: PropertyKey): boolean;
 ```
 
-Checks if the object (class or instance) has its **own** property.
+Checks whether the object (class or instance) has an **own** (not inherited) property with the given key. Returns `false` — never throws — when the object is `null` or `undefined`; inherited/prototype properties also yield `false` (use `hasProperty` to include those). The key may be a string, number, or symbol.
 
 [Back to top](#table-of-contents)
 
@@ -356,7 +356,7 @@ Checks if the object (class or instance) has its **own** property.
 function hasProperty(obj: Nullable<object>, property: PropertyKey): boolean;
 ```
 
-Checks if the object (class or instance) has an **own or inherited** property.
+Checks whether the object (class or instance) has the property as an **own or inherited** property. Returns `false` when the object is `null`/`undefined` (never throws). Own properties are checked first, then the property is searched up the superclass prototype chain. Note: when the object is itself a class (constructor), only its own properties count — a property merely inherited by the class returns `false`.
 
 [Back to top](#table-of-contents)
 
@@ -369,7 +369,7 @@ function getPropertyOwner<S extends object, C extends S>(
 ): Nullable<S>;
 ```
 
-Returns the object (class or instance) that **owns** the property.
+Returns the object or prototype that **owns** (declares) the property. Checks own properties first: if the object owns the property directly, the object itself is returned. Otherwise it walks the object's class prototype chain and returns the prototype on which the property is declared (the native `Object` class is excluded from the search). Returns `undefined` if the object is `null`/`undefined`, if the property is declared nowhere in the searched chain, or if the object is itself a class that does not own the property directly.
 
 [Back to top](#table-of-contents)
 
@@ -382,7 +382,7 @@ function getPropertyDescriptor(
 ): Nullable<PropertyDescriptor>;
 ```
 
-Returns the descriptor of a property, whether **own or inherited**.
+Returns the descriptor of a property, whether **own or inherited**, from the object or prototype that actually declares it — searching own properties first and then walking up the class/superclass prototype chain. Returns `undefined` if the property is not declared anywhere in the chain, if the object is `null`/`undefined`, or if the object is a class that does not own the property directly (inheritance is resolved for instances, not for class objects themselves).
 
 [Back to top](#table-of-contents)
 
@@ -408,7 +408,7 @@ A base class for error handling that extends the native `Error`. The `target` pa
 function throwDefault(target: object, error: string = "Error"): never;
 ```
 
-Throws a default error with minimal information.
+Throws an `ExtendedError` (never returns). Builds the message as `[ClassName] error`, where `ClassName` is the class name of `target` and `error` is the description (defaults to `"Error"`). Use `target` to identify the object raising the error.
 
 [Back to top](#table-of-contents)
 
@@ -418,6 +418,6 @@ Throws a default error with minimal information.
 function throwError(error: Error): never;
 ```
 
-Throws a custom error.
+Throws the given `Error` instance as-is (no wrapping or message prefixing, unlike `throwDefault`). Its return type is `never`, so it never returns normally and can be used for control-flow/type narrowing.
 
 [Back to top](#table-of-contents)
