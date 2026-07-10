@@ -30,10 +30,12 @@
     "publish:local": "lerna publish --no-git-tag-version --no-push --registry=\"http://localhost:4873/\""
   },
   "devDependencies": {
-    "@babel/plugin-proposal-decorators": "^7.23.6",
-    "@babel/plugin-transform-runtime": "^7.25.4",
-    "@babel/preset-env": "^7.25.4",
-    "@babel/preset-typescript": "^7.23.3",
+    "@babel/core": "^8.0.1",
+    "@babel/plugin-proposal-decorators": "^8.0.2",
+    "@babel/plugin-transform-runtime": "^8.0.1",
+    "@babel/preset-env": "^8.0.2",
+    "@babel/preset-typescript": "^8.0.1",
+    "@babel/runtime": "^8.0.0",
     "@eslint/js": "^10.0.0",
     "@rollup/plugin-babel": "^7.1.0",
     "@rollup/plugin-commonjs": "^29.0.3",
