@@ -28,7 +28,7 @@ To use the `@decorator()` syntax in **TypeScript**, you must configure the `tsco
 > This library relies on **legacy** decorators (`experimentalDecorators`) and decorates **method/constructor parameters**. Your build must use a transpiler that emits legacy **parameter** decorators. Verified support:
 > - **`tsc`** (TypeScript compiler) — full support out of the box (recommended).
 > - **SWC** — supported via `jsc.transform.legacyDecorator: true`.
-> - **Babel** — needs an extra plugin (`babel-plugin-transform-typescript-metadata`); `@babel/plugin-proposal-decorators` alone does **not** emit parameter decorators.
+> - **Babel** — requires `@babel/plugin-proposal-decorators` configured for legacy decorators (Babel 8: `{ version: 'legacy' }`; Babel 7: `{ legacy: true }`), which transforms parameter decorators. Because this library uses its own metadata (not `reflect-metadata`), the `babel-plugin-transform-typescript-metadata` plugin is optional and not required.
 > - **esbuild** — legacy decorators only, no parameter-metadata; **not recommended** for this use case.
 >
 > TC39 **standard** (stage-3) decorators are **not** supported and cannot be: they do not include parameter decorators (that proposal is stalled at Stage 1), so `experimentalDecorators` remains the required and long-term-supported path. `emitDecoratorMetadata` is optional for this library (it uses its own metadata, not `reflect-metadata`).
@@ -58,10 +58,10 @@ This decorator marks class members for dependency injection, where the `type` pa
 The `type` parameter can be a class or an interface.
 
 ```ts
-import { IFunction, IType } from "@semaver/core";
-import { Decorator, MetadataAccessPolicy, MetadataAccessPolicyValues } from "@semaver/reflector";
+import { IType } from "@semaver/core";
+import { Decorator, DecoratorFn, MetadataAccessPolicy, MetadataAccessPolicyValues } from "@semaver/reflector";
 
-export function inject(type: IType<object>): IFunction<void> {
+export function inject(type: IType<object>): DecoratorFn {
     return Decorator.build(new InjectDecorator(type));
 }
 
@@ -96,10 +96,9 @@ export class InjectDecorator extends Decorator {
 Marks dependency injection as optional. This decorator can be applied to properties, setters, and constructor parameters, though its use on constructor parameters may be restricted depending on the dependency injection framework. The inheritance rules are the same as those for the `@inject` decorator.
 
 ```ts
-import { IFunction } from "@semaver/core";
-import { Decorator, MetadataAccessPolicy, MetadataAccessPolicyValues } from "@semaver/reflector";
+import { Decorator, DecoratorFn, MetadataAccessPolicy, MetadataAccessPolicyValues } from "@semaver/reflector";
 
-export function optional(): IFunction<void> {
+export function optional(): DecoratorFn {
     return Decorator.build(new OptionalDecorator());
 }
 
@@ -121,9 +120,13 @@ Allows injections by ID. This decorator can be applied to properties, setters, a
 The `id` parameter can be a string, number, or symbol.
 
 ```ts
-import { Decorator, MetadataAccessPolicy, MetadataAccessPolicyValues } from "@semaver/reflector";
+import { Decorator, DecoratorFn, MetadataAccessPolicy, MetadataAccessPolicyValues } from "@semaver/reflector";
 
 type DependencyId = string | number | symbol;
+
+export function named(id: DependencyId): DecoratorFn {
+    return Decorator.build(new NamedDecorator(id));
+}
 
 export class NamedDecorator extends Decorator {
     protected readonly _name: DependencyId;
@@ -156,10 +159,9 @@ export class NamedDecorator extends Decorator {
 This decorator allows methods to execute after all dependencies have been injected. It can only be applied to instance methods and follows default inheritance rules, so multiple `@postConstruct` methods are allowed.
 
 ```ts
-import { IFunction } from "@semaver/core";
-import { Decorator, MetadataAccessPolicy, MetadataAccessPolicyValues } from "@semaver/reflector";
+import { Decorator, DecoratorFn, MetadataAccessPolicy, MetadataAccessPolicyValues } from "@semaver/reflector";
 
-export function postConstruct(): IFunction<void> {
+export function postConstruct(): DecoratorFn {
     return Decorator.build(new PostConstructDecorator());
 }
 
@@ -175,10 +177,9 @@ export class PostConstructDecorator extends Decorator {
 This decorator allows methods to execute before destruction. Like `@postConstruct`, it can only be applied to instance methods and follows default inheritance rules, allowing multiple `@preDestroy` methods.
 
 ```ts
-import { IFunction } from "@semaver/core";
-import { Decorator, MetadataAccessPolicy, MetadataAccessPolicyValues } from "@semaver/reflector";
+import { Decorator, DecoratorFn, MetadataAccessPolicy, MetadataAccessPolicyValues } from "@semaver/reflector";
 
-export function preDestroy(): IFunction<void> {
+export function preDestroy(): DecoratorFn {
     return Decorator.build(new PreDestroyDecorator());
 }
 
@@ -215,9 +216,9 @@ export class BaseClass extends ThirdPartyClass {
         @inject(SomeType) firstParam: SomeType,
         @inject(AnotherTypeInterface) @optional() secondParam?: AnotherTypeInterface
     ) {
-      	 super();
-        	// handle firstParam
-        	// handle secondParam
+        super();
+        // handle firstParam
+        // handle secondParam
     }
 
     @postConstruct()
@@ -434,7 +435,7 @@ In the implementation of the Injector, we need to retrieve information about dec
    }
    
    Reflector.from(ThirdPartyClass)
-       .getMethod("thirdPartyProperty")
+       .getField("thirdPartyProperty")
        .addDecorator(optional())
        .addDecorator(inject(SomeType));
    ```
@@ -466,8 +467,8 @@ In the implementation of the Injector, we need to retrieve information about dec
   - [Get All Decorated Classes](#get-all-decorated-classes)
 - [Annotation Decorators](#annotation-decorators)
   - [Create Annotation Decorators](#create-annotation-decorators)
-    - [STEP 1: Define Decorator Function](#step-1-define-decorator-function)
-    - [STEP 2: Define Decorator Class](#step-2-define-decorator-class)
+    - [STEP 1: Define the Decorator Function](#step-1-define-the-decorator-function)
+    - [STEP 2: Define the Decorator Class](#step-2-define-the-decorator-class)
     - [[OPTIONAL] STEP 3: Define Decoration Policies](#optional-step-3-define-decoration-policies)
     - [[OPTIONAL] STEP 4: Define Decorator Parameters](#optional-step-4-define-decorator-parameters)
   - [Use Annotation Decorators](#use-annotation-decorators)
@@ -531,7 +532,7 @@ The `Reflector.from()` method accepts two parameters:
 const autoSyncReflector: Reflector = Reflector.from(SomeClass, true);
 ```
 
-> **Note:** For more information on dynamic decoration, refer to the [Dynamic Decoration](#dynamic-decoration) section.
+> **Note:** For more information on dynamic decoration, refer to the [Dynamic Decoration](#decorate-class-members-and-parameters-dynamically) section.
 
 ### Reflected Types
 
@@ -688,6 +689,11 @@ const properties: ReadonlyArray<Property<SomeClass>> = reflector.getDecoratedPro
 
 // Returns all decorated constructors, methods, accessors, fields, or an empty array if none are found
 const members: ReadonlyArray<ClassMember<SomeClass>> = reflector.getDecoratedMembers();
+
+// Refreshes the class info, then returns the current synchronization hash of the target class.
+// Use it to detect metadata/decorator changes and invalidate your own caches keyed on this value.
+// This is the per-class hash from the Reflector instance, distinct from ClassTable.getSyncHash().
+const hash: string = reflector.getHash();
 ```
 
 [Back to top](#reflector-documentation)
@@ -713,10 +719,10 @@ const query: QueryExecutor<MyClass> = Reflector.from(MyClass).query();
 const memberSelector: QueryMembersSelector<MyClass> = query.members();
 
 // Returns all class members from the member selector
-const members: ClassMember[] = membersSelector.all<ClassMember>();
+const members: ClassMember[] = memberSelector.all<ClassMember>();
 
 // Returns the first class member from the member selector
-const firstFoundMember: ClassMember = membersSelector.first<ClassMember>();
+const firstFoundMember: ClassMember = memberSelector.first<ClassMember>();
 ```
 
 ### Additional Query API for Annotation Decorators
@@ -774,7 +780,9 @@ import {
   ByStaticMember, 
   ByDecoratorClass, 
   ByParameterDecoratorClass, 
-  ByMemberDecoratorClass 
+  ByMemberDecoratorClass,
+  DecoratedElementEnum,
+  DecoratedElementTypeValues
 } from "@semaver/reflector";
 import { MyClass, AnnotationDecorator } from "./MyClass";
 
@@ -786,7 +794,7 @@ const memberName: string = "someClassMemberName";
 const byMemberNameQuery: QueryExecutor<MyClass> = query.filter(ByMemberName.from(memberName));
 
 //---FILTER BY MEMBER TYPE------------------------------------------------------------------
-const memberType: DecoratedElementType = DecoratedElementType.METHOD;
+const memberType: DecoratedElementTypeValues = DecoratedElementEnum.METHOD;
 const byMemberTypeQuery: QueryExecutor<MyClass> = query.filter(ByMemberType.from(memberType));
 
 //---FILTER BY STATIC/NON-STATIC MEMBER------------------------------------------------------
@@ -812,10 +820,10 @@ const byMemberDecoratorClassQuery: QueryExecutor<MyClass> = query.filter(ByMembe
 
 ### Custom Filters
 
-You can combine or chain different filtering conditions or create custom filters by implementing the [`IQueryCondition`](https://github.com/semaver/split-ts/blob/master/packages/reflector/src/com/split/reflector/query/IQueryCondition.ts) interface. Examples can be found in the existing filters:
+You can combine or chain different filtering conditions or create custom filters by implementing the [`IQueryCondition`](https://github.com/semaver/core-stack/blob/main/packages/reflector/src/com/split/reflector/query/IQueryCondition.ts) interface. Examples can be found in the existing filters:
 
-- [Filter By Member Type](https://github.com/semaver/split-ts/blob/master/packages/reflector/src/com/split/reflector/query/conditions/members/ByMemberType.ts)
-- [Filter By Member Name](https://github.com/semaver/split-ts/blob/master/packages/reflector/src/com/split/reflector/query/conditions/members/ByMemberName.ts)
+- [Filter By Member Type](https://github.com/semaver/core-stack/blob/main/packages/reflector/src/com/split/reflector/query/conditions/members/ByMemberType.ts)
+- [Filter By Member Name](https://github.com/semaver/core-stack/blob/main/packages/reflector/src/com/split/reflector/query/conditions/members/ByMemberName.ts)
 
 [Back to top](#reflector-documentation)
 
@@ -891,8 +899,8 @@ reflector.getConstructor().addDecorator(Decorator.build(new AnnotationDecorator(
 reflector.getConstructor().removeDecorator(AnnotationDecorator);
 
 //---CONSTRUCTOR PARAMETERS-----------------------------------------------------------------
-reflector.getDecoratedConstructor().getParameterAt(0).addDecorator(annotation());
-reflector.getDecoratedConstructor().getParameterAt(0).removeDecorator(AnnotationDecorator);
+reflector.getConstructor().getParameterAt(0)?.addDecorator(annotation());
+reflector.getConstructor().getParameterAt(0)?.removeDecorator(AnnotationDecorator);
 
 //---FIELD (UNION OF ACCESSOR & PROPERTY)---------------------------------------------------
 // `true` - for instance class member, `false` - for static class members
@@ -915,8 +923,8 @@ reflector.getMethod(memberName, true).removeDecorator(AnnotationDecorator);
 
 //---METHOD PARAMETERS-----------------------------------------------------------------------
 // Adds or removes decorators for method parameters
-reflector.getMethod(memberName, true).getParameterAt(0).addDecorator(annotation());
-reflector.getMethod(memberName, true).getParameterAt(0).removeDecorator(AnnotationDecorator);
+reflector.getMethod(memberName, true).getParameterAt(0)?.addDecorator(annotation());
+reflector.getMethod(memberName, true).getParameterAt(0)?.removeDecorator(AnnotationDecorator);
 
 reflector.refresh(); // Ensures all dynamic changes are recognized by the Reflector
 ```
@@ -944,7 +952,7 @@ The `IClassTable` interface provides the following methods:
 ```ts
 export interface IClassTable {
 
-    getClasses(): ReadonlySet<IMetadataClass<unknown>>;
+    getClasses(): ReadonlySet<IClass<object>>;
 
     getSyncHash(): string;
 
@@ -981,7 +989,7 @@ export interface IClassTableUpdate<TDecorator extends Decorator = Decorator, T =
 
   readonly decoratedElement: {
 
-    readonly type: DecoratedElementType; // Class member type (Constructor, Method, Parameters, etc.)
+    readonly type: DecoratedElementTypeValues; // Class member type (Constructor, Method, Parameters, etc.); the runtime enum constant is `DecoratedElementEnum`
 
     readonly name: string;               // Name of the class member
 
@@ -1027,7 +1035,7 @@ You can define an annotation decorator in four steps:
 
 #### STEP 1: Define the Decorator Function
 
-Similar to [TypeScript decorators](https://www.typescriptlang.org/docs/handbook/decorators.html), you need to define a decorator function. However, the decorator function must include a call to `Decorator.build()`, which expects an annotation decorator class of type [Decorator](https://github.com/semaver/split-ts/blob/master/packages/reflector/src/com/split/decorators/Decorator.ts) (defined in Step 2).
+Similar to [TypeScript decorators](https://www.typescriptlang.org/docs/handbook/decorators.html), you need to define a decorator function. However, the decorator function must include a call to `Decorator.build()`, which expects an annotation decorator class of type [Decorator](https://github.com/semaver/core-stack/blob/main/packages/reflector/src/com/split/decorators/Decorator.ts) (defined in Step 2).
 
 ```ts
 export function annotation(): DecoratorFn {
@@ -1039,7 +1047,7 @@ export function annotation(): DecoratorFn {
 
 #### STEP 2: Define the Decorator Class
 
-Next, define a new `AnnotationDecorator` class by extending the abstract [Decorator](https://github.com/semaver/split-ts/blob/master/packages/reflector/src/com/split/decorators/Decorator.ts) class from the **`reflector`** package. The main purpose of the `AnnotationDecorator` class is to define or override decoration policies (Step 3) and specify the accepted parameters for the decorator function (Step 4).
+Next, define a new `AnnotationDecorator` class by extending the abstract [Decorator](https://github.com/semaver/core-stack/blob/main/packages/reflector/src/com/split/decorators/Decorator.ts) class from the **`reflector`** package. The main purpose of the `AnnotationDecorator` class is to define or override decoration policies (Step 3) and specify the accepted parameters for the decorator function (Step 4).
 
 ```ts
 import { Decorator } from "@semaver/reflector";
@@ -1073,7 +1081,7 @@ Decoration policies define rules for how decorators behave in specific cases, pa
    - Default: `APPLY` (the parent class decorator is used).
    
 5. [Appearance Policy](#appearance-policy): Manages behavior when a decorator exists in the child class but not in the parent class.
-- Default: `APPLY` (the child class decorator is used).
+   - Default: `APPLY` (the child class decorator is used).
 
 > **Note:** For more details on decoration policies and their parameters, see the [Decoration Policies](#decoration-policies) section.
 
@@ -1147,7 +1155,7 @@ import {
     MetadataSameTargetMultiUsagePolicyValues,
     PolicyProvider,
     PrimitiveMetadataAccessPolicyValues
-} from "../../src";
+} from "@semaver/reflector";
 
 export function annotationWithPolicyProvider(): DecoratorFn {
     return Decorator.build(new AnnotationWithPolicyProviderDecorator());
@@ -1190,7 +1198,7 @@ export class AnnotationWithPolicyProviderDecorator extends Decorator {
     }
 
     public getSameTargetMultiUsagePolicy(
-  								access: PrimitiveMetadataAccessPolicyValues): MetadataSameTargetMultiUsagePolicyValues {
+                  access: PrimitiveMetadataAccessPolicyValues): MetadataSameTargetMultiUsagePolicyValues {
         return AnnotationWithPolicyProviderDecorator.policyProvider.getSameTargetMultiUsagePolicy(access);
     }
 }
@@ -1489,20 +1497,20 @@ The `MetadataAppearancePolicy` defines the behavior when a decorator exists in t
 - **Default:** `MetadataAppearancePolicy.APPLY`
 
 ```ts
-export interface MetadataNotExistencePolicyType {
+export interface MetadataAppearancePolicyType {
     APPLY: number;
     SKIP: number;
     DEFAULT: number
 }
 
-export const MetadataNotExistencePolicy: Readonly<MetadataNotExistencePolicyType> = Object.freeze({
+export const MetadataAppearancePolicy: Readonly<MetadataAppearancePolicyType> = Object.freeze({
     SKIP: 0,
     APPLY: 1,
     DEFAULT: 1,
 });
 
-export type MetadataNotExistencePolicyValues = 
-  MetadataNotExistencePolicyType[keyof MetadataNotExistencePolicyType];
+export type MetadataAppearancePolicyValues =
+  MetadataAppearancePolicyType[keyof MetadataAppearancePolicyType];
 ```
 
 [Back to top](#reflector-documentation)
@@ -1515,7 +1523,7 @@ The **Reflected Types Architecture** diagram illustrates the various types of cl
 
 ![](diagrams/reflector-class-members.svg)
 
-[back](#reflector-documentation)
+[Back to top](#reflector-documentation)
 
 ### Behind the Scene of Annotation Decorators
 

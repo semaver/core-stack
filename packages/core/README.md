@@ -10,7 +10,7 @@ The `core` package is a collection of helper interfaces and classes designed to 
 
 ```bash
 $ yarn add @semaver/core --peer
-$ npm install @semaver/core
+$ npm install @semaver/core --save-peer
 ```
 
 > **Warning:** Please install the library as a **peer** dependency if possible.
@@ -35,6 +35,8 @@ $ npm install @semaver/core
 - Extensions
   - InterfaceSymbol
     - [For](#for)
+  - Token
+    - [token](#token)
   - CoreObject
     - [isObjectEmpty](#isobjectempty)
     - [isObjectPrimitive](#isobjectprimitive)
@@ -108,15 +110,17 @@ Represents a generic object that can be `null`.
 type Undefined<T> = T | undefined;
 ```
 
-Represents a generic object that can be  `undefined`.
+Represents a generic object that can be `undefined`.
+
+[Back to top](#table-of-contents)
 
 #### Empty
 
 ```ts
-type Undefined<T> = Nullable<T> | Undefined<T>;
+type Empty<T> = Nullable<T> | Undefined<T>;
 ```
 
-Represents a generic object that can be  `null` or `undefined`.
+Represents a generic object that can be `null` or `undefined`.
 
 [Back to top](#table-of-contents)
 
@@ -140,7 +144,7 @@ Contains interfaces and types to ensure strong typing of objects.
 interface IClass<T> extends JsFunction, EmptyGeneric<T> {};
 ```
 
-A generic class type with a prototype property of type `IPrototype<T>`.
+A generic, newable class (constructor) type combining `JsFunction` and `EmptyGeneric<T>`; its `new(...args)` signature returns an instance of `T`.
 
 [Back to top](#table-of-contents)
 
@@ -194,7 +198,7 @@ Helper class to "materialize" interfaces. Since JavaScript interfaces are just s
 static for<T>(uid: string | symbol): IInterface<T>;
 ```
 
-A static method to create a symbol for a given interface, effectively "materializing" it.
+A static method to create a symbol for a given interface, effectively "materializing" it. Symbols are pooled by identifier, so repeated calls with the same identifier return the same instance; a string identifier is resolved to a global symbol via `Symbol.for` before lookup. Throws if the identifier is `null` or `undefined`.
 
 **Example:**
 
@@ -213,6 +217,18 @@ export class SomeInterfaceImpl implements ISomeInterface {
 // Usage in a container
 container.bind(ISomeInterface).toClass(SomeInterfaceImpl);
 ```
+
+[Back to top](#table-of-contents)
+
+### Token
+
+#### token
+
+```ts
+function token(): string;
+```
+
+Generates a process-unique, human-readable string identifier (e.g., `"kf3n2a-0"`, `"kf3n2a-1"`, ...). Each token is unique within a single running process and is intended for internal identity/versioning, compared only with strict equality. It is **not** cryptographic, **not** persisted, and its format is **not** a stable contract. (It replaced the previously used `uuid` dependency.)
 
 [Back to top](#table-of-contents)
 
@@ -377,10 +393,12 @@ Returns the descriptor of a property, whether **own or inherited**.
 ### ExtendedError
 
 ```ts
-class ExtendedError extends Error {}
+class ExtendedError extends Error {
+  constructor(target: object, error: string);
+}
 ```
 
-A base class for error handling.
+A base class for error handling that extends the native `Error`. The `target` parameter is the object where the error is thrown, and `error` is the description of the error. The resulting message has the form `[ClassName] error`, where `ClassName` is the class name of `target` (resolved via `classOfObject`).
 
 [Back to top](#table-of-contents)
 
