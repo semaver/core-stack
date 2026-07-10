@@ -24,9 +24,14 @@ To use the `@decorator()` syntax in **TypeScript**, you must configure the `tsco
 }
 ```
 
-> :warning: **Important!** Support for TypeScript 5.x decorators will be available after the release of "decorated parameters".
+> :warning: **Important — transpiler support for parameter decorators.**
+> This library relies on **legacy** decorators (`experimentalDecorators`) and decorates **method/constructor parameters**. Your build must use a transpiler that emits legacy **parameter** decorators. Verified support:
+> - **`tsc`** (TypeScript compiler) — full support out of the box (recommended).
+> - **SWC** — supported via `jsc.transform.legacyDecorator: true`.
+> - **Babel** — needs an extra plugin (`babel-plugin-transform-typescript-metadata`); `@babel/plugin-proposal-decorators` alone does **not** emit parameter decorators.
+> - **esbuild** — legacy decorators only, no parameter-metadata; **not recommended** for this use case.
 >
-> [More Information](https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/) → "Differences with Experimental Legacy Decorators"
+> TC39 **standard** (stage-3) decorators are **not** supported and cannot be: they do not include parameter decorators (that proposal is stalled at Stage 1), so `experimentalDecorators` remains the required and long-term-supported path. `emitDecoratorMetadata` is optional for this library (it uses its own metadata, not `reflect-metadata`).
 
 ## Installation
 
