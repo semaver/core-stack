@@ -26,8 +26,15 @@
 </code><button type="button">Copy</button></pre>
 
 <blockquote>
-<p>:warning: <strong>Important!</strong> Support for TypeScript 5.x decorators will be available after the release of &quot;decorated parameters&quot;.</p>
-<p><a href="https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/">More Information</a> → &quot;Differences with Experimental Legacy Decorators&quot;</p>
+<p>:warning: <strong>Important — transpiler support for parameter decorators.</strong>
+This library relies on <strong>legacy</strong> decorators (<code>experimentalDecorators</code>) and decorates <strong>method/constructor parameters</strong>. Your build must use a transpiler that emits legacy <strong>parameter</strong> decorators. Verified support:</p>
+<ul>
+<li><strong><code>tsc</code></strong> (TypeScript compiler) — full support out of the box (recommended).</li>
+<li><strong>SWC</strong> — supported via <code>jsc.transform.legacyDecorator: true</code>.</li>
+<li><strong>Babel</strong> — needs an extra plugin (<code>babel-plugin-transform-typescript-metadata</code>); <code>@babel/plugin-proposal-decorators</code> alone does <strong>not</strong> emit parameter decorators.</li>
+<li><strong>esbuild</strong> — legacy decorators only, no parameter-metadata; <strong>not recommended</strong> for this use case.</li>
+</ul>
+<p>TC39 <strong>standard</strong> (stage-3) decorators are <strong>not</strong> supported and cannot be: they do not include parameter decorators (that proposal is stalled at Stage 1), so <code>experimentalDecorators</code> remains the required and long-term-supported path. <code>emitDecoratorMetadata</code> is optional for this library (it uses its own metadata, not <code>reflect-metadata</code>).</p>
 </blockquote>
 <h2 id="installation" class="tsd-anchor-link">Installation<a href="#installation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <pre><code class="bash"><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">yarn</span><span class="hl-1"> </span><span class="hl-2">add</span><span class="hl-1"> </span><span class="hl-2">@semaver/reflector</span><span class="hl-1"> </span><span class="hl-3">--peer</span><br/><span class="hl-0">$</span><span class="hl-1"> </span><span class="hl-2">npm</span><span class="hl-1"> </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-2">@semaver/reflector</span><span class="hl-1">  </span>
