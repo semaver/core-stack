@@ -54,7 +54,9 @@ export class ClassTable implements IClassTable {
     }
 
     /**
-     * method to set synchronization hash
+     * method to set (overwrite) the class table synchronization hash; the hash value is generated
+     * externally by the reflection engine and stored here whenever the class table changes (a metadata
+     * class is added, updated with its own metadata, or removed), so consumers can detect changes via {@link getSyncHash}
      *
      * @public
      * @param hash - string of synchronization hash
