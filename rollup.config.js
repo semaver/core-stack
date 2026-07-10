@@ -28,8 +28,9 @@ const nodeOptions = {
 const typescriptOptions = {
     tsconfig: `${PACKAGE_NAME}/tsconfig.json`,
     exclude: [`${PACKAGE_NAME}/tests/**`],
+    rootDir: `${PACKAGE_NAME}/src`,
     declaration: true,
-    declarationDir: '.',
+    declarationDir: 'lib',
     emitDeclarationOnly: true,
     declarationMap: true,
 };

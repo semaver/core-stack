@@ -4,9 +4,9 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "module": "ES6",
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
-    "target": "ES5",
+    "target": "ES2015",
     "lib": [
       "dom",
       "esnext"
@@ -21,8 +21,7 @@
     ],
     "declaration": true,
     "stripInternal": true,
-    "strict": true,
-    "baseUrl": "./packages"
+    "strict": true
   },
   "include": [
     "**/src/**/*",
