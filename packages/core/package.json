@@ -2,7 +2,7 @@
   "name": "@semaver/core",
   "type": "module",
   "rawName": "core",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Core interface/types and helper methods for object manipulation and reflection",
   "homepage": "https://github.com/semaver/core-stack",
   "bugs": "https://github.com/semaver/core-stack/issues",
@@ -62,5 +62,8 @@
     "index": "cti entrypoint src -o index.ts",
     "lint": "eslint ./src ./tests",
     "file": "yarn pack --pack-destination packs"
+  },
+  "engines": {
+    "node": ">=22.18.0"
   }
 }
