@@ -18,11 +18,12 @@ To use the `@decorator()` syntax in **TypeScript**, you must configure the `tsco
 ```json
 {
     "compilerOptions": {
-      "experimentalDecorators": true,
-      "emitDecoratorMetadata": true           
+      "experimentalDecorators": true
     }
 }
 ```
+
+> :bulb: Only `experimentalDecorators` is required. `emitDecoratorMetadata` is **not** needed — this library reads its own `__metadata__` and does not rely on `reflect-metadata` / `design:type` metadata.
 
 > :warning: **Important — transpiler support for parameter decorators.**
 > This library relies on **legacy** decorators (`experimentalDecorators`) and decorates **method/constructor parameters**. Your build must use a transpiler that emits legacy **parameter** decorators. Verified support:

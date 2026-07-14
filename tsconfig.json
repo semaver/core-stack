@@ -15,7 +15,6 @@
     "sourceMap": true,
     "removeComments": false,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "types": [
       "jest"
     ],
