@@ -13,6 +13,13 @@ updates:
       # Runtime deps grouped separately so production changes stay visible.
       production-dependencies:
         dependency-type: production
+    ignore:
+      # TypeScript 7.0 (native Go compiler) breaks the rollup build:
+      # "@rollup/plugin-typescript@12" hits `TypeError: Cannot read properties of
+      # undefined (reading 'ES2015')" — the plugin isn't compatible with the TS7
+      # internal ScriptTarget API. Stay on 6.x until the toolchain supports TS7.
+      - dependency-name: "typescript"
+        versions: [">=7.0.0"]
     labels:
       - dependencies
 
