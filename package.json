@@ -29,6 +29,13 @@
     "file": "lerna run file",
     "publish:local": "lerna publish --no-git-tag-version --no-push --registry=\"http://localhost:4873/\""
   },
+  "resolutions": {
+    "@babel/helpers@npm:^7.25.0": "npm:^7.28.3",
+    "handlebars": "^4.7.9",
+    "picomatch@npm:^2.0.4": "npm:^2.3.2",
+    "picomatch@npm:^2.3.1": "npm:^2.3.2",
+    "flatted": "^3.4.2"
+  },
   "devDependencies": {
     "@babel/core": "^8.0.1",
     "@babel/plugin-proposal-decorators": "^8.0.2",
