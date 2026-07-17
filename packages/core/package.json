@@ -20,9 +20,14 @@
   "types": "lib/index.d.ts",
   "exports": {
     ".": {
-      "types": "./lib/index.d.ts",
-      "import": "./lib/library.esm.mjs",
-      "require": "./lib/library.cjs.cjs",
+      "import": {
+        "types": "./lib/index.d.ts",
+        "default": "./lib/library.esm.mjs"
+      },
+      "require": {
+        "types": "./lib/index.d.cts",
+        "default": "./lib/library.cjs.cjs"
+      },
       "default": "./lib/library.esm.mjs"
     },
     "./package.json": "./package.json"
