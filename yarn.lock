@@ -3359,7 +3359,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@semaver/core@npm:^2.1.0, @semaver/core@workspace:packages/core":
+"@semaver/core@npm:^2.1.1, @semaver/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@semaver/core@workspace:packages/core"
   languageName: unknown
@@ -3369,9 +3369,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@semaver/reflector@workspace:packages/reflector"
   dependencies:
-    "@semaver/core": "npm:^2.1.0"
+    "@semaver/core": "npm:^2.1.1"
   peerDependencies:
-    "@semaver/core": ^2.1.0
+    "@semaver/core": ^2.1.1
   languageName: unknown
   linkType: soft
 
