@@ -852,13 +852,13 @@ You can combine or chain different filtering conditions or create custom filters
 
 The **`reflector`** package, along with its [Annotation Decorators](#annotation-decorators), allows you to dynamically add or remove decorators at runtime. Based on the [Reflected Types Architecture](#reflected-types-architecture), each [Reflected Type](#reflected-types) is a child of the `DecoratedElement<T>` class and inherits the following two methods:
 
-- `addDecorator(decoratorOrFn: Decorator | DecoratorFn): boolean`
+- `addDecorator(decoratorOrFn: Decorator | DecoratorFn): this`
 
-  Adds decorators at runtime.
+  Adds decorators at runtime (returns the same reflected element, so calls can be chained).
 
   - **`decoratorOrFn`**: The decorator function to be added.
 
-- `removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): boolean`
+- `removeDecorator(decoratorOrClass: IClass<Decorator> | Decorator): this`
 
   Removes decorators at runtime.
 

@@ -261,7 +261,7 @@ Checks if a given value is a primitive. Returns `true` for strings, numbers, boo
 #### isObjectClass
 
 ```ts
-function isObjectClass(obj: Nullable<object & { call?: JsFunction, apply?: JsFunction }>): boolean;
+function isObjectClass(obj: Empty<object & { call?: JsFunction, apply?: JsFunction }>): boolean;
 ```
 
 Checks if a given object is a class (constructor) rather than an instance, by testing that it is callable (has `constructor`, `call`, and `apply`). Returns `false` for `null`/`undefined` (handled safely — never throws) and for plain instances. Note: because the check is essentially "is this callable", ordinary functions also return `true`.
@@ -282,8 +282,8 @@ Returns the class of a given instance or the class itself.
 
 ```ts
 function haveObjectsSameClass<A extends object, B extends object>(
-  instanceA: Nullable<A>,
-  instanceB: Nullable<B>
+  instanceA: Empty<A>,
+  instanceB: Empty<B>
 ): boolean;
 ```
 
@@ -295,9 +295,9 @@ Returns `true` if two instances belong to the same class. Comparison is by stric
 
 ```ts
 function superClassOfObject<S extends object, C extends S>(
-  childClass: Nullable<IClass<C>>,
+  childClass: Empty<IClass<C>>,
   ignoreNativeObjectClass: boolean = false
-): Nullable<IClass<S>>;
+): Empty<IClass<S>>;
 ```
 
 Returns the superclass (the class itself, resolved via the prototype chain) of a given class, or `undefined`. Expects a class, not an instance (it reads `childClass.prototype`). Returns `undefined` if `childClass` is `null`/`undefined`. The optional `ignoreNativeObjectClass` flag (default `false`) controls the top of the chain: when `true`, if the superclass is the native JavaScript `Object` class the function returns `undefined` instead of `Object`.
@@ -307,7 +307,7 @@ Returns the superclass (the class itself, resolved via the prototype chain) of a
 #### isNativeObjectClass
 
 ```ts
-function isNativeObjectClass<T extends object>(targetClass: Nullable<IClass<T>>): boolean;
+function isNativeObjectClass<T extends object>(targetClass: Empty<IClass<T>>): boolean;
 ```
 
 Returns `true` if the class is the native JavaScript `Object` class, detected by checking that its prototype has no further prototype in the chain (i.e. it sits at the root of the prototype chain). Returns `false` for `null` or `undefined` input; never throws.
@@ -318,7 +318,7 @@ Returns `true` if the class is the native JavaScript `Object` class, detected by
 
 ```ts
 function getObjectSuperClassChain(
-  obj: Nullable<object>,
+  obj: Empty<object>,
   reversed: boolean = false,
   excludeNativeObjectClass: boolean = true
 ): readonly IClass<object>[];
@@ -343,7 +343,7 @@ A collection of helper functions for working with object reflection.
 #### hasOwnProperty
 
 ```ts
-function hasOwnProperty(obj: Nullable<object>, property: PropertyKey): boolean;
+function hasOwnProperty(obj: Empty<object>, property: PropertyKey): boolean;
 ```
 
 Checks whether the object (class or instance) has an **own** (not inherited) property with the given key. Returns `false` — never throws — when the object is `null` or `undefined`; inherited/prototype properties also yield `false` (use `hasProperty` to include those). The key may be a string, number, or symbol.
@@ -353,7 +353,7 @@ Checks whether the object (class or instance) has an **own** (not inherited) pro
 #### hasProperty
 
 ```ts
-function hasProperty(obj: Nullable<object>, property: PropertyKey): boolean;
+function hasProperty(obj: Empty<object>, property: PropertyKey): boolean;
 ```
 
 Checks whether the object (class or instance) has the property as an **own or inherited** property. Returns `false` when the object is `null`/`undefined` (never throws). Own properties are checked first, then the property is searched up the superclass prototype chain. Note: when the object is itself a class (constructor), only its own properties count — a property merely inherited by the class returns `false`.
@@ -364,9 +364,9 @@ Checks whether the object (class or instance) has the property as an **own or in
 
 ```ts
 function getPropertyOwner<S extends object, C extends S>(
-  obj: Nullable<C>,
+  obj: Empty<C>,
   property: PropertyKey
-): Nullable<S>;
+): Empty<S>;
 ```
 
 Returns the object or prototype that **owns** (declares) the property. Checks own properties first: if the object owns the property directly, the object itself is returned. Otherwise it walks the object's class prototype chain and returns the prototype on which the property is declared (the native `Object` class is excluded from the search). Returns `undefined` if the object is `null`/`undefined`, if the property is declared nowhere in the searched chain, or if the object is itself a class that does not own the property directly.
@@ -377,9 +377,9 @@ Returns the object or prototype that **owns** (declares) the property. Checks ow
 
 ```ts
 function getPropertyDescriptor(
-  obj: Nullable<object>,
+  obj: Empty<object>,
   property: PropertyKey
-): Nullable<PropertyDescriptor>;
+): Empty<PropertyDescriptor>;
 ```
 
 Returns the descriptor of a property, whether **own or inherited**, from the object or prototype that actually declares it — searching own properties first and then walking up the class/superclass prototype chain. Returns `undefined` if the property is not declared anywhere in the chain, if the object is `null`/`undefined`, or if the object is a class that does not own the property directly (inheritance is resolved for instances, not for class objects themselves).
