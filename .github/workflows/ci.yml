@@ -58,14 +58,12 @@ jobs:
       - name: publint (@semaver/reflector)
         run: yarn dlx publint@latest run ./packages/reflector
 
-      # attw surfaces a known pre-existing dual-package types issue (FalseESM on the
-      # single .d.ts used for both import & require). Report-only until the exports/types
-      # split is fixed and republished — see the maintainer notes. Does not fail CI yet.
+      # Package-correctness gate: attw must resolve types cleanly in all module modes
+      # (node10, node16-cjs, node16-esm, bundler). Blocking — the dual .d.ts/.d.cts split
+      # keeps this green; a regression here should fail CI.
       - name: attw — are-the-types-wrong (@semaver/core)
-        continue-on-error: true
         run: yarn dlx @arethetypeswrong/cli@latest --pack ./packages/core
       - name: attw — are-the-types-wrong (@semaver/reflector)
-        continue-on-error: true
         run: yarn dlx @arethetypeswrong/cli@latest --pack ./packages/reflector
 
       # Coverage upload is opt-in: only runs once CODECOV_TOKEN is configured.
