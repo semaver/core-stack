@@ -6,7 +6,7 @@ import {ClassMember} from "./ClassMember";
 import {Parameter} from "./Parameter";
 
 /**
- * abstract class that implement Executable api and contains core functionality for executable class members
+ * abstract base class for invocable class members (constructors and methods); on top of ClassMember it holds the ordered collection of parameters and exposes parameter inspection (count, get by index) and parameter-decorator queries
  * @public
  */
 export abstract class ExecutableMember<T extends object = object> extends ClassMember<T> {
@@ -42,7 +42,7 @@ export abstract class ExecutableMember<T extends object = object> extends ClassM
     }
 
     /**
-     * method to get known parameter count from <b>reflection api<b>
+     * method to get known parameter count from <b>reflection api</b>
      * myMethodA(...args) return argument length == 0,
      * myMethodA(someArg1, someArg2, ...args) return argument length == 2
      * myMethodA(someArg1, someArg2 = 1, ...args) return argument length == 1
@@ -56,13 +56,14 @@ export abstract class ExecutableMember<T extends object = object> extends ClassM
     }
 
     /**
-     * method to get own parameter count from <b>descriptor api<b>
-     * myMethodA(...args) return argument length == 0,
-     * myMethodA(someArg1, someArg2, ...args) return argument length == 2
-     * myMethodA(someArg1, someArg2 = 1, ...args) return argument length == 1
+     * method to get the parameter count declared directly on this member, read from the native function's arity via the <b>descriptor api</b> (unlike {@link getKnownParameterCount}, it does not investigate superclasses).
+     * Trailing rest parameters are not counted and parameters with a default value stop the count, e.g.
+     * myMethodA(...args) returns 0,
+     * myMethodA(someArg1, someArg2, ...args) returns 2,
+     * myMethodA(someArg1, someArg2 = 1, ...args) returns 1
      *
      * @public
-     * @returns own parameter count
+     * @returns own parameter count declared directly on this member
      */
     public abstract getOwnParameterCount(): number;
 
@@ -70,7 +71,7 @@ export abstract class ExecutableMember<T extends object = object> extends ClassM
      * method to get parameters from provided executable class
      *
      * @public
-     * @returns copy of parameters' collection
+     * @returns readonly parameters' collection
      */
     public getParameters(): readonly Parameter<T>[] {
         return this._parameters;
@@ -99,7 +100,7 @@ export abstract class ExecutableMember<T extends object = object> extends ClassM
     }
 
     /**
-     * method to check if executable class member has full proceeded parameter decorators
+     * method to check if executable class member has full processed parameter decorators
      *
      * @public
      * @param decoratorClasses - collection of decorator classes to check (can be omitted)
@@ -110,7 +111,7 @@ export abstract class ExecutableMember<T extends object = object> extends ClassM
     }
 
     /**
-     * method to get full proceeded parameter decorators from provided executable class
+     * method to get full processed parameter decorators from provided executable class
      *
      * @public
      * @param decoratorClasses - collection of decorator classes to get (can be omitted)

@@ -5,7 +5,10 @@ import {IQueryCondition} from "../../IQueryCondition";
 import {QueryInfo} from "../../QueryInfo";
 
 /**
- * implementation of query condition api to filter class members by provided decorator classes
+ * query condition that keeps a class member when the member itself (or, for executable members,
+ * any of its parameters) carries a decorator whose class exactly matches one of the given decorator
+ * classes. Matching is by exact class identity (constructor equality, not `instanceof`), so
+ * subclasses of a given decorator class do not match.
  * @public
  */
 export class ByDecoratorClass<T extends object = object> implements IQueryCondition<T> {
@@ -31,11 +34,16 @@ export class ByDecoratorClass<T extends object = object> implements IQueryCondit
     }
 
     /**
-     * method to create query/filter condition from a collection of decorator classes
+     * method to obtain a query/filter condition that keeps members carrying a decorator of any of
+     * the given classes, matched either on the member itself or on its parameters (for executable
+     * members).
      *
      * @public
      * @param decoratorClasses - collection of decorator classes
-     * @returns instance of query condition
+     * @remarks reuses a shared cached instance instead of creating a new one; each call overwrites
+     * the previously configured decorator classes, so use the constructor when an isolated instance
+     * is needed.
+     * @returns shared query condition instance configured with the given decorator classes
      */
     public static from<T extends object>(...decoratorClasses: IClass<Decorator>[]): ByDecoratorClass<T> {
         return ByDecoratorClass._cache.setDecoratorClass(...decoratorClasses);

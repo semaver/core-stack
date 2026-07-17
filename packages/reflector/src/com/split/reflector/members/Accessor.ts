@@ -9,7 +9,10 @@ import {Field} from "./Field";
 import getOwnPropertyDescriptor = Reflect.getOwnPropertyDescriptor;
 
 /**
- * class that implement Accessor class member
+ * class that implements a getter/setter accessor class member; unlike a plain property,
+ * its gettability/settability depend on whether a `get`/`set` is actually defined (for instance
+ * accessors the descriptor is searched up the prototype chain), and `getValue`/`setValue` throw
+ * a `ClassMemberAccessError` when the corresponding accessor is missing
  *
  * @public
  */

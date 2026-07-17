@@ -2,13 +2,13 @@
   "name": "@semaver/reflector",
   "type": "module",
   "rawName": "reflector",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Reflection framework for TypeScript and JavaScript, with decorator inheritance support and no reflect-metadata dependency.",
   "homepage": "https://github.com/semaver/core-stack",
   "bugs": "https://github.com/semaver/core-stack/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/semaver/core-stack.git"
+    "url": "git+https://github.com/semaver/core-stack.git"
   },
   "author": "semaver",
   "contributors": [
@@ -20,8 +20,10 @@
   "types": "lib/index.d.ts",
   "exports": {
     ".": {
+      "types": "./lib/index.d.ts",
       "import": "./lib/library.esm.mjs",
-      "require": "./lib/library.cjs.cjs"
+      "require": "./lib/library.cjs.cjs",
+      "default": "./lib/library.esm.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -51,9 +53,8 @@
     "no reflect-metadata"
   ],
   "files": [
-    "diagrams",
+    "diagrams/*.svg",
     "lib",
-    "docs",
     "package.json",
     "README.md",
     "LICENSE"
@@ -66,13 +67,12 @@
     "file": "yarn pack --pack-destination packs"
   },
   "devDependencies": {
-    "@semaver/core": "^2.0.0"
+    "@semaver/core": "^2.1.0"
   },
   "peerDependencies": {
-    "@semaver/core": "^2.0.0"
+    "@semaver/core": "^2.1.0"
   },
-  "dependencies": {
-    "@types/uuid": "^10.0.0",
-    "uuid": "^10.0.0"
+  "engines": {
+    "node": ">=22.18.0"
   }
 }

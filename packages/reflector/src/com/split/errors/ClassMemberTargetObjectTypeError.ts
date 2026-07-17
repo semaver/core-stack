@@ -1,4 +1,4 @@
-import {ExtendedError} from "@semaver/core";
+import {classOfObject, ExtendedError} from "@semaver/core";
 import {DecoratedElementTypeValues} from "../metatable/types/DecoratedElementEnum";
 import {ClassMember} from "../reflector/members/ClassMember";
 
@@ -19,6 +19,6 @@ export class ClassMemberTargetObjectTypeError extends ExtendedError {
      */
     public constructor(target: ClassMember, classMemberType: DecoratedElementTypeValues, classMemberName: string, classMemberTarget: object, shouldBeClass: boolean) {
         const objectTypeString: string = shouldBeClass ? "class" : "instance";
-        super(target, `${classMemberType.toString()} - (${classMemberName}): target ${String(classMemberTarget)} should be ${objectTypeString}`);
+        super(target, `${classMemberType.toString()} - (${classMemberName}): target ${classOfObject(classMemberTarget).name} should be ${objectTypeString}`);
     }
 }

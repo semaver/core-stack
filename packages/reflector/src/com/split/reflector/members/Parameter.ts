@@ -7,7 +7,7 @@ import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/
 import {DecoratedElement} from "./DecoratedElement";
 
 /**
- * class that implement Parameter for executable class members
+ * abstract class that implement Parameter for executable class members
  *
  * @public
  */
@@ -16,7 +16,7 @@ export abstract class Parameter<T extends object = object> extends DecoratedElem
     /**
      * @protected
      * @readonly
-     * @property position - index (position) of parameter
+     * @property _index - index (position) of parameter
      */
     protected readonly _index: number;
 

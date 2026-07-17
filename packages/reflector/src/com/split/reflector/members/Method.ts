@@ -58,12 +58,16 @@ export class Method<T extends object = object, TReturnType = unknown> extends Ex
     }
 
     /**
-     * method to call a method of static or instance method
+     * method to invoke the reflected method on the given target with the supplied arguments;
+     * the target is validated to be non-empty, to actually contain the method, and to match
+     * the member's static/instance kind before invocation
      *
      * @public
      * @param target - class or instance that contains method
      * @param parameters - parameters used in method
-     * @returns method invocation result
+     * @returns the value returned by the invoked method
+     * @remarks throws if the target is undefined, does not contain the method, or its class/instance
+     * kind does not match the member's static flag
      */
     public invoke(target: IClass<T> | T, ...parameters: any[]): TReturnType {
         this.validate(target);

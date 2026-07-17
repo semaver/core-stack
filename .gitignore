@@ -1,4 +1,5 @@
 .DS_Store
+.claude/
 .idea/
 *.iml
 *.log
@@ -25,3 +26,4 @@ out/
 
 .yarn/
 .yarnrc
+tasks

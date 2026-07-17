@@ -7,16 +7,16 @@
 
 ### Requirements
 
-- [Node 18+](https://nodejs.org/en/download/package-manager) (_>= 18.18.0_)
+- [Node 22+](https://nodejs.org/en/download/package-manager) (_>= 22.18.0_)
 
 ### Tool Set
 
 - [yarn](https://yarnpkg.com/) - package manager
-- [lerna](https://lerna.js.org/) - mono repo manager
-- [typescript](https://www.typescriptlang.org/) - source code programing language
+- [lerna](https://lerna.js.org/) - monorepo manager
+- [typescript](https://www.typescriptlang.org/) - source code programming language
 - [babel](https://babeljs.io/) - transpilation tool
 - [rollup js](https://rollupjs.org/) - build tool
-- [jest](https://jestjs.io/)  - test framework/tool
+- [jest](https://jestjs.io/) - test framework/tool
 - [eslint](https://eslint.org/) - lint tool
 - [typedoc](https://typedoc.org/) - documentation tool
 

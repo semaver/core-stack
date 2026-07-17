@@ -7,7 +7,7 @@ import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/
 import {DecoratedElement} from "./DecoratedElement";
 
 /**
- * class that implements core functionality for class members
+ * abstract base class for a named class member (constructor, method, property or accessor); adds a name and static/instance flag on top of {@link DecoratedElement}, resolves member-level decorator metadata, and reports whether the member is own or inherited
  *
  * @public
  */
@@ -66,10 +66,10 @@ export abstract class ClassMember<T extends object = object> extends DecoratedEl
     }
 
     /**
-     * method to get if current class member its own or inherited
+     * method to check whether this member is declared directly on the target rather than inherited from a superclass, via an own-property lookup on the class (for static members) or its prototype (for instance members)
      *
      * @public
-     * @returns true if own class member
+     * @returns true if the member is declared on the target itself, false if inherited
      */
     public isOwn(): boolean {
         const target: object = this.getObject();

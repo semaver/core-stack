@@ -131,10 +131,9 @@ describe("Core Test", () => {
     });
 
     it("should throw error if uid is null or undefined", () => {
-        let uid: never;
         expect(() => {
-            InterfaceSymbol.for(uid);
-        }).toThrowError(Error);
+            InterfaceSymbol.for(undefined as unknown as string);
+        }).toThrow(Error);
     });
 
     it("should validate super constructors", () => {

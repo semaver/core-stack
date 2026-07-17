@@ -13,7 +13,7 @@ import {
 } from "./MetadataSameTargetMultiUsagePolicy";
 
 /**
- * implementation of policy provider that can be used for advanced policy configuration
+ * default implementation of {@link IPolicyProvider} for advanced, per-member-kind policy configuration. Constructed with an access mask (defaulting to {@link MetadataAccessPolicy.ALL}) that limits which member kinds it applies to; it stores appearance, collision, not-existence and same-target-multi-usage policies keyed by primitive member kind. The `set*` and `add*` methods fan a composite access mask out into the individual member-kind bits (`set*` first clears, `add*` merges), and any member kind left unconfigured falls back to its policy's DEFAULT value.
  *
  * @public
  */
@@ -33,26 +33,25 @@ export class PolicyProvider implements IPolicyProvider {
     protected readonly appearance: Map<PrimitiveMetadataAccessPolicyValues, MetadataAppearancePolicyValues> = new Map<PrimitiveMetadataAccessPolicyValues, MetadataAppearancePolicyValues>();
     /**
      * @protected
-     * @readonly
      * @property collision - map of metadata collision policy by primitive metadata access policy
      */
     protected collision: Map<PrimitiveMetadataAccessPolicyValues, MetadataCollisionPolicyValues> = new Map<PrimitiveMetadataAccessPolicyValues, MetadataCollisionPolicyValues>();
     /**
      * @protected
-     * @readonly
      * @property notExistence - map of metadata not existence policy by primitive metadata access policy
      */
     protected notExistence: Map<PrimitiveMetadataAccessPolicyValues, MetadataNotExistencePolicyValues> = new Map<PrimitiveMetadataAccessPolicyValues, MetadataNotExistencePolicyValues>();
     /**
      * @protected
-     * @readonly
-     * @property notExistence - map of metadata same target multi usage policy by primitive metadata access policy
+     * @property sameTargetMultiUsage - map of metadata same target multi usage policy by primitive metadata access policy
      */
     protected sameTargetMultiUsage: Map<PrimitiveMetadataAccessPolicyValues, MetadataSameTargetMultiUsagePolicyValues> = new Map<PrimitiveMetadataAccessPolicyValues, MetadataSameTargetMultiUsagePolicyValues>();
 
     /**
+     * creates a policy provider bound to the given metadata access mask and seeds every policy (appearance, collision, not-existence, same-target-multi-usage) to its DEFAULT value for each member kind covered by that mask.
+     *
      * @public
-     * @param access - metadata access policy default value - ALL
+     * @param access - composite metadata access mask limiting which member kinds this provider applies to; defaults to MetadataAccessPolicy.ALL
      */
     public constructor(access: MetadataAccessPolicyValues = MetadataAccessPolicy.ALL) {
         this.access = access;

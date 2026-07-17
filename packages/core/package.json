@@ -2,13 +2,13 @@
   "name": "@semaver/core",
   "type": "module",
   "rawName": "core",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Core interface/types and helper methods for object manipulation and reflection",
   "homepage": "https://github.com/semaver/core-stack",
   "bugs": "https://github.com/semaver/core-stack/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/semaver/core-stack.git"
+    "url": "git+https://github.com/semaver/core-stack.git"
   },
   "author": "semaver",
   "contributors": [
@@ -20,8 +20,10 @@
   "types": "lib/index.d.ts",
   "exports": {
     ".": {
+      "types": "./lib/index.d.ts",
       "import": "./lib/library.esm.mjs",
-      "require": "./lib/library.cjs.cjs"
+      "require": "./lib/library.cjs.cjs",
+      "default": "./lib/library.esm.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -50,7 +52,6 @@
   ],
   "files": [
     "lib",
-    "docs",
     "package.json",
     "README.md",
     "LICENSE"
@@ -61,5 +62,8 @@
     "index": "cti entrypoint src -o index.ts",
     "lint": "eslint ./src ./tests",
     "file": "yarn pack --pack-destination packs"
+  },
+  "engines": {
+    "node": ">=22.18.0"
   }
 }

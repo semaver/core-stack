@@ -18,7 +18,7 @@ export class QueryDecoratorSelector<T extends object> {
 
     /**
      * @protected
-     * @property useOwn - flag to select only own or full proceeded decorators
+     * @property useOwn - flag to select only own or full processed decorators
      */
     protected readonly useOwn: boolean;
 
@@ -33,10 +33,12 @@ export class QueryDecoratorSelector<T extends object> {
     }
 
     /**
-     * method to get all class members and parameters decorators from all class members
+     * method to collect decorators from every selected class member, combining each member's own
+     * decorators with the parameter decorators of executable members (constructor/methods) into a
+     * single flat collection
      *
      * @public
-     * @returns collection of all class members and parameters' decorators
+     * @returns flat collection of all member-level and parameter decorators across the selected members
      */
     public all(): Decorator[] {
         const result: Decorator[] = [];
@@ -84,10 +86,12 @@ export class QueryDecoratorSelector<T extends object> {
     }
 
     /**
-     * method to get all parameters' decorators from all class members
+     * method to collect only the parameter decorators from the selected class members;
+     * non-executable members (fields/accessors) contribute nothing since only executable members
+     * (methods and constructors) have parameters
      *
      * @public
-     * @returns collection of all parameters' decorators
+     * @returns flat collection of parameter decorators gathered from executable members only
      */
     public ofParameters(): Decorator[] {
         const result: Decorator[] = [];

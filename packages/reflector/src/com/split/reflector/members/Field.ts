@@ -5,7 +5,8 @@ import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/
 import {ClassMember} from "./ClassMember";
 
 /**
- * abstract class that implement Field api and contains core functionality for field class members
+ * abstract base class for value-bearing class members (its subclasses {@link Property} and {@link Accessor});
+ * defines a common read/write contract via isGettable, isSettable, getValue and setValue, whose semantics are refined by each subclass
  *
  * @public
  */
@@ -19,7 +20,7 @@ export abstract class Field<T extends object = object, TValue = unknown> extends
     }
 
     /**
-     * method to set a flag, that indicates if field is gettable
+     * method to get a flag, that indicates if field is gettable
      *
      * @public
      * @returns true if field is gettable
@@ -27,7 +28,7 @@ export abstract class Field<T extends object = object, TValue = unknown> extends
     public abstract isGettable(): boolean;
 
     /**
-     * method to set a flag, that indicates if field is settable
+     * method to get a flag, that indicates if field is settable
      *
      * @public
      * @returns true if field is settable

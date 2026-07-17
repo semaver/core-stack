@@ -81,20 +81,18 @@ export class Reflector<T extends object = object> {
     protected readonly _accessors: Accessor<T>[] = [];
     /**
      * @protected
-     * @readonly
      * @property _fields - collection of fields for provided class
      */
     protected _fields: Field<T>[] = [];
     /**
      * @protected
-     * @readonly
      * @property _members - collection of all class members for provided class
      */
     protected _members: ClassMember<T>[] = [];
     /**
      * @protected
      * @readonly
-     * @property _metadataTable - metatable provider for decorated class
+     * @property _metadataTableProvider - metatable provider for decorated class
      */
     protected readonly _metadataTableProvider: MetadataTableProvider<T>;
     /**
@@ -116,7 +114,7 @@ export class Reflector<T extends object = object> {
     }
 
     /**
-     * method to get class table with all classes that contains all decorator
+     * method to get class table with all classes that contain decorators
      *
      * @public
      * @returns class table
@@ -143,11 +141,11 @@ export class Reflector<T extends object = object> {
     }
 
     /**
-     * method to get actual hash of target class, recalculation of cache performed before return of the value (for example,
-     * to cache any data outside class info)
+     * method to get the current synchronization hash of the target class; refreshes class info first so the returned
+     * hash reflects the latest metadata state, letting callers detect changes and invalidate their own caches keyed on this value
      *
      * @public
-     * @returns string representing hash of target class
+     * @returns string representing the hash of the target class, or an empty string if none is available
      */
     public getHash(): string {
         this.refresh();
@@ -167,10 +165,12 @@ export class Reflector<T extends object = object> {
     }
 
     /**
-     * method to retrieve constructor of class with known parameters
+     * method to retrieve the constructor class member of the target class; unlike {@link getDecoratedConstructor}
+     * this always returns a value, falling back to a synthesized non-decorated constructor (with parameters derived
+     * from the class's known constructor parameter count) when no decorated constructor exists
      *
      * @public
-     * @returns constructor of class with known parameters
+     * @returns constructor class member of the target class (never undefined)
      */
     public getConstructor(): Constructor<T> {
         this.updateOnAutoSync();
@@ -311,10 +311,12 @@ export class Reflector<T extends object = object> {
     }
 
     /**
-     * method to get/refresh all class information about all decorated members
+     * method to recompute the cached reflection info (constructors, methods, properties, accessors and their aggregate
+     * member/field collections) for the target class; the rebuild is skipped when the class hash and metatable are both
+     * unchanged, so calling it is cheap when nothing changed
      *
      * @public
-     * @returns current instance of reflector
+     * @returns current instance of reflector for chaining
      */
     public refresh(): this {
         if (this._syncHash !== this._class.__own_hash__ || this._metadataTableProvider.isMetatableChanged()) {

@@ -27,12 +27,15 @@ export function hasProperty(obj: Empty<object>, property: PropertyKey): boolean 
 }
 
 /**
- * function to get the owner of the property
+ * function to find the object that actually declares a property, searching own properties first
+ * and then walking up the class hierarchy. Returns the object itself when it owns the property
+ * directly, otherwise the prototype in its superclass chain on which the property is defined.
  *
  * @public
  * @param obj - object that contains the property
  * @param property  - a property key
- * @returns owner of the property or undefined
+ * @returns the owning object or prototype, or undefined if no owner is found (the property is not
+ * declared anywhere in the chain, or obj is a class that does not own the property directly)
  */
 export function getPropertyOwner<S extends object, C extends S>(obj: Empty<C>, property: PropertyKey): Empty<S> {
     if (obj) {

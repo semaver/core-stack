@@ -28,11 +28,12 @@ export class ByMemberName<T extends object = object> implements IQueryCondition<
     }
 
     /**
-     * method to create query/filter condition (instance) form a collection of class members names
+     * method to obtain a query/filter condition that keeps only members whose name matches any of the given names.
      *
      * @public
      * @param memberNames - collection of class members names
-     * @returns instance of query condition
+     * @remarks does not create a new instance: it reconfigures and returns a shared cached instance, so a later call overwrites the names of a previously returned one. Use the constructor when an isolated instance is required.
+     * @returns the shared query condition instance configured with the given member names
      */
     public static from<T extends object>(...memberNames: string[]): ByMemberName<T> {
         return ByMemberName._cache.setMemberNames(...memberNames);

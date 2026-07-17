@@ -4,7 +4,10 @@ import {IClass} from "@semaver/core";
 import {DecoratedElementTypeValues} from "../metatable/types/DecoratedElementEnum";
 
 /**
- * generic data provided by class table updates to subscribers
+ * payload delivered to each {@link IClassTableSubscriber} when the class table changes; carries the
+ * update `type` (metadata added vs removed), the `decorator` involved, the affected `targetClass`,
+ * and a `decoratedElement` descriptor (its type, name, static flag, and parameter index) identifying
+ * which decorated member triggered the update.
  *
  * @public
  * @interface
@@ -62,7 +65,7 @@ export interface IClassTableUpdate<TDecorator extends Decorator = Decorator, T =
         /**
          * @public
          * @readonly
-         * @property index - index(position) of current parameters
+         * @property parameterIndex - index(position) of current parameter
          */
         readonly parameterIndex: number;
     };

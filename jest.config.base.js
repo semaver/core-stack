@@ -1,6 +1,6 @@
 export const base = {
 	transform: {
-		"^.+\\.ts$": "ts-jest"
+		"^.+\\.ts$": ["ts-jest", {tsconfig: "tsconfig.jest.json"}],
 	},
 	moduleFileExtensions: [
 		"ts",

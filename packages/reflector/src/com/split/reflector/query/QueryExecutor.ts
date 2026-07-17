@@ -12,7 +12,7 @@ import {QueryMembersSelector} from "./QueryMembersSelector";
 export class QueryExecutor<T extends object> {
 
     /**
-     * @protected
+     * @private
      * @readonly
      * @property queryInfo - query info that contains information about selected class members
      */
@@ -27,10 +27,11 @@ export class QueryExecutor<T extends object> {
     }
 
     /**
-     * method to filter class members based on provided condition
+     * method to narrow the current set of class members by applying the given query condition; the condition filters the executor's shared query info in place, and multiple conditions can be chained.
      *
      * @public
      * @param condition - condition used to filter
+     * @returns the same executor instance, allowing further conditions to be chained
      */
     public filter(condition: IQueryCondition<T>): this {
         condition.filter(this.queryInfo);
@@ -51,17 +52,17 @@ export class QueryExecutor<T extends object> {
      * method to get instance of query decorator selector with provided filtered query info
      *
      * @public
-     * @returns instance of query decorator selector, that allows to select full proceeded decorators from class members
+     * @returns instance of query decorator selector, that allows to select full processed decorators from class members
      */
     public decorators(): QueryDecoratorSelector<T> {
         return new QueryDecoratorSelector(this.queryInfo, false);
     }
 
     /**
-     * method to get instance of query decorator selector with provided filtered query info
+     * method to get a query decorator selector over the filtered class members that resolves only own decorators, i.e. those declared directly on each member, excluding decorators inherited from parent classes (unlike {@link decorators}, which returns the full inherited-and-own set).
      *
      * @public
-     * @returns instance of query decorator selector, that allows to select own decorators from class members
+     * @returns query decorator selector that selects only own decorators from the filtered class members
      */
     public ownDecorators(): QueryDecoratorSelector<T> {
         return new QueryDecoratorSelector(this.queryInfo, true);

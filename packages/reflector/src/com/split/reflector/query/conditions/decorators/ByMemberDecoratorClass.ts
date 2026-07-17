@@ -4,7 +4,7 @@ import {IQueryCondition} from "../../IQueryCondition";
 import {QueryInfo} from "../../QueryInfo";
 
 /**
- * implementation of query condition api to filter class members by provided decorator classes
+ * implementation of query condition api to filter class members by member-level decorator classes (parameter decorators are not considered)
  *
  * @public
  */
@@ -31,11 +31,12 @@ export class ByMemberDecoratorClass<T extends object = object> implements IQuery
     }
 
     /**
-     * method to create query/filter condition (instance) from a collection of decorator classes
+     * method to obtain a query/filter condition that keeps members whose own member-level decorators include any of the given classes (parameter decorators are not considered).
      *
      * @public
      * @param decoratorClasses - collection of decorator classes
-     * @returns instance of query condition
+     * @remarks reuses a shared cached instance rather than creating a new one, so successive calls overwrite the previously configured decorator classes; use the constructor for an isolated instance.
+     * @returns shared condition instance configured with the given decorator classes
      */
     public static from<T extends object>(...decoratorClasses: IClass<Decorator>[]): ByMemberDecoratorClass<T> {
         return ByMemberDecoratorClass._cache.setDecoratorClass(...decoratorClasses);

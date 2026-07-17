@@ -6,7 +6,8 @@ import {
 } from "../metatable/policies/MetadataNotExistencePolicy";
 
 /**
- * decorator function to create/build metaclass decorator
+ * factory that returns the `@metaclass` class decorator function; applying it to a class forces that class
+ * to be registered in the global metatable/class table even when it declares no other decorators of its own.
  *
  * @public
  * @returns decorator function
@@ -24,14 +25,20 @@ export function metaclass(): DecoratorFn {
 export class MetaclassDecorator extends Decorator {
 
     /**
-     * @inheritDoc
+     * method to get access policy of decorator; returns {@link MetadataAccessPolicy.CONSTRUCTOR}, restricting this
+     * decorator to constructors only since it marks the class itself rather than any member.
+     *
+     * @returns CONSTRUCTOR access policy value
      */
     public getAccessPolicy(): MetadataAccessPolicyValues {
         return MetadataAccessPolicy.CONSTRUCTOR;
     }
 
     /**
-     * @inheritDoc
+     * method to get not existence policy for the metaclass marker; returns SKIP so the marker is not inherited by
+     * subclasses — a subclass is registered in the class table only if it applies `@metaclass` (or another decorator) of its own.
+     *
+     * @returns {@link MetadataNotExistencePolicy.SKIP}
      */
     public getNotExistencePolicy(): MetadataNotExistencePolicyValues {
         return MetadataNotExistencePolicy.SKIP;

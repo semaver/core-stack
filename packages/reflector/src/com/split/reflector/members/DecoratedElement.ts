@@ -8,7 +8,10 @@ import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/
 import {IDecoratedElement} from "./IDecoratedElement";
 
 /**
- * base class for all decorated class members and parameters
+ * abstract base class for decorated elements (class members and parameters) that implements
+ * {@link IDecoratedElement}; resolves a decorated element's decorators from the owner class's
+ * metatable via a metadata table provider and supplies the shared logic to query, add and remove
+ * them, while exposing both full decorators (inherited and own) and own-only decorators.
  *
  * @public
  */
@@ -24,7 +27,7 @@ export abstract class DecoratedElement<T extends object = object> implements IDe
     /**
      * @protected
      * @readonly
-     * @property _metadataTable - metatable provider for decorated element
+     * @property _metadataTableProvider - metatable provider for decorated element
      */
     protected readonly _metadataTableProvider: MetadataTableProvider<T>;
 
@@ -150,10 +153,10 @@ export abstract class DecoratedElement<T extends object = object> implements IDe
     }
 
     /**
-     * method to get a collection of full proceeded decorators
+     * method to get a collection of full processed decorators
      *
      * @protected
-     * @returns collection of full proceeded decorators
+     * @returns collection of full processed decorators
      */
     protected getMetadataDecorators(): IMetatableDecorator[] {
         const metadataTable: IMetadataTableRef = this._metadataTableProvider.getMetadataTable();

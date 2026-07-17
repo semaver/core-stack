@@ -1,5 +1,4 @@
-import {classOfObject, haveObjectsSameClass, IClass, Empty, superClassOfObject} from "@semaver/core";
-import {v4 as uuid} from 'uuid';
+import {classOfObject, haveObjectsSameClass, IClass, Empty, superClassOfObject, token} from "@semaver/core";
 import {ClassTable} from "../classtable/ClassTable";
 import {ClassTableProvider} from "../classtable/ClassTableProvider";
 import {ClassTableUpdateTypes} from "../classtable/ClassTableUpdateTypes";
@@ -146,7 +145,7 @@ export class MetadataTableProvider<T extends object = object> {
             Reflect.defineProperty(target, MetadataClassNames.OWN_HASH, {
                 configurable: false,
                 enumerable: true,
-                value: uuid(),
+                value: token(),
                 writable: true,
             });
 
@@ -216,12 +215,12 @@ export class MetadataTableProvider<T extends object = object> {
                 break;
         }
         if (operationResult) {
-            this._class.__own_hash__ = uuid();
+            this._class.__own_hash__ = token();
             this._class.__cached_metadata__ = undefined;
 
             if (!this.classTable.getWriteableClasses().has(this._class)) {
                 this.classTable.getWriteableClasses().add(this._class);
-                this.classTable.setSyncHash(uuid());
+                this.classTable.setSyncHash(token());
             }
             this.classTable.notify({
                 type: ClassTableUpdateTypes.METADATA_ADDED,
@@ -294,12 +293,12 @@ export class MetadataTableProvider<T extends object = object> {
         }
 
         if (operationResult) {
-            this._class.__own_hash__ = uuid();
+            this._class.__own_hash__ = token();
             this._class.__cached_metadata__ = undefined;
 
             if (!this.hasOwnDecorators()) {
                 this.classTable.getWriteableClasses().delete(this._class);
-                this.classTable.setSyncHash(uuid());
+                this.classTable.setSyncHash(token());
             }
 
             this.classTable.notify({
@@ -434,7 +433,7 @@ export class MetadataTableProvider<T extends object = object> {
             } else {
                 result = metadataClass.__cached_metadata__ = this.merge(metadataClass, metadataClass.__metadata__, cachedMetatable);
                 metadataClass.__parent_hash__ = superClass.__own_hash__;
-                metadataClass.__own_hash__ = uuid();
+                metadataClass.__own_hash__ = token();
             }
         }
 
@@ -694,12 +693,12 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
-     * method to write constructor decorator into metadata table
+     * method to write member decorator into metadata table
      *
      * @private
      * @param access - primitive access policy
-     * @param decorator - constructor decorator
-     * @param membersMetadataTable
+     * @param decorator - class member decorator
+     * @param membersMetadataTable - members metadata tables by member name
      * @returns true if decoration was successful
      */
     private addMemberDecorator(access: PrimitiveMetadataAccessPolicyValues, decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
@@ -711,11 +710,11 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
-     * method to write constructor parameter decorator into metadata table
+     * method to write parameter decorator into metadata table
      *
      * @private
      * @param access - primitive access policy
-     * @param decorator - constructor parameter decorator
+     * @param decorator - parameter decorator
      * @param membersMetadataTable - members metadata tables by member name
      * @returns true if decoration was successful
      */
@@ -738,10 +737,10 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
-     * method to delete constructor decorator from metadata table
+     * method to delete member decorator from metadata table
      *
      * @private
-     * @param decorator - constructor decorator
+     * @param decorator - class member decorator
      * @param membersMetadataTable - members metadata tables by member name
      * @returns true if removal of decorator was successful
      */
@@ -762,10 +761,10 @@ export class MetadataTableProvider<T extends object = object> {
     }
 
     /**
-     * method to delete constructor decorator from metadata table
+     * method to delete parameter decorator from metadata table
      *
      * @private
-     * @param decorator - constructor decorator
+     * @param decorator - parameter decorator
      * @param membersMetadataTable - members metadata tables by member name
      * @returns true if removal of decorator was successful
      */
@@ -977,9 +976,9 @@ export class MetadataTableProvider<T extends object = object> {
      * method to check if provided decorator exist in metadata table
      *
      * @private
-     * @param decorator - constructor decorator
+     * @param decorator - class member decorator
      * @param membersMetadataTable - members metadata tables by member name
-     * @returns true if provided constructor decorator found in metadata table
+     * @returns true if provided member decorator found in metadata table
      */
     private hasSameMetadataInMember(decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
         return getMapElementOrDefault(membersMetadataTable, decorator.__metadata__.name, createMemberMetadataTable())

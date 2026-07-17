@@ -34,14 +34,15 @@ export class QueryInfo<T extends object> {
      * method to get class members from a collection at index
      *
      * @public
-     * @returns - selected class members
+     * @param index - index of the class member in the collection
+     * @returns - selected class member at index or undefined
      */
     public getMemberAt<K extends ClassMember<T> = ClassMember<T>>(index: number): Empty<K> {
         return -1 < index && index < this.members.length ? this.members[index] as K : undefined;
     }
 
     /**
-     * method to filters class members based on filterFn function
+     * method to filter class members based on filterFn function
      *
      * @public
      * @param filterFn - filter function
