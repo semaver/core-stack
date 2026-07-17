@@ -340,14 +340,14 @@ This library relies on <strong>legacy</strong> decorators (<code>experimentalDec
 <p>The <strong><code>reflector</code></strong> package, along with its <a href="#annotation-decorators">Annotation Decorators</a>, allows you to dynamically add or remove decorators at runtime. Based on the <a href="#reflected-types-architecture">Reflected Types Architecture</a>, each <a href="#reflected-types">Reflected Type</a> is a child of the <code>DecoratedElement&lt;T&gt;</code> class and inherits the following two methods:</p>
 <ul>
 <li>
-<p><code>addDecorator(decoratorOrFn: Decorator | DecoratorFn): boolean</code></p>
-<p>Adds decorators at runtime.</p>
+<p><code>addDecorator(decoratorOrFn: Decorator | DecoratorFn): this</code></p>
+<p>Adds decorators at runtime (returns the same reflected element, so calls can be chained).</p>
 <ul>
 <li><strong><code>decoratorOrFn</code></strong>: The decorator function to be added.</li>
 </ul>
 </li>
 <li>
-<p><code>removeDecorator(decoratorOrClass: IClass&lt;Decorator&gt; | Decorator): boolean</code></p>
+<p><code>removeDecorator(decoratorOrClass: IClass&lt;Decorator&gt; | Decorator): this</code></p>
 <p>Removes decorators at runtime.</p>
 <ul>
 <li><strong><code>decoratorOrClass</code></strong>: The decorator class to be removed.</li>
