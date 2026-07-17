@@ -2,7 +2,7 @@
   "name": "@semaver/reflector",
   "type": "module",
   "rawName": "reflector",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Reflection framework for TypeScript and JavaScript, with decorator inheritance support and no reflect-metadata dependency.",
   "homepage": "https://github.com/semaver/core-stack",
   "bugs": "https://github.com/semaver/core-stack/issues",
@@ -72,10 +72,10 @@
     "file": "yarn pack --pack-destination packs"
   },
   "devDependencies": {
-    "@semaver/core": "^2.1.0"
+    "@semaver/core": "^2.1.1"
   },
   "peerDependencies": {
-    "@semaver/core": "^2.1.0"
+    "@semaver/core": "^2.1.1"
   },
   "engines": {
     "node": ">=22.18.0"
