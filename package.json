@@ -27,8 +27,27 @@
     "docs": "typedoc",
     "lint": "lerna run lint",
     "file": "lerna run file",
+    "knip": "knip",
+    "size": "size-limit",
+    "commitlint": "commitlint",
+    "prepare": "husky",
     "publish:local": "lerna publish --no-git-tag-version --no-push --registry=\"http://localhost:4873/\""
   },
+  "lint-staged": {
+    "*.ts": "eslint --fix"
+  },
+  "size-limit": [
+    {
+      "name": "@semaver/core (esm, gzip)",
+      "path": "packages/core/lib/library.esm.mjs",
+      "limit": "5 KB"
+    },
+    {
+      "name": "@semaver/reflector (esm, gzip)",
+      "path": "packages/reflector/lib/library.esm.mjs",
+      "limit": "28 KB"
+    }
+  ],
   "resolutions": {
     "@babel/helpers@npm:^7.25.0": "npm:^7.28.3",
     "@babel/core@npm:^7.23.9": "npm:^7.29.7",
@@ -53,12 +72,15 @@
     "@babel/plugin-proposal-decorators": "^8.0.2",
     "@babel/preset-env": "^8.0.2",
     "@babel/preset-typescript": "^8.0.1",
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
     "@eslint/js": "^10.0.0",
     "@rollup/plugin-babel": "^7.1.0",
     "@rollup/plugin-commonjs": "^29.0.3",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.3.0",
+    "@size-limit/preset-small-lib": "^11.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^26.1.1",
     "@typescript-eslint/eslint-plugin": "^8.63.0",
@@ -66,11 +88,15 @@
     "create-ts-index": "^1.14.0",
     "eslint": "^10.0.0",
     "globals": "^17.0.0",
+    "husky": "^9.0.0",
     "jest": "^30.0.0",
+    "knip": "^5.0.0",
     "lerna": "^9.0.0",
+    "lint-staged": "^16.0.0",
     "rollup": "^4.62.2",
     "rollup-plugin-cleandir": "^3.0.0",
     "rollup-plugin-exclude-dependencies-from-bundle": "^1.1.24",
+    "size-limit": "^11.0.0",
     "ts-jest": "^29.4.11",
     "typedoc": "^0.28.20",
     "typescript": "6.0.3",

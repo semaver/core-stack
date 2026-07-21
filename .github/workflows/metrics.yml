@@ -1,0 +1,58 @@
+name: Metrics
+
+on:
+  schedule:
+    # Weekly, Monday ~06:13 UTC (off the :00 mark).
+    - cron: '13 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: metrics
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    name: Collect download & dependents metrics
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Collect metrics
+        run: |
+          set -euo pipefail
+          mkdir -p .metrics
+          STAMP="$(date -u +%Y-%m-%d)"
+          line="$STAMP"
+          for pkg in @semaver/core @semaver/reflector; do
+            enc="${pkg/\//%2F}"
+            # weekly npm downloads
+            dl="$(curl -sf "https://api.npmjs.org/downloads/point/last-week/$pkg" | jq -r '.downloads // 0')"
+            # dependents count via ecosyste.ms (best-effort; 0 if unavailable)
+            dep="$(curl -sf "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/$enc" | jq -r '.dependent_packages_count // 0' 2>/dev/null || echo 0)"
+            line="$line,$pkg,dl=$dl,dependents=$dep"
+            echo "$pkg: downloads(last-week)=$dl dependents=$dep"
+          done
+          echo "$line" >> .metrics/history.csv
+          tail -5 .metrics/history.csv
+
+      - name: Commit metrics
+        run: |
+          set -euo pipefail
+          if [[ -n "$(git status --porcelain .metrics)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add .metrics
+            git commit -m "chore(metrics): weekly download & dependents snapshot"
+            git push
+          else
+            echo "No metrics change."
+          fi

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "workspaces": {
+    "packages/core": {
+      "entry": ["src/index.ts"],
+      "project": ["src/**/*.ts"]
+    },
+    "packages/reflector": {
+      "entry": ["src/index.ts"],
+      "project": ["src/**/*.ts"]
+    }
+  },
+  "ignore": [
+    "**/lib/**",
+    "**/jest.config.js",
+    "jest.config.base.js",
+    "jest.config.js",
+    "docs/**",
+    "typedoc.json"
+  ],
+  "ignoreDependencies": [
+    "@typescript-eslint/eslint-plugin",
+    "@typescript-eslint/parser",
+    "globals",
+    "ts-jest"
+  ],
+  "jest": false,
+  "ignoreExportsUsedInFile": true
+}
