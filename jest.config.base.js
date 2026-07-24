@@ -7,7 +7,7 @@ export const base = {
 		"js",
 	],
 	collectCoverage: true,
-	coverageReporters: ["html", "text"],
+	coverageReporters: ["html", "text", "lcov"],
 	verbose: true,
 	maxWorkers: "0%",
 };
