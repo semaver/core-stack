@@ -12,7 +12,7 @@ export class InterfaceSymbol<T> implements IInterface<T> {
      * @private
      * @property pool of all interface symbols
      */
-    private static pool: Map<symbol, InterfaceSymbol<unknown>> = new Map<symbol, InterfaceSymbol<unknown>>();
+    private static readonly pool: Map<symbol, InterfaceSymbol<unknown>> = new Map<symbol, InterfaceSymbol<unknown>>();
     /**
      * @public
      * @readonly

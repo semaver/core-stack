@@ -17,7 +17,7 @@ export class ByParameterDecoratorClass<T extends object = object> implements IQu
      * @property _cache - cache that contains instance of current query/filter condition
      * to prevent creation of instance every time this condition required (reusing of instance)
      */
-    private static _cache: ByParameterDecoratorClass = new ByParameterDecoratorClass<object>();
+    private static readonly _cache: ByParameterDecoratorClass = new ByParameterDecoratorClass<object>();
     /**
      * @private
      * @property _decoratorClasses - collection of decorator classes used in query/filter condition
@@ -69,7 +69,7 @@ export class ByParameterDecoratorClass<T extends object = object> implements IQu
                     return member
                         .getParameterDecorators()
                         .reduce((result, decorators) => result.concat(...decorators), [])
-                        .some((decorator) => !!this._decoratorClasses.find((decoratorClass) => decoratorClass === classOfObject(decorator)));
+                        .some((decorator) => this._decoratorClasses.includes(classOfObject(decorator)));
 
                 } else {
                     return false;

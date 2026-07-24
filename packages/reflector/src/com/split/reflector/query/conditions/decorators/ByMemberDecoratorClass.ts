@@ -15,7 +15,7 @@ export class ByMemberDecoratorClass<T extends object = object> implements IQuery
      * @property _cache - cache that contains instance of current query/filter condition
      * to prevent creation of instance every time this condition required (reusing of instance)
      */
-    private static _cache: ByMemberDecoratorClass = new ByMemberDecoratorClass<object>();
+    private static readonly _cache: ByMemberDecoratorClass = new ByMemberDecoratorClass<object>();
     /**
      * @private
      * @property _decoratorClasses - collection of decorator classes used in query/filter condition
@@ -63,7 +63,7 @@ export class ByMemberDecoratorClass<T extends object = object> implements IQuery
                 return member.getDecorators()
                     .some((decorator) => {
                         return this._decoratorClasses
-                            .some((metadataClass) => metadataClass === classOfObject(decorator));
+                            .includes(classOfObject(decorator));
                     });
             });
     }

@@ -14,7 +14,7 @@ import {Parameter} from "./Parameter";
  */
 export class Constructor<T extends object = object> extends ExecutableMember<T> {
 
-    public static defaultName: string = "ctor";
+    public static readonly defaultName: string = "ctor";
 
     /**
      * @public
