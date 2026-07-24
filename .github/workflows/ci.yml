@@ -17,6 +17,9 @@ jobs:
   verify:
     name: Build, lint, test & package checks
     runs-on: ubuntu-latest
+    env:
+      # Exposed at job level so the step-level `if: env.SONAR_TOKEN != ''` guard works.
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     steps:
       # Runtime hardening (audit mode first; switch to block + allowlist once egress is known).
       - name: Harden runner
@@ -84,6 +87,12 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage/lcov.info
           fail_ci_if_error: false
+
+      # SonarQube Cloud analysis (quality + coverage). Opt-in: only runs once SONAR_TOKEN
+      # is configured. Reads coverage/lcov.info produced by the test step above.
+      - name: SonarQube Cloud scan
+        if: ${{ env.SONAR_TOKEN != '' }}
+        uses: SonarSource/sonarqube-scan-action@22918119ff8e1ca75a623e15c8296b6ea4fbe28f # v8.2.1
 
   commitlint:
     name: Commit messages (Conventional Commits)
