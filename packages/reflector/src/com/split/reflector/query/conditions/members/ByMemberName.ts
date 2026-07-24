@@ -12,7 +12,7 @@ export class ByMemberName<T extends object = object> implements IQueryCondition<
      * @property _cache - cache that contains instance of current query/filter condition
      * to prevent creation of instance every time this condition required (reusing of instance)
      */
-    private static _cache: ByMemberName = new ByMemberName<object>();
+    private static readonly _cache: ByMemberName = new ByMemberName<object>();
     /**
      * @private
      * @property _memberNames - collection of class members names used in query/filter condition
@@ -57,8 +57,7 @@ export class ByMemberName<T extends object = object> implements IQueryCondition<
     public filter(queryInfo: QueryInfo<T>): void {
         queryInfo
             .filterMembers((member) => {
-                return this._memberNames.some((memberName) =>
-                    memberName === member.getName());
+                return this._memberNames.includes(member.getName());
             });
     }
 

@@ -139,33 +139,33 @@ export function getConstructorMetadata<T extends object>(target: T): IMemberMeta
  */
 export function getMetadata<T extends object>(target: T, classMemberName?: string, propertyDescriptorOrIndex?: TypedPropertyDescriptor<T> | number): Throwable<IMemberMetadata<T>> {
     let propertyDescriptor: Empty<TypedPropertyDescriptor<T>>;
-    let index: number = NaN;
+    let index: number = Number.NaN;
 
     if (propertyDescriptorOrIndex !== undefined) {
-        if (isNaN(+propertyDescriptorOrIndex)) {
+        if (Number.isNaN(+propertyDescriptorOrIndex)) {
             propertyDescriptor = propertyDescriptorOrIndex as Empty<TypedPropertyDescriptor<T>>;
         } else {
             index = +propertyDescriptorOrIndex;
         }
     }
 
-    if (classMemberName && isNaN(index) && propertyDescriptor?.value instanceof Function) {
+    if (classMemberName && Number.isNaN(index) && propertyDescriptor?.value instanceof Function) {
         return getMethodMetadata(target, classMemberName);
     }
 
-    if (classMemberName && isNaN(index) && (propertyDescriptor?.get || propertyDescriptor?.set)) {
+    if (classMemberName && Number.isNaN(index) && (propertyDescriptor?.get || propertyDescriptor?.set)) {
         return getAccessorMetadata(target, classMemberName);
     }
 
-    if (classMemberName && isNaN(index) && !propertyDescriptor) {
+    if (classMemberName && Number.isNaN(index) && !propertyDescriptor) {
         return getPropertyMetadata(target, classMemberName);
     }
 
-    if (!isNaN(index) && !propertyDescriptor) {
+    if (!Number.isNaN(index) && !propertyDescriptor) {
         return getParameterMetadata(target, classMemberName, index);
     }
 
-    if (!classMemberName && isNaN(index) && !propertyDescriptor) {
+    if (!classMemberName && Number.isNaN(index) && !propertyDescriptor) {
         return getConstructorMetadata(target);
     }
 

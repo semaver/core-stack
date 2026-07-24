@@ -18,7 +18,7 @@ export class ByDecoratorClass<T extends object = object> implements IQueryCondit
      * @property _cache - cache that contains instance of current query/filter condition
      * to prevent creation of instance every time this condition required (reusing of instance)
      */
-    private static _cache: ByDecoratorClass = new ByDecoratorClass<object>();
+    private static readonly _cache: ByDecoratorClass = new ByDecoratorClass<object>();
     /**
      * @private
      * @property _decoratorClasses - collection of decorator classes
@@ -78,7 +78,7 @@ export class ByDecoratorClass<T extends object = object> implements IQueryCondit
                         decorators.push(...parameter.getDecorators());
                     });
                 }
-                return !!decorators.find((decorator) => this._decoratorClasses.some((decoratorClass) => decoratorClass === classOfObject(decorator)));
+                return decorators.some((decorator) => this._decoratorClasses.includes(classOfObject(decorator)));
             });
     }
 }

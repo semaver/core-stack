@@ -16,7 +16,7 @@ export class ByMemberType<T extends object = object> implements IQueryCondition<
      * @property _cache - cache that contains instance of current query/filter condition
      * to prevent creation of instance every time this condition required (reusing of instance)
      */
-    private static _cache: ByMemberType = new ByMemberType<object>();
+    private static readonly _cache: ByMemberType = new ByMemberType<object>();
     /**
      * @private
      * @property _memberTypes - collection of class members types used in query/filter condition

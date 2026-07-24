@@ -124,7 +124,7 @@ export class MetadataTableProvider<T extends object = object> {
      * @returns own metadata table of provided class
      */
     private static getOrCreateClassMetadataTable<T>(target: IMetadataClass<T>): IMetadataTableRef {
-        if (Reflect.ownKeys(target).find((value) => value === MetadataClassNames.METADATA)) {
+        if (Reflect.ownKeys(target).includes(MetadataClassNames.METADATA)) {
             return target.__metadata__;
         } else {
             const metadataTable: IMetadataTableRef = createMetadataTable();
@@ -747,7 +747,7 @@ export class MetadataTableProvider<T extends object = object> {
     private deleteMemberMetadata(decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
         let isDeleted: boolean = false;
         const memberMetadataTable: IMemberMetadataTableRef = getMapElementOrDefault(membersMetadataTable, decorator.__metadata__.name, createMemberMetadataTable());
-        const index: number = memberMetadataTable._decorators.findIndex((memberDecorator) => decorator === memberDecorator);
+        const index: number = memberMetadataTable._decorators.indexOf(decorator);
         if (index !== -1) {
             memberMetadataTable._decorators.splice(index, 1);
             isDeleted = true;
@@ -779,7 +779,7 @@ export class MetadataTableProvider<T extends object = object> {
                 parameters[i] = [];
             }
             if (i === decorator.__metadata__.parameterIndex) {
-                const index: number = parameters[i].findIndex((memberDecorator) => decorator === memberDecorator);
+                const index: number = parameters[i].indexOf(decorator);
                 if (index !== -1) {
                     parameters[i].splice(index, 1);
                     isDeleted = true;

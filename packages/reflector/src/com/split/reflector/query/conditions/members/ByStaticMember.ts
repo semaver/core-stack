@@ -14,7 +14,7 @@ export class ByStaticMember<T extends object = object> implements IQueryConditio
      * @property _cache - cache that contains instance of current query/filter condition
      * to prevent creation of instance every time this condition required (reusing of instance)
      */
-    private static _cache: ByStaticMember = new ByStaticMember<object>();
+    private static readonly _cache: ByStaticMember = new ByStaticMember<object>();
     /**
      * @private
      * @property _isStatic - statics flag
