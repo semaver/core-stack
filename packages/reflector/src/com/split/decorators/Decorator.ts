@@ -85,7 +85,7 @@ export abstract class Decorator {
         // TODO handle error if not created
         Reflect.defineProperty(decorator, MetadataClassNames.METADATA, {
             configurable: false,
-            enumerable: true,
+            enumerable: false,
             value: getMetadata(target, key, descriptorOrIndex),
             writable: false,
         });

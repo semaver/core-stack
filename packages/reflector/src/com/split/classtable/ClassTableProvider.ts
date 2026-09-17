@@ -31,7 +31,7 @@ export class ClassTableProvider {
             };
             Reflect.defineProperty(storage, ClassTableNames.CLASS_TABLE, {
                 configurable: false,
-                enumerable: true,
+                enumerable: false,
                 value: classTableRef,
                 writable: false,
             });

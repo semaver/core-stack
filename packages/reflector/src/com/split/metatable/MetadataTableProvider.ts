@@ -130,28 +130,28 @@ export class MetadataTableProvider<T extends object = object> {
             const metadataTable: IMetadataTableRef = createMetadataTable();
             Reflect.defineProperty(target, MetadataClassNames.METADATA, {
                 configurable: false,
-                enumerable: true,
+                enumerable: false,
                 value: metadataTable,
                 writable: false,
             });
 
             Reflect.defineProperty(target, MetadataClassNames.CACHED_METADATA, {
                 configurable: false,
-                enumerable: true,
+                enumerable: false,
                 value: undefined,
                 writable: true,
             });
 
             Reflect.defineProperty(target, MetadataClassNames.OWN_HASH, {
                 configurable: false,
-                enumerable: true,
+                enumerable: false,
                 value: token(),
                 writable: true,
             });
 
             Reflect.defineProperty(target, MetadataClassNames.PARENT_HASH, {
                 configurable: false,
-                enumerable: true,
+                enumerable: false,
                 value: undefined,
                 writable: true,
             });

@@ -1,9 +1,23 @@
 # @semaver/reflector
-A reflection framework for TypeScript and JavaScript that supports decorator inheritance without relying on `reflect-metadata`.
+A runtime **annotation / decorator reflection** framework for TypeScript and JavaScript — with decorator inheritance and without relying on `reflect-metadata`. (It reflects decorated members & parameters, not the erased TypeScript type graph — see [What it is](#what-it-is-and-what-it-is-not).)
 
 ## About
 
 The **`reflector`** package offers a comprehensive examination of TypeScript classes. It provides an extensive mechanism for querying and filtering detailed information about class structures. The package supports reflection of decorated class members and parameters through the built-in concept of [Annotation Decorators](#annotation-decorators). Annotation Decorators enable the labeling of various class members and parameters in TypeScript. The **`reflector`** package handles advanced cases, such as dynamic runtime decoration and inheritance of decorated class members.
+
+## What it is (and what it is not)
+
+`@semaver/reflector` is an **annotation / decorator reflection** engine — think Java annotations or Spring's reflection model, brought to TypeScript. It answers *"which members and parameters were annotated, with what decorators, and how do those annotations inherit?"* at **runtime**.
+
+It is **not** an RTTI (run-time type information) system. It does **not** recover the structural TypeScript type graph — interfaces, type aliases, unions/intersections, or generic type arguments are erased by the compiler and this library makes no attempt to reconstruct them. If you need full structural type reflection, tools such as [Deepkit Type](https://deepkit.io/) or `tst-reflect` occupy that (different) space.
+
+| Supported | Not supported (by design) |
+| --- | --- |
+| Runtime reflection of decorated class members & parameters | Automatic RTTI / structural type recovery |
+| Annotation inheritance across the class hierarchy ([Decoration Policies](#decoration-policies)) | `interface` / `type` alias reflection |
+| Dynamic (runtime) decoration — incl. third-party classes, plain JS | `union` / `intersection` type introspection |
+| Runtime interface *tokens* (explicit, user-declared) | Generic type-argument recovery (`T`, `K extends …`) |
+| Works without `reflect-metadata` / `emitDecoratorMetadata` | TC39 standard (stage-3) decorators — see [Requirements](#requirements) |
 
 ## Features
 
