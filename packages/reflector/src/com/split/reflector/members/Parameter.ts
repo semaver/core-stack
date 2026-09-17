@@ -1,6 +1,6 @@
 import {Empty} from "@semaver/core";
 import {IMetatableDecorator} from "../../decorators/Decorator";
-import {IMetadataClass} from "../../metatable/classes/IMetadataClass";
+import {IMetadataClass, MetadataClassNames} from "../../metatable/classes/IMetadataClass";
 import {IMemberMetadata} from "../../metatable/metadata/IMemberMetadata";
 import {IMemberMetadataTableRef} from "../../metatable/metadata/IMetadataTableRef";
 import {DecoratedElementEnum, DecoratedElementTypeValues} from "../../metatable/types/DecoratedElementEnum";
@@ -86,7 +86,7 @@ export abstract class Parameter<T extends object = object> extends DecoratedElem
      * @inheritDoc
      */
     protected isDecoratorOf(target: IMetadataClass<unknown>, decorator: IMetatableDecorator): boolean {
-        const metadata: IMemberMetadata = decorator.__metadata__;
+        const metadata: IMemberMetadata = decorator[MetadataClassNames.METADATA];
         return metadata.type === this.getType()
             && metadata.name === this._name
             && metadata.isStatic === this._isStatic

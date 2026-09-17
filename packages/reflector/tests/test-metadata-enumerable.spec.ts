@@ -3,19 +3,30 @@ import {
     MetadataClassNames,
     Reflector,
 } from "../src";
+import {Empty} from "@semaver/core";
 import {SuperReflectedClass} from "./reflector/classes/SuperReflectedClass";
 
 /**
  * Regression tests for the non-enumerable service keys fix.
  *
  * The engine stores its bookkeeping (metadata table, caches, hashes, global
- * class table) as own properties on constructors / globalThis. These MUST NOT
- * be enumerable, otherwise they leak into `Object.keys`, `for..in`, object
- * spread and naive JSON serializers. They must, however, remain readable via
+ * class table) as own properties on constructors / globalThis, keyed by
+ * cross-realm global symbols ({@link Symbol.for}). Keying by symbol already
+ * keeps them out of `Object.keys`, `for..in` and JSON serialization; on top of
+ * that the descriptors are defined with `enumerable: false` so they also stay
+ * out of object spread (`{...target}`) and `Object.assign`, which DO copy
+ * enumerable *symbol* keys. They must, however, remain readable via
  * `Reflect.ownKeys` / `Reflect.has` (which is how the engine itself reads them).
  */
 describe("Reflector service keys are non-enumerable", () => {
     const storage: object = globalThis;
+
+    const serviceKeys: symbol[] = [
+        MetadataClassNames.METADATA,
+        MetadataClassNames.CACHED_METADATA,
+        MetadataClassNames.OWN_HASH,
+        MetadataClassNames.PARENT_HASH,
+    ];
 
     beforeAll(() => {
         // force metadata materialization on the target class
@@ -26,33 +37,20 @@ describe("Reflector service keys are non-enumerable", () => {
         expect(Reflect.ownKeys(SuperReflectedClass).includes(MetadataClassNames.METADATA)).toBeTruthy();
     });
 
-    it("does not leak service keys into Object.keys / for..in / spread", () => {
-        const serviceKeys: string[] = [
-            MetadataClassNames.METADATA,
-            MetadataClassNames.CACHED_METADATA,
-            MetadataClassNames.OWN_HASH,
-            MetadataClassNames.PARENT_HASH,
-        ];
-
-        const enumerableKeys: string[] = Object.keys(SuperReflectedClass);
-        serviceKeys.forEach((key: string) => {
-            expect(enumerableKeys).not.toContain(key);
+    it("defines every service key as a non-enumerable own symbol", () => {
+        serviceKeys.forEach((key: symbol) => {
+            const descriptor: Empty<PropertyDescriptor> = Reflect.getOwnPropertyDescriptor(SuperReflectedClass, key);
+            expect(descriptor).toBeDefined();
+            expect(descriptor?.enumerable).toBe(false);
         });
+    });
 
-        const forInKeys: string[] = [];
-        for (const key in SuperReflectedClass) {
-            forInKeys.push(key);
-        }
-        serviceKeys.forEach((key: string) => {
-            expect(forInKeys).not.toContain(key);
-        });
-
-        // Object.assign copies enumerable own properties, exactly like object
-        // spread would — but without spreading a class declaration (which eslint
-        // forbids and which would only copy static props anyway).
-        const spreadKeys: string[] = Object.keys(Object.assign({}, SuperReflectedClass));
-        serviceKeys.forEach((key: string) => {
-            expect(spreadKeys).not.toContain(key);
+    it("does not leak service keys into spread / Object.assign", () => {
+        // Object.assign (and object spread) copy *enumerable* own keys, including
+        // enumerable symbol keys — so a non-enumerable symbol must NOT be copied.
+        const copiedSymbols: symbol[] = Object.getOwnPropertySymbols(Object.assign({}, SuperReflectedClass));
+        serviceKeys.forEach((key: symbol) => {
+            expect(copiedSymbols).not.toContain(key);
         });
     });
 
@@ -61,10 +59,11 @@ describe("Reflector service keys are non-enumerable", () => {
         expect(Reflect.get(SuperReflectedClass, MetadataClassNames.METADATA)).toBeDefined();
     });
 
-    it("does not leak the global class table into Object.keys(globalThis)", () => {
+    it("stores the global class table as a non-enumerable symbol on globalThis", () => {
         // reachable for the engine...
         expect(Reflect.has(storage, ClassTableNames.CLASS_TABLE)).toBeTruthy();
-        // ...but invisible to enumeration
-        expect(Object.keys(storage)).not.toContain(ClassTableNames.CLASS_TABLE);
+        // ...but not copied by spread / Object.assign
+        const copiedSymbols: symbol[] = Object.getOwnPropertySymbols(Object.assign({}, storage));
+        expect(copiedSymbols).not.toContain(ClassTableNames.CLASS_TABLE);
     });
 });
