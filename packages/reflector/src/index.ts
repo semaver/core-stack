@@ -14,6 +14,7 @@ export * from "./com/split/errors/ClassMemberNotExistenceError";
 export * from "./com/split/errors/ClassMemberNotFoundError";
 export * from "./com/split/errors/ClassMemberTargetObjectTypeError";
 export * from "./com/split/errors/ClassMemberTargetUndefinedError";
+export * from "./com/split/errors/ClassTableProtocolMismatchError";
 export * from "./com/split/errors/CollisionPolicyError";
 export * from "./com/split/errors/DecoratorUndefinedError";
 export * from "./com/split/errors/MethodNotFoundError";
