@@ -1,5 +1,5 @@
 import {IClass} from "@semaver/core";
-import {IMetadataClass, IMetatableDecorator, MetadataTableProvider} from "../../src";
+import {IMetadataClass, IMetatableDecorator, MetadataClassNames, MetadataTableProvider} from "../../src";
 
 export function testClassInitialDescriptors<T extends object>(someClass: IClass<T>): void {
     const decoratedClass: IMetadataClass<T> = someClass as IMetadataClass<T>;
@@ -15,8 +15,8 @@ export function testClassInitialDescriptors<T extends object>(someClass: IClass<
 
     // --------------------------------------------
 
-    expect(decoratedClass.__metadata__).toBeDefined();
-    expect(decoratedClass.__metadata__).not.toBeNull();
+    expect(decoratedClass[MetadataClassNames.METADATA]).toBeDefined();
+    expect(decoratedClass[MetadataClassNames.METADATA]).not.toBeNull();
 
 }
 
@@ -27,5 +27,5 @@ export function testSuperAndChildInitialDescriptors<S extends object, C extends 
     const superDecoratedClass: IMetadataClass<S> = superClass as IMetadataClass<S>;
     const childDecoratedClass: IMetadataClass<C> = childCLass as IMetadataClass<C>;
 
-    expect(superDecoratedClass.__metadata__).toEqual(((Object.getPrototypeOf(childDecoratedClass.prototype) as object).constructor as IMetadataClass<object>).__metadata__);
+    expect(superDecoratedClass[MetadataClassNames.METADATA]).toEqual(((Object.getPrototypeOf(childDecoratedClass.prototype) as object).constructor as IMetadataClass<object>)[MetadataClassNames.METADATA]);
 }

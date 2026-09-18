@@ -1,9 +1,23 @@
 # @semaver/reflector
-A reflection framework for TypeScript and JavaScript that supports decorator inheritance without relying on `reflect-metadata`.
+A runtime **annotation / decorator reflection** framework for TypeScript and JavaScript — with decorator inheritance and without relying on `reflect-metadata`. (It reflects decorated members & parameters, not the erased TypeScript type graph — see [What it is](#what-it-is-and-what-it-is-not).)
 
 ## About
 
 The **`reflector`** package offers a comprehensive examination of TypeScript classes. It provides an extensive mechanism for querying and filtering detailed information about class structures. The package supports reflection of decorated class members and parameters through the built-in concept of [Annotation Decorators](#annotation-decorators). Annotation Decorators enable the labeling of various class members and parameters in TypeScript. The **`reflector`** package handles advanced cases, such as dynamic runtime decoration and inheritance of decorated class members.
+
+## What it is (and what it is not)
+
+`@semaver/reflector` is an **annotation / decorator reflection** engine — think Java annotations or Spring's reflection model, brought to TypeScript. It answers *"which members and parameters were annotated, with what decorators, and how do those annotations inherit?"* at **runtime**.
+
+It is **not** an RTTI (run-time type information) system. It does **not** recover the structural TypeScript type graph — interfaces, type aliases, unions/intersections, or generic type arguments are erased by the compiler and this library makes no attempt to reconstruct them. If you need full structural type reflection, tools such as [Deepkit Type](https://deepkit.io/) or `tst-reflect` occupy that (different) space.
+
+| Supported | Not supported (by design) |
+| --- | --- |
+| Runtime reflection of decorated class members & parameters | Automatic RTTI / structural type recovery |
+| Annotation inheritance across the class hierarchy ([Decoration Policies](#decoration-policies)) | `interface` / `type` alias reflection |
+| Dynamic (runtime) decoration — incl. third-party classes, plain JS | `union` / `intersection` type introspection |
+| Runtime interface *tokens* (explicit, user-declared) | Generic type-argument recovery (`T`, `K extends …`) |
+| Works without `reflect-metadata` / `emitDecoratorMetadata` | TC39 standard (stage-3) decorators — see [Requirements](#requirements) |
 
 ## Features
 
@@ -23,7 +37,7 @@ To use the `@decorator()` syntax in **TypeScript**, you must configure the `tsco
 }
 ```
 
-> :bulb: Only `experimentalDecorators` is required. `emitDecoratorMetadata` is **not** needed — this library reads its own `__metadata__` and does not rely on `reflect-metadata` / `design:type` metadata.
+> :bulb: Only `experimentalDecorators` is required. `emitDecoratorMetadata` is **not** needed — this library reads its own metadata (stored under a private `Symbol.for` key) and does not rely on `reflect-metadata` / `design:type` metadata.
 
 > :warning: **Important — transpiler support for parameter decorators.**
 > This library relies on **legacy** decorators (`experimentalDecorators`) and decorates **method/constructor parameters**. Your build must use a transpiler that emits legacy **parameter** decorators. Verified support:
@@ -1035,9 +1049,20 @@ export interface IClassTableUpdate<TDecorator extends Decorator = Decorator, T =
   - **`isStatic`**: Indicates whether the class member is static.
   - **`parameterIndex`**: The parameter index if the decorated element is a parameter.
 
-[Back to top](#reflector-documentation)
+#### Where the ClassTable lives (global storage & multiple copies)
 
-## Annotation Decorators
+The ClassTable is a single process-wide registry. It is stored on `globalThis` under a **cross-realm global symbol** — `Symbol.for("@semaver/reflector/class_table")`, exposed as `ClassTableNames.CLASS_TABLE`. Because `Symbol.for` returns the *same* symbol for the same key in every realm/copy, all copies of `@semaver/reflector` that share one `globalThis` (duplicate installs, monorepo hoisting quirks, micro-frontends, HMR) automatically rendezvous on **one** ClassTable instead of each keeping a private, partial view. The property is defined non-enumerable, so it never leaks into `Object.keys(globalThis)`, `for..in`, or spread.
+
+The stored record carries a `_protocol_version` describing the **storage layout** (not the package semver). If a copy finds a ClassTable stamped with a different protocol version — i.e. another, layout-incompatible copy created it first — it emits a `console.warn` rather than silently trusting a shape it may not understand:
+
+```
+[@semaver/reflector] global class table protocol version mismatch: found <n>, expected <m>.
+Multiple incompatible copies of @semaver/reflector may be loaded.
+```
+
+If you see this warning, deduplicate `@semaver/reflector` to a single version in your dependency tree.
+
+[Back to top](#reflector-documentation)
 
 [Annotation Decorators](#annotation-decorators) is a decoration mechanism provided by the **`reflector`** package for TypeScript code annotations. It enables labeling various class members and parameters, which the **`reflector`** package then uses to query class structures. Below, you’ll find information on how to create and use annotation decorators to make them available for the Reflector.
 
@@ -1554,32 +1579,34 @@ Using [Annotation Decorators](#annotation-decorators) is essential if you want t
 
 **So how is this information provided?**
 
-Every reflected class has two properties: `__metadata__` and `__cached_metadata__`.
+Every reflected class carries two metadata properties, keyed by the symbols exposed on `MetadataClassNames` — `MetadataClassNames.METADATA` and `MetadataClassNames.CACHED_METADATA`.
 
-- **`__metadata__`**: Contains the class's own information about decorated class members.
-- **`__cached_metadata__`**: Contains the class's own `__metadata__` merged with its superclass’s `__cached_metadata__`, according to the [Decoration Policies](#decoration-policies).
+- **`MetadataClassNames.METADATA`**: Contains the class's own information about decorated class members.
+- **`MetadataClassNames.CACHED_METADATA`**: Contains the class's own metadata merged with its superclass’s cached metadata, according to the [Decoration Policies](#decoration-policies).
 
-To support the inheritance of decorated class members according to the [Decoration Policies](#decoration-policies), the **`__cached_metadata__`** property requires calculation and recalculation whenever there are changes. The calculation starts from the topmost superclass and proceeds down the inheritance chain through all child classes. The **`__cached_metadata__`** is optimized with caching to avoid unnecessary recalculations.
+> :bulb: These keys (along with `MetadataClassNames.OWN_HASH` / `MetadataClassNames.PARENT_HASH`) are **cross-realm global symbols** created via `Symbol.for("@semaver/reflector/…")`, not string properties. They are defined as non-enumerable, so they never appear in `Object.keys`, `for..in`, object spread, or JSON serialization, yet remain readable to the engine via `Reflect`. Using `Symbol.for` also means separate copies of the library resolve the **same** key, so metadata written by one copy is readable by another.
 
-The Reflector retrieves the latest state of class metadata information by directly working with the **`__cached_metadata__`** property.
+To support the inheritance of decorated class members according to the [Decoration Policies](#decoration-policies), the **cached** metadata property requires calculation and recalculation whenever there are changes. The calculation starts from the topmost superclass and proceeds down the inheritance chain through all child classes. The cached metadata is optimized with caching to avoid unnecessary recalculations.
+
+The Reflector retrieves the latest state of class metadata information by directly working with the **cached** metadata property.
 
 #### Example
 
 ```ts
-// __metadata__ = decorators of SuperClass only
-// __cached_metadata__ = __metadata__(SuperClass)
+// MetadataClassNames.METADATA        = decorators of SuperClass only
+// MetadataClassNames.CACHED_METADATA = metadata(SuperClass)
 @annotation()
 export class SuperClass {
 }
 
-// __metadata__ = decorators of ChildClass only
-// __cached_metadata__ = __metadata__(ChildClass) merged with __cached_metadata__(SuperClass) based on policies
+// MetadataClassNames.METADATA        = decorators of ChildClass only
+// MetadataClassNames.CACHED_METADATA = metadata(ChildClass) merged with cached(SuperClass) based on policies
 @annotation()
 export class ChildClass extends SuperClass {
 }
 
-// __metadata__ = decorators of ChildOfChildClass only
-// __cached_metadata__ = __metadata__(ChildOfChildClass) merged with __cached_metadata__(ChildClass) based on policies
+// MetadataClassNames.METADATA        = decorators of ChildOfChildClass only
+// MetadataClassNames.CACHED_METADATA = metadata(ChildOfChildClass) merged with cached(ChildClass) based on policies
 @annotation()
 export class ChildOfChildClass extends ChildClass {
 }

@@ -125,33 +125,33 @@ export class MetadataTableProvider<T extends object = object> {
      */
     private static getOrCreateClassMetadataTable<T>(target: IMetadataClass<T>): IMetadataTableRef {
         if (Reflect.ownKeys(target).includes(MetadataClassNames.METADATA)) {
-            return target.__metadata__;
+            return target[MetadataClassNames.METADATA];
         } else {
             const metadataTable: IMetadataTableRef = createMetadataTable();
             Reflect.defineProperty(target, MetadataClassNames.METADATA, {
                 configurable: false,
-                enumerable: true,
+                enumerable: false,
                 value: metadataTable,
                 writable: false,
             });
 
             Reflect.defineProperty(target, MetadataClassNames.CACHED_METADATA, {
                 configurable: false,
-                enumerable: true,
+                enumerable: false,
                 value: undefined,
                 writable: true,
             });
 
             Reflect.defineProperty(target, MetadataClassNames.OWN_HASH, {
                 configurable: false,
-                enumerable: true,
+                enumerable: false,
                 value: token(),
                 writable: true,
             });
 
             Reflect.defineProperty(target, MetadataClassNames.PARENT_HASH, {
                 configurable: false,
-                enumerable: true,
+                enumerable: false,
                 value: undefined,
                 writable: true,
             });
@@ -168,7 +168,7 @@ export class MetadataTableProvider<T extends object = object> {
      */
     public add(decorator: IMetatableDecorator): void {
         let operationResult: boolean = false;
-        const metadata: IMemberMetadata = decorator.__metadata__;
+        const metadata: IMemberMetadata = decorator[MetadataClassNames.METADATA];
 
         switch (metadata.type) {
             case DecoratedElementEnum.CONSTRUCTOR:
@@ -215,8 +215,8 @@ export class MetadataTableProvider<T extends object = object> {
                 break;
         }
         if (operationResult) {
-            this._class.__own_hash__ = token();
-            this._class.__cached_metadata__ = undefined;
+            this._class[MetadataClassNames.OWN_HASH] = token();
+            this._class[MetadataClassNames.CACHED_METADATA] = undefined;
 
             if (!this.classTable.getWriteableClasses().has(this._class)) {
                 this.classTable.getWriteableClasses().add(this._class);
@@ -227,10 +227,10 @@ export class MetadataTableProvider<T extends object = object> {
                 decorator: decorator,
                 targetClass: this._class,
                 decoratedElement: {
-                    type: decorator.__metadata__.type,
-                    name: decorator.__metadata__.name,
-                    isStatic: decorator.__metadata__.isStatic,
-                    parameterIndex: decorator.__metadata__.parameterIndex,
+                    type: decorator[MetadataClassNames.METADATA].type,
+                    name: decorator[MetadataClassNames.METADATA].name,
+                    isStatic: decorator[MetadataClassNames.METADATA].isStatic,
+                    parameterIndex: decorator[MetadataClassNames.METADATA].parameterIndex,
                 }
             });
         }
@@ -245,7 +245,7 @@ export class MetadataTableProvider<T extends object = object> {
      */
     public remove(decorator: IMetatableDecorator): void {
         let operationResult: boolean = false;
-        const metadata: IMemberMetadata = decorator.__metadata__;
+        const metadata: IMemberMetadata = decorator[MetadataClassNames.METADATA];
 
         switch (metadata.type) {
             case DecoratedElementEnum.CONSTRUCTOR:
@@ -293,8 +293,8 @@ export class MetadataTableProvider<T extends object = object> {
         }
 
         if (operationResult) {
-            this._class.__own_hash__ = token();
-            this._class.__cached_metadata__ = undefined;
+            this._class[MetadataClassNames.OWN_HASH] = token();
+            this._class[MetadataClassNames.CACHED_METADATA] = undefined;
 
             if (!this.hasOwnDecorators()) {
                 this.classTable.getWriteableClasses().delete(this._class);
@@ -306,10 +306,10 @@ export class MetadataTableProvider<T extends object = object> {
                 decorator: decorator,
                 targetClass: this._class,
                 decoratedElement: {
-                    type: decorator.__metadata__.type,
-                    name: decorator.__metadata__.name,
-                    isStatic: decorator.__metadata__.isStatic,
-                    parameterIndex: decorator.__metadata__.parameterIndex,
+                    type: decorator[MetadataClassNames.METADATA].type,
+                    name: decorator[MetadataClassNames.METADATA].name,
+                    isStatic: decorator[MetadataClassNames.METADATA].isStatic,
+                    parameterIndex: decorator[MetadataClassNames.METADATA].parameterIndex,
                 }
             });
         }
@@ -322,14 +322,14 @@ export class MetadataTableProvider<T extends object = object> {
      * @returns true if class has its own decorators
      */
     public hasOwnDecorators(): boolean {
-        return !!(this._class.__metadata__._constructors._static.size
-            + this._class.__metadata__._constructors._instance.size
-            + this._class.__metadata__._methods._static.size
-            + this._class.__metadata__._methods._instance.size
-            + this._class.__metadata__._properties._static.size
-            + this._class.__metadata__._properties._instance.size
-            + this._class.__metadata__._accessors._static.size
-            + this._class.__metadata__._accessors._instance.size);
+        return !!(this._class[MetadataClassNames.METADATA]._constructors._static.size
+            + this._class[MetadataClassNames.METADATA]._constructors._instance.size
+            + this._class[MetadataClassNames.METADATA]._methods._static.size
+            + this._class[MetadataClassNames.METADATA]._methods._instance.size
+            + this._class[MetadataClassNames.METADATA]._properties._static.size
+            + this._class[MetadataClassNames.METADATA]._properties._instance.size
+            + this._class[MetadataClassNames.METADATA]._accessors._static.size
+            + this._class[MetadataClassNames.METADATA]._accessors._instance.size);
     }
 
     /**
@@ -350,7 +350,8 @@ export class MetadataTableProvider<T extends object = object> {
      * @returns full proceeded class metadata table
      */
     public getMetadataTable(): IMetadataTableRef {
-        return !this._class.__cached_metadata__ || this.isMetatableChanged() ? this.calculateMetadataTable(this._class) : this._class.__cached_metadata__;
+        const cachedMetadata: Empty<IMetadataTableRef> = this._class[MetadataClassNames.CACHED_METADATA];
+        return !cachedMetadata || this.isMetatableChanged() ? this.calculateMetadataTable(this._class) : cachedMetadata;
     }
 
     /**
@@ -381,10 +382,10 @@ export class MetadataTableProvider<T extends object = object> {
      */
     public isMetatableChanged(): boolean {
         const chain: readonly IMetadataClass<object>[] = getMetadataObjectSuperClassChain(this._class);
-        return !this._class.__cached_metadata__
+        return !this._class[MetadataClassNames.CACHED_METADATA]
             || chain.some((metadataClass: IMetadataClass<object>) => {
-                return metadataClass.__parent_hash__ !== metadataClass.__own_hash__
-                    && metadataClass.__parent_hash__ !== metadataSuperClassOfObject(metadataClass, true)?.__own_hash__;
+                return metadataClass[MetadataClassNames.PARENT_HASH] !== metadataClass[MetadataClassNames.OWN_HASH]
+                    && metadataClass[MetadataClassNames.PARENT_HASH] !== metadataSuperClassOfObject(metadataClass, true)?.[MetadataClassNames.OWN_HASH];
             });
     }
 
@@ -400,14 +401,14 @@ export class MetadataTableProvider<T extends object = object> {
         const accessPolicy: MetadataAccessPolicyValues = decorator.getAccessPolicy();
         const sameTargetMultiUsagePolicy: MetadataSameTargetMultiUsagePolicyValues = decorator.getSameTargetMultiUsagePolicy(access);
 
-        return !!(accessPolicy & decorator.__metadata__.access) &&
+        return !!(accessPolicy & decorator[MetadataClassNames.METADATA].access) &&
             (sameTargetMultiUsagePolicy === MetadataSameTargetMultiUsagePolicy.ALLOWED
                 || !this.getOwnDecorators().some((ownDecorator) =>
                     haveObjectsSameClass(decorator, ownDecorator)
-                    && ownDecorator.__metadata__.type === decorator.__metadata__.type
-                    && ownDecorator.__metadata__.name === decorator.__metadata__.name
-                    && ownDecorator.__metadata__.isStatic === decorator.__metadata__.isStatic
-                    && ownDecorator.__metadata__.parameterIndex === decorator.__metadata__.parameterIndex,
+                    && ownDecorator[MetadataClassNames.METADATA].type === decorator[MetadataClassNames.METADATA].type
+                    && ownDecorator[MetadataClassNames.METADATA].name === decorator[MetadataClassNames.METADATA].name
+                    && ownDecorator[MetadataClassNames.METADATA].isStatic === decorator[MetadataClassNames.METADATA].isStatic
+                    && ownDecorator[MetadataClassNames.METADATA].parameterIndex === decorator[MetadataClassNames.METADATA].parameterIndex,
                 ));
     }
 
@@ -422,18 +423,19 @@ export class MetadataTableProvider<T extends object = object> {
         const superClass: Empty<IMetadataClass<object>> = metadataSuperClassOfObject(metadataClass, true);
         let result: IMetadataTableRef;
         if (!superClass) {
-            metadataClass.__parent_hash__ = metadataClass.__own_hash__;
-            result = metadataClass.__cached_metadata__ = metadataClass.__metadata__;
+            metadataClass[MetadataClassNames.PARENT_HASH] = metadataClass[MetadataClassNames.OWN_HASH];
+            result = metadataClass[MetadataClassNames.CACHED_METADATA] = metadataClass[MetadataClassNames.METADATA];
         } else {
             MetadataTableProvider.getOrCreateClassMetadataTable(superClass);
             const cachedMetatable: IMetadataTableRef = this.calculateMetadataTable(superClass);
 
-            if (superClass.__own_hash__ === metadataClass.__parent_hash__ && metadataClass.__cached_metadata__) {
-                result = metadataClass.__cached_metadata__;
+            const cachedMetadata: Empty<IMetadataTableRef> = metadataClass[MetadataClassNames.CACHED_METADATA];
+            if (superClass[MetadataClassNames.OWN_HASH] === metadataClass[MetadataClassNames.PARENT_HASH] && cachedMetadata) {
+                result = cachedMetadata;
             } else {
-                result = metadataClass.__cached_metadata__ = this.merge(metadataClass, metadataClass.__metadata__, cachedMetatable);
-                metadataClass.__parent_hash__ = superClass.__own_hash__;
-                metadataClass.__own_hash__ = token();
+                result = metadataClass[MetadataClassNames.CACHED_METADATA] = this.merge(metadataClass, metadataClass[MetadataClassNames.METADATA], cachedMetatable);
+                metadataClass[MetadataClassNames.PARENT_HASH] = superClass[MetadataClassNames.OWN_HASH];
+                metadataClass[MetadataClassNames.OWN_HASH] = token();
             }
         }
 
@@ -703,7 +705,7 @@ export class MetadataTableProvider<T extends object = object> {
      */
     private addMemberDecorator(access: PrimitiveMetadataAccessPolicyValues, decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
         if (this.isDecorationAllowed(access, decorator)) {
-            getMapElementOrDefault(membersMetadataTable, decorator.__metadata__.name, createMemberMetadataTable())._decorators.push(decorator);
+            getMapElementOrDefault(membersMetadataTable, decorator[MetadataClassNames.METADATA].name, createMemberMetadataTable())._decorators.push(decorator);
             return true;
         }
         return false;
@@ -720,14 +722,14 @@ export class MetadataTableProvider<T extends object = object> {
      */
     private addParameterMetadata(access: PrimitiveMetadataAccessPolicyValues, decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
         if (this.isDecorationAllowed(access, decorator)) {
-            const parameters: IMetatableDecorator[][] = getMapElementOrDefault(membersMetadataTable, decorator.__metadata__.name, createMemberMetadataTable())._parameters;
-            parameters.length = Math.max(parameters.length, decorator.__metadata__.parameterIndex + 1);
+            const parameters: IMetatableDecorator[][] = getMapElementOrDefault(membersMetadataTable, decorator[MetadataClassNames.METADATA].name, createMemberMetadataTable())._parameters;
+            parameters.length = Math.max(parameters.length, decorator[MetadataClassNames.METADATA].parameterIndex + 1);
 
             for (let i = 0; i < parameters.length; i++) {
                 if (!parameters[i]) {
                     parameters[i] = [];
                 }
-                if (i === decorator.__metadata__.parameterIndex) {
+                if (i === decorator[MetadataClassNames.METADATA].parameterIndex) {
                     parameters[i].push(decorator);
                 }
             }
@@ -746,7 +748,7 @@ export class MetadataTableProvider<T extends object = object> {
      */
     private deleteMemberMetadata(decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
         let isDeleted: boolean = false;
-        const memberMetadataTable: IMemberMetadataTableRef = getMapElementOrDefault(membersMetadataTable, decorator.__metadata__.name, createMemberMetadataTable());
+        const memberMetadataTable: IMemberMetadataTableRef = getMapElementOrDefault(membersMetadataTable, decorator[MetadataClassNames.METADATA].name, createMemberMetadataTable());
         const index: number = memberMetadataTable._decorators.indexOf(decorator);
         if (index !== -1) {
             memberMetadataTable._decorators.splice(index, 1);
@@ -754,7 +756,7 @@ export class MetadataTableProvider<T extends object = object> {
         }
 
         if (!memberMetadataTable._parameters.length && !memberMetadataTable._decorators.length) {
-            membersMetadataTable.delete(decorator.__metadata__.name);
+            membersMetadataTable.delete(decorator[MetadataClassNames.METADATA].name);
         }
 
         return isDeleted;
@@ -770,15 +772,15 @@ export class MetadataTableProvider<T extends object = object> {
      */
     private deleteParameterMetadata(decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
         let isDeleted: boolean = false;
-        const memberMetadataTable: IMemberMetadataTableRef = getMapElementOrDefault(membersMetadataTable, decorator.__metadata__.name, createMemberMetadataTable());
+        const memberMetadataTable: IMemberMetadataTableRef = getMapElementOrDefault(membersMetadataTable, decorator[MetadataClassNames.METADATA].name, createMemberMetadataTable());
         const parameters: IMetatableDecorator[][] = memberMetadataTable._parameters;
-        parameters.length = Math.max(parameters.length, decorator.__metadata__.parameterIndex + 1);
+        parameters.length = Math.max(parameters.length, decorator[MetadataClassNames.METADATA].parameterIndex + 1);
 
         for (let i = 0; i < parameters.length; i++) {
             if (!parameters[i]) {
                 parameters[i] = [];
             }
-            if (i === decorator.__metadata__.parameterIndex) {
+            if (i === decorator[MetadataClassNames.METADATA].parameterIndex) {
                 const index: number = parameters[i].indexOf(decorator);
                 if (index !== -1) {
                     parameters[i].splice(index, 1);
@@ -788,7 +790,7 @@ export class MetadataTableProvider<T extends object = object> {
         }
 
         if (!memberMetadataTable._parameters.length && !memberMetadataTable._decorators.length) {
-            membersMetadataTable.delete(decorator.__metadata__.name);
+            membersMetadataTable.delete(decorator[MetadataClassNames.METADATA].name);
         }
 
         return isDeleted;
@@ -943,11 +945,11 @@ export class MetadataTableProvider<T extends object = object> {
 
         let isExist: boolean = false;
 
-        if (!childDecorator.__metadata__.isStatic) {
+        if (!childDecorator[MetadataClassNames.METADATA].isStatic) {
 
             while (!isExist && metadataTableClass && superClassOfObject(metadataTableClass)) {
                 const metadataTable: IMetadataTableRef = MetadataTableProvider.getOrCreateClassMetadataTable(metadataTableClass);
-                switch (childDecorator.__metadata__.type) {
+                switch (childDecorator[MetadataClassNames.METADATA].type) {
                     case DecoratedElementEnum.CONSTRUCTOR:
                         isExist = this.hasSameMetadataInMember(childDecorator, metadataTable._constructors._instance);
                         break;
@@ -981,7 +983,7 @@ export class MetadataTableProvider<T extends object = object> {
      * @returns true if provided member decorator found in metadata table
      */
     private hasSameMetadataInMember(decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
-        return getMapElementOrDefault(membersMetadataTable, decorator.__metadata__.name, createMemberMetadataTable())
+        return getMapElementOrDefault(membersMetadataTable, decorator[MetadataClassNames.METADATA].name, createMemberMetadataTable())
             ._decorators.some((memberDecorator) => haveObjectsSameClass(memberDecorator, decorator));
     }
 
@@ -994,7 +996,7 @@ export class MetadataTableProvider<T extends object = object> {
      * @returns true if given instance method parameter decorator found in metadata table
      */
     private hasSameMetadataInParameter(decorator: IMetatableDecorator, membersMetadataTable: Map<string, IMemberMetadataTableRef>): boolean {
-        return getMapElementOrDefault(membersMetadataTable, decorator.__metadata__.name, createMemberMetadataTable())
-            ._parameters[decorator.__metadata__.parameterIndex].some((memberDecorator) => haveObjectsSameClass(memberDecorator, decorator));
+        return getMapElementOrDefault(membersMetadataTable, decorator[MetadataClassNames.METADATA].name, createMemberMetadataTable())
+            ._parameters[decorator[MetadataClassNames.METADATA].parameterIndex].some((memberDecorator) => haveObjectsSameClass(memberDecorator, decorator));
     }
 }

@@ -13,7 +13,7 @@ import {IClassTable} from "../classtable/IClassTable";
 import {ObjectPrimitiveError} from "../errors/ObjectPrimitiveError";
 import {ObjectUndefinedError} from "../errors/ObjectUndefinedError";
 import {getKnownConstructorParameterLength, metadataClassOfObject} from "../extentions/MetadataObjectExtention";
-import {IMetadataClass} from "../metatable/classes/IMetadataClass";
+import {IMetadataClass, MetadataClassNames} from "../metatable/classes/IMetadataClass";
 import {IMetadataTableRef} from "../metatable/metadata/IMetadataTableRef";
 import {MetadataTableProvider} from "../metatable/MetadataTableProvider";
 import {Accessor} from "./members/Accessor";
@@ -319,14 +319,14 @@ export class Reflector<T extends object = object> {
      * @returns current instance of reflector for chaining
      */
     public refresh(): this {
-        if (this._syncHash !== this._class.__own_hash__ || this._metadataTableProvider.isMetatableChanged()) {
+        if (this._syncHash !== this._class[MetadataClassNames.OWN_HASH] || this._metadataTableProvider.isMetatableChanged()) {
             this._constructors.length = 0;
             this._methods.length = 0;
             this._accessors.length = 0;
             this._properties.length = 0;
 
             const metadataTable: IMetadataTableRef = this._metadataTableProvider.getMetadataTable();
-            this._syncHash = this._class.__own_hash__;
+            this._syncHash = this._class[MetadataClassNames.OWN_HASH];
 
             // constructors
             metadataTable._constructors._static.forEach((structure, name) => {

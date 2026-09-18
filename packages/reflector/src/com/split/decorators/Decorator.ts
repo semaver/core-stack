@@ -27,7 +27,7 @@ import {getMetadata} from "../metatable/MetadataFactory";
  * @public
  * @interface type
  */
-export type IMetatableDecorator = Decorator & { __metadata__: IMemberMetadata };
+export type IMetatableDecorator = Decorator & { [MetadataClassNames.METADATA]: IMemberMetadata };
 
 /**
  * type for decorator function (@myDecorator) used to decorate class members and parameters
@@ -85,7 +85,7 @@ export abstract class Decorator {
         // TODO handle error if not created
         Reflect.defineProperty(decorator, MetadataClassNames.METADATA, {
             configurable: false,
-            enumerable: true,
+            enumerable: false,
             value: getMetadata(target, key, descriptorOrIndex),
             writable: false,
         });
