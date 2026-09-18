@@ -29,3 +29,5 @@ out/
 .yarn/
 .yarnrc
 tasks
+
+.husky/

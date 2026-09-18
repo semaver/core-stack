@@ -1,4 +1,5 @@
 import {IMetadataClass} from "../metatable/classes/IMetadataClass";
+import {ClassTableProtocolMismatchError} from "../errors/ClassTableProtocolMismatchError";
 import {ClassTable} from "./ClassTable";
 import {ClassTableNames, CLASS_TABLE_PROTOCOL_VERSION} from "./ClassTableNames";
 import {IClassTableRef} from "./IClassTableRef";
@@ -43,12 +44,13 @@ export class ClassTableProvider {
             classTableRef = Reflect.get(storage, ClassTableNames.CLASS_TABLE) as IClassTableRef;
             if (classTableRef._protocol_version !== CLASS_TABLE_PROTOCOL_VERSION) {
                 // another library copy created the global class table using an
-                // incompatible storage format; surface it instead of silently
-                // reading a layout this copy may not understand.
-                console.warn(
-                    `[@semaver/reflector] global class table protocol version mismatch: ` +
-                    `found ${String(classTableRef._protocol_version)}, expected ${String(CLASS_TABLE_PROTOCOL_VERSION)}. ` +
-                    `Multiple incompatible copies of @semaver/reflector may be loaded.`,
+                // incompatible storage format; fail fast instead of silently
+                // reading a layout this copy may not understand (which could
+                // otherwise corrupt the shared registry or throw obscurely later).
+                throw new ClassTableProtocolMismatchError(
+                    this,
+                    classTableRef._protocol_version,
+                    CLASS_TABLE_PROTOCOL_VERSION,
                 );
             }
         }

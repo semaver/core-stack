@@ -37,7 +37,7 @@ To use the `@decorator()` syntax in **TypeScript**, you must configure the `tsco
 }
 ```
 
-> :bulb: Only `experimentalDecorators` is required. `emitDecoratorMetadata` is **not** needed — this library reads its own metadata (stored under a private `Symbol.for` key) and does not rely on `reflect-metadata` / `design:type` metadata.
+> :bulb: Only `experimentalDecorators` is required. `emitDecoratorMetadata` is **not** needed — this library reads its own metadata (stored under an internal, namespaced global symbol — a `Symbol.for` key under the `@semaver/reflector/…` namespace) and does not rely on `reflect-metadata` / `design:type` metadata.
 
 > :warning: **Important — transpiler support for parameter decorators.**
 > This library relies on **legacy** decorators (`experimentalDecorators`) and decorates **method/constructor parameters**. Your build must use a transpiler that emits legacy **parameter** decorators. Verified support:
@@ -46,7 +46,7 @@ To use the `@decorator()` syntax in **TypeScript**, you must configure the `tsco
 > - **Babel** — requires `@babel/plugin-proposal-decorators` configured for legacy decorators (Babel 8: `{ version: 'legacy' }`; Babel 7: `{ legacy: true }`), which transforms parameter decorators. Because this library uses its own metadata (not `reflect-metadata`), the `babel-plugin-transform-typescript-metadata` plugin is optional and not required.
 > - **esbuild** — legacy decorators only, no parameter-metadata; **not recommended** for this use case.
 >
-> TC39 **standard** (stage-3) decorators are **not** supported and cannot be: they do not include parameter decorators (that proposal is stalled at Stage 1), so `experimentalDecorators` remains the required and long-term-supported path. `emitDecoratorMetadata` is optional for this library (it uses its own metadata, not `reflect-metadata`).
+> TC39 **standard** (stage-3) decorators are **not currently supported**. Full parity is not achievable today because the standard decorators proposal does not include **parameter** decorators (that proposal is stalled at Stage 1), and this library decorates method/constructor parameters. Until parameter decorators are standardized, `experimentalDecorators` remains the required and long-term-supported path. `emitDecoratorMetadata` is optional for this library (it uses its own metadata, not `reflect-metadata`).
 
 ## Installation
 
@@ -1584,7 +1584,7 @@ Every reflected class carries two metadata properties, keyed by the symbols expo
 - **`MetadataClassNames.METADATA`**: Contains the class's own information about decorated class members.
 - **`MetadataClassNames.CACHED_METADATA`**: Contains the class's own metadata merged with its superclass’s cached metadata, according to the [Decoration Policies](#decoration-policies).
 
-> :bulb: These keys (along with `MetadataClassNames.OWN_HASH` / `MetadataClassNames.PARENT_HASH`) are **cross-realm global symbols** created via `Symbol.for("@semaver/reflector/…")`, not string properties. They are defined as non-enumerable, so they never appear in `Object.keys`, `for..in`, object spread, or JSON serialization, yet remain readable to the engine via `Reflect`. Using `Symbol.for` also means separate copies of the library resolve the **same** key, so metadata written by one copy is readable by another.
+> :bulb: These keys (along with `MetadataClassNames.OWN_HASH` / `MetadataClassNames.PARENT_HASH`) are **cross-realm global symbols** created via `Symbol.for("@semaver/reflector/…")` rather than ordinary string properties, which **prevents accidental collisions with ordinary string properties** on the target object. They are defined as non-enumerable, so they never appear in `Object.keys`, `for..in`, object spread, or JSON serialization, yet remain readable to the engine via `Reflect`. Using `Symbol.for` also means separate copies of the library resolve the **same** key, so metadata written by one copy is readable by another.
 
 To support the inheritance of decorated class members according to the [Decoration Policies](#decoration-policies), the **cached** metadata property requires calculation and recalculation whenever there are changes. The calculation starts from the topmost superclass and proceeds down the inheritance chain through all child classes. The cached metadata is optimized with caching to avoid unnecessary recalculations.
 
