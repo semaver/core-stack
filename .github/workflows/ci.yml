@@ -52,7 +52,7 @@ jobs:
       - name: Lint
         run: yarn run lint
 
-      - name: Test (expect 179/179 across 35 suites) + lcov for coverage upload
+      - name: Test (expect 187/187 across 37 suites) + lcov for coverage upload
         run: yarn run test:all --coverageReporters=lcov --coverageReporters=text
 
       # --- Package-correctness gates (dual ESM/CJS). Run AFTER build. ---
@@ -93,6 +93,94 @@ jobs:
       - name: SonarQube Cloud scan
         if: ${{ env.SONAR_TOKEN != '' }}
         uses: SonarSource/sonarqube-scan-action@22918119ff8e1ca75a623e15c8296b6ea4fbe28f # v8.2.1
+
+      # Pack both packages (Node 24) and hand the tarballs to the smoke job, which
+      # installs and imports them on every supported Node version.
+      - name: Pack tarballs
+        run: |
+          mkdir -p dist-tarballs
+          yarn workspace @semaver/core pack --out "$GITHUB_WORKSPACE/dist-tarballs/core.tgz"
+          yarn workspace @semaver/reflector pack --out "$GITHUB_WORKSPACE/dist-tarballs/reflector.tgz"
+      - name: Upload tarballs artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: package-tarballs
+          path: dist-tarballs/*.tgz
+          if-no-files-found: error
+          retention-days: 1
+
+  # Real install + import smoke test of the PACKED tarballs on every Node version we
+  # claim to support (engines.node >=20). Proves the published artifacts load under
+  # both module systems — not just that they build on Node 24.
+  smoke:
+    name: Smoke (Node ${{ matrix.node }}, ${{ matrix.module }})
+    needs: verify
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22, 24]
+        module: [esm, cjs]
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+
+      - name: Setup Node ${{ matrix.node }}
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Download tarballs artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: package-tarballs
+          path: dist-tarballs
+
+      # Fresh scratch project — no workspace, no hoisting. Install the tarballs exactly
+      # as an external consumer would (core first, then reflector against the local core).
+      - name: Install packed tarballs into a scratch project
+        run: |
+          mkdir -p /tmp/smoke && cd /tmp/smoke
+          npm init -y >/dev/null
+          npm install --no-audit --no-fund \
+            "$GITHUB_WORKSPACE/dist-tarballs/core.tgz" \
+            "$GITHUB_WORKSPACE/dist-tarballs/reflector.tgz"
+
+      - name: Import (ESM)
+        if: matrix.module == 'esm'
+        run: |
+          cd /tmp/smoke
+          cat > smoke.mjs <<'EOF'
+          import * as core from "@semaver/core";
+          import * as reflector from "@semaver/reflector";
+          if (typeof reflector.Reflector !== "function") {
+            throw new Error("reflector.Reflector missing from ESM entry");
+          }
+          if (typeof core.ExtendedError !== "function") {
+            throw new Error("core.ExtendedError missing from ESM entry");
+          }
+          console.log("esm import ok on node " + process.version);
+          EOF
+          node smoke.mjs
+
+      - name: Require (CJS)
+        if: matrix.module == 'cjs'
+        run: |
+          cd /tmp/smoke
+          cat > smoke.cjs <<'EOF'
+          const core = require("@semaver/core");
+          const reflector = require("@semaver/reflector");
+          if (typeof reflector.Reflector !== "function") {
+            throw new Error("reflector.Reflector missing from CJS entry");
+          }
+          if (typeof core.ExtendedError !== "function") {
+            throw new Error("core.ExtendedError missing from CJS entry");
+          }
+          console.log("cjs require ok on node " + process.version);
+          EOF
+          node smoke.cjs
 
   commitlint:
     name: Commit messages (Conventional Commits)
