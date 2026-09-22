@@ -13,27 +13,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Released in lockstep with `@semaver/reflector` 3.0.0 (fixed-mode monorepo).
 **`@semaver/core` has no functional or API changes in this release** — the major
-bump comes from `@semaver/reflector`, which mis-released a breaking change as 2.2.0;
-2.2.0 has been unpublished and both packages move to 3.0.0 together. See the
+bump comes from `@semaver/reflector`, which mis-released a breaking change as 2.2.0.
+`@semaver/reflector@2.2.0` was unpublished from npm; `@semaver/core@2.2.0` could not
+be unpublished (npm policy) and is deprecated. Both packages move to 3.0.0 together.
+See the
 [root CHANGELOG](https://github.com/semaver/core-stack/blob/main/CHANGELOG.md) for the
 reflector breaking changes and migration guide.
 
 ### Added
 - The package now ships `CHANGELOG.md` inside the published npm tarball (added to
-  `files[]`) ([#107]).
+  `files[]`) ([#108]).
 
 ### Build / CI
 - Corrected the stale test-count label in CI (`179/179 across 35 suites` →
-  `187/187 across 37 suites`) ([#107]).
+  `187/187 across 37 suites`) ([#108]).
 - Added a `smoke` CI job that packs both packages on Node 24 and then performs a real
   `import()` (ESM) and `require()` (CJS) of the packed tarballs on Node 20, 22, and
-  24, verifying the declared `engines.node >=20` across both module systems ([#107]).
+  24, verifying the declared `engines.node >=20` across both module systems ([#108]).
 
-## [2.2.0] - 2026-09-18 [YANKED]
+## [2.2.0] - 2026-09-18 [DEPRECATED]
 
-> **Yanked — unpublished from npm.** Released together with the mis-versioned
-> `@semaver/reflector` 2.2.0 and superseded by **[3.0.0]**. `@semaver/core` 2.2.0 and
-> 3.0.0 are functionally identical; the yank is to keep the two packages in lockstep.
+> **Deprecated on npm.** Released together with the mis-versioned `@semaver/reflector`
+> 2.2.0 and superseded by **[3.0.0]**. Unlike `@semaver/reflector@2.2.0` (which was
+> unpublished), `@semaver/core@2.2.0` could not be unpublished (npm policy: it had
+> dependent packages) and is instead deprecated on npm pointing to 3.0.0.
+> `@semaver/core` 2.2.0 and 3.0.0 are functionally identical; the version move exists
+> only to keep the two packages in lockstep. Use `@semaver/core@^3.0.0`.
 
 
 ### Changed
@@ -196,4 +201,4 @@ reflector breaking changes and migration guide.
 [#95]: https://github.com/semaver/core-stack/pull/95
 [#103]: https://github.com/semaver/core-stack/pull/103
 [#104]: https://github.com/semaver/core-stack/pull/104
-[#107]: https://github.com/semaver/core-stack/pull/107
+[#108]: https://github.com/semaver/core-stack/pull/108
