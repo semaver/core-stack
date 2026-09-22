@@ -1051,7 +1051,7 @@ export interface IClassTableUpdate<TDecorator extends Decorator = Decorator, T =
 
 #### Where the ClassTable lives (global storage & multiple copies)
 
-The ClassTable is a single process-wide registry. It is stored on `globalThis` under a **cross-realm global symbol** — `Symbol.for("@semaver/reflector/class_table")`, exposed as `ClassTableNames.CLASS_TABLE`. Because `Symbol.for` returns the *same* symbol for the same key in every realm/copy, all copies of `@semaver/reflector` that share one `globalThis` (duplicate installs, monorepo hoisting quirks, micro-frontends, HMR) automatically rendezvous on **one** ClassTable instead of each keeping a private, partial view. The property is defined non-enumerable, so it never leaks into `Object.keys(globalThis)`, `for..in`, or spread.
+The ClassTable is one shared registry per `globalThis` realm. It is stored on `globalThis` under a **cross-realm global symbol** — `Symbol.for("@semaver/reflector/class_table")`, exposed as `ClassTableNames.CLASS_TABLE`. Because `Symbol.for` returns the *same* symbol for the same key in every realm/copy, all copies of `@semaver/reflector` that share one `globalThis` (duplicate installs, monorepo hoisting quirks, micro-frontends, HMR) automatically rendezvous on **one** ClassTable instead of each keeping a private, partial view. The property is defined non-enumerable, so it never leaks into `Object.keys(globalThis)`, `for..in`, or spread.
 
 The stored record carries a `_protocol_version` describing the **storage layout** (not the package semver). If a copy finds a ClassTable stamped with a different protocol version — i.e. another, layout-incompatible copy created it first — it emits a `console.warn` rather than silently trusting a shape it may not understand:
 

@@ -12,13 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [3.0.0] - 2026-09-18
 
 The symbol-keyed low-level API introduced in 2.2.0 was a **breaking change
-mis-released as a minor**. 2.2.0 has been unpublished from npm; this release
-supersedes it under a correct major version. The code is the symbol-keyed API from
-2.2.0 (see the [2.2.0] section below) plus the fixes listed here.
+mis-released as a minor**. `@semaver/reflector@2.2.0` was unpublished from npm; this
+release supersedes it under a correct major version. The code is the symbol-keyed API
+from 2.2.0 (see the [2.2.0] section below) plus the fixes listed here.
 
-> **Most users are unaffected.** The high-level `Reflector` facade is byte-for-byte
-> unchanged since 2.1.1. Only code that touched the low-level metadata/class-table
-> keys directly needs to migrate.
+> **Most users are unaffected.** The public `Reflector` API and normal (facade-level)
+> usage remain compatible with 2.1.1. Only code that touched the low-level
+> metadata/class-table keys directly needs to migrate.
 
 ### Changed
 - **BREAKING:** on finding a global `ClassTable` stamped with an incompatible
@@ -27,7 +27,7 @@ supersedes it under a correct major version. The code is the symbol-keyed API fr
   continuing. An incompatible layout means another, incompatible copy of
   `@semaver/reflector` sharing the same `globalThis` wrote it; reading it could
   corrupt the shared registry or fail obscurely later, so the library now fails
-  fast ([#107]).
+  fast ([#108]).
 - Carries forward the full symbol-keyed API surface first shipped in 2.2.0 (see the
   [2.2.0] section): `ClassTableNames` / `MetadataClassNames` as frozen
   `Symbol.for`-keyed const objects, non-enumerable symbol-keyed metadata and global
@@ -38,9 +38,9 @@ supersedes it under a correct major version. The code is the symbol-keyed API fr
 - `ClassTableProtocolMismatchError` — a new public `ExtendedError` subclass exported
   from the package entry, thrown on protocol-version mismatch (see above). Its
   message reports both the found and expected versions and notes that multiple
-  incompatible copies of `@semaver/reflector` may be loaded ([#107]).
+  incompatible copies of `@semaver/reflector` may be loaded ([#108]).
 - The package now ships `CHANGELOG.md` inside the published npm tarball (added to
-  `files[]`) ([#107]).
+  `files[]`) ([#108]).
 
 ### Migration from 2.1.x
 
@@ -65,10 +65,10 @@ supersedes it under a correct major version. The code is the symbol-keyed API fr
 
 ### Build / CI
 - Corrected the stale test-count label in CI (`179/179 across 35 suites` →
-  `187/187 across 37 suites`) ([#107]).
+  `187/187 across 37 suites`) ([#108]).
 - Added a `smoke` CI job that packs both packages on Node 24 and then performs a real
   `import()` (ESM) and `require()` (CJS) of the packed tarballs on Node 20, 22, and
-  24, verifying the declared `engines.node >=20` across both module systems ([#107]).
+  24, verifying the declared `engines.node >=20` across both module systems ([#108]).
 
 ## [2.2.0] - 2026-09-18 [YANKED]
 
@@ -228,7 +228,7 @@ supersedes it under a correct major version. The code is the symbol-keyed API fr
   `@semaver/core` and `uuid` ([#1]).
 
 <!-- Compare links -->
-[3.0.0]: https://github.com/semaver/core-stack/compare/v2.2.0...v3.0.0
+[3.0.0]: https://github.com/semaver/core-stack/compare/v2.1.1...v3.0.0
 [2.2.0]: https://github.com/semaver/core-stack/compare/v2.1.1...v2.2.0
 [2.1.1]: https://github.com/semaver/core-stack/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/semaver/core-stack/compare/v2.0.0...v2.1.0
@@ -269,4 +269,4 @@ supersedes it under a correct major version. The code is the symbol-keyed API fr
 [#102]: https://github.com/semaver/core-stack/pull/102
 [#103]: https://github.com/semaver/core-stack/pull/103
 [#104]: https://github.com/semaver/core-stack/pull/104
-[#107]: https://github.com/semaver/core-stack/pull/107
+[#108]: https://github.com/semaver/core-stack/pull/108
