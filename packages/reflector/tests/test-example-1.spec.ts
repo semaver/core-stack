@@ -9,7 +9,6 @@ import {
     Parameter,
     Reflector
 } from "../src";
-import {ThirdPartyClass} from "./example_1/ThirdPartyClass";
 import {BaseClass} from "./example_1/BaseClass";
 import {ChildClass} from "./example_1/ChildClass";
 import {AnotherChildClass} from "./example_1/AnotherChildClass";
@@ -44,12 +43,6 @@ interface MetaInfo {
 describe("Reflector Example 1 tests", () => {
 
     it("test the flow ", () => {
-        // import classes
-        void ThirdPartyClass;
-        void BaseClass;
-        void ChildClass;
-        void AnotherChildClass;
-
         const proceedDecoratedClass = (decoratedClass: IClass<object>): MetaInfo => {
             const metaInfo: MetaInfo = {
                 decoratedClass: decoratedClass,

@@ -9,8 +9,8 @@ export class ChildUniqueInstanceAccessorFullDecoratedClass extends SuperUniqueIn
     }
 
     @unique("accessor normal full set", 1)
-    public set accessorNormalFull(value: string) {
-        void (value);
+    public set accessorNormalFull(_value: string) {
+        return;
     }
 
 }

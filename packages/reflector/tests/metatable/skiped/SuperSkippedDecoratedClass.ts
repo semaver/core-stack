@@ -11,8 +11,8 @@ export class SuperSkippedDecoratedClass {
     }
 
     @skipped("accessor isStatic full set", 4)
-    public static set staticProperty(value: string) {
-        void (value);
+    public static set staticProperty(_value: string) {
+        return;
     }
 
     @skipped("accessor isStatic only get", 5)
@@ -21,8 +21,8 @@ export class SuperSkippedDecoratedClass {
     }
 
     @skipped("accessor isStatic only set", 6)
-    public static set accessorStaticSet(value: string) {
-        void (value);
+    public static set accessorStaticSet(_value: string) {
+        return;
     }
 
     // @multi("accessor normal full get")
@@ -31,8 +31,8 @@ export class SuperSkippedDecoratedClass {
     }
 
     @skipped("accessor normal full set", 1)
-    public set property(value: string) {
-        void (value);
+    public set property(_value: string) {
+        return;
     }
 
     @skipped("accessor normal only get", 2)
@@ -41,8 +41,8 @@ export class SuperSkippedDecoratedClass {
     }
 
     @skipped("accessor normal only set", 3)
-    public set accessorNormalSet(value: string) {
-        void (value);
+    public set accessorNormalSet(_value: string) {
+        return;
     }
 
     // ----------------------------
@@ -55,8 +55,7 @@ export class SuperSkippedDecoratedClass {
     // ----------------------------
 
     @skipped("method isStatic", 8)
-    public static runStatic(@skipped("param in isStatic method") param: string): number {
-        void (param);
+    public static runStatic(@skipped("param in isStatic method") _param: string): number {
         return 0;
     }
 
@@ -70,13 +69,12 @@ export class SuperSkippedDecoratedClass {
 
     // ----------------------------
 
-    public constructor(@skipped("param in constructor", 10) param: string = "") {
-        void (param);
+    public constructor(@skipped("param in constructor", 10) _param: string = "") {
+        return;
     }
 
     @skipped("method normal", 11)
-    public runNormal(@skipped("param in normal method", 12)  param: string): number {
-        void (param);
+    public runNormal(@skipped("param in normal method", 12)  _param: string): number {
         return 0;
     }
 

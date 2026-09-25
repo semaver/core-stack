@@ -17,7 +17,7 @@ describe("Reflector API Utils test", () => {
         expect(() => Reflector.from(true as never)).toThrow();
         expect(() => Reflector.from(Symbol.for("Symbol") as never)).toThrow();
         expect(() => Reflector.from(() => {
-            void (0);
+            return;
         })).not.toThrow();
     });
 

@@ -13,8 +13,8 @@ export class SuperMultiDecoratedClass {
 
     @multi("accessor isStatic full set", 4)
     @multi("accessor isStatic full set", 4)
-    public static set accessorStaticFull(value: string) {
-        void (value);
+    public static set accessorStaticFull(_value: string) {
+        return;
     }
 
     @multi("accessor isStatic only get", 5)
@@ -25,8 +25,8 @@ export class SuperMultiDecoratedClass {
 
     @multi("accessor isStatic only set", 6)
     @multi("accessor isStatic only set", 6)
-    public static set accessorStaticSet(value: string) {
-        void (value);
+    public static set accessorStaticSet(_value: string) {
+        return;
     }
 
     // @multi("accessor normal full get")
@@ -36,8 +36,8 @@ export class SuperMultiDecoratedClass {
 
     @multi("accessor normal full set", 1)
     @multi("accessor normal full set", 1)
-    public set accessorNormalFull(value: string) {
-        void (value);
+    public set accessorNormalFull(_value: string) {
+        return;
     }
 
     @multi("accessor normal only get", 2)
@@ -48,8 +48,8 @@ export class SuperMultiDecoratedClass {
 
     @multi("accessor normal only set", 3)
     @multi("accessor normal only set", 3)
-    public set accessorNormalSet(value: string) {
-        void (value);
+    public set accessorNormalSet(_value: string) {
+        return;
     }
 
     // ----------------------------
@@ -65,8 +65,7 @@ export class SuperMultiDecoratedClass {
 
     @multi("method isStatic", 8)
     @multi("method isStatic", 8)
-    public static runStatic(@multi("param in isStatic method") @multi("param in isStatic method") param: string): number {
-        void (param);
+    public static runStatic(@multi("param in isStatic method") @multi("param in isStatic method") _param: string): number {
         return 0;
     }
 
@@ -83,14 +82,13 @@ export class SuperMultiDecoratedClass {
 
     // ----------------------------
 
-    public constructor(@multi("param in constructor", 10) @multi("param in constructor", 10) param: string = "") {
-        void (param);
+    public constructor(@multi("param in constructor", 10) @multi("param in constructor", 10) _param: string = "") {
+        return;
     }
 
     @multi("method normal", 11)
     @multi("method normal", 11)
-    public runNormal(@multi("param in normal method", 12) @multi("param in normal method", 12) param: string): number {
-        void (param);
+    public runNormal(@multi("param in normal method", 12) @multi("param in normal method", 12) _param: string): number {
         return 0;
     }
 

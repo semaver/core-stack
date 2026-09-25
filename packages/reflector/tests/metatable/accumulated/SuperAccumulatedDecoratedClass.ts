@@ -11,8 +11,8 @@ export class SuperAccumulatedDecoratedClass {
     }
 
     @accumulated("accessor isStatic full set", 4)
-    public static set accessorStaticFull(value: string) {
-        void (value);
+    public static set accessorStaticFull(_value: string) {
+        return;
     }
 
     @accumulated("accessor isStatic only get", 5)
@@ -21,8 +21,8 @@ export class SuperAccumulatedDecoratedClass {
     }
 
     @accumulated("accessor isStatic only set", 6)
-    public static set accessorStaticSet(value: string) {
-        void (value);
+    public static set accessorStaticSet(_value: string) {
+        return;
     }
 
     // @multi("accessor normal full get")
@@ -32,7 +32,7 @@ export class SuperAccumulatedDecoratedClass {
 
     @accumulated("accessor normal full set", 1)
     public set accessorNormalFull(_value: string) {
-        void (0);
+        return;
     }
 
     @accumulated("accessor normal only get", 2)
@@ -42,7 +42,7 @@ export class SuperAccumulatedDecoratedClass {
 
     @accumulated("accessor normal only set", 3)
     public set accessorNormalSet(_value: string) {
-        void (0);
+        return;
     }
 
     // ----------------------------
@@ -55,8 +55,7 @@ export class SuperAccumulatedDecoratedClass {
     // ----------------------------
 
     @accumulated("method isStatic", 8)
-    public static runStatic(@accumulated("param in isStatic method") param: string): number {
-        void (param);
+    public static runStatic(@accumulated("param in isStatic method") _param: string): number {
         return 0;
     }
 
@@ -70,13 +69,12 @@ export class SuperAccumulatedDecoratedClass {
 
     // ----------------------------
 
-    public constructor(@accumulated("param in constructor", 10) param: string = "") {
-        void (param);
+    public constructor(@accumulated("param in constructor", 10) _param: string = "") {
+        return;
     }
 
     @accumulated("method normal", 11)
-    public runNormal(@accumulated("param in normal method", 12) param: string): number {
-        void (param);
+    public runNormal(@accumulated("param in normal method", 12) _param: string): number {
         return 0;
     }
 

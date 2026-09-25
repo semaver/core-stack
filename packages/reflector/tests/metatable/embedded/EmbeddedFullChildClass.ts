@@ -6,13 +6,13 @@ export class EmbeddedFullChildClass extends EmbeddedSuperClass {
         super(inConstructor);
     }
 
-    public methodA(@standard("inMethod") inMethod: boolean): void {
-        void (inMethod);
+    public methodA(@standard("inMethod") _inMethod: boolean): void {
+        return;
     }
 
     @standard("ofMethod")
-    public methodB(@standard("inMethod") inMethod: boolean): void {
-        void (inMethod);
+    public methodB(@standard("inMethod") _inMethod: boolean): void {
+        return;
 
     }
 }

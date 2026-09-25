@@ -40,7 +40,7 @@ describe("Reflector global class table protocol version", () => {
 
         let caught: Empty<Error>;
         try {
-            void (new ClassTableProvider(storage));
+            new ClassTableProvider(storage);
         } catch (e) {
             caught = e as Error;
         }
@@ -72,7 +72,7 @@ describe("Reflector global class table protocol version", () => {
 
     it("creates a fresh table stamped with the current protocol version", () => {
         const storage: object = {};
-        void (new ClassTableProvider(storage));
+        new ClassTableProvider(storage);
 
         const ref: Empty<IClassTableRef> = Reflect.get(storage, ClassTableNames.CLASS_TABLE) as Empty<IClassTableRef>;
         expect(ref).toBeDefined();

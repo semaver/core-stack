@@ -1,10 +1,10 @@
 export class SuperNonDecoratedArgConstructorClass {
-    public constructor(...args: unknown[]) {
-        void (args);
+    public constructor(..._args: unknown[]) {
+        return;
     }
 
-    public method(...args: unknown[]): void {
-        void (args);
+    public method(..._args: unknown[]): void {
+        return;
     }
 }
 
@@ -13,8 +13,8 @@ export class ChildNonDecoratedArgConstructor1Class extends SuperNonDecoratedArgC
         super(...args);
     }
 
-    public method(...args: unknown[]): void {
-        void (args);
+    public method(..._args: unknown[]): void {
+        return;
     }
 }
 
@@ -23,9 +23,8 @@ export class ChildNonDecoratedArgConstructor2Class extends SuperNonDecoratedArgC
         super(param1, param2);
     }
 
-    public method(param1: string, param2: string): void {
-        void (param1);
-        void (param2);
+    public method(_param1: string, _param2: string): void {
+        return;
     }
 }
 
@@ -35,7 +34,7 @@ export class ChildNonDecoratedArgConstructor3Class extends SuperNonDecoratedArgC
     }
 
     public method(): void {
-        void (0);
+        return;
     }
 }
 
