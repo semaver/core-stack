@@ -15,7 +15,7 @@ export class LambdaSuperClass {
     public uglyProperty: number = 10;
 
     public uglyMethod(): void {
-        void (0);
+        return;
     }
 
     @standard("some lambda property")

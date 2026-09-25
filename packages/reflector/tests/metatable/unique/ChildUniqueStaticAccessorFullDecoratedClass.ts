@@ -9,7 +9,7 @@ export class ChildUniqueStaticAccessorFullDecoratedClass extends SuperUniqueStat
     }
 
     @unique("accessor isStatic full set", 4)
-    public static set accessorStaticFull(value: string) {
-        void (value);
+    public static set accessorStaticFull(_value: string) {
+        return;
     }
 }

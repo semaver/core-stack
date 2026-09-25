@@ -38,6 +38,13 @@ export default tseslint.config(
                 {
                     "ignoreRestArgs": true
                 }
+            ],
+            "@typescript-eslint/no-unused-vars": [
+                "error",
+                {
+                    "argsIgnorePattern": "^_",
+                    "varsIgnorePattern": "^_"
+                }
             ]
         },
     },

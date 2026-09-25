@@ -11,8 +11,8 @@ export class SuperReflectedClass {
     }
 
     @standard("accessor isStatic full set", 4)
-    public static set accessorStaticFull(value: string) {
-        void (value);
+    public static set accessorStaticFull(_value: string) {
+        return;
     }
 
     @standard("accessor isStatic only get", 5)
@@ -21,8 +21,8 @@ export class SuperReflectedClass {
     }
 
     @standard("accessor isStatic only set", 6)
-    public static set accessorStaticSet(value: string) {
-        void (value);
+    public static set accessorStaticSet(_value: string) {
+        return;
     }
 
     public get accessorNormalFull(): string {
@@ -30,8 +30,8 @@ export class SuperReflectedClass {
     }
 
     @standard("accessor normal full set", 1)
-    public set accessorNormalFull(value: string) {
-        void (value);
+    public set accessorNormalFull(_value: string) {
+        return;
     }
 
     @standard("accessor normal only get", 2)
@@ -40,8 +40,8 @@ export class SuperReflectedClass {
     }
 
     @standard("accessor normal only set", 3)
-    public set accessorNormalSet(value: string) {
-        void (value);
+    public set accessorNormalSet(_value: string) {
+        return;
     }
 
     @standard("prop isStatic undefined", 7)
@@ -50,8 +50,7 @@ export class SuperReflectedClass {
     public static propertyDefStatic: number = 0;
 
     @standard("method isStatic", 8)
-    public static runStatic(@standard("param in isStatic method") param: string): number {
-        void (param);
+    public static runStatic(@standard("param in isStatic method") _param: string): number {
         return 0;
     }
 
@@ -71,15 +70,14 @@ export class SuperReflectedClass {
     @standard("prop normal null", 9)
     public propertyNullNormal: unknown = null;
 
-    public constructor(@standard("param in constructor", 10) param: string) {
-        void (param);
+    public constructor(@standard("param in constructor", 10) _param: string) {
+        return;
     }
 
     // ----------------------------
 
     @standard("method normal", 11)
-    public runNormal(@standard("param in normal method", 12) param: string): number {
-        void (param);
+    public runNormal(@standard("param in normal method", 12) _param: string): number {
         return 0;
     }
 

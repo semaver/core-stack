@@ -1,29 +1,26 @@
 export class SuperNonDecoratedEmptyConstructorClass {
     public constructor() {
-        void (0);
+        return;
     }
 
     public method(): void {
-        void (0);
+        return;
     }
 }
 
 export class ChildNonDecoratedEmptyConstructor1Class extends SuperNonDecoratedEmptyConstructorClass {
-    public constructor(...args: unknown[]) {
+    public constructor(..._args: unknown[]) {
         super();
-        void (args);
     }
 
-    public method(...args: unknown[]): void {
-        void (args);
+    public method(..._args: unknown[]): void {
+        return;
     }
 }
 
 export class ChildNonDecoratedEmptyConstructor2Class extends SuperNonDecoratedEmptyConstructorClass {
-    public constructor(param1: string, param2: string) {
+    public constructor(_param1: string, _param2: string) {
         super();
-        void (param1);
-        void (param2);
     }
 
     // public method(param1:string, param2:string):void{
@@ -38,7 +35,7 @@ export class ChildNonDecoratedEmptyConstructor3Class extends SuperNonDecoratedEm
     }
 
     public method(): void {
-        void (0);
+        return;
     }
 }
 

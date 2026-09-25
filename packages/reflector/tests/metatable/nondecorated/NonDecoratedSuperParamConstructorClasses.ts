@@ -1,12 +1,10 @@
 export class SuperNonDecoratedParamConstructorClass {
-    public constructor(param1: string, param2: string) {
-        void (param1);
-        void (param2);
+    public constructor(_param1: string, _param2: string) {
+        return;
     }
 
-    public method(param1: string, param2: string): void {
-        void (param1);
-        void (param2);
+    public method(_param1: string, _param2: string): void {
+        return;
     }
 }
 
@@ -15,8 +13,8 @@ export class ChildNonDecoratedParamConstructor1Class extends SuperNonDecoratedPa
         super(args[0] as string, args[1] as string);
     }
 
-    public method(...args: unknown[]): void {
-        void (args);
+    public method(..._args: unknown[]): void {
+        return;
     }
 }
 
@@ -25,9 +23,8 @@ export class ChildNonDecoratedParamConstructor2Class extends SuperNonDecoratedPa
         super(param1, param2);
     }
 
-    public method(param1: string, param2: string): void {
-        void (param1);
-        void (param2);
+    public method(_param1: string, _param2: string): void {
+        return;
     }
 }
 
@@ -37,7 +34,7 @@ export class ChildNonDecoratedParamConstructor3Class extends SuperNonDecoratedPa
     }
 
     public method(): void {
-        void (0);
+        return;
     }
 }
 

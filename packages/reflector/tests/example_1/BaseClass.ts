@@ -12,14 +12,11 @@ export class BaseClass extends ThirdPartyClass{
     public someProperty: SomeType | undefined;
 
     public constructor(
-        @inject(SomeType) firstParam: SomeType,
-        @inject(AnotherTypeInterface) @optional() secondParam?: AnotherTypeInterface
+        @inject(SomeType) _firstParam: SomeType,
+        @inject(AnotherTypeInterface) @optional() _secondParam?: AnotherTypeInterface
     ) {
         // handle firstParam
         // handle secondParam
-        void firstParam;
-        void secondParam;
-
         super();
     }
 

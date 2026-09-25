@@ -36,7 +36,7 @@ describe("Core Test", () => {
         expect(isObjectPrimitive(true)).toBeTruthy();
         expect(isObjectPrimitive(Symbol.for("Symbol"))).toBeTruthy();
         expect(isObjectPrimitive(() => {
-            void (0);
+            return;
         })).not.toBeTruthy();
     });
 

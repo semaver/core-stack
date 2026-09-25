@@ -12,8 +12,7 @@ export class ChildDecoratedClass extends SuperDecoratedClass {
     public propertyNormal?: number;
 
     @standard("child method normal", 11)
-    public runNormal(@standard("child param in normal method", 12) param: number): number {
-        void (param);
+    public runNormal(@standard("child param in normal method", 12) _param: number): number {
         return 0;
     }
 

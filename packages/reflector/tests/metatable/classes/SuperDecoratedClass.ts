@@ -11,8 +11,8 @@ export class SuperDecoratedClass {
     }
 
     @standard("accessor isStatic only set", 6)
-    public static set accessorStaticSet(value: string) {
-        void (value);
+    public static set accessorStaticSet(_value: string) {
+        return;
     }
 
     // @standard("accessor isStatic full get")
@@ -31,8 +31,8 @@ export class SuperDecoratedClass {
     }
 
     @standard("accessor normal only set", 3)
-    public set accessorNormalSet(value: string) {
-        void (value);
+    public set accessorNormalSet(_value: string) {
+        return;
     }
 
     // @standard("accessor normal full get")
@@ -72,8 +72,8 @@ export class SuperDecoratedClass {
 
     // ----------------------------
 
-    public constructor(@standard("param in constructor", 10) param: string = "") {
-        void (param);
+    public constructor(@standard("param in constructor", 10) _param: string = "") {
+        return;
     }
 
     @standard("method normal", 11)

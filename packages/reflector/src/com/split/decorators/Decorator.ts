@@ -117,11 +117,10 @@ export abstract class Decorator {
      * method to get the collision policy of this decorator: the rule applied when a member in a child class and in a superclass both carry a decorator of the same type. The policy decides whether the child's, the parent's, both, or neither decorator is used for the child class (or whether an error is thrown). Base implementation returns DEFAULT (equivalent to OVERRIDE_PARENT). Override to vary the policy per member kind via the access argument.
      *
      * @public
-     * @param access - primitive access policy identifying the member kind the policy applies to
+     * @param _access - primitive access policy identifying the member kind the policy applies to
      * @returns collision policy value
      */
-    public getCollisionPolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataCollisionPolicyValues {
-        void (access);
+    public getCollisionPolicy(_access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataCollisionPolicyValues {
         return MetadataCollisionPolicy.DEFAULT;
     }
 
@@ -129,11 +128,10 @@ export abstract class Decorator {
      * method to get the "not existence" policy for the given access: when a child-class member has no decorator of this type but a superclass member does, this policy decides whether that inherited decorator is applied to the child (APPLY) or ignored (SKIP). Base implementation returns DEFAULT (which resolves to APPLY); the access argument lets subclasses vary the policy per member kind.
      *
      * @public
-     * @param access - primitive access policy
+     * @param _access - primitive access policy
      * @returns  not existence policy value
      */
-    public getNotExistencePolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataNotExistencePolicyValues {
-        void (access);
+    public getNotExistencePolicy(_access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataNotExistencePolicyValues {
         return MetadataNotExistencePolicy.DEFAULT;
     }
 
@@ -141,11 +139,10 @@ export abstract class Decorator {
      * method to get the appearance policy that governs a decorator which newly appears on a member in a child class while no superclass declares the same decorator type; the policy decides whether that decorator is applied (APPLY) or skipped (SKIP). Base implementation returns DEFAULT, which resolves to APPLY. The access argument lets the policy vary per member access kind.
      *
      * @public
-     * @param access - primitive access policy
+     * @param _access - primitive access policy
      * @returns appearance policy value
      */
-    public getAppearancePolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataAppearancePolicyValues {
-        void (access);
+    public getAppearancePolicy(_access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataAppearancePolicyValues {
         return MetadataAppearancePolicy.DEFAULT;
     }
 
@@ -153,11 +150,10 @@ export abstract class Decorator {
      * method to get the policy applied when a single class member carries more than one decorator of the same type; the policy decides whether all such decorators are registered in the metatable (ALLOWED) or only the first (NOT_ALLOWED). Base implementation returns DEFAULT (equivalent to NOT_ALLOWED). Override to vary the policy per member access kind via the access argument.
      *
      * @public
-     * @param access - primitive access policy for which the policy applies
+     * @param _access - primitive access policy for which the policy applies
      * @returns same target multi usage policy value
      */
-    public getSameTargetMultiUsagePolicy(access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataSameTargetMultiUsagePolicyValues {
-        void (access);
+    public getSameTargetMultiUsagePolicy(_access: PrimitiveMetadataAccessPolicyValues = PrimitiveMetadataAccessPolicy.NONE): MetadataSameTargetMultiUsagePolicyValues {
         return MetadataSameTargetMultiUsagePolicy.DEFAULT;
     }
 }

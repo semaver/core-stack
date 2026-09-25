@@ -7,14 +7,13 @@ import {SecondData} from "./SecondData";
 // Constructor KNOWN parameters length = 2
 export class SuperClass {
     public constructor(
-        @inject(FirstData) dataA: FirstData,
-        @inject(SecondData) dataB: SecondData) {
-        void (dataA);
-        void (dataB);
+        @inject(FirstData) _dataA: FirstData,
+        @inject(SecondData) _dataB: SecondData) {
+        return;
     }
 
     public someMethod(): void {
-        void (0);
+        return;
     }
 }
 
@@ -58,6 +57,6 @@ export class ArgsChildClass extends SuperClass {
 // NO NEED TO REDEFINE DECORATORS (inherited from SuperClass)
 export class EmptyConstructorChildClass extends SuperClass {
     public someMethod(): void {
-        void (0);
+        return;
     }
 }

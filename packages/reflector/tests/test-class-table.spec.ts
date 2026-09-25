@@ -42,8 +42,8 @@ describe("Reflector Class Table Test", () => {
     it("test class table action", () => {
         const classTableRef: IClassTableRef = Reflect.get(storage, ClassTableNames.CLASS_TABLE) as IClassTableRef;
         const subscriber: IClassTableSubscriber = {
-            onClassTableUpdate: function (update: IClassTableUpdate): void {
-                void (update);
+            onClassTableUpdate: function (_update: IClassTableUpdate): void {
+                return;
             },
         };
 

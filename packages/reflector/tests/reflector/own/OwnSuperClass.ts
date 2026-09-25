@@ -7,7 +7,7 @@ export class OwnSuperClass {
     protected value2: string = "aaa";
 
     public constructor() {
-        void (0);
+        return;
     }
 
     @reflect()
@@ -21,6 +21,6 @@ export class OwnSuperClass {
 
     @reflect()
     public ownMethod(): void {
-        void (0);
+        return;
     }
 }

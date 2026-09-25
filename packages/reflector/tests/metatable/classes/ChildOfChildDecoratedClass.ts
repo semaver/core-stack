@@ -8,8 +8,7 @@ export class ChildOfChildDecoratedClass extends ChildDecoratedClass {
     public propertyChildOfChildNormal?: number;
 
     @standard("child of child method normal", 11)
-    public runChildOfChildNormal(@standard("child of child param in normal method", 12) param: string): number {
-        void (param);
+    public runChildOfChildNormal(@standard("child of child param in normal method", 12) _param: string): number {
         return 0;
     }
 }
