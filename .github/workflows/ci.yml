@@ -92,7 +92,7 @@ jobs:
       # is configured. Reads coverage/lcov.info produced by the test step above.
       - name: SonarQube Cloud scan
         if: ${{ env.SONAR_TOKEN != '' }}
-        uses: SonarSource/sonarqube-scan-action@ba9859eae8dd6bd29e412f25ddbbef3d032000f4 # v8.2.2
+        uses: SonarSource/sonarqube-scan-action@d209202bc7d53ff1cc128f7f907dac145c9d6ae9 # v8.3.0
 
       # Pack both packages (Node 24) and hand the tarballs to the smoke job, which
       # installs and imports them on every supported Node version.
