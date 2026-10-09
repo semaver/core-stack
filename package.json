@@ -51,7 +51,7 @@
   "resolutions": {
     "@babel/helpers@npm:^7.25.0": "npm:^7.28.3",
     "@babel/core@npm:^7.23.9": "npm:^7.29.7",
-    "handlebars": "^4.7.9",
+    "handlebars": "^4.7.10",
     "picomatch@npm:^2.0.4": "npm:^2.3.2",
     "picomatch@npm:^2.3.1": "npm:^2.3.2",
     "flatted": "^3.4.2",
