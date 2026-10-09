@@ -1,0 +1,51 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "baseBranches": ["main"],
+  "labels": ["dependencies"],
+  "rangeStrategy": "bump",
+  "prConcurrentLimit": 10,
+  "prHourlyLimit": 0,
+  "schedule": ["before 6am on monday"],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on monday"]
+  },
+  "packageRules": [
+    {
+      "description": "Group routine dev-tooling bumps into a single PR, mirroring the old Dependabot development-dependencies group.",
+      "matchDepTypes": ["devDependencies"],
+      "groupName": "development-dependencies",
+      "semanticCommitType": "build",
+      "semanticCommitScope": "deps-dev"
+    },
+    {
+      "description": "Keep runtime/production dependency updates visible in their own PRs.",
+      "matchDepTypes": ["dependencies", "peerDependencies"],
+      "groupName": "production-dependencies",
+      "semanticCommitType": "build",
+      "semanticCommitScope": "deps"
+    },
+    {
+      "description": "GitHub Actions updates (kept SHA-pinned, grouped).",
+      "matchManagers": ["github-actions"],
+      "groupName": "github-actions",
+      "addLabels": ["github-actions"],
+      "semanticCommitType": "build",
+      "semanticCommitScope": "deps"
+    },
+    {
+      "description": "TypeScript 7.0 (native Go compiler) breaks the rollup build: @rollup/plugin-typescript@12 hits a ScriptTarget API error. Stay on 6.x until the toolchain supports TS7.",
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<7.0.0"
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": false
+  }
+}
