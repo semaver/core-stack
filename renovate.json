@@ -6,7 +6,9 @@
     ":semanticCommits",
     "helpers:pinGitHubActionDigests"
   ],
-  "baseBranches": ["main"],
+  "baseBranchPatterns": [
+    "main"
+  ],
   "labels": ["dependencies"],
   "rangeStrategy": "bump",
   "prConcurrentLimit": 10,
