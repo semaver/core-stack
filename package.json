@@ -54,7 +54,7 @@
     "handlebars": "^4.7.10",
     "picomatch@npm:^2.0.4": "npm:^2.3.2",
     "picomatch@npm:^2.3.1": "npm:^2.3.2",
-    "flatted": "^3.4.2",
+    "flatted": "^3.4.4",
     "minimatch@npm:^3.0.4": "npm:^3.1.4",
     "minimatch@npm:^3.1.1": "npm:^3.1.4",
     "minimatch@npm:^9.0.4": "npm:^9.0.7",
