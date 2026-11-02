@@ -82,7 +82,7 @@
     "js-yaml@npm:4.3.0": "npm:^4.3.2",
     "browserslist@npm:^4.24.0": "npm:^4.29.0",
     "browserslist@npm:^4.28.1": "npm:^4.29.0",
-    "baseline-browser-mapping@npm:^2.10.42": "npm:^2.11.0",
+    "baseline-browser-mapping@npm:^2.10.42": "npm:baseline-browser-mapping@^2.11.34",
     "pacote@npm:21.0.1": "npm:^21.5.1",
     "smol-toml@npm:1.6.1": "npm:^1.8.0",
     "ip-address@npm:^9.0.5": "npm:^10.1.1",
